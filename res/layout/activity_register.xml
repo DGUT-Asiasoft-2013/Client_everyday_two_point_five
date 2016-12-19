@@ -20,39 +20,39 @@
               android:id="@+id/intput_account"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+              class="inputcells.SimpleTextInputCellFragment"
               tools:layout="@layout/fragment_inputcell_simpletext"/>
           <fragment 
               android:id="@+id/input_name"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+              class="inputcells.SimpleTextInputCellFragment"
               tools:layout="@layout/fragment_inputcell_simpletext"/>        
           <fragment 
               android:id="@+id/intput_email"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+              class="inputcells.SimpleTextInputCellFragment"
               tools:layout="@layout/fragment_inputcell_simpletext"/>
           <fragment 
               android:id="@+id/input_password"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+              class="inputcells.SimpleTextInputCellFragment"
               tools:layput="@layout/fragment_inputcell_simpletext"/>
             
           <fragment 
               android:id="@+id/input_password_repeat"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+              class="inputcells.SimpleTextInputCellFragment"
               tools:layout="@layout/fragment_inputcell_simpletext"/>
           
           <fragment 
               android:id="@+id/picture"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              class="com.example.fiveyuanstore.inputcells.PictureInputCellFragment"
+              class="inputcells.PictureInputCellFragment"
               tools:layout="@layout/fragment_inputcell_picture"/>
           
             <Button

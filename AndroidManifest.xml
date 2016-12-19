@@ -22,10 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.fiveyuanstore.LoginActivity"></activity>
-        <activity android:name="com.example.fiveyuanstore.PasswordRecoverActivity"></activity>
-        <activity android:name="com.example.fiveyuanstore.RegisterActivity"></activity>
-        <activity android:name="com.example.fiveyuanstore.StoreActivity"></activity>
     </application>
 
 </manifest>

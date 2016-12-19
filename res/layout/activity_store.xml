@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="bottom"
-        class="com.example.fiveyuanstore.fragment.MainTabbarFragment"
+        class="fragments.MainTabbarFragment"
         tools:layout="@layout/fragment_main_tabbar" />
     
 </FrameLayout>
