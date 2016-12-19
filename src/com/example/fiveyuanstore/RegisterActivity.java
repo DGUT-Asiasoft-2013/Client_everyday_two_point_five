@@ -52,22 +52,22 @@ public class RegisterActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		
-		fragInputCellAccount.setLabelText("ÓÃ»§Ãû");
-		fragInputCellAccount.setHintText("ÇëÊäÈëÓÃ»§Ãû");
+		fragInputCellAccount.setLabelText("ç”¨æˆ·å");
+		fragInputCellAccount.setHintText("è¯·è¾“å…¥ç”¨æˆ·å");
 		
-		fragInputCellName.setLabelText("Ãû×Ö");
-		fragInputCellName.setHintText("ÇëÊäÈëÃû×Ö");
+		fragInputCellName.setLabelText("åå­—");
+		fragInputCellName.setHintText("è¯·è¾“å…¥åå­—");
 		
-		fragInputCellPassword.setLabelText("ÃÜÂë");
-		fragInputCellPassword.setHintText("ÇëÊäÈëÃÜÂë");
+		fragInputCellPassword.setLabelText("å¯†ç ");
+		fragInputCellPassword.setHintText("è¯·è¾“å…¥å¯†ç ");
 		fragInputCellPassword.setIsPassword(true);
 		
-		fragInputCellPasswordRepeat.setLabelText("ÖØ¸´ÃÜÂë");
-		fragInputCellPasswordRepeat.setHintText("ÇëÊäÈëÖØ¸´ÃÜÂë");
+		fragInputCellPasswordRepeat.setLabelText("ç¡®è®¤å¯†ç ");
+		fragInputCellPasswordRepeat.setHintText("è¯·è¾“å…¥ç¡®è®¤å¯†ç ");
 		fragInputCellPasswordRepeat.setIsPassword(true);
 		
-		fragInputEmailAddress.setLabelText("µç×ÓÓÊÏä");
-		fragInputEmailAddress.setHintText("ÇëÊäÈëµç×ÓÓÊÏä");
+		fragInputEmailAddress.setLabelText("ç”µå­é‚®ç®±");
+		fragInputEmailAddress.setHintText("è¯·è¾“å…¥ç”µå­é‚®ç®±");
 	}
 	
 	void submit(){
@@ -78,8 +78,8 @@ public class RegisterActivity extends Activity {
 		if(!password.equals(passwordRepeat)){
 			new AlertDialog
 			.Builder(RegisterActivity.this)
-			.setMessage("Á½´ÎÃÜÂëÊäÈë²»Ò»ÖÂ")
-			.setPositiveButton("ºÃ", null)
+			.setMessage("ä¸¤æ¬¡å¯†ç è¾“å…¥ä¸ä¸€è‡´")
+			.setPositiveButton("å¥½", null)
 			.show();
 			
 			return;
@@ -114,16 +114,16 @@ public class RegisterActivity extends Activity {
 	
 //	void onResponse(Call arg0,String string){
 //		new AlertDialog.Builder(this)
-//		.setMessage("×¢²á³É¹¦")
-//		.setPositiveButton("È·ÈÏ", null)
+//		.setMessage("æ³¨å†ŒæˆåŠŸ")
+//		.setPositiveButton("ç¡®è®¤", null)
 //		.show();
 //	}
 //	
 //	void onFailure(Call arg0, IOException arg1){
 //		new AlertDialog.Builder(this)
-//		.setTitle("ÇëÇóÊ§°Ü")
+//		.setTitle("è¯·æ±‚å¤±è´¥")
 //		.setMessage(arg1.getLocalizedMessage())
-//		.setPositiveButton("È·ÈÏ", null)
+//		.setPositiveButton("ç¡®è®¤", null)
 //		.show();
 //	}
 
