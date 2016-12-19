@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+		<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="120dp"
+	      android:orientation="horizontal"
+	      android:weightSum="4" >
+	
+
+	    
+	<com.example.fiveyuanstore.customViews.ProImgView
+	    android:id="@+id/avatar"
+	    android:layout_width="68dp"
+	    android:layout_height="68dp"
+	    android:layout_centerInParent="true"
+	    android:layout_weight="0.54" />
+
+	
+	<FrameLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="120dp"
+	      android:orientation="vertical"
+	      android:weightSum="3" >
+	<TextView 
+	      android:id="@+id/title"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="产品名称"
+	    android:textSize="22sp"
+	    android:textColor="@android:color/black"
+	    android:layout_weight="2.8"
+	    android:layout_marginLeft="10dp" />
+	
+    	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="40dp"
+	      android:orientation="horizontal"
+	      android:layout_marginTop="35dp"
+	      android:weightSum="4" >
+	      
+    	    
+	   <TextView 
+	       android:id="@+id/price"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="价格"
+	    android:textSize="22sp"
+	    android:textColor="@android:color/black"
+	    android:layout_weight="2"
+	    android:layout_marginLeft="10dp" />
+	      	
+	   <TextView 
+	         android:id="@+id/payNumber"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="付款人数"
+	    android:textSize="22sp"
+	    android:textColor="@android:color/black"
+	    android:layout_weight="2.2"
+	    android:layout_marginLeft="10dp" />
+    	    
+    	    
+	      </LinearLayout>
+		
+    	<LinearLayout
+    	    android:layout_width="252dp"
+    	    android:layout_height="40dp"
+    	    android:layout_marginTop="85dp"
+    	    android:orientation="horizontal"
+    	    android:weightSum="3" >
+	   
+    	    <Button
+    	        android:id="@+id/change"
+    	        android:layout_width="wrap_content"
+    	        android:layout_height="wrap_content"
+    	        android:layout_weight="1"
+    	        android:text="修改" >
+</Button>
+    	    
+    	       <Button
+    	        android:id="@+id/down"
+    	        android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="下架"
+			     android:layout_weight="1"
+			    ></Button>
+    	       
+    	       
+    	        <Button
+    	        android:id="@+id/getComment"
+    	        android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="收到评论"
+			     android:layout_weight="1"
+			    ></Button>
+    	   </LinearLayout>
+			
+		    </FrameLayout>
+	  </LinearLayout>
+</FrameLayout>

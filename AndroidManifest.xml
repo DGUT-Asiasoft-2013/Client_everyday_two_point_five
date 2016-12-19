@@ -26,6 +26,9 @@
         <activity android:name="com.example.fiveyuanstore.PasswordRecoverActivity"></activity>
         <activity android:name="com.example.fiveyuanstore.RegisterActivity"></activity>
         <activity android:name="com.example.fiveyuanstore.StoreActivity"></activity>
+        <activity android:name="com.example.fiveyuanstore.AddProductActivity"></activity>
+        <activity android:name="com.example.fiveyuanstore.ChangeActivity"></activity>
+        <activity android:name="com.example.fiveyuanstore.CommentActivity"></activity>
     </application>
 
 </manifest>
