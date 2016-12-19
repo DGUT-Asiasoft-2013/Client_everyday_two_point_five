@@ -17,7 +17,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 
-public class AvatarView extends View {				//头像处理
+public class AvatarView extends View {				//澶村儚澶勭悊
 
 	public AvatarView(Context context) {
 		super(context);
@@ -34,7 +34,7 @@ public class AvatarView extends View {				//头像处理
 	Paint paint;
 	float srcWidth, srcHeight;
 	
-	public void setBitmap(Bitmap bmp){					//确定头像内容
+	public void setBitmap(Bitmap bmp){					//纭澶村儚鍐呭
 		if(bmp==null) {
 			paint = new Paint();
 			paint.setColor(Color.GRAY);
@@ -52,7 +52,7 @@ public class AvatarView extends View {				//头像处理
 		}
 		invalidate();
 	}
-																//从service获取头像数据
+																//浠巗ervice鑾峰彇澶村儚鏁版嵁
 //	public void load(User user){				
 //		load(Server.serverAddress + user.getAvatar());
 //	}
@@ -102,7 +102,7 @@ public class AvatarView extends View {				//头像处理
 	}
 
 	@Override
-	public void draw(Canvas canvas) {					//头像外框
+	public void draw(Canvas canvas) {					//澶村儚澶勭悊
 		super.draw(canvas);
 		if(paint!=null){
 			canvas.save();
