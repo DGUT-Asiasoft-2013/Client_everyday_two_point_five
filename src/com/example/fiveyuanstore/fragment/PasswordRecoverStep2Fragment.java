@@ -61,7 +61,7 @@ public class PasswordRecoverStep2Fragment extends Fragment {
 			}
 		}else{
 			new AlertDialog.Builder(getActivity())
-			.setMessage("Á½´ÎÊäÈëÃÜÂë²»Ò»ÖÂ")
+			.setMessage("ä¸¤æ¬¡è¾“å…¥å¯†ç ä¸ä¸€è‡´")
 			.show();
 		}
 	}
@@ -70,15 +70,15 @@ public class PasswordRecoverStep2Fragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		
-		verify.setLabelText("ÓÃ»§Ãû");
-		verify.setHintText("ÇëÊäÈëÓÃ»§Ãû");
+		verify.setLabelText("ç”¨æˆ·å");
+		verify.setHintText("è¯·è¾“å…¥ç”¨æˆ·å");
 		
-		password.setLabelText("ĞÂÃÜÂë");
-		password.setHintText("ÇëÊäÈëĞÂÃÜÂë");
+		password.setLabelText("æ–°å¯†ç ");
+		password.setHintText("è¯·è¾“å…¥æ–°å¯†ç ");
 		password.setIsPassword(true);
 	
-		password_repeat.setLabelText("È·ÈÏÃÜÂë");
-		password_repeat.setHintText("ÇëÊäÈëÈ·ÈÏÃÜÂë");
+		password_repeat.setLabelText("ç¡®è®¤å¯†ç ");
+		password_repeat.setHintText("è¯·è¾“å…¥ç¡®è®¤å¯†ç ");
 		password_repeat.setIsPassword(true);
 	}
 }
