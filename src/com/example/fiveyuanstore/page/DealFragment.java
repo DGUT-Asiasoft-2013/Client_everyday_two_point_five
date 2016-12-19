@@ -1,4 +1,4 @@
-package Page;
+package com.example.fiveyuanstore.page;
 
 import android.app.Fragment;
 
