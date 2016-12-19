@@ -1,9 +1,13 @@
 package com.example.fiveyuanstore;
 
+import java.io.IOException;
+
 import com.example.fiveyuanstore.inputcells.PictureInputCellFragment;
 import com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -68,6 +72,59 @@ public class RegisterActivity extends Activity {
 	
 	void submit(){
 		
+		String password=fragInputCellPassword.getText();
+		String passwordRepeat=fragInputCellPasswordRepeat.getText();
+		
+		if(!password.equals(passwordRepeat)){
+			new AlertDialog
+			.Builder(RegisterActivity.this)
+			.setMessage("两次密码输入不一致")
+			.setPositiveButton("好", null)
+			.show();
+			
+			return;
+		}
+		
+		//password = MD5.getMD5(password);
+		
+		String account=fragInputCellAccount.getText();
+		String name=fragInputCellName.getText();
+		String email=fragInputEmailAddress.getText();
+		
+//		OkHttpClient client = Server.getSharedClient();
+//
+//		MultipartBody.Builder requestBodyBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM)
+//				.addFormDataPart("account", account).addFormDataPart("name", name).addFormDataPart("email", email)
+//				.addFormDataPart("passwordHash", password);
+//
+//		if (fragInputAvatar.getPngData() != null) {
+//			requestBodyBuilder.addFormDataPart("avatar", "avatar",
+//					RequestBody.create(MediaType.parse("image/png"), fragInputAvatar.getPngData()));
+//		}
+//
+//		Request request = Server.requestBuilderWithApi("register").method("post", null).post(requestBodyBuilder.build())
+//				.build();
+//
+		final ProgressDialog progressDialog = new ProgressDialog(this);
+		progressDialog.setMessage("Please Waitting...");
+		progressDialog.setCanceledOnTouchOutside(false);
+		progressDialog.setCancelable(false);
+		progressDialog.show();
 	}
+	
+//	void onResponse(Call arg0,String string){
+//		new AlertDialog.Builder(this)
+//		.setMessage("注册成功")
+//		.setPositiveButton("确认", null)
+//		.show();
+//	}
+//	
+//	void onFailure(Call arg0, IOException arg1){
+//		new AlertDialog.Builder(this)
+//		.setTitle("请求失败")
+//		.setMessage(arg1.getLocalizedMessage())
+//		.setPositiveButton("确认", null)
+//		.show();
+//	}
 
 }
