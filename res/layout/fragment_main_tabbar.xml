@@ -9,8 +9,7 @@
         android:id="@+id/tab_storeList"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1" 
-        android:background="@drawable/tab_background"      
+        android:layout_weight="1"       
         android:gravity="center"
         android:orientation="vertical" >
 
@@ -32,7 +31,6 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@drawable/tab_background"
         android:gravity="center"
         android:orientation="vertical" >
 
@@ -53,8 +51,7 @@
         android:id="@+id/tab_sellerList"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"    
-        android:background="@drawable/tab_background"    
+        android:layout_weight="1"        
         android:gravity="center"
         android:orientation="vertical" >
 
@@ -76,7 +73,6 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@drawable/tab_background"
         android:gravity="center"
         android:orientation="vertical" >
 

@@ -54,7 +54,7 @@ public class PasswordRecoverActivity extends Activity {
 	}
 
 	void onResponse() {
-		new AlertDialog.Builder(this).setMessage("å¯†ç æ›´æ”¹æˆåŠŸï¼")
+		new AlertDialog.Builder(this).setMessage("ÃÜÂë¸ü¸Ä³É¹¦£¡")
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
 					@Override

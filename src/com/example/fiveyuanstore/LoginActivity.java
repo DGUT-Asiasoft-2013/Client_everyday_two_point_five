@@ -55,11 +55,11 @@ public class LoginActivity extends Activity {
 	protected void onResume() {
 
 		super.onResume();
-		fragAccount.setLabelText("ç”¨æˆ·å");
-		fragAccount.setHintText("è¯·è¾“å…¥ç”¨æˆ·å");
+		fragAccount.setLabelText("ÓÃ»§Ãû");
+		fragAccount.setHintText("ÇëÊäÈëÓÃ»§Ãû");
 
-		fragPassword.setLabelText("å¯†ç ");
-		fragPassword.setHintText("è¯·è¾“å…¥å¯†ç ");
+		fragPassword.setLabelText("ÃÜÂë");
+		fragPassword.setHintText("ÇëÊäÈëÃÜÂë");
 		fragPassword.setIsPassword(true);
 	}
 
@@ -80,7 +80,7 @@ public class LoginActivity extends Activity {
 
 //	void onResponse(Call call, String response) {
 //
-//		if (!response.equals("å¯†ç é”™è¯¯ï¼")) {
+//		if (!response.equals("ÃÜÂë´íÎó£¡")) {
 //			Intent itnt = new Intent(this, StoreActivity.class);
 //			startActivity(itnt);
 //		}
@@ -88,9 +88,9 @@ public class LoginActivity extends Activity {
 	
 //	void onFailure(Call call,Exception e){
 //		new AlertDialog.Builder(this)
-//		.setTitle("è¯·æ±‚å¤±è´¥")
+//		.setTitle("ÇëÇóÊ§°Ü")
 //		.setMessage(e.getLocalizedMessage())
-//		.setPositiveButton("ç¡®è®¤",null)
+//		.setPositiveButton("È·ÈÏ",null)
 //		.show();
 //	}
 }
