@@ -3,11 +3,10 @@ package com.example.fiveyuanstore.page;
 
 
 import com.example.fiveyuanstore.R;
-import com.example.fiveyuanstore.WalletActivity;
 import com.example.fiveyuanstore.fragment.list.TextListFragment;
 import com.example.fiveyuanstore.fragment.list.TextListFragment.OnNewClickedListener;
 import com.example.fiveyuanstore.fragment.widgets.AvatarView;
-
+import com.example.fiveyuanstore.myProfiles.WalletActivity;
 
 import android.app.Fragment;
 import android.content.Intent;

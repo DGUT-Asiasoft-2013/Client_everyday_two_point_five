@@ -29,7 +29,9 @@
         <activity android:name="com.example.fiveyuanstore.AddProductActivity"></activity>
         <activity android:name="com.example.fiveyuanstore.ChangeActivity"></activity>
         <activity android:name="com.example.fiveyuanstore.CommentActivity"></activity>
-        <activity android:name="com.example.fiveyuanstore.WalletActivity"></activity>
+        <activity android:name="com.example.fiveyuanstore.myProfiles.WalletActivity"></activity>
+        <activity android:name="com.example.fiveyuanstore.myProfiles.InboxActivity"></activity>
+        <activity android:name="com.example.fiveyuanstore.myProfiles.PasswordChangeActivity"></activity>
     </application>
 
 </manifest>

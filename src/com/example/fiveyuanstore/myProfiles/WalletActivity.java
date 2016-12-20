@@ -1,4 +1,8 @@
-package com.example.fiveyuanstore;
+package com.example.fiveyuanstore.myProfiles;
+
+import com.example.fiveyuanstore.R;
+import com.example.fiveyuanstore.R.id;
+import com.example.fiveyuanstore.R.layout;
 
 import android.app.Activity;
 import android.os.Bundle;
