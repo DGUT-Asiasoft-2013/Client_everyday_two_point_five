@@ -1,6 +1,7 @@
 ﻿package com.example.fiveyuanstore.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Goods implements Serializable{
 
@@ -13,8 +14,23 @@ public class Goods implements Serializable{
 	
 	String goods_img, text;
 	
+	Date createDate;
+	Date editDate;
+	
 
 
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	public Date getEditDate() {
+		return editDate;
+	}
+	public void setEditDate(Date editDate) {
+		this.editDate = editDate;
+	}
 	public int getId() {
 		return id;
 	}
