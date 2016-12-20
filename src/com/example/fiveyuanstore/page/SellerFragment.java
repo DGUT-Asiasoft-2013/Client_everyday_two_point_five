@@ -48,6 +48,7 @@ public class SellerFragment extends Fragment {
 			view = inflater.inflate(R.layout.fragment_seller, null);
 			loadMore = inflater.inflate(R.layout.widget_load_root_more_btn, null);
 			txtLoadmore =  (TextView) loadMore.findViewById(R.id.more_text);
+			
 			addGoods = (Button) view.findViewById(R.id.addProduct);
 			order = (CustomFAB) view.findViewById(R.id.order);
 			listview = (ListView) view.findViewById(R.id.list);

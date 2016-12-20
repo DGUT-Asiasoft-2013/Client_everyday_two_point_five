@@ -16,7 +16,7 @@ import okhttp3.Request;
 
 public class Server {
 	static OkHttpClient client;
-	public static String serverAddress = "http://172.27.0.55:8080/membercenter/";
+	public static String serverAddress = "http://172.27.0.55:8080/storecenter/";
 	static {
 		
 			CookieJar cookieJar = new CookieJar(){

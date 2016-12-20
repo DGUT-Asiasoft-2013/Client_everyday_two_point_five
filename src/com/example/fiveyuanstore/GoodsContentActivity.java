@@ -11,9 +11,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**
- * @author Administrator
- *
+ * @author 
+ *卖家商品页面
  */
+
 public class GoodsContentActivity extends Activity {
 	
 	@Override

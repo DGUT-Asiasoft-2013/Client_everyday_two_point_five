@@ -10,7 +10,18 @@ public class Goods implements Serializable{
 	 * 图片*/
 	String title;
 
-	int id,user_id, payNumber; 
+	int id,user_id, payNumber,goods_count; 
+	public int getGoods_count() {
+		return goods_count;
+	}
+	public void setGoods_count(int goods_count) {
+		this.goods_count = goods_count;
+	}
+	String goods_img, text;
+	
+	Date createDate;
+	Date editDate;
+	float price;
 	
 	public int getPayNumber() {
 		return payNumber;
@@ -18,11 +29,7 @@ public class Goods implements Serializable{
 	public void setPayNumber(int payNumber) {
 		this.payNumber = payNumber;
 	}
-	String goods_img, text;
-	
-	Date createDate;
-	Date editDate;
-	float price;
+
 
 
 	public float getPrice() {
