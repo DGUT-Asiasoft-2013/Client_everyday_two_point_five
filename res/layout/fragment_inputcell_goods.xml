@@ -4,15 +4,24 @@
     android:layout_height="wrap_content"
     android:minHeight="100dp"
     android:padding="8dp" >
-    
+     
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
     <RelativeLayout 
         android:layout_width="60dp"
         android:layout_height="match_parent">
 
-    <com.example.fiveyuanstore.fragment.widgets.AvatarView
+    <com.example.fiveyuanstore.customViews.ProImgView
         android:id="@+id/goods_img"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="58dp"
+        android:layout_height="68dp"
         android:layout_centerInParent="true"/>
     
     </RelativeLayout>
@@ -44,6 +53,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:text="Content Text"/>
+            android:text="Content Text"/>       
+        
     </FrameLayout>
+   </FrameLayout>
+
+        <TextView 
+            android:id="@+id/money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="money"/>
+</LinearLayout>
 </FrameLayout>

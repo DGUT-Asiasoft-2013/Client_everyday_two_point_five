@@ -1,6 +1,8 @@
 package com.example.fiveyuanstore.page;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import com.example.fiveyuanstore.GoodsContentActivity;
@@ -41,7 +43,7 @@ public class CommodityFragment extends Fragment{
 
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					onItemClicked(position);
+					onItemClicked(0);
 					
 				}
 			});
@@ -64,18 +66,27 @@ public class CommodityFragment extends Fragment{
 			}
 			TextView textContent = (TextView) view.findViewById(R.id.text);
 			TextView goodsName = (TextView) view.findViewById(R.id.goods_name);
-			
+			TextView money=(TextView) view.findViewById(R.id.money);
 			TextView textDate = (TextView) view.findViewById(R.id.date);
-			PictureView img = (PictureView) view.findViewById(R.id.goods_img);
+			//PictureView img = (PictureView) view.findViewById(R.id.goods_img);
 			
-			Goods goods=data.get(position);
 			
-			textContent.setText(goods.getText());
-			goodsName.setText(goods.getTitle());
-			img.load(goods);
+			goodsName.setText("小二机长");
+			textContent.setText("芝华仕头等舱 功能沙发 美式沙发真皮 小户型客厅沙发组合8753");			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日   HH:mm:ss     ");
+			Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+			String str = formatter.format(curDate);
+			textDate.setText(str);
+			money.setText("合计：9999元");
 			
-			String dateStr=DateFormat.format("yyyy-MM-dd hh:mm",goods.getCreateDate()).toString();
-			textDate.setText(dateStr);
+			//Goods goods=data.get(position);
+			
+		//	textContent.setText(goods.getText());
+		//	goodsName.setText(goods.getTitle());
+		//	img.load(goods);
+			
+		//	String dateStr=DateFormat.format("yyyy-MM-dd hh:mm",goods.getCreateDate()).toString();
+		//	textDate.setText(dateStr);
 			
 			return view;
 		}
@@ -83,28 +94,31 @@ public class CommodityFragment extends Fragment{
 		@Override
 		public long getItemId(int position) {
 			// TODO Auto-generated method stub
-			return position;
+//			return position;
+			return 0;
 		}
 		
 		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
-			return data.get(position);
+//			return data.get(position);
+			return 1;
 		}
 		
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return data==null?0:data.size();
+//			return data==null?0:data.size();
+			return 1;
 		}
 	};
 	
 	
 	void onItemClicked(int position) {
-		Goods pos = data.get(position);
+		//Goods pos = data.get(position);
 
 		Intent itnt = new Intent(this.getActivity(), GoodsContentActivity.class);
-		itnt.putExtra("pos", (Serializable) pos);
+		//itnt.putExtra("pos", (Serializable) pos);
 		startActivity(itnt);
 	}
 }

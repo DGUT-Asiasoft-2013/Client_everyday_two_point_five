@@ -48,8 +48,19 @@
             android:text="Create Date"
             android:layout_gravity="right"
             android:textColor="#aaa"/>
+
+        
         
     </RelativeLayout>
+    
+    <TextView
+            android:id="@+id/money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/username"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:text="money" />
     
     <FrameLayout 
         android:id="@+id/F1"
@@ -63,21 +74,21 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:text="Content Text"/>
-    </FrameLayout> 
+    </FrameLayout > 
     <LinearLayout 
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="horizontal">
     
     <Button
-        android:id="@+id/collection"
+        android:id="@+id/call"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="联系买家" />
     
     <Button
-        android:id="@+id/btn_comment"
+        android:id="@+id/btn_buy"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -88,8 +99,7 @@
     <ListView
         android:id="@+id/goods_comment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="widget_product_item">
+        android:layout_height="match_parent">
     </ListView>
     
     </LinearLayout>
