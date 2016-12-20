@@ -1,4 +1,4 @@
-﻿package com.example.fiveyuanstore.entity;
+package com.example.fiveyuanstore.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,34 +10,39 @@ public class Goods implements Serializable{
 	 * 图片*/
 	String title;
 
-	int id,
-	user_id;
-	Date createDate;
-	int goods_count,payNumber;
-	float price;
+	int id,user_id, payNumber; 
 	
-	String goods_img, text;
-	
-	public int getGoods_count() {
-		return goods_count;
-	}
-	public void setGoods_count(int goods_count) {
-		this.goods_count = goods_count;
-	}
 	public int getPayNumber() {
 		return payNumber;
 	}
 	public void setPayNumber(int payNumber) {
 		this.payNumber = payNumber;
 	}
+	String goods_img, text;
+	
+	Date createDate;
+	Date editDate;
+	float price;
+
+
 	public float getPrice() {
 		return price;
 	}
 	public void setPrice(float price) {
 		this.price = price;
 	}
-	
-
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	public Date getEditDate() {
+		return editDate;
+	}
+	public void setEditDate(Date editDate) {
+		this.editDate = editDate;
+	}
 	public int getId() {
 		return id;
 	}

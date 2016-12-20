@@ -2,7 +2,7 @@ package com.example.fiveyuanstore.entity;
 
 import java.util.Date;
 
-public class comment {
+public class Comment {
 	int id,
 	com_id,
 	order_id;

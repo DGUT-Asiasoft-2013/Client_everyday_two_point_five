@@ -2,7 +2,7 @@ package com.example.fiveyuanstore.entity;
 
 import java.util.Date;
 
-public class order {
+public class Order {
 	int id,
 	user_id,
 	status,
