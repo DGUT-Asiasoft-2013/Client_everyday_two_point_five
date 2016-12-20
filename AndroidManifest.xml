@@ -29,6 +29,8 @@
         <activity android:name="com.example.fiveyuanstore.AddProductActivity"></activity>
         <activity android:name="com.example.fiveyuanstore.ChangeActivity"></activity>
         <activity android:name="com.example.fiveyuanstore.CommentActivity"></activity>
+        <activity android:name="com.example.fiveyuanstore.OrderHandlerActivity"></activity>
+        
     </application>
 
 </manifest>

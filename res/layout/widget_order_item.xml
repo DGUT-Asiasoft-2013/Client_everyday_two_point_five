@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.example.fiveyuanstore.customViews.ProImgView
+            android:id="@+id/proImg"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/orderid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="62dp"
+            android:minHeight="25dp"
+            android:minWidth="100dp"
+            android:text="订单编号" />
+
+        <Button
+            android:id="@+id/sureSendGoods"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/orderNum"
+            android:layout_toLeftOf="@+id/cancleOrder"
+            android:text="确认发货" />
+
+        <Button
+            android:id="@+id/cancleOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/sureSendGoods"
+            android:layout_alignBottom="@+id/sureSendGoods"
+            android:layout_alignParentRight="true"
+            android:text="取消订单" />
+
+        <TextView
+            android:id="@+id/orderNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:minHeight="25dp"
+            android:minWidth="100dp"
+            android:text="数量" />
+
+        <TextView
+            android:id="@+id/goodsId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/sureSendGoods"
+            android:layout_alignLeft="@+id/sureSendGoods"
+            android:minHeight="25dp"
+            android:minWidth="100dp"
+            android:text="商品名称" />
+
+    </RelativeLayout>
+
+</FrameLayout>

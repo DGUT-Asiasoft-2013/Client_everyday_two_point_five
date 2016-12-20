@@ -1,6 +1,7 @@
 ﻿package com.example.fiveyuanstore.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Goods implements Serializable{
 
@@ -9,11 +10,33 @@ public class Goods implements Serializable{
 	 * 图片*/
 	String title;
 
-	int id,user_id; 
+	int id,
+	user_id;
+	Date createDate;
+	int goods_count,payNumber;
+	float price;
 	
 	String goods_img, text;
 	
-
+	public int getGoods_count() {
+		return goods_count;
+	}
+	public void setGoods_count(int goods_count) {
+		this.goods_count = goods_count;
+	}
+	public int getPayNumber() {
+		return payNumber;
+	}
+	public void setPayNumber(int payNumber) {
+		this.payNumber = payNumber;
+	}
+	public float getPrice() {
+		return price;
+	}
+	public void setPrice(float price) {
+		this.price = price;
+	}
+	
 
 	public int getId() {
 		return id;

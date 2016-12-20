@@ -5,8 +5,10 @@ import java.util.List;
 import com.example.fiveyuanstore.AddProductActivity;
 import com.example.fiveyuanstore.ChangeActivity;
 import com.example.fiveyuanstore.CommentActivity;
+import com.example.fiveyuanstore.OrderHandlerActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.StoreActivity;
+import com.example.fiveyuanstore.customViews.CustomFAB;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.SaleItem;
@@ -28,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class SellerFragment extends Fragment {
+	private CustomFAB order;
 	View view;
 	 View loadMore;
 	 TextView txtLoadmore,price,payNumber; 
@@ -36,6 +39,7 @@ public class SellerFragment extends Fragment {
 		 TextView txt_title;
 		 List<Goods> data;
 		 SaleItem si;
+		 Goods goods;
 		 Button addGoods;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,7 +49,7 @@ public class SellerFragment extends Fragment {
 			loadMore = inflater.inflate(R.layout.widget_load_root_more_btn, null);
 			txtLoadmore =  (TextView) loadMore.findViewById(R.id.more_text);
 			addGoods = (Button) view.findViewById(R.id.addProduct);
-			
+			order = (CustomFAB) view.findViewById(R.id.order);
 			listview = (ListView) view.findViewById(R.id.list);
 			listview.addFooterView(loadMore);
 			listview.setAdapter(adapter);
@@ -57,6 +61,23 @@ public class SellerFragment extends Fragment {
 					addNewGoods();
 				}
 			});
+			
+			order.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent itt=  new Intent(getActivity(), OrderHandlerActivity.class);
+					startActivity(itt);
+				}
+			});
+			/*order.setOrderHandlerClick(new CustomFAB.OnOrderHandlerClickListener() {
+				
+				@Override
+				public void orderHandlerClick() {
+						Intent itt=  new Intent(getActivity(), OrderHandlerActivity.class);
+						startActivity(itt);
+				}
+			});*/
 		}
 		return view;
 	}
@@ -71,6 +92,8 @@ public class SellerFragment extends Fragment {
 	BaseAdapter adapter = new BaseAdapter(){
 
 
+
+	
 
 		@SuppressLint("InflateParams")
 		@Override
@@ -99,8 +122,8 @@ public class SellerFragment extends Fragment {
 			Goods pro = data.get(position);
 			ProImgView avatar =(ProImgView) view.findViewById(R.id.avatar);
 			txt_title.setText(pro.getTitle());
-			price.setText( Float.toString(si.getPrice()));
-			payNumber.setText(si.getPayNumber());
+			price.setText( Float.toString(goods.getPrice()));
+			payNumber.setText(goods.getPayNumber());
 			
 			change.setOnClickListener(new View.OnClickListener() {
 				
@@ -130,6 +153,7 @@ public class SellerFragment extends Fragment {
 
 			});
 			
+		
 			
 			try {
 				avatar.load(si.getGoods());
@@ -157,6 +181,11 @@ public class SellerFragment extends Fragment {
 		}
 			
 	};
+	//订单处理
+	private void orderHandler() {
+		Intent itt = new Intent(getActivity(), OrderHandlerActivity.class);
+		startActivity(itt);
+	}
 	//修改
 		 void change() {
 			Intent itt = new Intent(getActivity(), ChangeActivity.class);
@@ -197,5 +226,7 @@ public class SellerFragment extends Fragment {
 	     startActivity(itt);
 		
 	}
+	
+	
 	
 }
