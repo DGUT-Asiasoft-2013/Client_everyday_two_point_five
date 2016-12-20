@@ -4,10 +4,12 @@ package com.example.fiveyuanstore.page;
 
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.fragment.list.TextListFragment;
+import com.example.fiveyuanstore.fragment.list.TextListFragment.OnNewClickedListener;
 import com.example.fiveyuanstore.fragment.widgets.AvatarView;
-
+import com.example.fiveyuanstore.myProfiles.WalletActivity;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,6 +36,16 @@ public class MyProfileFragment extends Fragment {
 			inbox=(TextListFragment)getFragmentManager().findFragmentById(R.id.inbox);
 			wallet=(TextListFragment)getFragmentManager().findFragmentById(R.id.wallet);
 			password_changes=(TextListFragment)getFragmentManager().findFragmentById(R.id.password_changes);
+			
+			wallet.setOnNewClickedListener(new OnNewClickedListener() {
+				
+				@Override
+				public void onNewClicked() {
+					Intent intent =new Intent(getActivity(),WalletActivity.class);
+					startActivity(intent);
+					
+				}
+			});
 		}
 		return view;
 	}

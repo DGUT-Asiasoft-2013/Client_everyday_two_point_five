@@ -70,14 +70,7 @@ public class SellerFragment extends Fragment {
 					startActivity(itt);
 				}
 			});
-			/*order.setOrderHandlerClick(new CustomFAB.OnOrderHandlerClickListener() {
-				
-				@Override
-				public void orderHandlerClick() {
-						Intent itt=  new Intent(getActivity(), OrderHandlerActivity.class);
-						startActivity(itt);
-				}
-			});*/
+			
 		}
 		return view;
 	}
