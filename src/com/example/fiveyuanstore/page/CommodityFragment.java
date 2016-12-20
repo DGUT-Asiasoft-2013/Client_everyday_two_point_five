@@ -29,7 +29,7 @@ public class CommodityFragment extends Fragment{
 	List<Goods> data;
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {//
 		
 		if(view==null){
 			view=inflater.inflate(R.layout.fragment_page_commodity, null);
