@@ -22,7 +22,7 @@ public class InboxActivity extends Activity {
 		listView=(ListView)findViewById(R.id.inbox_list);
 		listView.setAdapter(listAdapter);
 	}
-	
+	 
 	
 	
 	BaseAdapter listAdapter=new BaseAdapter() {
