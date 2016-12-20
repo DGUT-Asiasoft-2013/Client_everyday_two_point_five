@@ -22,6 +22,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MultipartBody;
@@ -48,13 +49,15 @@ public class SellerActivity extends Activity {
 		payNumber = (TextView) findViewById(R.id.payNumber);
 		price = (TextView) findViewById(R.id.price);
 		
-		avatar = (ProImgView) findViewById(R.id.avatar);
 		
+		avatar = (ProImgView) findViewById(R.id.avatar);
+		 final String searchText1 = txt1.getText().toString();
+		 Toast.makeText(this,  "searchTxt is: "+searchText1 , Toast.LENGTH_LONG).show();
 		search.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				search();
+				search(searchText1);
 			}
 		});
 	}
@@ -157,9 +160,9 @@ public class SellerActivity extends Activity {
 		
 	}
 	
-		private void search() {
+		public void search(String searchText1) {
 		
-			 String searchText1 = txt1.getText().toString();
+			
 			 MultipartBody.Builder body = new MultipartBody.Builder()
 					 .setType(MultipartBody.FORM)
 					 .addFormDataPart("text", searchText1)
