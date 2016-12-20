@@ -1,12 +1,26 @@
 package com.example.fiveyuanstore;
 
+import java.io.IOException;
+
+import com.example.fiveyuanstore.api.Server;
+import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class LoginActivity extends Activity {
 
@@ -32,7 +46,7 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				goLogin();
+				login();
 
 			}
 		});
@@ -63,7 +77,83 @@ public class LoginActivity extends Activity {
 		fragPassword.setIsPassword(true);
 	}
 
+	void login(){
+		String account = fragAccount.getText();
+		String my_psw = MD5.getMD5(fragPassword.getText());
+		
+		 MultipartBody.Builder builder = new MultipartBody.Builder()
+	   		        .setType(MultipartBody.FORM)
+	   		        .addFormDataPart("account",account)
+	   		        .addFormDataPart("passwordHash",my_psw);
+		 
+		 RequestBody requestBody = builder.build();
+		 
+		 OkHttpClient client = Server.getClient();
+		 
+		 
+	   	 Request request =Server.requestBuilderWithPath("login")
+	   			.method("POST", requestBody)
+	   			.post(requestBody)
+					.build();
+	   	 
+		 final ProgressDialog progressD = new ProgressDialog(LoginActivity.this);
+	   	 progressD.setCancelable(false);
+	   	 progressD.setTitle("提示");
+	   	 
+	   	 
+	   	 
+	   	 progressD.setMessage("正在登陆");
+	   	 progressD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	   	 progressD.setCanceledOnTouchOutside(false);
+	   	 progressD.show();
+	   	 
+	   		client.newCall(request).enqueue(new Callback() {
+				
+				@Override
+				public void onResponse(Call arg0, final Response res) throws IOException {
+					runOnUiThread(new Runnable() {
+						  public void run() {
+							  progressD.dismiss();
+							  try { 
+								  final String resBody = res.body().string();
+							  if(resBody != null ){
+								
+								ObjectMapper mapper = new ObjectMapper();  
+						        final User user = mapper.readValue(resBody, User.class); 
+						    	goLogin();
+						    	Toast.makeText(getApplicationContext(), "welcome , "+user.getUser_name(), Toast.LENGTH_SHORT).show(); 
+							       
+						        
+						        
+								
+							  }
+							  } catch (IOException e) {
+									e.printStackTrace();
+								}
+							
+							  
+							  
+							
+						  }
+						});
+				}
+				
+				@Override
+				public void onFailure(Call arg0,final IOException e) {
+					runOnUiThread(new Runnable() {
+						public void run() {
+							progressD.dismiss();
+
+							Toast.makeText(LoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+						}
+	});
+				}
+			});
+		
+	}
 	void goLogin() {
+		
+		
 		Intent itnt = new Intent(this, StoreActivity.class);
 		startActivity(itnt);
 	}
@@ -78,19 +168,5 @@ public class LoginActivity extends Activity {
 		startActivity(itnt);
 	}
 
-//	void onResponse(Call call, String response) {
-//
-//		if (!response.equals("密码错误！")) {
-//			Intent itnt = new Intent(this, StoreActivity.class);
-//			startActivity(itnt);
-//		}
-//	}
-	
-//	void onFailure(Call call,Exception e){
-//		new AlertDialog.Builder(this)
-//		.setTitle("请求失败")
-//		.setMessage(e.getLocalizedMessage())
-//		.setPositiveButton("确认",null)
-//		.show();
-//	}
+
 }

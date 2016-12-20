@@ -2,15 +2,25 @@ package com.example.fiveyuanstore;
 
 import java.io.IOException;
 
+import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.inputcells.PictureInputCellFragment;
 import com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class RegisterActivity extends Activity {
@@ -85,46 +95,99 @@ public class RegisterActivity extends Activity {
 			return;
 		}
 		
-		//password = MD5.getMD5(password);
+		password = MD5.getMD5(password);
 		
 		String account=fragInputCellAccount.getText();
 		String name=fragInputCellName.getText();
 		String email=fragInputEmailAddress.getText();
-		
-//		OkHttpClient client = Server.getSharedClient();
-//
-//		MultipartBody.Builder requestBodyBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM)
-//				.addFormDataPart("account", account).addFormDataPart("name", name).addFormDataPart("email", email)
-//				.addFormDataPart("passwordHash", password);
-//
-//		if (fragInputAvatar.getPngData() != null) {
-//			requestBodyBuilder.addFormDataPart("avatar", "avatar",
-//					RequestBody.create(MediaType.parse("image/png"), fragInputAvatar.getPngData()));
-//		}
-//
-//		Request request = Server.requestBuilderWithApi("register").method("post", null).post(requestBodyBuilder.build())
-//				.build();
-//
-		final ProgressDialog progressDialog = new ProgressDialog(this);
-		progressDialog.setMessage("Please Waitting...");
-		progressDialog.setCanceledOnTouchOutside(false);
-		progressDialog.setCancelable(false);
-		progressDialog.show();
+
+		 MultipartBody.Builder builder = new MultipartBody.Builder()
+	   		        .setType(MultipartBody.FORM)
+	   		     .addFormDataPart("name",name)
+	   		        .addFormDataPart("account",account)
+	   		        .addFormDataPart("email",email)
+	   		        .addFormDataPart("passwordHash",password);
+	 
+	   	
+	   	 
+			        
+	       	 if(fragInputAvatar.getPngData() != null){
+	       		 builder.addFormDataPart("avatar","avatar",
+	       				 RequestBody.create(MediaType.parse("image/png"), fragInputAvatar.getPngData()));
+	       	 }
+	       	 
+	       	 RequestBody requestBody = builder.build();
+	   	 OkHttpClient client = new OkHttpClient();
+	   	 
+	   	 Request request = Server.requestBuilderWithPath("register")
+					.method("POST", requestBody)
+					.post(requestBody)
+					.build();
+	   	 
+	   	 final ProgressDialog progressD = new ProgressDialog(RegisterActivity.this);
+	   	 progressD.setCancelable(false);
+	   	 progressD.setTitle("提示");
+	   	 progressD.setMessage("请稍后");
+	   	 progressD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	   	 progressD.setCanceledOnTouchOutside(false);
+	   	 progressD.show();
+	   	 
+	   		client.newCall(request).enqueue(new Callback() {
+					
+					@Override
+					public void onResponse(Call arg0, final Response arg1) throws IOException {
+						
+						runOnUiThread(new Runnable() {
+							  public void run() {
+								  progressD.dismiss();
+								  
+									
+									try {
+										new AlertDialog.Builder(RegisterActivity.this)
+												.setNegativeButton("OK", null)
+												.setTitle("注册成功")
+												.setMessage(arg1.body().string())
+												.show();
+										startLoginActivity();
+									} catch (IOException e) {
+										e.printStackTrace();
+									}
+							  }
+
+						
+							});
+					
+					}
+					
+					@Override
+					public void onFailure(Call arg0, final IOException e) {
+						runOnUiThread(new Runnable() {
+							  public void run() {
+								  progressD.dismiss();
+								  
+									
+									new AlertDialog.Builder(RegisterActivity.this)
+											.setNegativeButton("OK", null)
+											.setTitle("注册失败")
+											.setMessage(e.toString())
+											.show();
+								  
+							  }
+							});
+					
+						
+					
+					}
+
+				});
+	   	
+	   		
 	}
 	
-//	void onResponse(Call arg0,String string){
-//		new AlertDialog.Builder(this)
-//		.setMessage("注册成功")
-//		.setPositiveButton("确认", null)
-//		.show();
-//	}
-//	
-//	void onFailure(Call arg0, IOException arg1){
-//		new AlertDialog.Builder(this)
-//		.setTitle("请求失败")
-//		.setMessage(arg1.getLocalizedMessage())
-//		.setPositiveButton("确认", null)
-//		.show();
-//	}
+	 void startLoginActivity() {
+			
+			Intent itnt = new Intent(this, LoginActivity.class);
+			startActivity(itnt);
+		}
 
 }
