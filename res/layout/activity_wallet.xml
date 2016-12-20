@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="108dp"
+        android:gravity="center_horizontal|bottom"
+        android:text="你的余额"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/remaining_sum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="-999¥WRONG"
+        android:textSize="40sp" />
+
+    <Button
+        android:id="@+id/btn_recharge"
+        android:layout_width="224dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:text="充值" />
+    
+    <Button
+        android:id="@+id/btn_withdraw"
+        android:layout_width="224dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_gravity="center"
+        android:text="提现" />
+
+</LinearLayout>
