@@ -149,7 +149,7 @@ public class CommodityFragment extends Fragment {
 	}
 	
 	void reload(){
-		Request request=Server.requestBuilderWithPath("goods").get().build();
+		Request request=Server.requestBuilderWithPath("/goods/").get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
 			
 			@Override
@@ -173,7 +173,7 @@ public class CommodityFragment extends Fragment {
 					
 					@Override
 					public void run() {
-						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()).show();						
+						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()+"111111").show();						
 					}
 				});
 			}
@@ -185,7 +185,7 @@ public class CommodityFragment extends Fragment {
 					
 					@Override
 					public void run() {
-						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()).show();
+						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()+"22").show();
 						
 					}
 				});
@@ -199,7 +199,7 @@ public class CommodityFragment extends Fragment {
 		btnLoadMore.setEnabled(false);
 		textLoadMore.setText("载入中。。。");
 
-		Request request = Server.requestBuilderWithPath("feeds/" + (page + 1)).get().build();
+		Request request = Server.requestBuilderWithPath("goods/" + (page + 1)).get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
 			@Override
@@ -215,21 +215,21 @@ public class CommodityFragment extends Fragment {
 				});
 
 				try {
-					final Page<Goods> feeds = new ObjectMapper().readValue(arg1.body().string(),
+					final Page<Goods> goods = new ObjectMapper().readValue(arg1.body().string(),
 							new TypeReference<Page<Goods>>() {
 							});
-					if (feeds.getNumber() > page) {
+					if (goods.getNumber() > page) {
 
 						getActivity().runOnUiThread(new Runnable() {
 
 							@Override
 							public void run() {
 								if (data == null) {
-									data = feeds.getContent();
+									data = goods.getContent();
 								} else {
-									data.addAll(feeds.getContent());
+									data.addAll(goods.getContent());
 								}
-								page = feeds.getNumber();
+								page = goods.getNumber();
 								listAdapter.notifyDataSetChanged();
 							}
 						});
