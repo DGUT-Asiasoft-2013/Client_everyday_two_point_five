@@ -3,10 +3,14 @@ package com.example.fiveyuanstore.myProfiles;
 import com.example.fiveyuanstore.R;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
@@ -21,9 +25,24 @@ public class InboxActivity extends Activity {
 		setContentView(R.layout.activity_inbox);
 		listView=(ListView)findViewById(R.id.inbox_list);
 		listView.setAdapter(listAdapter);
+		
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				onItemClicked();
+				
+			}
+
+
+		});
 	}
 	 
-	
+	private void onItemClicked() {
+		// TODO Auto-generated method stub
+		Intent itnt=new Intent(this,InboxChetActivity.class);
+		startActivity(itnt);
+	}
 	
 	BaseAdapter listAdapter=new BaseAdapter() {
 		

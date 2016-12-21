@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="10dp" >
+
+    <TextView
+        android:id="@+id/chat_box_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:lines="1"
+        android:text="-99:99:99"
+        android:textColor="#bbb" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp" >
+
+        <com.example.fiveyuanstore.fragment.widgets.AvatarView
+            android:id="@+id/avatar_chat_left"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+
+        <TextView
+            android:id="@+id/inbox_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:background="#bcee4d"
+            android:maxWidth="170dp"
+            android:padding="5dp"
+            android:text="请输入文字聊天"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</LinearLayout>
