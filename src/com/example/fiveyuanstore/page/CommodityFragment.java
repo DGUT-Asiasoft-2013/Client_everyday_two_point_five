@@ -103,7 +103,8 @@ public class CommodityFragment extends Fragment {
 
 			 textContent.setText(goods.getText());
 			 goodsName.setText(goods.getTitle());
-			 money.setText(goods.getText());
+			 money.setText(Float.toString(goods.getPrice()));
+			 
 			 //img.load(goods);
 
 			 String dateStr=DateFormat.format("yyyy-MM-dd hh:mm",goods.getCreateDate()).toString();
