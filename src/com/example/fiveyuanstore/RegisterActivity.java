@@ -39,10 +39,8 @@ public class RegisterActivity extends Activity {
 
 		fragInputCellAccount = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.intput_account);
 		fragInputCellName = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_name);
-		fragInputCellPassword = (SimpleTextInputCellFragment) getFragmentManager()
-				.findFragmentById(R.id.input_password);
-		fragInputCellPasswordRepeat = (SimpleTextInputCellFragment) getFragmentManager()
-				.findFragmentById(R.id.input_password_repeat);
+		fragInputCellPassword = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_password);
+		fragInputCellPasswordRepeat = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_password_repeat);
 		fragInputEmailAddress = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.intput_email);
 		fragInputAvatar = (PictureInputCellFragment) getFragmentManager().findFragmentById(R.id.picture);
 
