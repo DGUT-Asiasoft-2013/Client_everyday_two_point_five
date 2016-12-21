@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:textSize="15sp" >
+    android:textSize="12sp" >
     
 		<LinearLayout
 	    android:layout_width="match_parent"
@@ -30,10 +30,10 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:text="产品名称"
-	    android:textColor="@android:color/black"
+	    android:textColor="#233333"
 	    android:layout_weight="2.8"
 	    android:layout_marginLeft="10dp"
-	      android:textSize="15sp" />
+	      android:textSize="12sp" />
 	
     	<LinearLayout
 	    android:layout_width="match_parent"
@@ -48,10 +48,10 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:text="价格"
-	    android:textColor="@android:color/black"
+	      android:textColor="#233333"
 	    android:layout_weight="2"
 	    android:layout_marginLeft="10dp"
-	      android:textSize="15sp" />
+	      android:textSize="12sp" />
 	      	
 	   <TextView
 	       android:id="@+id/payNumber"
@@ -60,8 +60,8 @@
 	       android:layout_marginLeft="10dp"
 	       android:layout_weight="2.2"
 	       android:text="付款人数"
-	       android:textColor="@android:color/black"
-	       android:textSize="15sp" />
+	       android:textColor="#233333"
+	       android:textSize="12sp" />
     	    
 	      </LinearLayout>
 		
@@ -78,8 +78,8 @@
     	        android:layout_height="wrap_content"
     	        android:layout_weight="1"
     	        android:text="修改"
-    	         android:textSize="15sp"  >
-</Button>
+    	         android:textSize="12sp"  >
+			</Button>
     	    
     	       <Button
     	        android:id="@+id/down"
@@ -87,7 +87,8 @@
 			    android:layout_height="wrap_content"
 			    android:text="下架"
 			     android:layout_weight="1"
-			      android:textSize="15sp" 
+			      android:textSize="12sp" 
+			      
 			    ></Button>
     	       
     	       
@@ -97,7 +98,7 @@
 			    android:layout_height="wrap_content"
 			    android:text="收到评论"
 			     android:layout_weight="1"
-			      android:textSize="15sp"
+			      android:textSize="12sp"
 			    ></Button>
     	   </LinearLayout>
 			
