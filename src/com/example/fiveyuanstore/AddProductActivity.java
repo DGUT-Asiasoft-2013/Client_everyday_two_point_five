@@ -106,7 +106,8 @@ public class AddProductActivity extends Activity {
 					  progressD.dismiss();
 					  
 						Toast.makeText(getApplication(), "添加成功", Toast.LENGTH_LONG).show();
-						startSellerActivity();
+						finish();
+						
 				}
 
 				
@@ -135,11 +136,6 @@ public class AddProductActivity extends Activity {
 	});
 	}
 
-	private void startSellerActivity() {
-		Intent itt = new Intent(this, SellerActivity.class);
-		startActivity(itt);
-		
-	}
 	@Override
 	protected void onResume() {
 		super.onResume();
