@@ -8,18 +8,13 @@ public class User implements Serializable  {
 	 * 账号，
 	 * 邮箱
 	 * 图片*/
-	String user_name,
-		account,
-		email,
-		avatar;
+	String user_name;
+	String account;
+	String email;
+	String avatar;
 	int id;
 	float money;
-	
 
-
-
-
-	
 	public float getMoney() {
 		return money;
 	}
