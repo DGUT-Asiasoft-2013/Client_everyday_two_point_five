@@ -19,6 +19,7 @@ public class Server {
 	public static String serverAddress = "http://172.27.0.55:8080/storecenter/";
 	static {
 
+
 		CookieJar cookieJar = new CookieJar() {
 			Map<HttpUrl, List<Cookie>> cookiemap = new HashMap<HttpUrl, List<Cookie>>();
 
@@ -39,6 +40,11 @@ public class Server {
 
 		CookieManager cookieManager = new CookieManager();
 		cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+
+	
+		client = new OkHttpClient.Builder()
+				.cookieJar(new JavaNetCookieJar(cookieManager))
+				.build();
 
 		client = new OkHttpClient.Builder().cookieJar(cookieJar).cookieJar(new JavaNetCookieJar(cookieManager)).build();
 	}
