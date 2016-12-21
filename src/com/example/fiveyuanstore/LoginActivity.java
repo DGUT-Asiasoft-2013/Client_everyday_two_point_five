@@ -77,7 +77,7 @@ public class LoginActivity extends Activity {
 		fragPassword.setIsPassword(true);
 	}
 
-	void login(){
+	void login() {
 		String account = fragAccount.getText();
 		String my_psw = MD5.getMD5(fragPassword.getText());
 
@@ -142,6 +142,7 @@ public class LoginActivity extends Activity {
 				});
 			}
 		});
+		
 	}
 
 	void goLogin() {
@@ -160,6 +161,5 @@ public class LoginActivity extends Activity {
 		Intent itnt = new Intent(this, PasswordRecoverActivity.class);
 		startActivity(itnt);
 	}
-
 
 }
