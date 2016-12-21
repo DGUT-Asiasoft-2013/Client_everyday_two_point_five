@@ -78,9 +78,53 @@ public class LoginActivity extends Activity {
 	}
 
 	void login() {
-		String account = fragAccount.getText();
-		String my_psw = MD5.getMD5(fragPassword.getText());
+		final String account = fragAccount.getText();
+		final String my_psw = MD5.getMD5(fragPassword.getText());
 
+		MultipartBody.Builder builder = new MultipartBody.Builder()
+				.setType(MultipartBody.FORM)
+				.addFormDataPart("account",account)
+				.addFormDataPart("passwordHash",my_psw);
+
+		RequestBody requestBody = builder.build();
+
+		OkHttpClient client = Server.getClient();
+
+
+		Request request =Server.requestBuilderWithPath("login")
+				.method("POST", requestBody)
+				.post(requestBody)
+				.build();
+
+		final ProgressDialog progressD = new ProgressDialog(LoginActivity.this);
+		progressD.setCancelable(false);
+		progressD.setTitle("提示");
+
+
+
+		progressD.setMessage("正在登陆");
+		progressD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		progressD.setCanceledOnTouchOutside(false);
+		progressD.show();
+
+		client.newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(Call arg0, final Response res) throws IOException {
+
+				try{
+					final User user = new ObjectMapper().readValue(res.body().string(), User.class);
+
+					runOnUiThread(new Runnable() {
+						public void run() {
+							progressD.dismiss();
+							goLogin();
+							Toast.makeText(getApplicationContext(), "welcome , "+user.getUser_name(), Toast.LENGTH_SHORT).show();
+						}});
+				}catch(final Exception e){
+					runOnUiThread(new Runnable() {
+						public void run() {
+							progressD.dismiss();
 		MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
 				.addFormDataPart("account", account).addFormDataPart("passwordHash", my_psw);
 
@@ -131,9 +175,27 @@ public class LoginActivity extends Activity {
 			}
 		});
 
+							Toast.makeText(LoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+						}});
+				}
+			}
+
+			@Override
+			public void onFailure(Call arg0,final IOException e) {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						progressD.dismiss();
+
+						Toast.makeText(LoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+					}
+				});
+			}
+		});
 	}
 
 	void goLogin() {
+
+
 		Intent itnt = new Intent(this, StoreActivity.class);
 		startActivity(itnt);
 	}

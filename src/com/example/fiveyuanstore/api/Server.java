@@ -37,10 +37,15 @@ public class Server {
 			}
 		};
 
+		
 		CookieManager cookieManager = new CookieManager();
 		cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
 
 		client = new OkHttpClient.Builder().cookieJar(cookieJar).cookieJar(new JavaNetCookieJar(cookieManager)).build();
+	
+		client = new OkHttpClient.Builder()
+				.cookieJar(new JavaNetCookieJar(cookieManager))
+				.build();
 	}
 
 	public static OkHttpClient getClient() {
