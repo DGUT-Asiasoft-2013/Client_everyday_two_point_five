@@ -2,6 +2,7 @@ package com.example.fiveyuanstore.fragment.widgets;
 
 import java.io.IOException;
 
+import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.User;
 
@@ -46,12 +47,13 @@ public class AvatarView extends View {				//头像处理
 	public void setBitmap(Bitmap bmp){					//确认头像内容
 		if(bmp==null) {
 			paint = new Paint();
-			paint.setColor(Color.GRAY);
-			paint.setStyle(Paint.Style.STROKE);
-			paint.setStrokeWidth(10);
-		    paint.setPathEffect(new DashPathEffect(new float[]{5, 10, 15, 20}, 0));
+			Bitmap bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.user_null);
+			paint.setShader(new BitmapShader(bitmap, TileMode.REPEAT, TileMode.REPEAT));
+			srcWidth = bitmap.getWidth();
+			srcHeight = bitmap.getHeight();
+			
 			paint.setAntiAlias(true);
-			Log.d("paint123", "1111");
+			
 		}else{
 			paint = new Paint();
 			paint.setShader(new BitmapShader(bmp, TileMode.REPEAT, TileMode.REPEAT));
@@ -59,7 +61,6 @@ public class AvatarView extends View {				//头像处理
 			
 			srcWidth = bmp.getWidth();
 			srcHeight = bmp.getHeight();
-			Log.d("paint123", "2222");
 		}
 		invalidate();
 	}
@@ -130,6 +131,7 @@ public class AvatarView extends View {				//头像处理
 			
 			canvas.restore();
 		}
+	
 		
 	}
 }
