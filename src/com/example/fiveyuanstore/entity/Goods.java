@@ -11,17 +11,19 @@ public class Goods implements Serializable{
 	String title;
 
 	int id,user_id, payNumber,goods_count; 
+	String goods_img, text;
+
+	Date createDate;
+	Date editDate;
+	float price;
+	
 	public int getGoods_count() {
 		return goods_count;
 	}
 	public void setGoods_count(int goods_count) {
 		this.goods_count = goods_count;
 	}
-	String goods_img, text;
 	
-	Date createDate;
-	Date editDate;
-	float price;
 	
 	public int getPayNumber() {
 		return payNumber;

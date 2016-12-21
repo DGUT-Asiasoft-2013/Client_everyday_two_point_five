@@ -14,7 +14,7 @@
             android:id="@+id/frag1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            class=" com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+            class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
             tools:layout="@layout/fragment_inputcell_simpletext"/>
 <!--         价格 -->
           <fragment
@@ -29,7 +29,7 @@
             android:id="@+id/frag3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            class=" com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+            class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
             tools:layout="@layout/fragment_inputcell_simpletext"/>
             
            <!-- 描述 -->
@@ -37,7 +37,7 @@
             android:id="@+id/frag4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            class=" com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+            class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
             tools:layout="@layout/fragment_inputcell_simpletext"/>
               
               
