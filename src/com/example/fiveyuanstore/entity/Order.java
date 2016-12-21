@@ -1,8 +1,9 @@
 package com.example.fiveyuanstore.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Order {
+public class Order implements Serializable{
 	int id,
 	user_id,
 	status,

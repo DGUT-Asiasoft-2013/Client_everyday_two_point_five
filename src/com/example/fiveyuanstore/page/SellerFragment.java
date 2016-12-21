@@ -130,7 +130,7 @@ public class SellerFragment extends Fragment {
 		Server.getClient().newCall(request).enqueue(new Callback() {
 			
 			@Override
-			public void onResponse(Call arg0, Response arg1) throws IOException {
+			public void onResponse(Call arg0,final Response arg1) throws IOException {
 				try {
 					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(), new TypeReference<Page<Goods>>(){});
 
@@ -145,7 +145,7 @@ public class SellerFragment extends Fragment {
 					});
 				} catch (Exception e) {
 					e.printStackTrace();
-					Log.d("SellerFragment", e.getMessage());
+				
 				}
 
 			}
