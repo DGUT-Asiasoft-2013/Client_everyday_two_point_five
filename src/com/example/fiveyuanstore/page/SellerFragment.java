@@ -125,7 +125,7 @@ public class SellerFragment extends Fragment {
 	}
 	
 	void reload(int page){
-		Request request = Server.requestBuilderWithPath("/goods/"+(page)).get().build();
+		Request request = Server.requestBuilderWithPath("/feeds/"+(page)).get().build();
 		
 		Server.getClient().newCall(request).enqueue(new Callback() {
 			

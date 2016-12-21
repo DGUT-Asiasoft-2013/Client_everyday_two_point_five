@@ -150,7 +150,7 @@ public class CommodityFragment extends Fragment {
 	}
 	
 	void reload(){
-		Request request=Server.requestBuilderWithPath("goods").get().build();
+		Request request=Server.requestBuilderWithPath("feeds").get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
 			
 			@Override
@@ -200,7 +200,7 @@ public class CommodityFragment extends Fragment {
 		btnLoadMore.setEnabled(false);
 		textLoadMore.setText("载入中。。。");
 
-		Request request = Server.requestBuilderWithPath("goods/" + (page + 1)).get().build();
+		Request request = Server.requestBuilderWithPath("feeds/" + (page + 1)).get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
 			@Override
