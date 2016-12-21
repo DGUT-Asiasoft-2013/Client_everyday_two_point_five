@@ -53,8 +53,6 @@ public class ProImgView extends View {
 	 public void setBitmap(Bitmap bitmap){
 		 	try {
 		 		if(bitmap == null){
-		 			
-		 	
 				paint = new Paint();
 				paint.setColor(Color.GRAY);
 				paint.setStyle(Paint.Style.STROKE);
@@ -80,8 +78,8 @@ public class ProImgView extends View {
 	 }
 	 
 
-	 public void load(Goods pro){
-		 load(Server.serverAddress+ pro.getGoods_img());
+	 public void load(Goods goods){
+		 load(Server.serverAddress+ goods.getGoods_img());
 		
 	 }
 	 public void load(String url){

@@ -1,26 +1,39 @@
 package com.example.fiveyuanstore.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Comment {
+public class Comment implements Serializable{
+	/*id
+	 *商品id
+	 *订单id
+	 *内容
+	 *创建时间 */
 	int id,
-	com_id,
+	goods_id,
 	order_id;
-	
+	User author;
+	public User getAuthor() {
+		return author;
+	}
+	public void setAuthor(User author) {
+		this.author = author;
+	}
 	String content;
 	Date createDate;
 	public int getId() {
 		return id;
 	}
+	public int getGoods_id() {
+		return goods_id;
+	}
+	public void setGoods_id(int goods_id) {
+		this.goods_id = goods_id;
+	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getCom_id() {
-		return com_id;
-	}
-	public void setCom_id(int com_id) {
-		this.com_id = com_id;
-	}
+
 	public int getOrder_id() {
 		return order_id;
 	}

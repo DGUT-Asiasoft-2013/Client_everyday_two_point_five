@@ -7,10 +7,17 @@ import java.io.Serializable;
  * 付款人数
  * 商品价格
  * 产品*/
-public class SaleItem implements Serializable{
+public class SaleItem extends Goods implements Serializable{
 	
 	Goods goods;
+	User user;
 	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	public Goods getGoods() {
 		return goods;
 	}
