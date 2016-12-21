@@ -84,7 +84,8 @@ public class RegisterActivity extends Activity {
 		String passwordRepeat = fragInputCellPasswordRepeat.getText();
 		
 		if (!password.equals(passwordRepeat)) {
-			new AlertDialog.Builder(RegisterActivity.this)
+			new AlertDialog
+			.Builder(RegisterActivity.this)
 			.setMessage("两次密码输入不一致")
 			.setPositiveButton("好", null)
 			.show();
@@ -116,7 +117,7 @@ public class RegisterActivity extends Activity {
 		}	
 
 		Request request = Server.requestBuilderWithPath("register")
-				.method("POST", null)
+				.method("post", null)
 				.post(requestBodyBuilder.build())
 				.build();
 

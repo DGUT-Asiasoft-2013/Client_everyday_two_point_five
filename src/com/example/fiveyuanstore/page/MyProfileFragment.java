@@ -139,7 +139,7 @@ public class MyProfileFragment extends Fragment {
 		
 		OkHttpClient client = Server.getClient();
 		Request request = Server.requestBuilderWithPath("me")
-				.method("get", null)
+				.method("GET", null)
 				.build();
 		
 		client.newCall(request).enqueue(new Callback() {
@@ -183,13 +183,12 @@ public class MyProfileFragment extends Fragment {
 
 
 
-	protected void onResponse(Call arg0, User user) {
-		textView.setVisibility(View.VISIBLE);
+	protected void onResponse(Call arg0, User user) {		
 		progress.setVisibility(View.GONE);
 		avatar.load(user);
-		textView.setText(user.getUser_name());
+		textView.setVisibility(View.VISIBLE);	
 		textView.setTextColor(Color.BLACK);
-		
+		textView.setText(user.getUser_name());
 		
 	}
 	protected void onFailuer(Call arg0, Exception e) {
