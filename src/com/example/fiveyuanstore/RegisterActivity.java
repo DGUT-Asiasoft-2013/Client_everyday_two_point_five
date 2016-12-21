@@ -84,40 +84,49 @@ public class RegisterActivity extends Activity {
 
 		String password = fragInputCellPassword.getText();
 		String passwordRepeat = fragInputCellPasswordRepeat.getText();
-
+		
 		if (!password.equals(passwordRepeat)) {
-			new AlertDialog.Builder(RegisterActivity.this).setMessage("两次密码输入不一致").setPositiveButton("好", null).show();
+			new AlertDialog.Builder(RegisterActivity.this)
+			.setMessage("两次密码输入不一致")
+			.setPositiveButton("好", null)
+			.show();
 			return;
 		}
-
-		password = MD5.getMD5(password);
-
+		
+		password = MD5.getMD5(password);		
+		
 		String account = fragInputCellAccount.getText();
 		String name = fragInputCellName.getText();
 		String email = fragInputEmailAddress.getText();
-
-		MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
-				.addFormDataPart("name", name).addFormDataPart("account", account).addFormDataPart("email", email)
-				.addFormDataPart("passwordHash", password);
+		
+		OkHttpClient client = Server.getClient();
+		
+		MultipartBody.Builder requestBodyBuilder = new MultipartBody.Builder()
+				.setType(MultipartBody.FORM)
+				.addFormDataPart("name", name)
+				.addFormDataPart("account", account)
+				.addFormDataPart("email", email)
+				.addFormDataPart("passwordHash", password);		
 
 		if (fragInputAvatar.getPngData() != null) {
-			builder.addFormDataPart("avatar", "avatar",
-					RequestBody.create(MediaType.parse("image/png"), fragInputAvatar.getPngData()));
-		}
+			requestBodyBuilder
+			.addFormDataPart(
+					"avatar", "avatar",
+					RequestBody
+					.create(MediaType.parse("image/png"),
+							fragInputAvatar.getPngData()));
+		}	
 
-		RequestBody requestBody = builder.build();
-		OkHttpClient client = Server.getClient();
-
-		Request request = Server.requestBuilderWithPath("register").method("POST", requestBody).post(requestBody)
+		Request request = Server.requestBuilderWithPath("register")
+				.method("POST", null)
+				.post(requestBodyBuilder.build())
 				.build();
 
-		final ProgressDialog progressD = new ProgressDialog(RegisterActivity.this);
-		progressD.setCancelable(false);
-		progressD.setTitle("提示");
-		progressD.setMessage("请稍后");
-		progressD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		progressD.setCanceledOnTouchOutside(false);
-		progressD.show();
+		final ProgressDialog progressDialog = new ProgressDialog(RegisterActivity.this);
+		progressDialog.setMessage("Please Waitting...");
+		progressDialog.setCanceledOnTouchOutside(false);
+		progressDialog.setCancelable(false);
+		progressDialog.show();
 
 		client.newCall(request).enqueue(new Callback() {
 
@@ -126,7 +135,7 @@ public class RegisterActivity extends Activity {
 
 				runOnUiThread(new Runnable() {
 					public void run() {
-						progressD.dismiss();
+						progressDialog.dismiss();
 						try {
 							new AlertDialog.Builder(RegisterActivity.this).setNegativeButton("OK", null)
 									.setTitle("注册成功").setMessage(arg1.body().string()).show();
@@ -143,7 +152,7 @@ public class RegisterActivity extends Activity {
 			public void onFailure(Call arg0, final IOException e) {
 				runOnUiThread(new Runnable() {
 					public void run() {
-						progressD.dismiss();
+						progressDialog.dismiss();
 
 						new AlertDialog.Builder(RegisterActivity.this).setNegativeButton("OK", null).setTitle("注册失败")
 								.setMessage(e.toString()).show();

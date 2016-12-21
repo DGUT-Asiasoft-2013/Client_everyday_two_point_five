@@ -103,6 +103,7 @@ public class CommodityFragment extends Fragment {
 
 			 textContent.setText(goods.getText());
 			 goodsName.setText(goods.getTitle());
+			 money.setText(goods.getText());
 			 //img.load(goods);
 
 			 String dateStr=DateFormat.format("yyyy-MM-dd hh:mm",goods.getCreateDate()).toString();
@@ -149,13 +150,13 @@ public class CommodityFragment extends Fragment {
 	}
 	
 	void reload(){
-		Request request=Server.requestBuilderWithPath("/goods/").get().build();
+		Request request=Server.requestBuilderWithPath("goods").get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
 			
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
 				try{
-				final Page<Goods> data=new ObjectMapper().readValue(arg1.body().toString(),
+				final Page<Goods> data=new ObjectMapper().readValue(arg1.body().string(),
 						new TypeReference<Page<Goods>>() {
 				});
 				getActivity().runOnUiThread(new Runnable() {
