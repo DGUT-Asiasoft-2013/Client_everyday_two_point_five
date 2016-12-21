@@ -125,7 +125,7 @@ public class SellerFragment extends Fragment {
 	}
 	
 	void reload(int page){
-		Request request = Server.requestBuilderWithPath("/goods/"+(page)).get().build();
+		Request request = Server.requestBuilderWithPath("/feeds/"+(page)).get().build();
 		
 		Server.getClient().newCall(request).enqueue(new Callback() {
 			
@@ -162,8 +162,8 @@ public class SellerFragment extends Fragment {
 
 		MultipartBody.Builder body = new MultipartBody.Builder()
 				.setType(MultipartBody.FORM)
-				.addFormDataPart("text", searchText1)
-				;
+				.addFormDataPart("text", searchText1);
+		
 		RequestBody requestBody = body.build();
 
 		Request request = Server.requestBuilderWithPath("/search")
@@ -207,7 +207,7 @@ public class SellerFragment extends Fragment {
 	protected void addNewGoods() {
 		Intent itt = new Intent(getActivity(), AddProductActivity.class);
 		startActivity(itt);
-		reload(0);
+		
 	}
 
 

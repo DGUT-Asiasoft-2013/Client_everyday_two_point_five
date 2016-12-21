@@ -6,9 +6,14 @@ package com.example.fiveyuanstore;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.example.fiveyuanstore.entity.Goods;
+
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
@@ -20,6 +25,8 @@ import android.widget.TextView;
  */
 
 public class GoodsContentActivity extends Activity {
+	
+	private Goods goods;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +43,14 @@ public class GoodsContentActivity extends Activity {
 		TextView money=(TextView) findViewById(R.id.money);
 		ListView listView=(ListView) findViewById(R.id.goods_comment);
 		
-		name.setText("小二机长");
-		title.setText("芝华仕头等舱 功能沙发 美式沙发真皮 小户型客厅沙发组合8753");		
-		content.setText("芝华仕头等舱 功能沙发 美式沙发真皮 小户型客厅沙发组合8753");
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日   HH:mm:ss");
-		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
-		String str = formatter.format(curDate);
-		date.setText(str);
-		money.setText("合计：9999元");
+		goods=(Goods) getIntent().getSerializableExtra("pos");
+		
+		title.setText(goods.getTitle());
+		//name.setText(goods.getUser_id());
+		String dateStr = DateFormat.format("yyyy-MM-dd hh:mm",goods.getCreateDate()).toString();
+		date.setText(dateStr);
+		money.setText(Float.toString(goods.getPrice()));
+		content.setText(goods.getText());
 		
 		findViewById(R.id.btn_buy).setOnClickListener(new OnClickListener() {
 			

@@ -103,6 +103,8 @@ public class CommodityFragment extends Fragment {
 
 			 textContent.setText(goods.getText());
 			 goodsName.setText(goods.getTitle());
+			 money.setText(Float.toString(goods.getPrice()));
+			 
 			 //img.load(goods);
 
 			 String dateStr=DateFormat.format("yyyy-MM-dd hh:mm",goods.getCreateDate()).toString();
@@ -149,13 +151,13 @@ public class CommodityFragment extends Fragment {
 	}
 	
 	void reload(){
-		Request request=Server.requestBuilderWithPath("goods").get().build();
+		Request request=Server.requestBuilderWithPath("feeds").get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
 			
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
 				try{
-				final Page<Goods> data=new ObjectMapper().readValue(arg1.body().toString(),
+				final Page<Goods> data=new ObjectMapper().readValue(arg1.body().string(),
 						new TypeReference<Page<Goods>>() {
 				});
 				getActivity().runOnUiThread(new Runnable() {
@@ -173,7 +175,7 @@ public class CommodityFragment extends Fragment {
 					
 					@Override
 					public void run() {
-						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()).show();						
+						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()+"111111").show();						
 					}
 				});
 			}
@@ -185,7 +187,7 @@ public class CommodityFragment extends Fragment {
 					
 					@Override
 					public void run() {
-						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()).show();
+						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()+"22").show();
 						
 					}
 				});
@@ -215,21 +217,21 @@ public class CommodityFragment extends Fragment {
 				});
 
 				try {
-					final Page<Goods> feeds = new ObjectMapper().readValue(arg1.body().string(),
+					final Page<Goods> goods = new ObjectMapper().readValue(arg1.body().string(),
 							new TypeReference<Page<Goods>>() {
 							});
-					if (feeds.getNumber() > page) {
+					if (goods.getNumber() > page) {
 
 						getActivity().runOnUiThread(new Runnable() {
 
 							@Override
 							public void run() {
 								if (data == null) {
-									data = feeds.getContent();
+									data = goods.getContent();
 								} else {
-									data.addAll(feeds.getContent());
+									data.addAll(goods.getContent());
 								}
-								page = feeds.getNumber();
+								page = goods.getNumber();
 								listAdapter.notifyDataSetChanged();
 							}
 						});

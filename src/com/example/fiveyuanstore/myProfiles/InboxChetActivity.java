@@ -18,7 +18,7 @@ public class InboxChetActivity extends Activity {
 	
 	ListView listView;
 	Boolean isSend=false;
-	int int_test=5;
+	int int_test=8;
 	String str_text;
 	
 	@Override
@@ -27,6 +27,9 @@ public class InboxChetActivity extends Activity {
 		setContentView(R.layout.activity_inbox_chat);
 		listView=(ListView)findViewById(R.id.inbox_chat_list);
 		listView.setAdapter(listAdapter);
+		//listView.smoothScrollToPosition(listView.getCount() - 1);
+		listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+		listView.setStackFromBottom(true);		//滚动到最后一行
 	}
 
 	
@@ -65,13 +68,13 @@ public class InboxChetActivity extends Activity {
 		@Override
 		public long getItemId(int position) {
 			// TODO Auto-generated method stub
-			return 0;
+			return position;
 		}
 		
 		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
-			return int_test;
+			return position;
 		}
 		
 		@Override

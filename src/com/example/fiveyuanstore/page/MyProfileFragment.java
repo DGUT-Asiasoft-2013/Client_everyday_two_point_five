@@ -2,14 +2,20 @@ package com.example.fiveyuanstore.page;
 
 
 
+import java.io.IOException;
+
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.StoreActivity;
+import com.example.fiveyuanstore.api.Server;
+import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.fragment.list.TextListFragment;
 import com.example.fiveyuanstore.fragment.list.TextListFragment.OnNewClickedListener;
 import com.example.fiveyuanstore.fragment.widgets.AvatarView;
 import com.example.fiveyuanstore.myProfiles.InboxActivity;
 import com.example.fiveyuanstore.myProfiles.PasswordChangeActivity;
 import com.example.fiveyuanstore.myProfiles.WalletActivity;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -23,6 +29,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MyProfileFragment extends Fragment {
 	View view;
@@ -126,12 +137,66 @@ public class MyProfileFragment extends Fragment {
 		
 		//从服务器获取信息
 		
+		OkHttpClient client = Server.getClient();
+		Request request = Server.requestBuilderWithPath("me")
+				.method("get", null)
+				.build();
+		
+		client.newCall(request).enqueue(new Callback() {
+			
+			@Override
+			public void onResponse(final Call arg0, Response arg1) throws IOException {
+				try {
+					final User user = new ObjectMapper().readValue(arg1.body().bytes(), User.class);
+					getActivity().runOnUiThread(new Runnable() {
+						public void run() {
+							MyProfileFragment.this.onResponse(arg0,user);
+						}
+					});					
+				} catch (final Exception e) {
+					getActivity().runOnUiThread(new Runnable() {
+						public void run() {
+							MyProfileFragment.this.onFailuer(arg0, e);
+						}
+					});
+				}
+				
+			}
+			
+			@Override
+			public void onFailure(final Call arg0, final IOException arg1) {
+				getActivity().runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						MyProfileFragment.this.onFailuer(arg0, arg1);
+						
+					}
+				});
+				
+			}
+		});
+		
+		
+
+	}
+
+
+
+	protected void onResponse(Call arg0, User user) {
 		textView.setVisibility(View.VISIBLE);
 		progress.setVisibility(View.GONE);
-		
-		textView.setText("进击的机长");
+		avatar.load(user);
+		textView.setText(user.getUser_name());
 		textView.setTextColor(Color.BLACK);
 		
-		avatar.load();
+		
+	}
+	protected void onFailuer(Call arg0, Exception e) {
+		textView.setVisibility(View.VISIBLE);
+		progress.setVisibility(View.GONE);
+		textView.setTextColor(Color.RED);
+		textView.setText(e.getMessage());
+		
 	}
 }
