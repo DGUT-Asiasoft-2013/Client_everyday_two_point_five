@@ -9,7 +9,6 @@ import com.example.fiveyuanstore.ChangeActivity;
 import com.example.fiveyuanstore.CommentActivity;
 import com.example.fiveyuanstore.OrderHandlerActivity;
 import com.example.fiveyuanstore.R;
-import com.example.fiveyuanstore.SellerActivity;
 import com.example.fiveyuanstore.StoreActivity;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.CustomFAB;
@@ -56,7 +55,7 @@ public class SellerFragment extends Fragment {
 	
 	Button addGoods;
 	EditText txt1;
-	protected Integer page = 0;
+	Integer page = 0;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// 商品列表
@@ -74,6 +73,14 @@ public class SellerFragment extends Fragment {
 			search = (Button) view.findViewById(R.id.search);
 			final String searchText1 = txt1.getText().toString();
 			Toast.makeText(getActivity(),  "searchTxt is: "+searchText1 , Toast.LENGTH_LONG).show();
+			//加载更多
+			txtLoadmore.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					loadMore();
+				}
+			});
 			search.setOnClickListener(new View.OnClickListener() {
 
 				@Override
@@ -106,6 +113,50 @@ public class SellerFragment extends Fragment {
 		return view;
 	}
 
+	void loadMore(){
+		reload(page++);
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		reload(0);
+		
+	}
+	
+	void reload(int page){
+		Request request = Server.requestBuilderWithPath("/goods/"+(page)).get().build();
+		
+		Server.getClient().newCall(request).enqueue(new Callback() {
+			
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				try {
+					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(), new TypeReference<Page<Goods>>(){});
+
+					getActivity().runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							SellerFragment.this.page = data.getNumber();
+							SellerFragment.this.data = data.getContent();
+							adapter.notifyDataSetInvalidated();
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+					Log.d("SellerFragment", e.getMessage());
+				}
+
+			}
+			
+			@Override
+			public void onFailure(Call arg0, final IOException e) {
+				Log.d("SellerFragment", e.getMessage());
+			}
+		});
+		
+	}
 	public void search(String searchText1) {
 
 
@@ -156,6 +207,7 @@ public class SellerFragment extends Fragment {
 	protected void addNewGoods() {
 		Intent itt = new Intent(getActivity(), AddProductActivity.class);
 		startActivity(itt);
+		reload(0);
 	}
 
 
