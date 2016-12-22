@@ -62,7 +62,7 @@ public class PictureInputCellFragment extends Fragment{
 	
    void onImageViewClicked(){
 	   
-	   String[] items={"ÅÄÕÕ","Ïà²á"};
+	   String[] items={"æ‹ç…§","ç›¸å†Œ"};
 	   
 		new AlertDialog.Builder(getActivity())
 		.setTitle(labelText.getText())
@@ -83,7 +83,7 @@ public class PictureInputCellFragment extends Fragment{
 				}				
 			}
 		})
-		.setNegativeButton("È¡Ïû", null)
+		.setNegativeButton("å–æ¶ˆ", null)
 		.show();
 	}
 	
