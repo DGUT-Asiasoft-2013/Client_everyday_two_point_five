@@ -46,7 +46,6 @@ public class SellerFragment extends Fragment {
 	View view;
 	View loadMore;
 	List<Goods> data;
-	SaleItem si;
 	EditText search_txt;
 	String searchTxt;
 	Integer page = 0;
@@ -136,9 +135,7 @@ public class SellerFragment extends Fragment {
 					});
 				} catch (Exception e) {
 					e.printStackTrace();
-
 				}
-
 			}
 
 			@Override
@@ -146,7 +143,6 @@ public class SellerFragment extends Fragment {
 				Log.d("SellerFragment", e.getMessage());
 			}
 		});
-
 	}
 
 	public void search() {
@@ -155,8 +151,10 @@ public class SellerFragment extends Fragment {
 				searchTxt);
 
 		RequestBody requestBody = body.build();
-
-		Request request = Server.requestBuilderWithPath("/search").method("POST", requestBody).post(requestBody)
+		Request request = Server
+				.requestBuilderWithPath("/search")
+				.method("POST", requestBody)
+				.post(requestBody)
 				.build();
 
 		Server.getClient().newCall(request).enqueue(new Callback() {
@@ -179,15 +177,12 @@ public class SellerFragment extends Fragment {
 					});
 				} catch (Exception e) {
 					e.printStackTrace();
-					Log.d("SellerFragment", e.getMessage());
 				}
-
 			}
 
 			@Override
 			public void onFailure(Call arg0, IOException e) {
 				Log.d("SellerFragment", e.getMessage());
-
 			}
 		});
 	}
@@ -215,11 +210,7 @@ public class SellerFragment extends Fragment {
 			TextView txt_title = (TextView) view.findViewById(R.id.title);
 			TextView price = (TextView) view.findViewById(R.id.price);
 			ProImgView img = (ProImgView) view.findViewById(R.id.goods_img);
-			/*
-			 * change = (Button) view.findViewById(R.id.change); down = (Button)
-			 * view.findViewById(R.id.down); getComment = (Button)
-			 * view.findViewById(R.id.getComment);
-			 */
+
 			Goods pro = data.get(position);
 			
 			img.load(pro);
@@ -228,23 +219,6 @@ public class SellerFragment extends Fragment {
 			String priceText = Float.toString(val);
 			price.setText(priceText);
 
-			/*
-			 * try { change.setOnClickListener(new View.OnClickListener() {
-			 * 
-			 * @Override public void onClick(View v) { change(); } });
-			 * 
-			 * down.setOnClickListener(new View.OnClickListener() {
-			 * 
-			 * @Override public void onClick(View v) { down(); }
-			 * 
-			 * });
-			 * 
-			 * getComment.setOnClickListener(new View.OnClickListener() {
-			 * 
-			 * @Override public void onClick(View v) { getComment(); }
-			 * 
-			 * }); } catch (Exception e1) { e1.printStackTrace(); }
-			 */
 			return view;
 		}
 
