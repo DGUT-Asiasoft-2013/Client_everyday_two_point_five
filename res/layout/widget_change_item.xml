@@ -111,14 +111,13 @@
 			      
 			    ></Button>
     	       
-    	       
     	        <Button
-    	        android:id="@+id/getComment"
-    	        android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:text="收到评论"
-			     android:layout_weight="1"
-			      android:textSize="12sp"
-			    ></Button>
+    	            android:id="@+id/getComment"
+    	            android:layout_width="wrap_content"
+    	            android:layout_height="wrap_content"
+    	            android:layout_weight="1"
+    	            android:text="刷新评论"
+    	            android:textSize="12sp" >
+</Button>
     	   </LinearLayout>
 </LinearLayout>
