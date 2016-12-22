@@ -231,7 +231,7 @@ public class SellerFragment extends Fragment {
 			 */
 			Goods pro = data.get(position);
 			
-			img.load(si.getGoods());
+			img.load(pro);
 			txt_title.setText(pro.getTitle());
 			float val = pro.getPrice();
 			String priceText = Float.toString(val);
