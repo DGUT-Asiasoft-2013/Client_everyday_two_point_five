@@ -37,9 +37,10 @@ public class BuyActivity extends Activity {
 		fragInputCellPhone=(SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.phone);
 		fragInputCellAddress=(SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.address);
 		fragInputCount = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.count);
-		
+	
 		TextView money=(TextView) findViewById(R.id.money);
 		goods =(Goods) getIntent().getSerializableExtra("goods");
+		price = goods.getPrice();
 		money.setText("$"+price.toString());
 		findViewById(R.id.btn_submit).setOnClickListener(new OnClickListener() {
 			
@@ -74,7 +75,9 @@ public class BuyActivity extends Activity {
 		
 		//price
 		price = goods.getPrice();
-		int goods_id = goods.getId();
+		
+		String goods_id = goods.getGoods_id();
+	
 		String name = 	fragInputCellName.getText();
 		String phone = fragInputCellPhone.getText();
 		String address = fragInputCellAddress.getText();
@@ -86,6 +89,7 @@ public class BuyActivity extends Activity {
 				.addFormDataPart("phone",phone)
 				.addFormDataPart("address", address)
 				.addFormDataPart("amount", amount)
+				.addFormDataPart("goods_id", goods_id)
 				.build();
 		
 		Request request=  Server.requestBuilderWithPath("/buy/"+goods_id).post(requestBody).build();

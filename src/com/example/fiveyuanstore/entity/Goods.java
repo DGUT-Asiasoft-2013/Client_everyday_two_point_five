@@ -11,9 +11,15 @@ public class Goods extends BaseEntity implements Serializable{
 	String title;
 	User user;
 
-	int  payNumber,goods_count; 
+	int  payNumber,goods_count;
+	String goods_id, sale_name; 
+	public String getSale_name() {
+		return sale_name;
+	}
+	public void setSale_name(String sale_name) {
+		this.sale_name = sale_name;
+	}
 	String goods_img, text;
-
 	Date createDate;
 	Date editDate;
 	float price;
@@ -26,6 +32,12 @@ public class Goods extends BaseEntity implements Serializable{
 	}
 	
 	
+	public String getGoods_id() {
+		return goods_id;
+	}
+	public void setGoods_id(String goods_id) {
+		this.goods_id = goods_id;
+	}
 	public int getPayNumber() {
 		return payNumber;
 	}
