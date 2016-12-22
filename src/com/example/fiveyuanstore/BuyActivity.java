@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 public class BuyActivity extends Activity {
 	
@@ -22,7 +23,8 @@ public class BuyActivity extends Activity {
 		fragInputCellName=(SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.name);
 		fragInputCellPhone=(SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.phone);
 		fragInputCellAddress=(SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.address);
-		
+		TextView textView=(TextView) findViewById(R.id.money);
+		textView.setText(getIntent().getStringExtra("money"));
 		findViewById(R.id.btn_submit).setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -46,6 +48,7 @@ public class BuyActivity extends Activity {
 		
 		fragInputCellAddress.setLabelText("收货地址");
 		fragInputCellAddress.setHintText("请输入收货地址");
+		
 	}
 	
 	void submit(){

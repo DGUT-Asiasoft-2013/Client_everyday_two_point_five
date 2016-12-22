@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.example.fiveyuanstore.entity.Goods;
+import com.example.fiveyuanstore.myProfiles.InboxChetActivity;
 
 import java.util.Date;
 
@@ -49,7 +50,8 @@ public class GoodsContentActivity extends Activity {
 		//name.setText(goods.getUser_id());
 		String dateStr = DateFormat.format("yyyy-MM-dd hh:mm",goods.getCreateDate()).toString();
 		date.setText(dateStr);
-		money.setText(Float.toString(goods.getPrice()));
+		final String price=Float.toString(goods.getPrice());
+		money.setText(price);
 		content.setText(goods.getText());
 		
 		findViewById(R.id.btn_buy).setOnClickListener(new OnClickListener() {
@@ -57,6 +59,17 @@ public class GoodsContentActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent itnt=new Intent(GoodsContentActivity.this,BuyActivity.class);
+				itnt.putExtra("money",price);
+				startActivity(itnt);
+				
+			}
+		});
+		
+		findViewById(R.id.call).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent itnt=new Intent(GoodsContentActivity.this,InboxChetActivity.class);
 				startActivity(itnt);
 				
 			}
