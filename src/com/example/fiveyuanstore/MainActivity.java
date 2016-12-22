@@ -11,7 +11,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		try{
-			Thread.sleep(3000);
+			Thread.sleep(5000);
 		}catch (InterruptedException e) {
 			e.printStackTrace();
 		}
