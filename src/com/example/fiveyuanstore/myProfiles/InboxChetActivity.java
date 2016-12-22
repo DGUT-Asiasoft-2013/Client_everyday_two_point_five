@@ -40,24 +40,25 @@ public class InboxChetActivity extends Activity {
 	String str_text;
 	EditText inboxSendText;
 	Goods goods;
-	User user;
+	String send_name;
+	TextView inboxChatTo;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		goods=(Goods) getIntent().getSerializableExtra("goods");
-		if(goods==null)
-			user=(User) getIntent().getSerializableExtra("user");
-		else
-			user=goods.getUser();
+		//获取联络人
+		send_name=(String) getIntent().getSerializableExtra("name");
 		
 		setContentView(R.layout.activity_inbox_chat);
 		listView=(ListView)findViewById(R.id.inbox_chat_list);
 		inboxSendText=(EditText)findViewById(R.id.inbox_send_text);
+		inboxChatTo=(TextView)findViewById(R.id.inbox_chat_to);
 		listView.setAdapter(listAdapter);
 		listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 		listView.setStackFromBottom(true);		//滚动到最后一行
+		
+		inboxChatTo.setText("与 "+send_name+" 对话");
 		
 		findViewById(R.id.btn_inbox_send).setOnClickListener(new OnClickListener() {
 			
@@ -77,7 +78,7 @@ public class InboxChetActivity extends Activity {
 		MultipartBody.Builder builder=new MultipartBody.Builder()
 				.setType(MultipartBody.FORM)
 				.addFormDataPart("content", inboxSendText.getText().toString())
-				.addFormDataPart("send_id", user.getId()+"")
+				.addFormDataPart("send_name", send_name)
 				.addFormDataPart("createDate",curDate.toString());
 		RequestBody requestBody = builder.build();
 		OkHttpClient client = Server.getClient();

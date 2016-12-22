@@ -48,7 +48,7 @@ public class GoodsContentActivity extends Activity {
 		goods=(Goods) getIntent().getSerializableExtra("pos");
 		
 		title.setText(goods.getTitle()+"(库存："+goods.getGoods_count()+")");
-		//name.setText("卖家："+goods.getUser_id());
+		name.setText("卖家："+goods.getSale_name());
 		String dateStr = DateFormat.format("yyyy-MM-dd hh:mm",goods.getCreateDate()).toString();
 		date.setText(dateStr);
 		img.load(goods);
@@ -71,7 +71,7 @@ public class GoodsContentActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent itnt=new Intent(GoodsContentActivity.this,InboxChetActivity.class);
-				itnt.putExtra("goods",goods);
+				itnt.putExtra("name",goods.getSale_name());
 				startActivity(itnt);
 				
 			}
