@@ -4,6 +4,7 @@ package com.example.fiveyuanstore.page;
 
 import java.io.IOException;
 
+import com.example.fiveyuanstore.OrderHandlerActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.StoreActivity;
 import com.example.fiveyuanstore.api.Server;
@@ -41,7 +42,7 @@ public class MyProfileFragment extends Fragment {
 	TextView textView;					//显示用户名
 	ProgressBar progress;				//显示载入图案
 	AvatarView avatar;					//显示用户头像
-	TextListFragment inbox,wallet,password_changes;//私信、钱包、密码修改
+	TextListFragment inbox,wallet,password_changes, order_handler;//私信、钱包、密码修改
 	
 	
 	@Override
@@ -54,7 +55,7 @@ public class MyProfileFragment extends Fragment {
 			inbox=(TextListFragment)getFragmentManager().findFragmentById(R.id.inbox);
 			wallet=(TextListFragment)getFragmentManager().findFragmentById(R.id.wallet);
 			password_changes=(TextListFragment)getFragmentManager().findFragmentById(R.id.password_changes);
-			
+			order_handler = (TextListFragment)getFragmentManager().findFragmentById(R.id.order_handler);
 			inbox.setOnNewClickedListener(new OnNewClickedListener() {
 				
 				@Override
@@ -81,6 +82,15 @@ public class MyProfileFragment extends Fragment {
 					startActivity(intent);
 
 				}
+			});
+			order_handler.setOnNewClickedListener(new OnNewClickedListener(){
+
+				@Override
+				public void onNewClicked() {
+					Intent intent = new Intent(getActivity(), OrderHandlerActivity.class);
+					startActivity(intent);
+				}
+				
 			});
 			
 			view.findViewById(R.id.btn_log_off).setOnClickListener(new OnClickListener() {
@@ -131,7 +141,7 @@ public class MyProfileFragment extends Fragment {
 		inbox.setLabelText("私信");
 		wallet.setLabelText("钱包");
 		password_changes.setLabelText("修改密码");
-		
+		order_handler.setLabelText("订单处理");
 		textView.setVisibility(View.GONE);			//隐藏
 		progress.setVisibility(View.VISIBLE);		//显示
 		

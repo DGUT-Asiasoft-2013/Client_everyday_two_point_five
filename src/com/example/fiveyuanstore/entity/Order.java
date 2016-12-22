@@ -1,3 +1,4 @@
+
 package com.example.fiveyuanstore.entity;
 
 import java.io.Serializable;
@@ -10,9 +11,19 @@ public class Order extends DateRecord implements Serializable{
 	id,
 	status,
 	count,
-	order_num,
-	goods_id;
+	order_num;
+	Goods goods;
+	User user;
+	String title;
 	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -21,10 +32,13 @@ public class Order extends DateRecord implements Serializable{
 		this.id = id;
 	}
 
-	User user;
+	public Goods getGoods() {
+		return goods;
+	}
 
-
-	
+	public void setGoods(Goods goods) {
+		this.goods = goods;
+	}
 
 	public User getUser() {
 		return user;
@@ -59,13 +73,6 @@ public class Order extends DateRecord implements Serializable{
 		this.order_num = order_num;
 	}
 
-	public int getGoods_id() {
-		return goods_id;
-	}
-
-	public void setGoods_id(int goods_id) {
-		this.goods_id = goods_id;
-	}
 
 	
 	

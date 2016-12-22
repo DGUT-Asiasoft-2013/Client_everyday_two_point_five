@@ -1,5 +1,9 @@
 package com.example.fiveyuanstore;
 
+import java.io.IOException;
+
+import com.example.fiveyuanstore.api.Server;
+import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment;
 
 import android.app.Activity;
@@ -7,6 +11,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MultipartBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class BuyActivity extends Activity {
 	
@@ -15,7 +26,7 @@ public class BuyActivity extends Activity {
 	SimpleTextInputCellFragment fragInputCellAddress;
 
 	Float price;
-	
+	Goods goods;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub//
@@ -26,7 +37,7 @@ public class BuyActivity extends Activity {
 		fragInputCellPhone=(SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.phone);
 		fragInputCellAddress=(SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.address);
 		TextView money=(TextView) findViewById(R.id.money);
-		price=getIntent().getFloatExtra("money",-1f);
+		goods=(Goods) getIntent().getSerializableExtra("goods");
 		money.setText("$"+price.toString());
 		findViewById(R.id.btn_submit).setOnClickListener(new OnClickListener() {
 			
@@ -55,11 +66,48 @@ public class BuyActivity extends Activity {
 	}
 	
 	void submit(){
-		//price
-		fragInputCellName.getText();
-		fragInputCellPhone.getText();
-		fragInputCellAddress.getText();
 		
+		//price
+		price = goods.getPrice();
+		int goods_id = goods.getId();
+		String name = 	fragInputCellName.getText();
+		String phone = fragInputCellPhone.getText();
+		String address = fragInputCellAddress.getText();
+		
+		
+		RequestBody requestBody = new MultipartBody.Builder()
+				.setType(MultipartBody.FORM)
+				.addFormDataPart("name",name)
+				.addFormDataPart("phone",phone).addFormDataPart("address", address).build();
+		
+		Request request=  Server.requestBuilderWithPath("/buy/"+goods_id).post(requestBody).build();
+		
+		Server.getClient().newCall(request).enqueue(new Callback() {
+			
+			@Override
+			public void onResponse(Call arg0, final Response res) throws IOException {
+				runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						Toast.makeText(getApplication(), "购买成功", Toast.LENGTH_LONG).show();
+					}
+				});
+			}
+			
+			@Override
+			public void onFailure(Call arg0,final IOException e) {
+				runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						Toast.makeText(getApplication(), "购买失败"+ e.getMessage(), Toast.LENGTH_LONG).show();
+					}
+				});
+			}
+		});
+		
+	
 		finish();
 	}
 }

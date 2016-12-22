@@ -11,11 +11,9 @@ import com.example.fiveyuanstore.OrderHandlerActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.StoreActivity;
 import com.example.fiveyuanstore.api.Server;
-import com.example.fiveyuanstore.customViews.CustomFAB;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.Page;
-import com.example.fiveyuanstore.entity.SaleItem;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -61,7 +59,6 @@ public class SellerFragment extends Fragment {
 
 			TextView txtLoadmore = (TextView) loadMore.findViewById(R.id.more_text);
 			Button addGoods = (Button) view.findViewById(R.id.addProduct);
-			CustomFAB order = (CustomFAB) view.findViewById(R.id.order);
 			Button search = (Button) view.findViewById(R.id.search);
 			search_txt = (EditText) view.findViewById(R.id.searchText);
 
@@ -96,14 +93,7 @@ public class SellerFragment extends Fragment {
 				}
 			});
 
-			order.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					Intent itt = new Intent(getActivity(), OrderHandlerActivity.class);
-					startActivity(itt);
-				}
-			});
+			
 
 		}
 		return view;
@@ -221,6 +211,7 @@ public class SellerFragment extends Fragment {
 			ProImgView img = (ProImgView) view.findViewById(R.id.goods_img);
 
 			Goods pro = data.get(position);
+			
 			img.load(pro);
 			txt_title.setText(pro.getTitle());
 			float val = pro.getPrice();
