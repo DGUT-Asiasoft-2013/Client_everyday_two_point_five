@@ -12,6 +12,7 @@ import com.example.fiveyuanstore.entity.SaleItem;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -32,7 +33,7 @@ public class GoodsInfo extends Activity {
 	View headerview;
 	TextView title,text,price,payNumber;
 	
-	Button change, down;
+	Button change, down,getComment;
 	 ListView list;
 	 ProImgView avatar;
 	 TextView txtDate;
@@ -65,10 +66,88 @@ public class GoodsInfo extends Activity {
 		  avatar.load(goods.getGoods());
 		  list.addHeaderView(headerview);
 		  
+		  change = (Button) headerview.findViewById(R.id.change);
+		  down =  (Button) headerview.findViewById(R.id.down);
+		  getComment =  (Button) headerview.findViewById(R.id.getComment);
 		  
+		  change.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				change();
+			}
+
+			
+		});
+		  
+		  down.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				down();
+			}
+		});
+		  
+		  getComment.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// 刷新评论
+				getComment();
+			}
+		});
 	}
 	
+	protected void getComment() {
+	reload();
+	}
+
+	protected void down() {
+		//下架
+Request request = Server.requestBuilderWithPath("/goods/"+ goods.getId()+"/deleteGoods").delete().build();
+		
+		Server.getClient().newCall(request).enqueue(new Callback() {
+			
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						Toast.makeText(getApplicationContext(), "删除"+goods.getTitle()+"成功", Toast.LENGTH_LONG).show();
+						
+					}
+				});
+			}
+			
+			@Override
+			public void onFailure(Call arg0,final IOException e) {
+				runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+						toAllGoods();
+					}
+
+					
+				});
+			}
+		});
+		
+	}
+
+	public void change() {
+		Intent itt = new Intent(this, ChangeActivity.class);
+		startActivity(itt);
+	}
 	
+	 void toAllGoods() {
+		Intent itt = new Intent(this, StoreActivity.class);
+		startActivity(itt);
+	}
 	BaseAdapter adapter = new BaseAdapter(){
 		@Override
 		public View getView(int position, View view, ViewGroup parent) {

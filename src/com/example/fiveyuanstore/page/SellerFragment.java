@@ -212,11 +212,6 @@ public class SellerFragment extends Fragment {
 
 
 	BaseAdapter adapter = new BaseAdapter(){
-
-
-
-
-
 		@SuppressLint("InflateParams")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
@@ -251,31 +246,34 @@ public class SellerFragment extends Fragment {
 				e.printStackTrace();
 			}
 
-			change.setOnClickListener(new View.OnClickListener() {
+			try {
+				change.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						change();
+					}
+				});
 
-				@Override
-				public void onClick(View v) {
-					change();
-				}
-			});
+				down.setOnClickListener(new View.OnClickListener() {
 
-			down.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						down();
+					}
 
-				@Override
-				public void onClick(View v) {
-					down();
-				}
+				});
 
-			});
+				getComment.setOnClickListener(new View.OnClickListener() {
 
-			getComment.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						getComment();
+					}
 
-				@Override
-				public void onClick(View v) {
-					getComment();
-				}
-
-			});
+				});
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 
 
 
