@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:orientation="vertical" >
- 
+
             <fragment
                 android:id="@+id/name"
                 android:layout_width="match_parent"
@@ -35,22 +35,26 @@
                 class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
                 tools:layout="@layout/fragment_inputcell_simpletext" />
 
-            <TextView
-                android:id="@+id/pay_money"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="支付总额" />
-
-            <TextView
-                android:id="@+id/money"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
-                android:gravity="bottom"
+                android:layout_height="wrap_content" 
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/pay_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="支付总额" />
+
+                <TextView
+                    android:id="@+id/money"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:gravity="bottom"
+                    android:text="money" >
+                </TextView>
                 
-                android:text="money"
-                
-                 >
-            </TextView>
+            </FrameLayout>
 
             <Button
                 android:id="@+id/btn_submit"

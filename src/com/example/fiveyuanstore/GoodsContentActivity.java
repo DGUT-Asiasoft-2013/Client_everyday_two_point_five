@@ -46,20 +46,20 @@ public class GoodsContentActivity extends Activity {
 		
 		goods=(Goods) getIntent().getSerializableExtra("pos");
 		
-		title.setText(goods.getTitle());
-		//name.setText(goods.getUser_id());
+		title.setText(goods.getTitle()+"(库存："+goods.getGoods_count()+")");
+		//name.setText("卖家："+goods.getUser_id());
 		String dateStr = DateFormat.format("yyyy-MM-dd hh:mm",goods.getCreateDate()).toString();
 		date.setText(dateStr);
-		final String price=Float.toString(goods.getPrice());
-		money.setText(price);
-		content.setText(goods.getText());
+		
+		money.setText("$"+Float.toString(goods.getPrice()));
+		content.setText("商品简介："+goods.getText());
 		
 		findViewById(R.id.btn_buy).setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				Intent itnt=new Intent(GoodsContentActivity.this,BuyActivity.class);
-				itnt.putExtra("money",price);
+				itnt.putExtra("money",goods.getPrice());
 				startActivity(itnt);
 				
 			}

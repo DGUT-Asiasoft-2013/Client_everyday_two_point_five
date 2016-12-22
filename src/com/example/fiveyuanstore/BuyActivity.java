@@ -14,6 +14,8 @@ public class BuyActivity extends Activity {
 	SimpleTextInputCellFragment fragInputCellPhone;
 	SimpleTextInputCellFragment fragInputCellAddress;
 
+	Float price;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub//
@@ -23,8 +25,9 @@ public class BuyActivity extends Activity {
 		fragInputCellName=(SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.name);
 		fragInputCellPhone=(SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.phone);
 		fragInputCellAddress=(SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.address);
-		TextView textView=(TextView) findViewById(R.id.money);
-		textView.setText(getIntent().getStringExtra("money"));
+		TextView money=(TextView) findViewById(R.id.money);
+		price=getIntent().getFloatExtra("money",-1f);
+		money.setText("$"+price.toString());
 		findViewById(R.id.btn_submit).setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -52,6 +55,11 @@ public class BuyActivity extends Activity {
 	}
 	
 	void submit(){
+		//price
+		fragInputCellName.getText();
+		fragInputCellPhone.getText();
+		fragInputCellAddress.getText();
 		
+		finish();
 	}
 }

@@ -19,12 +19,16 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.AdapterView.OnItemClickListener;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -40,19 +44,19 @@ public class CommodityFragment extends Fragment {
 
 	View btnLoadMore;
 	TextView textLoadMore;
-	
+	EditText search_text;
 	List<Goods> data;
 	int page = 0;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {//
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		if (view == null) {
 			view = inflater.inflate(R.layout.fragment_page_commodity, null);
 
 			btnLoadMore = inflater.inflate(R.layout.widget_load_more_button, null);
 			textLoadMore = (TextView) btnLoadMore.findViewById(R.id.text);
-			
+			search_text = (EditText) view.findViewById(R.id.search_text);
 			listView = (ListView) view.findViewById(R.id.goods_list);
 			listView.addFooterView(btnLoadMore);
 			listView.setAdapter(listAdapter);
@@ -70,6 +74,15 @@ public class CommodityFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					loadmore();
+				}
+			});
+
+			view.findViewById(R.id.btn_search).setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					search();
+
 				}
 			});
 
@@ -97,18 +110,16 @@ public class CommodityFragment extends Fragment {
 			// PictureView img = (PictureView)
 			// view.findViewById(R.id.goods_img);
 
+			Goods goods = data.get(position);
 
+			textContent.setText(goods.getText());
+			goodsName.setText(goods.getTitle());
+			money.setText("$" + Float.toString(goods.getPrice()));
 
-			 Goods goods=data.get(position);
+			// img.load(goods);
 
-			 textContent.setText(goods.getText());
-			 goodsName.setText(goods.getTitle());
-			 money.setText(Float.toString(goods.getPrice()));
-			 
-			 //img.load(goods);
-
-			 String dateStr=DateFormat.format("yyyy-MM-dd hh:mm",goods.getCreateDate()).toString();
-			 textDate.setText(dateStr);
+			String dateStr = DateFormat.format("yyyy-MM-dd hh:mm", goods.getCreateDate()).toString();
+			textDate.setText(dateStr);
 
 			return view;
 		}
@@ -117,86 +128,86 @@ public class CommodityFragment extends Fragment {
 		public long getItemId(int position) {
 			// TODO Auto-generated method stub
 			return position;
-			
+
 		}
 
 		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
 			return data.get(position);
-			
+
 		}
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub		
-			return data==null?0:data.size();
-			
+			// TODO Auto-generated method stub
+			return data == null ? 0 : data.size();
+
 		}
 	};
 
 	void onItemClicked(int position) {
-		 Goods pos = data.get(position);
+		Goods pos = data.get(position);
 
-		Intent itnt = new Intent(this.getActivity(), GoodsContentActivity.class);	
+		Intent itnt = new Intent(this.getActivity(), GoodsContentActivity.class);
 		itnt.putExtra("pos", (Serializable) pos);
 		startActivity(itnt);
 	}
-	
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		reload();
 	}
-	
-	void reload(){
-		Request request=Server.requestBuilderWithPath("feeds").get().build();
+
+	void reload() {
+		Request request = Server.requestBuilderWithPath("feeds").get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
-			
+
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
-				try{
-				final Page<Goods> data=new ObjectMapper().readValue(arg1.body().string(),
-						new TypeReference<Page<Goods>>() {
-				});
-				getActivity().runOnUiThread(new Runnable() {
-					
-					@Override
-					public void run() {
-						listAdapter.notifyDataSetInvalidated();
-						CommodityFragment.this.page=data.getNumber();
-						CommodityFragment.this.data=data.getContent();						
-					}
-				});
-				}catch(final Exception e){
-					
+				try {
+					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(),
+							new TypeReference<Page<Goods>>() {
+							});
 					getActivity().runOnUiThread(new Runnable() {
-					
-					@Override
-					public void run() {
-						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()+"111111").show();						
-					}
-				});
+
+						@Override
+						public void run() {
+							listAdapter.notifyDataSetInvalidated();
+							CommodityFragment.this.page = data.getNumber();
+							CommodityFragment.this.data = data.getContent();
+						}
+					});
+				} catch (final Exception e) {
+
+					getActivity().runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							new AlertDialog.Builder(getActivity()).setMessage(e.getMessage() + "111111").show();
+						}
+					});
+				}
 			}
-			}
-			
+
 			@Override
 			public void onFailure(Call arg0, final IOException e) {
 				getActivity().runOnUiThread(new Runnable() {
-					
+
 					@Override
 					public void run() {
-						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()+"22").show();
-						
+						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage() + "22").show();
+
 					}
 				});
-				
+
 			}
 		});
-	
+
 	}
-	
+
 	void loadmore() {
 		btnLoadMore.setEnabled(false);
 		textLoadMore.setText("载入中。。。");
@@ -255,5 +266,9 @@ public class CommodityFragment extends Fragment {
 
 			}
 		});
+	}
+
+	void search() {
+		search_text.getText();
 	}
 }
