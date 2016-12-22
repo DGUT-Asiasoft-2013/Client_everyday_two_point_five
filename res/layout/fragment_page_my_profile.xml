@@ -60,6 +60,14 @@
            	android:layout_below="@id/wallet"
             class="com.example.fiveyuanstore.fragment.list.TextListFragment"
             tools:layout="@layout/fragment_text_list"/>
+        
+          <fragment 
+            android:id="@+id/order_handler"
+            android:layout_width="match_parent"
+           	android:layout_height="wrap_content"
+           	android:layout_below="@id/password_changes"
+            class="com.example.fiveyuanstore.fragment.list.TextListFragment"
+            tools:layout="@layout/fragment_text_list"/>
 
         <Button
             android:id="@+id/btn_log_off"

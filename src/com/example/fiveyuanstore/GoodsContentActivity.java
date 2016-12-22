@@ -59,7 +59,7 @@ public class GoodsContentActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent itnt=new Intent(GoodsContentActivity.this,BuyActivity.class);
-				itnt.putExtra("money",goods.getPrice());
+				itnt.putExtra("goods",goods);
 				startActivity(itnt);
 				
 			}

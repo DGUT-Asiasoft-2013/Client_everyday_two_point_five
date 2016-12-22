@@ -11,7 +11,6 @@ import com.example.fiveyuanstore.OrderHandlerActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.StoreActivity;
 import com.example.fiveyuanstore.api.Server;
-import com.example.fiveyuanstore.customViews.CustomFAB;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.Page;
