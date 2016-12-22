@@ -43,7 +43,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class SellerFragment extends Fragment {
-	private CustomFAB order;
 	View view;
 	View loadMore;
 	TextView txtLoadmore,price; 
@@ -65,7 +64,6 @@ public class SellerFragment extends Fragment {
 			txtLoadmore =  (TextView) loadMore.findViewById(R.id.more_text);
 
 			addGoods = (Button) view.findViewById(R.id.addProduct);
-			order = (CustomFAB) view.findViewById(R.id.order);
 			listview = (ListView) view.findViewById(R.id.list);
 			listview.addFooterView(loadMore);
 			listview.setAdapter(adapter);
@@ -101,14 +99,7 @@ public class SellerFragment extends Fragment {
 				}
 			});
 
-			order.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					Intent itt=  new Intent(getActivity(), OrderHandlerActivity.class);
-					startActivity(itt);
-				}
-			});
+			
 
 
 		}

@@ -3,20 +3,15 @@ package com.example.fiveyuanstore.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Goods implements Serializable{
+public class Goods extends BaseEntity implements Serializable{
 
 	/* 商品名称，
 	 * 商品编号
 	 * 图片*/
 	String title;
 	User user;
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	int id, payNumber,goods_count; 
+
+	int  payNumber,goods_count; 
 	String goods_img, text;
 
 	Date createDate;
@@ -38,7 +33,12 @@ public class Goods implements Serializable{
 		this.payNumber = payNumber;
 	}
 
-
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public float getPrice() {
 		return price;
@@ -58,12 +58,7 @@ public class Goods implements Serializable{
 	public void setEditDate(Date editDate) {
 		this.editDate = editDate;
 	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 	
 	public String getGoods_img() {
 		return goods_img;

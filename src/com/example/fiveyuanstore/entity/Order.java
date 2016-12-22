@@ -73,13 +73,6 @@ public class Order extends DateRecord implements Serializable{
 		this.order_num = order_num;
 	}
 
-	public int getGoods_id() {
-		return goods_id;
-	}
-
-	public void setGoods_id(int goods_id) {
-		this.goods_id = goods_id;
-	}
 
 	
 	
