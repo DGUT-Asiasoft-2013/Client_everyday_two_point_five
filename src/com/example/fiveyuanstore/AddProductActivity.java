@@ -67,22 +67,26 @@ public class AddProductActivity extends Activity {
 	  	 
 	   	 MultipartBody.Builder builder = new MultipartBody.Builder()
 	   		        .setType(MultipartBody.FORM)
-	   		     .addFormDataPart("title",title)
+	   		        .addFormDataPart("title",title)
 	   		        .addFormDataPart("text",text)
 	   		        .addFormDataPart("price",price)
 	   		        .addFormDataPart("goods_count",goods_count);
         
       	 if(frag5.getPngData() != null){
-      		 builder.addFormDataPart("goods_img","goods_img",
-      				 RequestBody.create(MediaType.parse("image/png"), frag5.getPngData()));
+      		 builder
+      		 .addFormDataPart(
+      				 "goods_img","goods_img",
+      				 RequestBody
+      				 .create(MediaType.parse("image/png"), 
+      						 frag5.getPngData()));
       	 }
       	 
-      	 RequestBody requestBody = builder.build();
+      	 
   	 OkHttpClient client = Server.getClient();
   	 
   	 Request request = Server.requestBuilderWithPath("/addGoods")
 				.method("post", null)
-				.post(requestBody)
+				.post(builder.build())
 				.build();
 		
    	 

@@ -42,45 +42,42 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class SellerFragment extends Fragment {
+
 	View view;
 	View loadMore;
-	TextView txtLoadmore,price; 
-	ListView listview;
-	Button search;
-	TextView txt_title;
 	List<Goods> data;
 	SaleItem si;
+	EditText search_txt;
 	String searchTxt;
-	Button addGoods;
-	EditText txt1;
 	Integer page = 0;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// 商品列表
-		if(view == null){
+		if (view == null) {
+
 			view = inflater.inflate(R.layout.fragment_seller, null);
 			loadMore = inflater.inflate(R.layout.widget_load_root_more_btn, null);
-			txtLoadmore =  (TextView) loadMore.findViewById(R.id.more_text);
 
-			addGoods = (Button) view.findViewById(R.id.addProduct);
-			listview = (ListView) view.findViewById(R.id.list);
+			TextView txtLoadmore = (TextView) loadMore.findViewById(R.id.more_text);
+			Button addGoods = (Button) view.findViewById(R.id.addProduct);
+			Button search = (Button) view.findViewById(R.id.search);
+			search_txt = (EditText) view.findViewById(R.id.searchText);
+
+			ListView listview = (ListView) view.findViewById(R.id.list);
 			listview.addFooterView(loadMore);
 			listview.setAdapter(adapter);
-			txt1 =(EditText) view.findViewById(R.id.searchText);
-			search = (Button) view.findViewById(R.id.search);
-		
-			//加载更多
+
+			// 加载更多
 			txtLoadmore.setOnClickListener(new View.OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					loadMore();
 				}
 			});
-	
-			search.setOnClickListener(new View.OnClickListener() {
 
-			
+			search.setOnClickListener(new View.OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
@@ -100,32 +97,33 @@ public class SellerFragment extends Fragment {
 
 			
 
-
 		}
 		return view;
 	}
 
-	void loadMore(){
+	void loadMore() {
 		reload(page++);
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
 		reload(0);
-		Toast.makeText(getActivity(),  "searchTxt is: "+txt1.getText().toString() , Toast.LENGTH_LONG).show();
-		
+		Toast.makeText(getActivity(), "searchTxt is: " + search_txt.getText().toString(), Toast.LENGTH_LONG).show();
+
 	}
-	
-	void reload(int page){
-		Request request = Server.requestBuilderWithPath("/feeds/"+(page)).get().build();
-		
+
+	void reload(int page) {
+		Request request = Server.requestBuilderWithPath("/feeds/" + (page)).get().build();
+
 		Server.getClient().newCall(request).enqueue(new Callback() {
-			
+
 			@Override
-			public void onResponse(Call arg0,final Response arg1) throws IOException {
+			public void onResponse(Call arg0, final Response arg1) throws IOException {
 				try {
-					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(), new TypeReference<Page<Goods>>(){});
+					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(),
+							new TypeReference<Page<Goods>>() {
+							});
 
 					getActivity().runOnUiThread(new Runnable() {
 
@@ -138,44 +136,43 @@ public class SellerFragment extends Fragment {
 					});
 				} catch (Exception e) {
 					e.printStackTrace();
-				
+
 				}
 
 			}
-			
+
 			@Override
 			public void onFailure(Call arg0, final IOException e) {
 				Log.d("SellerFragment", e.getMessage());
 			}
 		});
-		
+
 	}
+
 	public void search() {
-		searchTxt = txt1.getText().toString();
-		MultipartBody.Builder body = new MultipartBody.Builder()
-				.setType(MultipartBody.FORM)
-				.addFormDataPart("text", searchTxt);
-		
+		searchTxt = search_txt.getText().toString();
+		MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("text",
+				searchTxt);
+
 		RequestBody requestBody = body.build();
 
-		Request request = Server.requestBuilderWithPath("/search")
-				.method("POST", requestBody)
-				.post(requestBody)
+		Request request = Server.requestBuilderWithPath("/search").method("POST", requestBody).post(requestBody)
 				.build();
-
 
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
 				try {
-					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(), new TypeReference<Page<Goods>>(){});
+					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(),
+							new TypeReference<Page<Goods>>() {
+							});
 
 					getActivity().runOnUiThread(new Runnable() {
 
 						@Override
 						public void run() {
-							SellerFragment.this.page    = data.getNumber();
+							SellerFragment.this.page = data.getNumber();
 							SellerFragment.this.data = data.getContent();
 							adapter.notifyDataSetInvalidated();
 						}
@@ -184,7 +181,6 @@ public class SellerFragment extends Fragment {
 					e.printStackTrace();
 					Log.d("SellerFragment", e.getMessage());
 				}
-
 
 			}
 
@@ -199,89 +195,62 @@ public class SellerFragment extends Fragment {
 	protected void addNewGoods() {
 		Intent itt = new Intent(getActivity(), AddProductActivity.class);
 		startActivity(itt);
-		
+
 	}
 
-
-	BaseAdapter adapter = new BaseAdapter(){
+	BaseAdapter adapter = new BaseAdapter() {
 		@SuppressLint("InflateParams")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View view = null;
 
-			if(convertView == null){
+			if (convertView == null) {
 				LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 				view = inflater.inflate(R.layout.widget_product_item, null);
 
-			}
-			else{
+			} else {
 				view = convertView;
 			}
 
-
-			txt_title = (TextView) view.findViewById(R.id.title);
-			price =(TextView) view.findViewById(R.id.price);
-
-			/*change = (Button)  view.findViewById(R.id.change);
-			down = (Button)  view.findViewById(R.id.down);
-			getComment  = (Button)  view.findViewById(R.id.getComment);
-*/
+			TextView txt_title = (TextView) view.findViewById(R.id.title);
+			TextView price = (TextView) view.findViewById(R.id.price);
+			ProImgView img = (ProImgView) view.findViewById(R.id.goods_img);
+			/*
+			 * change = (Button) view.findViewById(R.id.change); down = (Button)
+			 * view.findViewById(R.id.down); getComment = (Button)
+			 * view.findViewById(R.id.getComment);
+			 */
 			Goods pro = data.get(position);
-			ProImgView avatar =(ProImgView) view.findViewById(R.id.avatar);
+			
+			img.load(pro);
 			txt_title.setText(pro.getTitle());
+			float val = pro.getPrice();
+			String priceText = Float.toString(val);
+			price.setText(priceText);
 
-			try{
-				float val = pro.getPrice();
-				String priceText = Float.toString(val);
-				price.setText(priceText);	
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-
-			/*try {
-				change.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						change();
-					}
-				});
-
-				down.setOnClickListener(new View.OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						down();
-					}
-
-				});
-
-				getComment.setOnClickListener(new View.OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						getComment();
-					}
-
-				});
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-*/
-
-
-			try {
-				avatar.load(si.getGoods());
-			} catch (Exception e) {
-				e.printStackTrace();
-				Log.d("aaaavatar",e.toString());
-			}
-
+			/*
+			 * try { change.setOnClickListener(new View.OnClickListener() {
+			 * 
+			 * @Override public void onClick(View v) { change(); } });
+			 * 
+			 * down.setOnClickListener(new View.OnClickListener() {
+			 * 
+			 * @Override public void onClick(View v) { down(); }
+			 * 
+			 * });
+			 * 
+			 * getComment.setOnClickListener(new View.OnClickListener() {
+			 * 
+			 * @Override public void onClick(View v) { getComment(); }
+			 * 
+			 * }); } catch (Exception e1) { e1.printStackTrace(); }
+			 */
 			return view;
 		}
 
 		@Override
 		public int getCount() {
-			return data == null ? 0 :data.size();
+			return data == null ? 0 : data.size();
 		}
 
 		@Override
@@ -295,43 +264,45 @@ public class SellerFragment extends Fragment {
 		}
 
 	};
-	//订单处理
+
+	// 订单处理
 	private void orderHandler() {
 		Intent itt = new Intent(getActivity(), OrderHandlerActivity.class);
 		startActivity(itt);
 	}
-	//修改
+
+	// 修改
 	void change() {
 		Intent itt = new Intent(getActivity(), ChangeActivity.class);
 		startActivity(itt);
 
 	}
-	//获得评论
+
+	// 获得评论
 	private void getComment() {
 		Intent itt = new Intent(getActivity(), CommentActivity.class);
 		startActivity(itt);
 
 	}
-	//下架
+
+	// 下架
 	void down() {
 		new AlertDialog.Builder(getActivity()).setMessage("确定要下架改商品吗？")
-		.setPositiveButton("取消",new DialogInterface.OnClickListener() {
+				.setPositiveButton("取消", new DialogInterface.OnClickListener() {
 
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
+					}
+				}).setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
-			}
-		})
-		.setPositiveButton("OK",new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				Toast.makeText(getActivity(), "商品已下架", Toast.LENGTH_LONG).show();
-			}
-		}).show();
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Toast.makeText(getActivity(), "商品已下架", Toast.LENGTH_LONG).show();
+					}
+				}).show();
 	}
-	//Intent 点击进入详情页面
+	// Intent 点击进入详情页面
 
 	public void listviewClicked(int position) {
 		Goods pro = data.get(position);
@@ -340,7 +311,5 @@ public class SellerFragment extends Fragment {
 		startActivity(itt);
 
 	}
-
-
 
 }

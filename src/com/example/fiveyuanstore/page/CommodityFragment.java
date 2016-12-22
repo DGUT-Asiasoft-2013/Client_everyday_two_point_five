@@ -9,6 +9,7 @@ import java.util.List;
 import com.example.fiveyuanstore.GoodsContentActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
+import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -107,8 +108,7 @@ public class CommodityFragment extends Fragment {
 			TextView goodsName = (TextView) view.findViewById(R.id.goods_name);
 			TextView money = (TextView) view.findViewById(R.id.money);
 			TextView textDate = (TextView) view.findViewById(R.id.date);
-			// PictureView img = (PictureView)
-			// view.findViewById(R.id.goods_img);
+			ProImgView img = (ProImgView)view.findViewById(R.id.goods_img);
 
 			Goods goods = data.get(position);
 
@@ -116,7 +116,7 @@ public class CommodityFragment extends Fragment {
 			goodsName.setText(goods.getTitle());
 			money.setText("$" + Float.toString(goods.getPrice()));
 
-			// img.load(goods);
+			img.load(goods);
 
 			String dateStr = DateFormat.format("yyyy-MM-dd hh:mm", goods.getCreateDate()).toString();
 			textDate.setText(dateStr);
@@ -186,7 +186,7 @@ public class CommodityFragment extends Fragment {
 
 						@Override
 						public void run() {
-							new AlertDialog.Builder(getActivity()).setMessage(e.getMessage() + "111111").show();
+							new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()).show();
 						}
 					});
 				}
@@ -198,7 +198,7 @@ public class CommodityFragment extends Fragment {
 
 					@Override
 					public void run() {
-						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage() + "22").show();
+						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()).show();
 
 					}
 				});
