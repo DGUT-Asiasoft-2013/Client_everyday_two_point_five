@@ -3,16 +3,16 @@ package com.example.fiveyuanstore.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Order implements Serializable{
-	int id,
-	user_id,
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class Order extends DateRecord implements Serializable{
+	int
+	id,
 	status,
 	count,
 	order_num,
 	goods_id;
 	
-	Date createDate;
-
 	public int getId() {
 		return id;
 	}
@@ -21,12 +21,17 @@ public class Order implements Serializable{
 		this.id = id;
 	}
 
-	public int getUser_id() {
-		return user_id;
+	User user;
+
+
+	
+
+	public User getUser() {
+		return user;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public int getStatus() {
@@ -45,6 +50,7 @@ public class Order implements Serializable{
 		this.count = count;
 	}
 
+
 	public int getOrder_num() {
 		return order_num;
 	}
@@ -61,13 +67,7 @@ public class Order implements Serializable{
 		this.goods_id = goods_id;
 	}
 
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
+	
 	
 	
 	

@@ -48,11 +48,11 @@ public class SellerFragment extends Fragment {
 	View loadMore;
 	TextView txtLoadmore,price; 
 	ListView listview;
-	Button change, down, getComment,search;
+	Button search;
 	TextView txt_title;
 	List<Goods> data;
 	SaleItem si;
-	
+	String searchTxt;
 	Button addGoods;
 	EditText txt1;
 	Integer page = 0;
@@ -71,8 +71,7 @@ public class SellerFragment extends Fragment {
 			listview.setAdapter(adapter);
 			txt1 =(EditText) view.findViewById(R.id.searchText);
 			search = (Button) view.findViewById(R.id.search);
-			final String searchText1 = txt1.getText().toString();
-			Toast.makeText(getActivity(),  "searchTxt is: "+searchText1 , Toast.LENGTH_LONG).show();
+		
 			//加载更多
 			txtLoadmore.setOnClickListener(new View.OnClickListener() {
 				
@@ -81,12 +80,15 @@ public class SellerFragment extends Fragment {
 					loadMore();
 				}
 			});
+	
 			search.setOnClickListener(new View.OnClickListener() {
+
+			
 
 				@Override
 				public void onClick(View v) {
 					// 搜索
-					search(searchText1);
+					search();
 
 				}
 			});
@@ -121,6 +123,7 @@ public class SellerFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		reload(0);
+		Toast.makeText(getActivity(),  "searchTxt is: "+txt1.getText().toString() , Toast.LENGTH_LONG).show();
 		
 	}
 	
@@ -157,12 +160,11 @@ public class SellerFragment extends Fragment {
 		});
 		
 	}
-	public void search(String searchText1) {
-
-
+	public void search() {
+		searchTxt = txt1.getText().toString();
 		MultipartBody.Builder body = new MultipartBody.Builder()
 				.setType(MultipartBody.FORM)
-				.addFormDataPart("text", searchText1);
+				.addFormDataPart("text", searchTxt);
 		
 		RequestBody requestBody = body.build();
 
@@ -230,10 +232,10 @@ public class SellerFragment extends Fragment {
 			txt_title = (TextView) view.findViewById(R.id.title);
 			price =(TextView) view.findViewById(R.id.price);
 
-			change = (Button)  view.findViewById(R.id.change);
+			/*change = (Button)  view.findViewById(R.id.change);
 			down = (Button)  view.findViewById(R.id.down);
 			getComment  = (Button)  view.findViewById(R.id.getComment);
-
+*/
 			Goods pro = data.get(position);
 			ProImgView avatar =(ProImgView) view.findViewById(R.id.avatar);
 			txt_title.setText(pro.getTitle());
@@ -246,7 +248,7 @@ public class SellerFragment extends Fragment {
 				e.printStackTrace();
 			}
 
-			try {
+			/*try {
 				change.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -274,7 +276,7 @@ public class SellerFragment extends Fragment {
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-
+*/
 
 
 			try {

@@ -15,6 +15,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Shader;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -29,7 +30,6 @@ import okhttp3.Response;
 public class ProImgView extends View {
 	public Canvas canvas;
 	public Shader shader;
-	float srcWidth, srcHeight;
 	public ProImgView(Context context) {
 		super(context);
 	
@@ -66,8 +66,7 @@ public class ProImgView extends View {
 				 paint.setAntiAlias(true);
 				 radius = Math.min(bitmap.getWidth(), bitmap.getHeight())/2;
 				 
-				 srcWidth = bitmap.getWidth();
-				 srcHeight = bitmap.getHeight();
+				
 		 		}
 				invalidate();
 		 
@@ -128,14 +127,14 @@ public class ProImgView extends View {
 			if(paint!=null){
 				canvas.save();
 				
+				
+		
 				float dstW = getWidth();
 				float dstH = getHeight();
 				
-				float scaleX = srcWidth/dstW;
-				float scaleY = srcHeight/dstH;
-				
-				canvas.scale(1/scaleX, 1/scaleY);
-				canvas.drawCircle(getWidth()/2, getHeight()/2, Math.min(srcWidth, srcHeight)/2, paint);	
+		
+			
+				canvas.drawRect(150, 75, 250, 120, paint);
 				
 				canvas.restore();
 	}

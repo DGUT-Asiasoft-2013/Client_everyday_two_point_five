@@ -81,7 +81,7 @@ public class AddProductActivity extends Activity {
   	 OkHttpClient client = Server.getClient();
   	 
   	 Request request = Server.requestBuilderWithPath("/addGoods")
-				.method("POST", requestBody)
+				.method("post", null)
 				.post(requestBody)
 				.build();
 		
