@@ -24,7 +24,7 @@ public class BuyActivity extends Activity {
 	SimpleTextInputCellFragment fragInputCellName;
 	SimpleTextInputCellFragment fragInputCellPhone;
 	SimpleTextInputCellFragment fragInputCellAddress;
-
+	SimpleTextInputCellFragment fragInputCount;
 	Float price;
 	Goods goods;
 	@Override
@@ -36,8 +36,10 @@ public class BuyActivity extends Activity {
 		fragInputCellName=(SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.name);
 		fragInputCellPhone=(SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.phone);
 		fragInputCellAddress=(SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.address);
+		fragInputCount = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.count);
+		
 		TextView money=(TextView) findViewById(R.id.money);
-		goods=(Goods) getIntent().getSerializableExtra("goods");
+		goods =(Goods) getIntent().getSerializableExtra("goods");
 		money.setText("$"+price.toString());
 		findViewById(R.id.btn_submit).setOnClickListener(new OnClickListener() {
 			
@@ -63,6 +65,9 @@ public class BuyActivity extends Activity {
 		fragInputCellAddress.setLabelText("收货地址");
 		fragInputCellAddress.setHintText("请输入收货地址");
 		
+		fragInputCount.setLabelText("数量");
+		fragInputCount.setHintText("购买数量");
+		
 	}
 	
 	void submit(){
@@ -73,12 +78,15 @@ public class BuyActivity extends Activity {
 		String name = 	fragInputCellName.getText();
 		String phone = fragInputCellPhone.getText();
 		String address = fragInputCellAddress.getText();
-		
+		String amount = fragInputCount.getText();
 		
 		RequestBody requestBody = new MultipartBody.Builder()
 				.setType(MultipartBody.FORM)
 				.addFormDataPart("name",name)
-				.addFormDataPart("phone",phone).addFormDataPart("address", address).build();
+				.addFormDataPart("phone",phone)
+				.addFormDataPart("address", address)
+				.addFormDataPart("amount", amount)
+				.build();
 		
 		Request request=  Server.requestBuilderWithPath("/buy/"+goods_id).post(requestBody).build();
 		

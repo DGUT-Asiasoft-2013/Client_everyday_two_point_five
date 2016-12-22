@@ -6,7 +6,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Order extends DateRecord implements Serializable{
+public class MyOrder extends DateRecord implements Serializable{
 	int
 	id,
 	status,
@@ -16,6 +16,33 @@ public class Order extends DateRecord implements Serializable{
 	User user;
 	String title;
 	
+
+	String name, phone, address;
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public String getTitle() {
 		return title;
 	}

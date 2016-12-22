@@ -115,7 +115,7 @@ public class ProImgView extends View {
 			float dstW = getWidth();
 			float dstH = getHeight();
 
-			canvas.drawRect(150, 75, 250, 120, paint);
+			canvas.drawRect(0, 150, 0, 150, paint);
 
 			canvas.restore();
 		}
