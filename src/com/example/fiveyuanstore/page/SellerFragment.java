@@ -2,11 +2,14 @@
 package com.example.fiveyuanstore.page;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 import com.example.fiveyuanstore.AddProductActivity;
 import com.example.fiveyuanstore.ChangeActivity;
 import com.example.fiveyuanstore.CommentActivity;
+import com.example.fiveyuanstore.GoodsContentActivity;
+import com.example.fiveyuanstore.GoodsInfo;
 import com.example.fiveyuanstore.OrderHandlerActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.StoreActivity;
@@ -27,12 +30,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MultipartBody;
@@ -66,6 +71,14 @@ public class SellerFragment extends Fragment {
 			listview.addFooterView(loadMore);
 			listview.setAdapter(adapter);
 
+			listview.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					onItemClicked(position);
+
+				}
+			});
 			// 加载更多
 			txtLoadmore.setOnClickListener(new View.OnClickListener() {
 
@@ -90,6 +103,7 @@ public class SellerFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					addNewGoods();
+					reload(0);
 				}
 			});
 
@@ -99,6 +113,15 @@ public class SellerFragment extends Fragment {
 		return view;
 	}
 
+
+	void onItemClicked(int position) {
+		Goods goods = data.get(position);
+
+		Intent itnt = new Intent(this.getActivity(), GoodsInfo.class);
+		itnt.putExtra("goods", (Serializable) goods);
+		startActivity(itnt);
+	}
+	
 	void loadMore() {
 		reload(page++);
 	}
@@ -106,7 +129,7 @@ public class SellerFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		reload(0);
+		reload(page);
 		Toast.makeText(getActivity(), "searchTxt is: " + search_txt.getText().toString(), Toast.LENGTH_LONG).show();
 
 	}

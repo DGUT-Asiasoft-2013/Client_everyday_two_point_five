@@ -43,7 +43,7 @@
         <activity android:name="com.example.fiveyuanstore.myProfiles.InboxChetActivity"></activity>
         <activity android:name="com.example.fiveyuanstore.GoodsContentActivity"></activity>
         <activity android:name="com.example.fiveyuanstore.BuyActivity"></activity>
-        
+              <activity android:name="com.example.fiveyuanstore.GoodsInfo"></activity>
 
     </application>
 

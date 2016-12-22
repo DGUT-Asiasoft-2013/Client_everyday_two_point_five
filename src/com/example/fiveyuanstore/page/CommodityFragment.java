@@ -182,13 +182,13 @@ public class CommodityFragment extends Fragment {
 					});
 				} catch (final Exception e) {
 
-					getActivity().runOnUiThread(new Runnable() {
+				/*	getActivity().runOnUiThread(new Runnable() {
 
 						@Override
 						public void run() {
 							new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()).show();
 						}
-					});
+					});*/
 				}
 			}
 

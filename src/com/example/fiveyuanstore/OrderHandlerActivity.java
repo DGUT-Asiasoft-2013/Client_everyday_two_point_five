@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
+import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.MyOrder;
 import com.example.fiveyuanstore.entity.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -54,8 +55,23 @@ public class OrderHandlerActivity extends Activity {
 		 loadMoreView = LayoutInflater.from(this).inflate(R.layout.widget_load_root_more_btn, null);
 			 list.addFooterView(loadMoreView);
 		txtLoadmore =  (TextView) loadMoreView.findViewById(R.id.more_text);
+		
+		txtLoadmore.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				loadmore();
+			}
+		});
+		
+		reload();
 	}
 	
+
+	
+
+	
+
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -64,7 +80,7 @@ public class OrderHandlerActivity extends Activity {
 	}
 
 	 void reload() {
-			Request request = Server.requestBuilderWithPath("orders")
+			Request request = Server.requestBuilderWithPath("order")
 					.get()
 					.build();
 			
@@ -149,7 +165,6 @@ public class OrderHandlerActivity extends Activity {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
 				
 			}
 			

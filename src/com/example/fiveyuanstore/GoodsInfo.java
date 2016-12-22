@@ -7,11 +7,7 @@ import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Comment;
 import com.example.fiveyuanstore.entity.Goods;
-import com.example.fiveyuanstore.entity.SaleItem;
-
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -29,7 +25,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class GoodsInfo extends Activity {
-	SaleItem goods;
+	Goods goods;
 	View headerview;
 	TextView title,text,price,payNumber;
 	
@@ -44,7 +40,7 @@ public class GoodsInfo extends Activity {
 		
 		setContentView(R.layout.activity_goods_info);
 		
-		 goods = (SaleItem)getIntent().getSerializableExtra("data");
+		 goods = (Goods)getIntent().getSerializableExtra("goods");
 		 headerview = LayoutInflater.from(this).inflate(R.layout.widget_change_item,null);
 		  
 		  title = (TextView) headerview.findViewById(R.id.title);
@@ -63,7 +59,7 @@ public class GoodsInfo extends Activity {
 		  txtDate.setText(dateStr);
 		  
 		  
-		  avatar.load(goods.getGoods());
+		  avatar.load(goods);
 		  list.addHeaderView(headerview);
 		  
 		  change = (Button) headerview.findViewById(R.id.change);
