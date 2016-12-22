@@ -6,6 +6,7 @@ package com.example.fiveyuanstore;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.myProfiles.InboxChetActivity;
 
@@ -40,7 +41,7 @@ public class GoodsContentActivity extends Activity {
 		TextView title=(TextView) findViewById(R.id.title);//商品名
 		TextView date=(TextView) findViewById(R.id.date);
 		TextView content=(TextView) findViewById(R.id.text);
-		//PictureView img=(PictureView) findViewById(R.id.img);//商品图片
+		ProImgView img=(ProImgView) findViewById(R.id.img);//商品图片
 		TextView money=(TextView) findViewById(R.id.money);
 		ListView listView=(ListView) findViewById(R.id.goods_comment);
 		
@@ -50,7 +51,7 @@ public class GoodsContentActivity extends Activity {
 		//name.setText("卖家："+goods.getUser_id());
 		String dateStr = DateFormat.format("yyyy-MM-dd hh:mm",goods.getCreateDate()).toString();
 		date.setText(dateStr);
-		
+		img.load(goods);
 		money.setText("$"+Float.toString(goods.getPrice()));
 		content.setText("商品简介："+goods.getText());
 		

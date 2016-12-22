@@ -35,6 +35,13 @@
                 class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
                 tools:layout="@layout/fragment_inputcell_simpletext" />
 
+            <fragment
+                android:id="@+id/count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+                tools:layout="@layout/fragment_inputcell_simpletext" />
+            
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" 

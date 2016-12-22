@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
-import com.example.fiveyuanstore.entity.Order;
+import com.example.fiveyuanstore.entity.MyOrder;
 import com.example.fiveyuanstore.entity.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +20,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Request;
@@ -29,7 +30,7 @@ public class OrderHandlerActivity extends Activity {
 	TextView title,  goods_num,orderId, txtLoadmore;
 	Button sureSendGoods,cancleOrder;
 	ProImgView  proImg;
-	List<Order> order;
+	List<MyOrder> order;
 	ListView list;
 	View loadMoreView;
 	int page =0;
@@ -73,7 +74,7 @@ public class OrderHandlerActivity extends Activity {
 				public void onResponse(Call arg0, Response res) throws IOException {
 					try {
 						
-						final Page<Order> data = new ObjectMapper().readValue(res.body().string(), new TypeReference<Page<Order>>(){});
+						final Page<MyOrder> data = new ObjectMapper().readValue(res.body().string(), new TypeReference<Page<MyOrder>>(){});
 						runOnUiThread(new Runnable() {
 							
 							@Override
@@ -92,9 +93,14 @@ public class OrderHandlerActivity extends Activity {
 				}
 				
 				@Override
-				public void onFailure(Call arg0, IOException arg1) {
-					// TODO Auto-generated method stub
-					
+				public void onFailure(Call arg0, final IOException e) {
+					runOnUiThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_LONG).show();
+						}
+					});
 				}
 			});
 	}
@@ -119,7 +125,7 @@ public class OrderHandlerActivity extends Activity {
 				});
 				
 				try {
-					final Page<Order> data = new ObjectMapper().readValue(res.body().string(), new TypeReference<Page<Order>>() {});
+					final Page<MyOrder> data = new ObjectMapper().readValue(res.body().string(), new TypeReference<Page<MyOrder>>() {});
 					if(data.getNumber()> page){
 						runOnUiThread(new Runnable() {
 							
@@ -189,7 +195,7 @@ public class OrderHandlerActivity extends Activity {
 				
 			}
 			
-			Order orders = order.get(position);
+			MyOrder orders = order.get(position);
 			ProImgView proImg = (ProImgView) view.findViewById(R.id.proImg);
 			TextView orderId = (TextView) view.findViewById(R.id.orderid);
 			TextView goods_num =(TextView) view.findViewById(R.id.orderNum);

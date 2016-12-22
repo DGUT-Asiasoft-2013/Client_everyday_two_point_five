@@ -120,7 +120,7 @@ public class ProImgView extends View {
  			float scaleX = srcWidth / dstWidth;
  			float scaleY = srcHeight / dstHeight;
 
- 			canvas.scale(1/scaleX, 1/scaleY);
+
  			canvas.drawRect(0,0, srcWidth,srcHeight, paint);
  			
  			canvas.restore();
