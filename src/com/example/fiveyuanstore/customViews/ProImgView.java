@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Shader;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -42,7 +43,7 @@ public class ProImgView extends View {
 	}
 
 	Paint paint;
-	float radius;
+	float srcWidth,srcHeight;
 	Handler mainThreadHandler = new Handler();
 
 	public void setBitmap(Bitmap bitmap) {
@@ -58,8 +59,9 @@ public class ProImgView extends View {
 			paint = new Paint();
 			paint.setShader(new BitmapShader(bitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
 			paint.setAntiAlias(true);
-			radius = Math.min(bitmap.getWidth(), bitmap.getHeight()) / 2;
-
+			//radius = Math.min(bitmap.getWidth(), bitmap.getHeight()) / 2;
+			srcWidth = bitmap.getWidth();
+	 		srcHeight = bitmap.getHeight();
 		}
 		invalidate();
 	}
@@ -112,12 +114,16 @@ public class ProImgView extends View {
 		if (paint != null) {
 			canvas.save();
 
-			float dstW = getWidth();
-			float dstH = getHeight();
+			float dstWidth = getWidth();
+ 			float dstHeight = getHeight();
+ 			
+ 			float scaleX = srcWidth / dstWidth;
+ 			float scaleY = srcHeight / dstHeight;
 
-			canvas.drawRect(150, 75, 250, 120, paint);
-
-			canvas.restore();
+ 			canvas.scale(1/scaleX, 1/scaleY);
+ 			canvas.drawRect(0,0, srcWidth,srcHeight, paint);
+ 			
+ 			canvas.restore();
 		}
 	}
 }
