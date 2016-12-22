@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -135,13 +136,8 @@ public class RegisterActivity extends Activity {
 				runOnUiThread(new Runnable() {
 					public void run() {
 						progressDialog.dismiss();
-						try {
-							new AlertDialog.Builder(RegisterActivity.this).setNegativeButton("OK", null)
-									.setTitle("注册成功").setMessage(arg1.body().string()).show();
-							startLoginActivity();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+						Toast.makeText(getApplication(), "注册成功", Toast.LENGTH_LONG).show();
+						startLoginActivity();
 					}
 
 				});
