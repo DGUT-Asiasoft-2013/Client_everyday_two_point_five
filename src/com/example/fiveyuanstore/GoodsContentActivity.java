@@ -71,6 +71,7 @@ public class GoodsContentActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent itnt=new Intent(GoodsContentActivity.this,InboxChetActivity.class);
+				itnt.putExtra("goods",goods);
 				startActivity(itnt);
 				
 			}
