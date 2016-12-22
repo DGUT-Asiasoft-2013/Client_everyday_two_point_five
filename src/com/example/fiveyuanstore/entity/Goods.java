@@ -9,8 +9,14 @@ public class Goods implements Serializable{
 	 * 商品编号
 	 * 图片*/
 	String title;
-
-	int id,user_id, payNumber,goods_count; 
+	User user;
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	int id, payNumber,goods_count; 
 	String goods_img, text;
 
 	Date createDate;
@@ -58,12 +64,7 @@ public class Goods implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
-	}
+	
 	public String getGoods_img() {
 		return goods_img;
 	}
