@@ -9,7 +9,13 @@ public class Comment extends BaseEntity  implements Serializable{
 	 *订单id
 	 *内容
 	 *创建时间 */
-	String content;
+	String content,	 goods_id;
+	public String getGoods_id() {
+		return goods_id;
+	}
+	public void setGoods_id(String goods_id) {
+		this.goods_id = goods_id;
+	}
 	Date createDate;
 	int
 	order_id;
