@@ -19,6 +19,7 @@ public class Server {
 
 	public static String serverAddress = "http://172.27.15.23:8080/storecenter/";
 
+	
 	static {
 
 
