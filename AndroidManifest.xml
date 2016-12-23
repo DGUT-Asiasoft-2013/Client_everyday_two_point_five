@@ -3,37 +3,94 @@
     package="com.example.fiveyuanstore"
     android:versionCode="1"
     android:versionName="1.0" >
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.READ_USER_DICTIONARY"/>
-	<uses-permission android:name="android.permission.READ_SOCIAL_STREAM"/>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
+    <uses-permission android:name="android.permission.READ_SOCIAL_STREAM" />
+
     <uses-sdk
         android:minSdkVersion="19"
         android:targetSdkVersion="19" />
 
-    <application 
+    <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.fiveyuanstore.LoginActivity"></activity>
-        <activity android:name="com.example.fiveyuanstore.PasswordRecoverActivity"></activity>
-        <activity android:name="com.example.fiveyuanstore.RegisterActivity"></activity>
-        <activity android:name="com.example.fiveyuanstore.StoreActivity"></activity>
-        <activity android:name="com.example.fiveyuanstore.AddProductActivity"></activity>
-        <activity android:name="com.example.fiveyuanstore.ChangeActivity"></activity>
-        <activity android:name="com.example.fiveyuanstore.CommentActivity"></activity>
+        <activity
+            android:name="com.example.fiveyuanstore.LoginActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.PasswordRecoverActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.RegisterActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.StoreActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.AddProductActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.ChangeActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.CommentActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.OrderHandlerActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.SellerActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.myProfiles.WalletActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.myProfiles.InboxActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.myProfiles.PasswordChangeActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.myProfiles.InboxChetActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.GoodsContentActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.BuyActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+    </application>
 
-        <activity android:name="com.example.fiveyuanstore.OrderHandlerActivity"></activity>
+    <!--     <activity android:name="com.example.fiveyuanstore.OrderHandlerActivity"></activity>
 		<activity android:name="com.example.fiveyuanstore.SellerActivity"></activity>
 		
 		
@@ -46,5 +103,5 @@
               <activity android:name="com.example.fiveyuanstore.GoodsInfo"></activity>
 
     </application>
-
+ -->
 </manifest>
