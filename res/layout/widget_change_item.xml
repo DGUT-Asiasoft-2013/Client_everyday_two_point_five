@@ -1,123 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="120dp"
-	      android:orientation="horizontal"
-	      android:weightSum="4" >
-	
+        <TextView
+            android:id="@+id/payNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/text"
+            android:layout_marginTop="17dp"
+            android:layout_weight="2.2"
+            android:text="付款人数"
+            android:textColor="#233333"
+            android:textSize="12sp" />
 
-	    
-	<com.example.fiveyuanstore.customViews.ProImgView
-	    android:id="@+id/avatar"
-	    android:layout_width="68dp"
-	    android:layout_height="68dp"
-	    android:layout_centerInParent="true"
-	    android:layout_weight="0.54" />
+        <com.example.fiveyuanstore.customViews.ProImgView
+            android:id="@+id/avatar"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="0.54" />
 
-	
-	
-	<FrameLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="120dp"
-	      android:orientation="vertical"
-	      android:weightSum="3" >
-	<TextView 
-	      android:id="@+id/title"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="产品名称"
-	    android:textColor="#233333"
-	    android:layout_weight="2.8"
-	    android:layout_marginLeft="10dp"
-	      android:textSize="12sp" />
-	
-	<TextView 
-	      android:id="@+id/date"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="date"
-	    android:textColor="#233333"
-	    android:layout_marginLeft="80dp"
-	      android:textSize="12sp"
-	      android:layout_weight="0.4" />
-	
-    	<LinearLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="40dp"
-	      android:orientation="horizontal"
-	      android:layout_marginTop="35dp"
-	      android:weightSum="4" >
-	      
-    	    
-	   <TextView 
-	       android:id="@+id/price"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="价格"
-	      android:textColor="#233333"
-	    android:layout_weight="2"
-	    android:layout_marginLeft="10dp"
-	      android:textSize="12sp" />
-	      	
-	   <TextView
-	       android:id="@+id/payNumber"
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
-	       android:layout_marginLeft="10dp"
-	       android:layout_weight="2.2"
-	       android:text="付款人数"
-	       android:textColor="#233333"
-	       android:textSize="12sp" />
-    	    
-	      </LinearLayout>
-		
-    	
-			
-		    </FrameLayout>
-	  </LinearLayout>
+        <Button
+            android:id="@+id/freshComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:text="刷新评论"
+            android:textSize="12sp" />
 
-<LinearLayout
-    android:layout_width="252dp"
-    android:layout_height="40dp"
-    android:layout_marginTop="85dp"
-    android:gravity="center_horizontal"
-    android:orientation="horizontal"
-    android:weightSum="3" 
-     android:layout_marginLeft="30dp"
-   >
-	   
-    	    <Button
-    	        android:id="@+id/change"
-    	        android:layout_width="wrap_content"
-    	        android:layout_height="wrap_content"
-    	        android:layout_weight="1"
-    	        android:text="修改"
-    	         android:textSize="12sp" 
-    	           >
-			</Button>
-    	    
-    	       <Button
-    	        android:id="@+id/down"
-    	        android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:text="下架"
-			     android:layout_weight="1"
-			      android:textSize="12sp" 
-			      
-			    ></Button>
-    	       
-    	        <Button
-    	            android:id="@+id/getComment"
-    	            android:layout_width="wrap_content"
-    	            android:layout_height="wrap_content"
-    	            android:layout_weight="1"
-    	            android:text="刷新评论"
-    	            android:textSize="12sp" >
-</Button>
-    	   </LinearLayout>
-</LinearLayout>
+        <Button
+            android:id="@+id/down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:layout_toLeftOf="@+id/getComment"
+            android:layout_weight="1"
+            android:text="下架"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/avatar"
+            android:layout_weight="1"
+            android:text="修改"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/avatar"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.4"
+            android:text="text"
+            android:textColor="#233333"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/text"
+            android:layout_weight="2.8"
+            android:text="产品名称"
+            android:textColor="#233333"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/payNumber"
+            android:layout_alignParentTop="true"
+            android:layout_weight="0.4"
+            android:text="date"
+            android:textColor="#233333"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/payNumber"
+            android:layout_alignBottom="@+id/payNumber"
+            android:layout_alignLeft="@+id/title"
+            android:layout_weight="2"
+            android:text="价格"
+            android:textColor="#233333"
+            android:textSize="12sp" />
+
+</RelativeLayout>

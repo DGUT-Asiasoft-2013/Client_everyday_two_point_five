@@ -53,6 +53,9 @@ public class SellerFragment extends Fragment {
 	EditText search_txt;
 	String searchTxt;
 	Integer page = 0;
+	ListView listview;
+	TextView txtLoadmore;
+	Button addGoods, search;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,12 +65,12 @@ public class SellerFragment extends Fragment {
 			view = inflater.inflate(R.layout.fragment_seller, null);
 			loadMore = inflater.inflate(R.layout.widget_load_root_more_btn, null);
 
-			TextView txtLoadmore = (TextView) loadMore.findViewById(R.id.more_text);
-			Button addGoods = (Button) view.findViewById(R.id.addProduct);
-			Button search = (Button) view.findViewById(R.id.search);
+			txtLoadmore = (TextView) loadMore.findViewById(R.id.more_text);
+			addGoods = (Button) view.findViewById(R.id.addProduct);
+			search = (Button) view.findViewById(R.id.search);
 			search_txt = (EditText) view.findViewById(R.id.searchText);
 
-			ListView listview = (ListView) view.findViewById(R.id.list);
+			listview = (ListView) view.findViewById(R.id.list);
 			listview.addFooterView(loadMore);
 			listview.setAdapter(adapter);
 
@@ -76,7 +79,6 @@ public class SellerFragment extends Fragment {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					onItemClicked(position);
-
 				}
 			});
 			// 加载更多
@@ -106,13 +108,9 @@ public class SellerFragment extends Fragment {
 					reload(0);
 				}
 			});
-
-			
-
 		}
 		return view;
 	}
-
 
 	void onItemClicked(int position) {
 		Goods goods = data.get(position);
@@ -121,7 +119,7 @@ public class SellerFragment extends Fragment {
 		itnt.putExtra("goods", (Serializable) goods);
 		startActivity(itnt);
 	}
-	
+
 	void loadMore() {
 		reload(page++);
 	}
@@ -173,11 +171,7 @@ public class SellerFragment extends Fragment {
 				searchTxt);
 
 		RequestBody requestBody = body.build();
-		Request request = Server
-				.requestBuilderWithPath("/search")
-				.method("POST", requestBody)
-				.post(requestBody)
-				.build();
+		Request request = Server.requestBuilderWithPath("/search").post(requestBody).build();
 
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
@@ -234,7 +228,7 @@ public class SellerFragment extends Fragment {
 			ProImgView img = (ProImgView) view.findViewById(R.id.goods_img);
 
 			Goods pro = data.get(position);
-			
+
 			img.load(pro);
 			txt_title.setText(pro.getTitle());
 			float val = pro.getPrice();
@@ -300,12 +294,12 @@ public class SellerFragment extends Fragment {
 	}
 	// Intent 点击进入详情页面
 
-	public void listviewClicked(int position) {
-		Goods pro = data.get(position);
-		Intent itt = new Intent(getActivity(), StoreActivity.class);
-		itt.putExtra("data", pro);
-		startActivity(itt);
-
-	}
+	/*
+	 * public void `(int position) { Goods pro = data.get(position); Intent itt
+	 * = new Intent(getActivity(), StoreActivity.class); itt.putExtra("data",
+	 * pro); startActivity(itt);
+	 * 
+	 * }
+	 */
 
 }

@@ -102,14 +102,7 @@ public class BuyActivity extends Activity {
 					
 					@Override
 					public void run() {
-						try {
-						Toast.makeText(getApplication(), "购买成功"+res.body().string(), Toast.LENGTH_LONG).show();
-					
-							Log.d("buy", res.body().string());
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						Toast.makeText(getApplication(), "购买成功", Toast.LENGTH_LONG).show();
 					}
 				});
 			}
