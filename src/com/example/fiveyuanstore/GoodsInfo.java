@@ -29,67 +29,64 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class GoodsInfo extends Activity {
-	SaleItem goods;
+	Goods goods;
 	View headerview;
-	TextView title,text,price,payNumber;
-	
-	Button change, down,getComment;
-	 ListView list;
-	 ProImgView avatar;
-	 TextView txtDate;
-	 List<Comment> comments;
+	TextView title, text, price;
+
+	Button change, down, freshComment;
+	ListView list;
+	ProImgView avatar;
+	TextView txtDate;
+	List<Comment> comments;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.activity_goods_info);
-		
-		 goods = (SaleItem)getIntent().getSerializableExtra("data");
-		 headerview = LayoutInflater.from(this).inflate(R.layout.widget_change_item,null);
-		  
-		  title = (TextView) headerview.findViewById(R.id.title);
-		  text = (TextView) headerview.findViewById(R.id.text);
-		  price = (TextView) headerview.findViewById(R.id.price);
-		  payNumber =  (TextView) headerview.findViewById(R.id.payNumber);
-		  avatar = (ProImgView) headerview.findViewById(R.id.avatar);
-		  list = (ListView) findViewById(R.id.list);
-		  txtDate = (TextView) headerview.findViewById(R.id.date);
-		  
-		  title.setText(goods.getTitle());
-		  text.setText(goods.getText());
-		  price.setText(Float.toString(goods.getPrice()));
-		  payNumber.setText(goods.getPayNumber());
-		  String dateStr = DateFormat.format("yyy-MM-dd hh:mm", goods.getCreateDate()).toString();
-		  txtDate.setText(dateStr);
-		  
-		  
-		  avatar.load(goods.getGoods());
-		  list.addHeaderView(headerview);
-		  
-		  change = (Button) headerview.findViewById(R.id.change);
-		  down =  (Button) headerview.findViewById(R.id.down);
-		  getComment =  (Button) headerview.findViewById(R.id.getComment);
-		  
-		  change.setOnClickListener(new View.OnClickListener() {
-			
+
+		goods = (Goods) getIntent().getSerializableExtra("goods");
+		headerview = LayoutInflater.from(this).inflate(R.layout.widget_change_item, null);
+
+		title = (TextView) headerview.findViewById(R.id.title);
+		text = (TextView) headerview.findViewById(R.id.text);
+		price = (TextView) headerview.findViewById(R.id.price);
+		avatar = (ProImgView) headerview.findViewById(R.id.avatar);
+		list = (ListView) findViewById(R.id.list);
+		txtDate = (TextView) headerview.findViewById(R.id.date);
+
+		title.setText(goods.getTitle());
+		text.setText(goods.getText());
+		price.setText(Float.toString(goods.getPrice()));
+		String dateStr = DateFormat.format("yyy-MM-dd hh:mm", goods.getCreateDate()).toString();
+		txtDate.setText(dateStr);
+
+		avatar.load(goods);
+		list.addHeaderView(headerview);
+
+		change = (Button) headerview.findViewById(R.id.change);
+		down = (Button) headerview.findViewById(R.id.down);
+		freshComment = (Button) headerview.findViewById(R.id.freshComment);
+
+		change.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				change();
 			}
 
-			
 		});
-		  
-		  down.setOnClickListener(new View.OnClickListener() {
-			
+
+		down.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				down();
 			}
 		});
-		  
-		  getComment.setOnClickListener(new View.OnClickListener() {
-			
+
+		freshComment.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				// 刷新评论
@@ -97,34 +94,35 @@ public class GoodsInfo extends Activity {
 			}
 		});
 	}
-	
+
 	protected void getComment() {
-	reload();
+		reload();
 	}
 
 	protected void down() {
-		//下架
-Request request = Server.requestBuilderWithPath("/goods/"+ goods.getId()+"/deleteGoods").delete().build();
-		
+		// 下架
+		Request request = Server.requestBuilderWithPath("/goods/" + goods.getGoods_id() + "/deleteGoods").delete().build();
+
 		Server.getClient().newCall(request).enqueue(new Callback() {
-			
+
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
 				runOnUiThread(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						Toast.makeText(getApplicationContext(), "删除"+goods.getTitle()+"成功", Toast.LENGTH_LONG).show();
-						
+						Toast.makeText(getApplicationContext(), "删除" + goods.getTitle() + "成功", Toast.LENGTH_LONG)
+								.show();
+
 					}
 				});
 			}
-			
+
 			@Override
-			public void onFailure(Call arg0,final IOException e) {
+			public void onFailure(Call arg0, final IOException e) {
 				runOnUiThread(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
@@ -132,47 +130,46 @@ Request request = Server.requestBuilderWithPath("/goods/"+ goods.getId()+"/delet
 						toAllGoods();
 					}
 
-					
 				});
 			}
 		});
-		
+
 	}
 
 	public void change() {
 		Intent itt = new Intent(this, ChangeActivity.class);
 		startActivity(itt);
 	}
-	
-	 void toAllGoods() {
+
+	void toAllGoods() {
 		Intent itt = new Intent(this, StoreActivity.class);
 		startActivity(itt);
 	}
-	BaseAdapter adapter = new BaseAdapter(){
+
+	BaseAdapter adapter = new BaseAdapter() {
 		@Override
 		public View getView(int position, View view, ViewGroup parent) {
-			if(view ==null){
+			if (view == null) {
 				view = LayoutInflater.from(parent.getContext()).inflate(R.layout.widget_comment_item, null);
 			}
-			
-			Comment comment =  comments.get(position);
-			TextView textContent =(TextView) view.findViewById(R.id.text);
+
+			Comment comment = comments.get(position);
+			TextView textContent = (TextView) view.findViewById(R.id.text);
 			TextView textDate = (TextView) view.findViewById(R.id.date);
 			ProImgView avatar = (ProImgView) view.findViewById(R.id.avatar);
-		
+
 			textContent.setText(comment.getContent());
 			avatar.load(comment.getAuthor().getUser_name());
-			
-			
+
 			String dateStr = DateFormat.format("yy-MM-dd hh:mm", comment.getCreateDate()).toString();
 			textDate.setText(dateStr);
-			
+
 			return view;
 		}
-	
+
 		@Override
 		public int getCount() {
-			return comments == null ? 0 :comments.size();
+			return comments == null ? 0 : comments.size();
 		}
 
 		@Override
@@ -186,7 +183,7 @@ Request request = Server.requestBuilderWithPath("/goods/"+ goods.getId()+"/delet
 		}
 
 	};
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -194,30 +191,30 @@ Request request = Server.requestBuilderWithPath("/goods/"+ goods.getId()+"/delet
 	}
 
 	private void reload() {
-		Request request = Server.requestBuilderWithPath("/goods/"+ goods.getId()+"/comments").get().build();
-		
+		Request request = Server.requestBuilderWithPath("/goods/" + goods.getId() + "/comments").get().build();
+
 		Server.getClient().newCall(request).enqueue(new Callback() {
-			
+
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
 				runOnUiThread(new Runnable() {
-					
+
 					@Override
 					public void run() {
-						Toast.makeText(getApplication(), "刷新列表成功", Toast.LENGTH_SHORT).show();					
+						Toast.makeText(getApplication(), "刷新列表成功", Toast.LENGTH_SHORT).show();
 					}
 				});
-				
+
 			}
-			
+
 			@Override
 			public void onFailure(Call arg0, final IOException arg1) {
 				runOnUiThread(new Runnable() {
-					
+
 					@Override
 					public void run() {
-						Toast.makeText(getApplication(), "刷新失败， "+arg1.toString(), Toast.LENGTH_SHORT).show();			
-						
+						Toast.makeText(getApplication(), "刷新失败， " + arg1.toString(), Toast.LENGTH_SHORT).show();
+
 					}
 				});
 			}

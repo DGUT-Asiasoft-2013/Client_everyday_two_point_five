@@ -2,11 +2,14 @@
 package com.example.fiveyuanstore.page;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 import com.example.fiveyuanstore.AddProductActivity;
 import com.example.fiveyuanstore.ChangeActivity;
 import com.example.fiveyuanstore.CommentActivity;
+import com.example.fiveyuanstore.GoodsContentActivity;
+import com.example.fiveyuanstore.GoodsInfo;
 import com.example.fiveyuanstore.OrderHandlerActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.StoreActivity;
@@ -27,12 +30,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MultipartBody;
@@ -48,6 +53,9 @@ public class SellerFragment extends Fragment {
 	EditText search_txt;
 	String searchTxt;
 	Integer page = 0;
+	ListView listview;
+	TextView txtLoadmore;
+	Button addGoods, search;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,15 +65,22 @@ public class SellerFragment extends Fragment {
 			view = inflater.inflate(R.layout.fragment_seller, null);
 			loadMore = inflater.inflate(R.layout.widget_load_root_more_btn, null);
 
-			TextView txtLoadmore = (TextView) loadMore.findViewById(R.id.more_text);
-			Button addGoods = (Button) view.findViewById(R.id.addProduct);
-			Button search = (Button) view.findViewById(R.id.search);
+			txtLoadmore = (TextView) loadMore.findViewById(R.id.more_text);
+			addGoods = (Button) view.findViewById(R.id.addProduct);
+			search = (Button) view.findViewById(R.id.search);
 			search_txt = (EditText) view.findViewById(R.id.searchText);
 
-			ListView listview = (ListView) view.findViewById(R.id.list);
+			listview = (ListView) view.findViewById(R.id.list);
 			listview.addFooterView(loadMore);
 			listview.setAdapter(adapter);
 
+			listview.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					onItemClicked(position);
+				}
+			});
 			// 加载更多
 			txtLoadmore.setOnClickListener(new View.OnClickListener() {
 
@@ -90,13 +105,19 @@ public class SellerFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					addNewGoods();
+					reload(0);
 				}
 			});
-
-			
-
 		}
 		return view;
+	}
+
+	void onItemClicked(int position) {
+		Goods goods = data.get(position);
+
+		Intent itnt = new Intent(this.getActivity(), GoodsInfo.class);
+		itnt.putExtra("goods", (Serializable) goods);
+		startActivity(itnt);
 	}
 
 	void loadMore() {
@@ -106,7 +127,7 @@ public class SellerFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		reload(0);
+		reload(page);
 		Toast.makeText(getActivity(), "searchTxt is: " + search_txt.getText().toString(), Toast.LENGTH_LONG).show();
 
 	}
@@ -150,11 +171,7 @@ public class SellerFragment extends Fragment {
 				searchTxt);
 
 		RequestBody requestBody = body.build();
-		Request request = Server
-				.requestBuilderWithPath("/search")
-				.method("POST", requestBody)
-				.post(requestBody)
-				.build();
+		Request request = Server.requestBuilderWithPath("/search").post(requestBody).build();
 
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
@@ -211,7 +228,7 @@ public class SellerFragment extends Fragment {
 			ProImgView img = (ProImgView) view.findViewById(R.id.goods_img);
 
 			Goods pro = data.get(position);
-			
+
 			img.load(pro);
 			txt_title.setText(pro.getTitle());
 			float val = pro.getPrice();
@@ -277,12 +294,12 @@ public class SellerFragment extends Fragment {
 	}
 	// Intent 点击进入详情页面
 
-	public void listviewClicked(int position) {
-		Goods pro = data.get(position);
-		Intent itt = new Intent(getActivity(), StoreActivity.class);
-		itt.putExtra("data", pro);
-		startActivity(itt);
-
-	}
+	/*
+	 * public void `(int position) { Goods pro = data.get(position); Intent itt
+	 * = new Intent(getActivity(), StoreActivity.class); itt.putExtra("data",
+	 * pro); startActivity(itt);
+	 * 
+	 * }
+	 */
 
 }

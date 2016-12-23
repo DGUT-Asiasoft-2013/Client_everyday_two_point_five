@@ -88,6 +88,26 @@
             android:name="com.example.fiveyuanstore.BuyActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.GoodsInfo"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
     </application>
+
+    <!--
+    <activity android:name="com.example.fiveyuanstore.OrderHandlerActivity"></activity>
+		<activity android:name="com.example.fiveyuanstore.SellerActivity"></activity>
+		
+		
+        <activity android:name="com.example.fiveyuanstore.myProfiles.WalletActivity"></activity>
+        <activity android:name="com.example.fiveyuanstore.myProfiles.InboxActivity"></activity>
+        <activity android:name="com.example.fiveyuanstore.myProfiles.PasswordChangeActivity"></activity>
+        <activity android:name="com.example.fiveyuanstore.myProfiles.InboxChetActivity"></activity>
+        <activity android:name="com.example.fiveyuanstore.GoodsContentActivity"></activity>
+        <activity android:name="com.example.fiveyuanstore.BuyActivity"></activity>
+              <activity android:name="com.example.fiveyuanstore.GoodsInfo"></activity>
+
+    </application>
+    -->
 
 </manifest>

@@ -1,26 +1,31 @@
 package com.example.fiveyuanstore;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
+import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.MyOrder;
 import com.example.fiveyuanstore.entity.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Request;
@@ -34,12 +39,15 @@ public class OrderHandlerActivity extends Activity {
 	ListView list;
 	View loadMoreView;
 	int page =0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// 订单处理  LWJ
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_oder_handler);
+		
+		//order = (List<MyOrder>) getIntent().getSerializableExtra("goods");
 		
 		list = (ListView) findViewById(R.id.list);
 		goods_num =(TextView) list.findViewById(R.id.orderNum);
@@ -51,11 +59,44 @@ public class OrderHandlerActivity extends Activity {
 		
 		proImg = (ProImgView) list.findViewById(R.id.proImg);
 		
-		 loadMoreView = LayoutInflater.from(this).inflate(R.layout.widget_load_root_more_btn, null);
-			 list.addFooterView(loadMoreView);
+		loadMoreView = LayoutInflater.from(this).inflate(R.layout.widget_load_root_more_btn, null);
+		list.addFooterView(loadMoreView);
 		txtLoadmore =  (TextView) loadMoreView.findViewById(R.id.more_text);
+		
+		list = (ListView) findViewById(R.id.list);
+		list.addFooterView(loadMoreView);
+		list.setAdapter(adapter);
+		
+	/*	list.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				onItemClicked(position);
+			}
+		});*/
+		
+		txtLoadmore.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				loadmore();
+			}
+		});
+		
+		reload();
 	}
 	
+
+	
+/*	void onItemClicked(int position) {
+		MyOrder orders = order.get(position);
+
+		Intent itnt = new Intent(OrderHandlerActivity.this, OrderInfoActivity.class);
+		itnt.putExtra("orders", (Serializable) orders);
+		startActivity(itnt);
+	}
+	*/
+
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -64,7 +105,7 @@ public class OrderHandlerActivity extends Activity {
 	}
 
 	 void reload() {
-			Request request = Server.requestBuilderWithPath("orders")
+			Request request = Server.requestBuilderWithPath("order")
 					.get()
 					.build();
 			
@@ -81,6 +122,7 @@ public class OrderHandlerActivity extends Activity {
 							public void run() {
 								OrderHandlerActivity.this.order =  data.getContent();
 								OrderHandlerActivity.this.page = data.getNumber();
+								adapter.notifyDataSetChanged();
 							}
 						});
 					
@@ -88,8 +130,6 @@ public class OrderHandlerActivity extends Activity {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
-					
 				}
 				
 				@Override
@@ -110,46 +150,40 @@ public class OrderHandlerActivity extends Activity {
 		loadMoreView.setEnabled(false);
 		txtLoadmore.setText("载入中...");
 		
-		Request request = Server.requestBuilderWithPath("order/"+(page+1)).get().build();
+		Request request = Server.requestBuilderWithPath("order/"+(page++)).get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
 			
 			@Override
-			public void onResponse(Call arg0, Response res) throws IOException {
+			public void onResponse(Call arg0, final Response res) throws IOException {
 				runOnUiThread(new Runnable() {
 					
 					@Override
 					public void run() {
 						loadMoreView.setEnabled(true);
 						txtLoadmore.setText("加载更多");
+						
+						try {
+							final Page<MyOrder> data = new ObjectMapper().readValue(res.body().string(), new TypeReference<Page<MyOrder>>() {});
+							if(data.getNumber()> page){
+						
+										if(order == null){
+											order =  data.getContent();
+											
+										}else{
+											order.addAll(data.getContent());
+										}
+										
+										page = data.getNumber();
+										adapter.notifyDataSetChanged();
+								
+							}
+						
+						
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 				});
-				
-				try {
-					final Page<MyOrder> data = new ObjectMapper().readValue(res.body().string(), new TypeReference<Page<MyOrder>>() {});
-					if(data.getNumber()> page){
-						runOnUiThread(new Runnable() {
-							
-							@Override
-							public void run() {
-								if(order == null){
-									order =   data.getContent();
-									
-								}else{
-									order.addAll(data.getContent());
-								}
-								
-								page = data.getNumber();
-								
-								adapter.notifyDataSetChanged();
-							}
-						});
-					}
-				
-				
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
 				
 			}
 			
@@ -201,12 +235,16 @@ public class OrderHandlerActivity extends Activity {
 			TextView goods_num =(TextView) view.findViewById(R.id.orderNum);
 			TextView title = (TextView) view.findViewById(R.id.title);
 			TextView date = (TextView) view.findViewById(R.id.date);
-			/*Button sureSendGoods = (Button) view.findViewById(R.id.sureSendGoods);
-			Button cancleOrder = (Button) view.findViewById(R.id.cancleOrder);*/
+	
 			
 			proImg.load(orders.getGoods());
 			orderId.setText(orders.getOrder_num());
-			goods_num.setText(orders.getCount());
+			try {
+				goods_num.setText(""+ orders.getAmount());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block orders.getAmount()
+				e.printStackTrace();
+			}
 			title.setText(orders.getTitle());
 			
 			
