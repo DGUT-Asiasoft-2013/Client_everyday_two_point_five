@@ -43,7 +43,7 @@ public class OrderInfoActivity extends Activity {
 		
 		try {
 			String dateStr = DateFormat.format("yyyy-MM-dd hh:mm", order.getGoods().getCreateDate()).toString();
-			date.setText("创建日期："+ dateStr);
+			date.setText(""+ dateStr);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
