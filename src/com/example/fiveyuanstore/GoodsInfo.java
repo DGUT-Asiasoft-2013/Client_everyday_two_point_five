@@ -1,6 +1,7 @@
 package com.example.fiveyuanstore;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 import com.example.fiveyuanstore.api.Server;
@@ -8,6 +9,7 @@ import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Comment;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.SaleItem;
+import com.example.fiveyuanstore.fragment.widgets.AvatarView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -30,13 +32,9 @@ import okhttp3.Response;
 
 public class GoodsInfo extends Activity {
 	Goods goods;
-	View headerview;
-	TextView title, text, price;
 
 	Button change, down, freshComment;
-	ListView list;
-	ProImgView avatar;
-	TextView txtDate;
+
 	List<Comment> comments;
 
 	@Override
@@ -44,29 +42,29 @@ public class GoodsInfo extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_goods_info);
+		TextView name=(TextView) findViewById(R.id.username);//卖家名字/
+		TextView title=(TextView) findViewById(R.id.title);//商品名
+		TextView date=(TextView) findViewById(R.id.date);
+		TextView content=(TextView) findViewById(R.id.text);
+		ProImgView img=(ProImgView) findViewById(R.id.img);//商品图片
+		TextView money=(TextView) findViewById(R.id.money);
+		ListView listView=(ListView) findViewById(R.id.goods_comment);
+		listView.setAdapter(adapter);
+		goods=(Goods) getIntent().getSerializableExtra("data");
+		
+		title.setText(goods.getTitle()+"(库存："+goods.getGoods_count()+")");
+		name.setText("卖家："+goods.getSale_name());
+		String dateStr = DateFormat.format("yyyy-MM-dd hh:mm",goods.getCreateDate()).toString();
+		date.setText(dateStr);
+		img.load(goods);
+		money.setText("$"+Float.toString(goods.getPrice()));
+		content.setText("商品简介："+goods.getText());
+		
+		
 
-		goods = (Goods) getIntent().getSerializableExtra("goods");
-		headerview = LayoutInflater.from(this).inflate(R.layout.widget_change_item, null);
-
-		title = (TextView) headerview.findViewById(R.id.title);
-		text = (TextView) headerview.findViewById(R.id.text);
-		price = (TextView) headerview.findViewById(R.id.price);
-		avatar = (ProImgView) headerview.findViewById(R.id.avatar);
-		list = (ListView) findViewById(R.id.list);
-		txtDate = (TextView) headerview.findViewById(R.id.date);
-
-		title.setText(goods.getTitle());
-		text.setText(goods.getText());
-		price.setText(Float.toString(goods.getPrice()));
-		String dateStr = DateFormat.format("yyy-MM-dd hh:mm", goods.getCreateDate()).toString();
-		txtDate.setText(dateStr);
-
-		avatar.load(goods);
-		list.addHeaderView(headerview);
-
-		change = (Button) headerview.findViewById(R.id.change);
-		down = (Button) headerview.findViewById(R.id.down);
-		freshComment = (Button) headerview.findViewById(R.id.freshComment);
+		change = (Button) findViewById(R.id.change);
+		down = (Button) findViewById(R.id.down);
+		freshComment = (Button) findViewById(R.id.freshComment);
 
 		change.setOnClickListener(new View.OnClickListener() {
 
@@ -138,6 +136,7 @@ public class GoodsInfo extends Activity {
 
 	public void change() {
 		Intent itt = new Intent(this, ChangeActivity.class);
+		itt.putExtra("data", (Serializable) goods);
 		startActivity(itt);
 	}
 
@@ -156,14 +155,16 @@ public class GoodsInfo extends Activity {
 			Comment comment = comments.get(position);
 			TextView textContent = (TextView) view.findViewById(R.id.text);
 			TextView textDate = (TextView) view.findViewById(R.id.date);
-			ProImgView avatar = (ProImgView) view.findViewById(R.id.avatar);
-
+			AvatarView avatar = (AvatarView) view.findViewById(R.id.avatar);
+			TextView username = (TextView) view.findViewById(R.id.username);
+			
+			username.setText(comment.getAuthor().getUser_name());
 			textContent.setText(comment.getContent());
-			avatar.load(comment.getAuthor().getUser_name());
+			avatar.load(comment.getAuthor());
 
-			String dateStr = DateFormat.format("yy-MM-dd hh:mm", comment.getCreateDate()).toString();
+			String dateStr = DateFormat.format("yyyy-MM-dd hh:mm", comment.getCreateDate()).toString();
 			textDate.setText(dateStr);
-
+			
 			return view;
 		}
 

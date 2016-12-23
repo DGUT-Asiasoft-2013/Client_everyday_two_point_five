@@ -77,7 +77,7 @@ public class ChangeActivity extends Activity {
      RequestBody requestBody = builder.build();
   	 OkHttpClient client = Server.getClient();
   	 
-  	 Request request = Server.requestBuilderWithPath("/goods/"+goods.getId()+"/changeGoods")
+  	 Request request = Server.requestBuilderWithPath("/goods/"+goods.getGoods_id()+"/changeGoods")
 				.method("POST", requestBody)
 				.post(requestBody)
 				.build();
@@ -132,6 +132,30 @@ public class ChangeActivity extends Activity {
 		}
 	});
 	}
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		
+		frag1.setLabelText("名称");
+		frag1.setHintText("名称");
+		frag1.setIsPsw(false);
 
+		
+		frag2.setLabelText("价格");
+		frag2.setHintText("价格");
+		frag2.setIsPsw(false);
+		
+		frag3.setLabelText(" 库存 ");
+		frag3.setHintText(" 库存 ");
+		frag3.setIsPsw(false);
+		
+		frag4.setLabelText("描述");
+		frag4.setHintText("描述");
+		frag4.setIsPsw(false);
+		
+		
+		
+	}
 	
 }

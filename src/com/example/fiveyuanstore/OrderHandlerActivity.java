@@ -28,12 +28,13 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MultipartBody;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class OrderHandlerActivity extends Activity {
 	TextView title,  goods_num,orderId, txtLoadmore;
-	Button sureSendGoods,cancleOrder;
 	ProImgView  proImg;
 	List<MyOrder> order;
 	ListView list;
@@ -47,33 +48,21 @@ public class OrderHandlerActivity extends Activity {
 		
 		setContentView(R.layout.activity_oder_handler);
 		
-		//order = (List<MyOrder>) getIntent().getSerializableExtra("goods");
-		
 		list = (ListView) findViewById(R.id.list);
-		goods_num =(TextView) list.findViewById(R.id.orderNum);
-		title = (TextView) list.findViewById(R.id.title);
-		orderId = (TextView) list.findViewById(R.id.orderid);
-		
-		sureSendGoods = (Button) list.findViewById(R.id.sureSendGoods);
-		cancleOrder = (Button) list.findViewById(R.id.cancleOrder);
-		
-		proImg = (ProImgView) list.findViewById(R.id.proImg);
 		
 		loadMoreView = LayoutInflater.from(this).inflate(R.layout.widget_load_root_more_btn, null);
-		list.addFooterView(loadMoreView);
+	
 		txtLoadmore =  (TextView) loadMoreView.findViewById(R.id.more_text);
-		
-		list = (ListView) findViewById(R.id.list);
 		list.addFooterView(loadMoreView);
 		list.setAdapter(adapter);
 		
-	/*	list.setOnItemClickListener(new OnItemClickListener() {
+		list.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				onItemClicked(position);
 			}
-		});*/
+		});
 		
 		txtLoadmore.setOnClickListener(new View.OnClickListener() {
 			
@@ -83,19 +72,20 @@ public class OrderHandlerActivity extends Activity {
 			}
 		});
 		
+		
 		reload();
 	}
 	
 
-	
-/*	void onItemClicked(int position) {
+
+	void onItemClicked(int position) {
 		MyOrder orders = order.get(position);
 
 		Intent itnt = new Intent(OrderHandlerActivity.this, OrderInfoActivity.class);
 		itnt.putExtra("orders", (Serializable) orders);
 		startActivity(itnt);
 	}
-	*/
+	
 
 	@Override
 	public void onResume() {
@@ -205,25 +195,21 @@ public class OrderHandlerActivity extends Activity {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return order == null ?0 :order.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return order.get(position);
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
 		public View getView(int position, View view, ViewGroup parent) {
-			// TODO Auto-generated method stub
 			if (view == null){
 				view = LayoutInflater.from(parent.getContext()).inflate(R.layout.widget_order_item,null);
 				
@@ -235,21 +221,41 @@ public class OrderHandlerActivity extends Activity {
 			TextView goods_num =(TextView) view.findViewById(R.id.orderNum);
 			TextView title = (TextView) view.findViewById(R.id.title);
 			TextView date = (TextView) view.findViewById(R.id.date);
-	
+			TextView status = (TextView) view.findViewById(R.id.status);
 			
 			proImg.load(orders.getGoods());
-			orderId.setText(orders.getOrder_num());
+			orderId.setText("订单编号： "+orders.getOrder_num());
 			try {
-				goods_num.setText(""+ orders.getAmount());
+				goods_num.setText("订单数量: "+ orders.getAmount());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block orders.getAmount()
 				e.printStackTrace();
 			}
-			title.setText(orders.getTitle());
+			title.setText("商品名称"+orders.getGoods().getTitle());
+			switch(orders.getStatus()){
+				case 0:
+					status.setText("订单状态： 确认收货");
+					break;
+				case 1:
+					status.setText("订单状态： 已付款");
+					break;
+					
+				case 2:
+					status.setText("订单状态： 已发货");
+					break;
+					
+				case 3: 
+					status.setText("订单状态： 已取消");
+					break;
+				default:
+					status.setText("订单状态： 未知状态");
+					break;
+					
+			}
 			
 			
 			String dateStr = DateFormat.format("yy-MM-dd hh:mm", orders.getCreateDate()).toString();
-			date.setText(dateStr);
+			date.setText("创建日期"+dateStr);
 			return view;
 		}
 		 
