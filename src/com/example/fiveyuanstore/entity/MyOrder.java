@@ -10,8 +10,8 @@ public class MyOrder extends DateRecord implements Serializable{
 	int
 	id,
 	status,
-	count,
-	order_num;
+	amount;
+	String order_num;
 	Goods goods;
 	User user;
 	String title;
@@ -83,20 +83,21 @@ public class MyOrder extends DateRecord implements Serializable{
 		this.status = status;
 	}
 
-	public int getCount() {
-		return count;
+
+
+	public int getAmount() {
+		return amount;
 	}
 
-	public void setCount(int count) {
-		this.count = count;
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 
-
-	public int getOrder_num() {
+	public String getOrder_num() {
 		return order_num;
 	}
 
-	public void setOrder_num(int order_num) {
+	public void setOrder_num(String order_num) {
 		this.order_num = order_num;
 	}
 

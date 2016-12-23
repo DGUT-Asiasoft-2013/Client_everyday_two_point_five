@@ -8,6 +8,7 @@ import com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -89,7 +90,6 @@ public class BuyActivity extends Activity {
 				.addFormDataPart("phone",phone)
 				.addFormDataPart("address", address)
 				.addFormDataPart("amount", amount)
-				.addFormDataPart("goods_id", goods_id)
 				.build();
 		
 		Request request=  Server.requestBuilderWithPath("/buy/"+goods_id).post(requestBody).build();
