@@ -239,7 +239,12 @@ public class OrderHandlerActivity extends Activity {
 			
 			proImg.load(orders.getGoods());
 			orderId.setText(orders.getOrder_num());
-			goods_num.setText(orders.getAmount());
+			try {
+				goods_num.setText(""+ orders.getAmount());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block orders.getAmount()
+				e.printStackTrace();
+			}
 			title.setText(orders.getTitle());
 			
 			
