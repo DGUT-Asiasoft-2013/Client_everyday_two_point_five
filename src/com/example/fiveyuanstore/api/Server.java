@@ -18,7 +18,7 @@ public class Server {
 	static OkHttpClient client;
 
 
-	public static String serverAddress = "http://172.27.0.55:8080/storecenter/";
+	public static String serverAddress = "http://172.27.0.54:8080/storecenter/";
 
 
 	static {
