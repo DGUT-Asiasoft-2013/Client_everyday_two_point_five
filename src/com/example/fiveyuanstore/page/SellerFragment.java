@@ -26,6 +26,7 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,7 +117,7 @@ public class SellerFragment extends Fragment {
 		Goods goods = data.get(position);
 
 		Intent itnt = new Intent(this.getActivity(), GoodsInfo.class);
-		itnt.putExtra("goods", (Serializable) goods);
+		itnt.putExtra("data", (Serializable) goods);
 		startActivity(itnt);
 	}
 
@@ -210,51 +211,62 @@ public class SellerFragment extends Fragment {
 	}
 
 	BaseAdapter adapter = new BaseAdapter() {
+
 		@SuppressLint("InflateParams")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+
 			View view = null;
-
 			if (convertView == null) {
-				LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-				view = inflater.inflate(R.layout.widget_product_item, null);
-
+				LayoutInflater inflater = LayoutInflater.from(getActivity());
+				view = inflater.inflate(R.layout.fragment_inputcell_goods, null);
 			} else {
 				view = convertView;
 			}
+			TextView textContent = (TextView) view.findViewById(R.id.text);
+			TextView goodsName = (TextView) view.findViewById(R.id.goods_name);
+			TextView money = (TextView) view.findViewById(R.id.money);
+			TextView textDate = (TextView) view.findViewById(R.id.date);
+			ProImgView img = (ProImgView)view.findViewById(R.id.goods_img);
 
-			TextView txt_title = (TextView) view.findViewById(R.id.title);
-			TextView price = (TextView) view.findViewById(R.id.price);
-			ProImgView img = (ProImgView) view.findViewById(R.id.goods_img);
+			Goods goods = data.get(position);
 
-			Goods pro = data.get(position);
+			textContent.setText(goods.getText());
+			goodsName.setText(goods.getTitle());
+			money.setText("$" + Float.toString(goods.getPrice()));
 
-			img.load(pro);
-			txt_title.setText(pro.getTitle());
-			float val = pro.getPrice();
-			String priceText = Float.toString(val);
-			price.setText(priceText);
+			img.load(goods);
+
+			String dateStr = DateFormat.format("yyyy-MM-dd hh:mm", goods.getCreateDate()).toString();
+			textDate.setText(dateStr);
 
 			return view;
 		}
 
 		@Override
-		public int getCount() {
-			return data == null ? 0 : data.size();
+		public long getItemId(int position) {
+			// TODO Auto-generated method stub
+			return position;
+
 		}
 
 		@Override
 		public Object getItem(int position) {
+			// TODO Auto-generated method stub
 			return data.get(position);
+
 		}
 
 		@Override
-		public long getItemId(int position) {
-			return position;
-		}
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return data == null ? 0 : data.size();
 
+		}
 	};
 
+
+	
 	// 订单处理
 	private void orderHandler() {
 		Intent itt = new Intent(getActivity(), OrderHandlerActivity.class);

@@ -24,6 +24,11 @@ public class Page <T>{
 	public Goods get(int position) {
 		return (Goods) content.get(position);
 	}
+	
+	public Inbox getInbox(int position) {
+		return (Inbox) content.get(position);
+	}
+	
 	public int size() {
 		return content.size();
 	}

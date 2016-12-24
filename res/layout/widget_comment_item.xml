@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp" >
 
-        <com.example.fiveyuanstore.customViews.ProImgView
+        <com.example.fiveyuanstore.fragment.widgets.AvatarView
             android:id="@+id/avatar"
             android:layout_width="48dp"
             android:layout_height="48dp"

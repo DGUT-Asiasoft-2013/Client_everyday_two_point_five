@@ -3,17 +3,24 @@ package com.example.fiveyuanstore.myProfiles;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
-import com.example.fiveyuanstore.AddProductActivity;
+
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
-import com.example.fiveyuanstore.entity.Goods;
+
+import com.example.fiveyuanstore.entity.Inbox;
+import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.entity.User;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,24 +46,27 @@ public class InboxChetActivity extends Activity {
 	int int_test=8;
 	String str_text;
 	EditText inboxSendText;
-	Goods goods;
+
 	String send_name;
 	TextView inboxChatTo;
+	User user;
+	List<Inbox> data;
+	int page = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		Log.d("0000","1223");
 		//获取联络人
 		send_name=(String) getIntent().getSerializableExtra("name");
-		
+
 		setContentView(R.layout.activity_inbox_chat);
 		listView=(ListView)findViewById(R.id.inbox_chat_list);
 		inboxSendText=(EditText)findViewById(R.id.inbox_send_text);
 		inboxChatTo=(TextView)findViewById(R.id.inbox_chat_to);
 		listView.setAdapter(listAdapter);
-		listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-		listView.setStackFromBottom(true);		//滚动到最后一行
+		//listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+		//listView.setStackFromBottom(true);		//滚动到最后一行
 		
 		inboxChatTo.setText("与 "+send_name+" 对话");
 		
@@ -108,6 +118,7 @@ public class InboxChetActivity extends Activity {
 	 					  progressD.dismiss();
 	 					  
 	 						Toast.makeText(getApplication(), "发送成功", Toast.LENGTH_LONG).show();
+	 						listAdapter.notifyDataSetInvalidated();
 	 						
 	 				}
 
@@ -143,33 +154,25 @@ public class InboxChetActivity extends Activity {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View view=null;
-			if (convertView == null) {
+			Inbox inbox=data.get(position);
+			
 				LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-				if (position%2==0){
-					view = inflater.inflate(R.layout.widget_inbox_chat_box_right, null);
-					str_text="你是谁？";
+				if (inbox.getSend_name().equals(send_name)){
+					view = inflater.inflate(R.layout.widget_inbox_chat_box_right, null);					
 				}else{
 					view = inflater.inflate(R.layout.widget_inbox_chat_box_left, null);
-					str_text="你猜猜~";
 				}
-			}else
-				view=convertView;
+				str_text=inbox.getInboxContent();
+			
 			
 			TextView chatBoxTime=(TextView)view.findViewById(R.id.chat_box_time);
 			TextView inboxChat=(TextView)view.findViewById(R.id.inbox_chat);
 			
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日   HH:mm:ss     ");
-			Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
-			String str = formatter.format(curDate);
-			chatBoxTime.setText(str);
+			String time=DateFormat.format("yyyy-MM-dd hh:mm:ss",inbox.getCreateDate()).toString();
+			chatBoxTime.setText(time);
 			
 			inboxChat.setText(str_text);
-			
-			
-			
-			
-			
-			
+				
 			
 			return view;
 		}
@@ -183,13 +186,75 @@ public class InboxChetActivity extends Activity {
 		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
-			return position;
+			return data.get(position);
 		}
 		
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return int_test;
+			return data == null ? 0 : data.size();
 		}
 	};
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		Log.d("123123","123123");
+		reload(0);
+	}
+
+	
+	void reload(int page) {
+		
+		
+		MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("text",
+				send_name);
+
+		RequestBody requestBody = body.build();
+		Request request = Server
+				.requestBuilderWithPath("/inboxsearch")
+				.method("POST", requestBody)
+				.post(requestBody)
+				.build();
+		
+		Server.getClient().newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(Call arg0, final Response arg1) throws IOException {
+				try {
+					final Page<Inbox> data = new ObjectMapper().readValue(arg1.body().string(),
+							new TypeReference<Page<Inbox>>() {
+							});
+
+					InboxChetActivity.this.runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							
+							InboxChetActivity.this.page = data.getNumber();
+							InboxChetActivity.this.data = data.getContent();
+							listAdapter.notifyDataSetInvalidated();
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onFailure(Call arg0, final IOException e) {
+				Log.d("SellerFragment", e.getMessage());
+			}
+		});
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
 }

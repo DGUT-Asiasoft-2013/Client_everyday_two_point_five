@@ -38,6 +38,7 @@ import okhttp3.Response;
 
 public class MyProfileFragment extends Fragment {
 	View view;
+	String userName;
 	
 	TextView textView;					//显示用户名
 	ProgressBar progress;				//显示载入图案
@@ -61,6 +62,7 @@ public class MyProfileFragment extends Fragment {
 				@Override
 				public void onNewClicked() {
 					Intent intent =new Intent(getActivity(),InboxActivity.class);
+					intent.putExtra("name",userName);
 					startActivity(intent);
 					
 				}
@@ -200,6 +202,7 @@ public class MyProfileFragment extends Fragment {
 		textView.setVisibility(View.VISIBLE);	
 		textView.setTextColor(Color.BLACK);
 		textView.setText(user.getUser_name());
+		userName=user.getUser_name();
 		
 	}
 	protected void onFailuer(Call arg0, Exception e) {
@@ -207,6 +210,7 @@ public class MyProfileFragment extends Fragment {
 		progress.setVisibility(View.GONE);
 		textView.setTextColor(Color.RED);
 		textView.setText(e.getMessage());
+		userName="null";
 		
 	}
 }
