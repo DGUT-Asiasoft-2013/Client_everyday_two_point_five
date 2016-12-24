@@ -2,63 +2,97 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"     
-    android:orientation="vertical">      
+    android:layout_height="match_parent"
+    android:background="@drawable/sign_in_bg"
+    android:orientation="vertical" >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:padding="16dp"            
-            android:text="LOGIN TO HELLO"
-            
-            android:textSize="24sp"
-            android:textStyle="bold|italic" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="16dp"
+        android:text="LOGIN TO HELLO"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
 
-        <fragment 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="110dp" >
+
+        <fragment
             android:id="@+id/input_account"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"            
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="75dp"
             class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
-            tools:layout="@layout/fragment_inputcell_simpletext"/>
-        
-        <fragment 
-            android:id="@+id/input_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"            
-            class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
-            tools:layout="@layout/fragment_inputcell_simpletext"/>
-        
-        <TextView 
-            android:id="@+id/btn_forgot_password"
+            tools:layout="@layout/fragment_inputcell_simpletext" />
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:padding="2dp"
-            android:text="忘记密码"
-            android:textColor="@android:color/darker_gray"/>
-        
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal" >
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="55dp"
+            android:paddingTop="13dp"
+            android:src="@drawable/account" />
+    </RelativeLayout>
 
-            <Button
-                android:id="@+id/btn_login"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.45"
-                android:text="登录" />
-            
-            <Button
-                android:id="@+id/btn_register"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.45"
-                android:text="注册" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-            
-        </LinearLayout>
+        <fragment
+            android:id="@+id/input_password"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="75dp"
+            class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+            tools:layout="@layout/fragment_inputcell_simpletext" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="54dp"
+            android:padding="0dp"
+            android:src="@drawable/password" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/btn_login"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
+        android:paddingTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/sign_bg" />
+
+    <TextView
+        android:id="@+id/btn_forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="2dp"
+        android:text="Forgot password?"
+        android:textColor="@android:color/darker_gray" />
+
+    <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"    
+        android:gravity="center_horizontal"   
+        android:layout_marginTop="105dp"
+        android:layout_gravity="center_horizontal"         
+        android:layout_weight="0.1">
         
+    <TextView
+        android:id="@+id/btn_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"       
+        android:padding="2dp"
+        android:text="New here? Sign Up"
+        android:textColor="@android:color/darker_gray" />
+
     </LinearLayout>
-
+</LinearLayout>
