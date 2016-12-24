@@ -69,11 +69,11 @@ public class LoginActivity extends Activity {
 	protected void onResume() {
 
 		super.onResume();
-		fragAccount.setLabelText("用户名");
-		fragAccount.setHintText("请输入用户名");
+		fragAccount.setLabelText(" ");
+		fragAccount.setHintText("User Account");
 
-		fragPassword.setLabelText("密码");
-		fragPassword.setHintText("请输入密码");
+		fragPassword.setLabelText(" ");
+		fragPassword.setHintText("......");
 		fragPassword.setIsPassword(true);
 	}
 
@@ -98,11 +98,11 @@ public class LoginActivity extends Activity {
 
 		final ProgressDialog progressD = new ProgressDialog(LoginActivity.this);
 		progressD.setCancelable(false);
-		progressD.setTitle("提示");
+		progressD.setTitle("Tip");
 
 
 
-		progressD.setMessage("正在登陆");
+		progressD.setMessage("Login...");
 		progressD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressD.setCanceledOnTouchOutside(false);
 		progressD.show();
