@@ -30,4 +30,21 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>res/drawable/edit_bg.jpg</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Administrator/Desktop/edit_bg.jpg</locationURI>
+		</link>
+		<link>
+			<name>res/drawable/sign_bg.png</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Administrator/Desktop/sign_bg.png</locationURI>
+		</link>
+		<link>
+			<name>res/drawable/sign_in_bg.jpg</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Administrator/Desktop/sign_in_bg.jpg</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
