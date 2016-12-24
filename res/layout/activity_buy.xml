@@ -67,6 +67,8 @@
                 android:id="@+id/btn_submit"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                 android:background="#FF5000"
+                android:textColor="@android:color/white"
                 android:text="SUBMIT" />
         </LinearLayout>
     </ScrollView>

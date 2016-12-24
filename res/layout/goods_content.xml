@@ -86,6 +86,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="#FF9402"
+                android:textColor="@android:color/white"
                 android:text="联系卖家" />
 
             <Button
@@ -93,6 +95,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="#FF5000"
+                android:textColor="@android:color/white"
                 android:text="购买" />
         </LinearLayout>
 

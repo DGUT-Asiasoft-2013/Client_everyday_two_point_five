@@ -48,17 +48,20 @@
               class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
               tools:layout="@layout/fragment_inputcell_simpletext"/>
           
-          <fragment 
+          <fragment
               android:id="@+id/picture"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
+              android:layout_height="92dp"
               class="com.example.fiveyuanstore.inputcells.PictureInputCellFragment"
-              tools:layout="@layout/fragment_inputcell_picture"/>
+              tools:layout="@layout/fragment_inputcell_picture" />
           
             <Button
                 android:id="@+id/btn_submit"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
+                android:background="#394A5D"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
                 android:text="SUBMIT" />        
         </LinearLayout>
        
