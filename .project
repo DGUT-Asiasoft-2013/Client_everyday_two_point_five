@@ -37,6 +37,11 @@
 			<locationURI>PARENT-4-PROJECT_LOC/Administrator/Desktop/edit_bg.jpg</locationURI>
 		</link>
 		<link>
+			<name>res/drawable/s_bg.jpg</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Administrator/Desktop/s_bg.jpg</locationURI>
+		</link>
+		<link>
 			<name>res/drawable/sign_bg.png</name>
 			<type>1</type>
 			<locationURI>PARENT-4-PROJECT_LOC/Administrator/Desktop/sign_bg.png</locationURI>
