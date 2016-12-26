@@ -95,7 +95,7 @@ public class OrderHandlerActivity extends Activity {
 	}
 
 	 void reload() {
-			Request request = Server.requestBuilderWithPath("order")
+			Request request = Server.requestBuilderWithPath("/order")
 					.get()
 					.build();
 			
@@ -140,7 +140,7 @@ public class OrderHandlerActivity extends Activity {
 		loadMoreView.setEnabled(false);
 		txtLoadmore.setText("载入中...");
 		
-		Request request = Server.requestBuilderWithPath("order/"+(page++)).get().build();
+		Request request = Server.requestBuilderWithPath("/order/"+(page++)).get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
 			
 			@Override

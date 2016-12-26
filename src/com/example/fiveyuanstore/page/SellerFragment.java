@@ -106,7 +106,7 @@ public class SellerFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					addNewGoods();
-					reload(0);
+					reload();
 				}
 			});
 		}
@@ -122,19 +122,67 @@ public class SellerFragment extends Fragment {
 	}
 
 	void loadMore() {
-		reload(page++);
+		Request request = Server.requestBuilderWithPath("/feeds/"+(page+1) ).get().build();
+
+		Server.getClient().newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(Call arg0, final Response arg1) throws IOException {
+					
+
+					getActivity().runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							loadMore.setEnabled(true);
+							txtLoadmore.setText("加载更多");
+							
+						}
+					});
+					try {
+					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(),
+							new TypeReference<Page<Goods>>() {
+							});
+					if(data.getNumber()> page){
+						getActivity().runOnUiThread(new Runnable() {
+							
+							@Override
+							public void run() {
+								if(SellerFragment.this.data == null){
+									SellerFragment.this.data = data.getContent();
+								}
+								else{
+									SellerFragment.this.data.addAll(data.getContent());
+								}
+								SellerFragment.this.page = data.getNumber();
+								adapter.notifyDataSetInvalidated();
+							}
+						});
+					}
+				
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onFailure(Call arg0, final IOException e) {
+				Log.d("SellerFragment", e.getMessage());
+			}
+		});
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		reload(page);
+		reload();
 		Toast.makeText(getActivity(), "searchTxt is: " + search_txt.getText().toString(), Toast.LENGTH_LONG).show();
 
 	}
 
-	void reload(int page) {
-		Request request = Server.requestBuilderWithPath("/feeds/" + (page)).get().build();
+	void reload() {
+		Request request = Server.requestBuilderWithPath("/feeds/" ).get().build();
 
 		Server.getClient().newCall(request).enqueue(new Callback() {
 

@@ -118,7 +118,7 @@ public class GoodsContentActivity extends Activity {
 
 			Comment comment = comments.get(position);
 
-			textComment.setText(comment.getContent());
+			textComment.setText(comment.getText());
 			textAuthorName.setText(comment.getAuthor().getUser_name());
 			avatar.load(comment.getAuthor());
 

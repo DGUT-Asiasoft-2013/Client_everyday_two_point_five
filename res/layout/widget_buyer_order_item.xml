@@ -101,9 +101,11 @@
         android:layout_height="35dp"
         android:layout_alignParentRight="true"
         android:layout_below="@id/count_text"
+        android:background="@drawable/bg"
         android:text="确认收货"
+        android:textColor="#FF5557"
         android:textSize="10sp" />
-
+   
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="5dp"
@@ -114,6 +116,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/btn_status_changes"
-        android:background="#eee" />
+        android:background="#eee" /> 
 
 </RelativeLayout>
