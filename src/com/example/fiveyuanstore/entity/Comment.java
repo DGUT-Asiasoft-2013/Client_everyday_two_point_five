@@ -9,18 +9,42 @@ public class Comment extends BaseEntity  implements Serializable{
 	 *订单id
 	 *内容
 	 *创建时间 */
-	String content,	 goods_id;
+	String	 goods_id,text, order_num;
+
+	Date createDate, editDate;
+	public Date getEditDate() {
+		return editDate;
+	}
+	public void setEditDate(Date editDate) {
+		this.editDate = editDate;
+	}
+	int
+	order_id;
+	User author;
+	Goods goods;
+	
+	
+	public String getOrder_num() {
+		return order_num;
+	}
+	public void setOrder_num(String order_num) {
+		this.order_num = order_num;
+	}
+
+	
+	
+	public String getText() {
+		return text;
+	}
+	public void setText(String text) {
+		this.text = text;
+	}
 	public String getGoods_id() {
 		return goods_id;
 	}
 	public void setGoods_id(String goods_id) {
 		this.goods_id = goods_id;
 	}
-	Date createDate;
-	int
-	order_id;
-	User author;
-	Goods goods;
 	public Goods getGoods() {
 		return goods;
 	}
@@ -40,12 +64,7 @@ public class Comment extends BaseEntity  implements Serializable{
 	public void setOrder_id(int order_id) {
 		this.order_id = order_id;
 	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
+
 	public Date getCreateDate() {
 		return createDate;
 	}

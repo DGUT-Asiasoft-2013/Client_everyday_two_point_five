@@ -40,7 +40,7 @@ public class OrderInfoActivity extends Activity {
 		proImg.load(order.getGoods());
 		orderId.setText("订单编号： "+order.getOrder_num());
 		name.setText(" "+order.getGoods().getText());
-		
+
 		try {
 			String dateStr = DateFormat.format("yyyy-MM-dd hh:mm", order.getGoods().getCreateDate()).toString();
 			date.setText(""+ dateStr);
@@ -48,42 +48,42 @@ public class OrderInfoActivity extends Activity {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-			goods_num.setText("订单数量: "+ order.getAmount());
-	
+		goods_num.setText("订单数量: "+ order.getAmount());
+
 		title.setText("商品名称"+order.getGoods().getTitle());
 		switch(order.getStatus()){
-			case 0:
-				status.setText("订单状态： 确认收货");
-				break;
-			case 1:
-				status.setText("订单状态： 已付款");
-				break;
-				
-			case 2:
-				status.setText("订单状态： 已发货");
-				break;
-				
-			case 3: 
-				status.setText("订单状态： 已取消");
-				break;
-			default:
-				status.setText("订单状态： 未知状态");
-				break;
-				
+		case 0:
+			status.setText("订单状态： 确认收货");
+			break;
+		case 1:
+			status.setText("订单状态： 已付款");
+			break;
+
+		case 2:
+			status.setText("订单状态： 已发货");
+			break;
+
+		case 3: 
+			status.setText("订单状态： 已取消");
+			break;
+		default:
+			status.setText("订单状态： 未知状态");
+			break;
+
 		}
-		
+
 
 		sureSendGoods.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// 确认发货
 				SendGoods();
 			}
 		});
-		
+
 		cancleOrder.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				//取消订单
@@ -91,41 +91,41 @@ public class OrderInfoActivity extends Activity {
 			}
 		});
 	}
-	
-	
+
+
 	protected void cancleOrder() {
 		String myOrderId = order.getOrder_num();
 		// 取消订单
-		 RequestBody body = new MultipartBody.Builder()
-	   		        .setType(MultipartBody.FORM)
-	   		     .addFormDataPart("order_id",myOrderId)
-	   		     .build();
+		RequestBody body = new MultipartBody.Builder()
+				.setType(MultipartBody.FORM)
+				.addFormDataPart("order_id",myOrderId)
+				.build();
 		Request request = Server.requestBuilderWithPath("/cancleOrder").post(body).build();
-		
+
 		Server.getClient().newCall(request).enqueue(new Callback() {
-			
+
 			@Override
 			public void onResponse(Call arg0, Response res) throws IOException {
 				try {
-					
+
 					runOnUiThread(new Runnable() {
-								@Override
+						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-						Toast.makeText(getApplication(), "取消成功", Toast.LENGTH_LONG).show();
+							Toast.makeText(getApplication(), "取消成功", Toast.LENGTH_LONG).show();
 						}
 					});
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-					
+
 				}
 			}
-			
+
 			@Override
 			public void onFailure(Call arg0,final IOException e) {
 				runOnUiThread(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_LONG).show();
@@ -140,24 +140,24 @@ public class OrderInfoActivity extends Activity {
 	protected void SendGoods() {
 		//  确认发货
 		String myOrderId = order.getOrder_num();
-		 RequestBody body = new MultipartBody.Builder()
-	   		        .setType(MultipartBody.FORM)
-	   		     .addFormDataPart("order_id",myOrderId)
-	   		     .build();
+		RequestBody body = new MultipartBody.Builder()
+				.setType(MultipartBody.FORM)
+				.addFormDataPart("order_id",myOrderId)
+				.build();
 		Request request = Server.requestBuilderWithPath("/sendGoods").post(body).build();
-		
+
 		Server.getClient().newCall(request).enqueue(new Callback() {
-			
+
 			@Override
 			public void onResponse(Call arg0, Response res) throws IOException {
 				try {
-					
+
 					runOnUiThread(new Runnable() {
-								@Override
+						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-									Toast.makeText(getApplication(), "发货成功", Toast.LENGTH_LONG).show();
-									
+							Toast.makeText(getApplication(), "发货成功", Toast.LENGTH_LONG).show();
+
 						}
 					});
 				} catch (Exception e) {
@@ -165,11 +165,11 @@ public class OrderInfoActivity extends Activity {
 					e.printStackTrace();
 				}
 			}
-			
+
 			@Override
 			public void onFailure(Call arg0,final IOException e) {
 				runOnUiThread(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_LONG).show();
@@ -177,7 +177,7 @@ public class OrderInfoActivity extends Activity {
 				});
 			}
 		});
-		}
+	}
 
 
 

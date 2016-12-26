@@ -107,11 +107,11 @@
                 android:id="@+id/freshComment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1.5"
                 android:background="@drawable/bg"
                 android:text="刷新评论"
                 android:textColor="#FF5557"
-                   android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="15dp" />
         </LinearLayout>
 
         <ListView

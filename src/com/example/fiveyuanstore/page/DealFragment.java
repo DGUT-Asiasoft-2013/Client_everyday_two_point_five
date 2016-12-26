@@ -1,11 +1,11 @@
 package com.example.fiveyuanstore.page;
 
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.example.fiveyuanstore.CommentActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.MyOrder;
@@ -15,6 +15,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.text.format.Time;
@@ -37,50 +39,58 @@ import okhttp3.Response;
 public class DealFragment extends Fragment {
 	View view;
 	ListView listView;
-	
+
 	List<MyOrder> data;
 	int page = 0;
+	private Button reload;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		if(view==null){
-			view=inflater.inflate(R.layout.fragment_page_deal, null);
-			listView=(ListView)view.findViewById(R.id.deal_list);
+		if (view == null) {
+			view = inflater.inflate(R.layout.fragment_page_deal, null);
+			listView = (ListView) view.findViewById(R.id.deal_list);
 			listView.setAdapter(listAdapter);
+			reload = (Button) view.findViewById(R.id.reload);
 		}
-		
-		
-		
+		reload();
+
+		reload.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				reload();
+			}
+		});
 		return view;
 	}
-	
-	BaseAdapter listAdapter=new BaseAdapter() {
-		
+
+	BaseAdapter listAdapter = new BaseAdapter() {
+
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			View view=null;
-			
+			View view = null;
+
 			if (convertView == null) {
-				LayoutInflater inflater=LayoutInflater.from(parent.getContext());
-				view = inflater.inflate(R.layout.widget_buyer_order_item,null);
+				LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+				view = inflater.inflate(R.layout.widget_buyer_order_item, null);
 			} else {
 				view = convertView;
 			}
-			
-			TextView sellerName=(TextView)view.findViewById(R.id.seller_name);			//卖家名
-			TextView statusText=(TextView)view.findViewById(R.id.status_text);			//订单状态
-			TextView proName=(TextView)view.findViewById(R.id.pro_name);				//商品名称
-			TextView createDate=(TextView)view.findViewById(R.id.create_date);			//购买时间
-			TextView countText=(TextView)view.findViewById(R.id.count_text);			//金额
-			Button btnStatusChanges=(Button)view.findViewById(R.id.btn_status_changes);	//状态更改按钮
-			
-			//从服务器获取信息
-			MyOrder myOrder=data.get(position);
-			final int pos=position;
-			//状态
+
+			TextView sellerName = (TextView) view.findViewById(R.id.seller_name); // 卖家名
+			TextView statusText = (TextView) view.findViewById(R.id.status_text); // 订单状态
+			TextView proName = (TextView) view.findViewById(R.id.pro_name); // 商品名称
+			TextView createDate = (TextView) view.findViewById(R.id.create_date); // 购买时间
+			TextView countText = (TextView) view.findViewById(R.id.count_text); // 金额
+			Button btnStatusChanges = (Button) view.findViewById(R.id.btn_status_changes); // 状态更改按钮
+
+			// 从服务器获取信息
+			MyOrder myOrder = data.get(position);
+			final int pos = position;
+			// 状态
 			switch (myOrder.getStatus()) {
 			case 1:
-				statusText.setText("状态1:卖家已付款");
+				statusText.setText("状态1:买家已付款");
 				btnStatusChanges.setText("等待确认");
 				btnStatusChanges.setEnabled(false);
 				break;
@@ -88,7 +98,7 @@ public class DealFragment extends Fragment {
 				statusText.setText("状态2:已发货");
 				btnStatusChanges.setText("确认收货");
 				btnStatusChanges.setEnabled(true);
-				
+
 				break;
 			case 3:
 				statusText.setText("状态3:已取消");
@@ -107,15 +117,27 @@ public class DealFragment extends Fragment {
 				break;
 			}
 			btnStatusChanges.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
-					confirm(pos);
-					
-					
+					// 是否确认收货
+					new AlertDialog.Builder(DealFragment.this.getActivity())
+					.setTitle("确认收货")
+					.setMessage("确认收货吗")
+							.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									confirm(pos);
+								}
+
+							})
+							.setNegativeButton("Cancle", null)
+							.show();
+
 				}
 			});
-			//标题
+			// 标题
 			sellerName.setText(myOrder.getGoods().getTitle());
 			// 名称
 			proName.setText(myOrder.getGoods().getText());
@@ -157,7 +179,7 @@ public class DealFragment extends Fragment {
 	}
 
 	void reload() {
-		Request request = Server.requestBuilderWithPath("order").get().build();
+		Request request = Server.requestBuilderWithPath("order/myDeal").get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
 			@Override
@@ -198,7 +220,7 @@ public class DealFragment extends Fragment {
 
 	protected void confirm(int position) {
 		// 确认收货
-		MyOrder myOrder = data.get(position);
+		final MyOrder myOrder = data.get(position);
 		String myOrderId = myOrder.getOrder_num();
 		RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
 				.addFormDataPart("order_id", myOrderId).build();
@@ -213,7 +235,11 @@ public class DealFragment extends Fragment {
 					getActivity().runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							// TODO Auto-generated method stub
+							Intent itt= new Intent(DealFragment.this.getActivity(), CommentActivity.class);
+							itt.putExtra("myOrder", myOrder);
+							startActivity(itt);
+							
+							//已确认收货
 							Toast.makeText(getActivity().getApplication(), "你已确认收货", Toast.LENGTH_LONG).show();
 							listAdapter.notifyDataSetChanged();
 						}
