@@ -5,7 +5,8 @@ import java.util.List;
 
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
-import com.example.fiveyuanstore.entity.Inbox;
+
+import com.example.fiveyuanstore.entity.InboxList;
 import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.page.CommodityFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -34,7 +35,7 @@ public class InboxActivity extends Activity {
 	
 	String myName;
 	ListView listView;
-	List<Inbox> data;
+	List<InboxList> data;
 	int page = 0;
 	
 	@Override
@@ -59,13 +60,13 @@ public class InboxActivity extends Activity {
 	}
 	 
 	private void onItemClicked(int position) {
-		Inbox inbox=data.get(position);
+		InboxList inboxList=data.get(position);
 		Intent itnt=new Intent(this,InboxChetActivity.class);
-		if(!myName.equals(inbox.getRec_name()))
-			itnt.putExtra("name", inbox.getRec_name());
+		if(!myName.equals(inboxList.getRec_name()))
+			itnt.putExtra("name", inboxList.getRec_name());
 			
 		else
-			itnt.putExtra("name",inbox.getSend_name());
+			itnt.putExtra("name",inboxList.getSend_name());
 		
 		startActivity(itnt);
 	}
@@ -87,16 +88,16 @@ public class InboxActivity extends Activity {
 			TextView inboxLastTime=(TextView)view.findViewById(R.id.inbox_last_time);
 			TextView inboxLastMessage=(TextView)view.findViewById(R.id.inbox_last_message);
 			
-			Inbox inbox=data.get(position);
+			InboxList inboxList=data.get(position);
 			
-			if(!myName.equals(inbox.getRec_name()))
-				inboxName.setText(inbox.getRec_name());
+			if(!myName.equals(inboxList.getRec_name()))
+				inboxName.setText(inboxList.getRec_name());
 			else
-				inboxName.setText(inbox.getSend_name());
+				inboxName.setText(inboxList.getSend_name());
 			
-			String time=DateFormat.format("yyyy年MM月dd日   hh:mm:ss",inbox.getCreateDate()).toString();
+			String time=DateFormat.format("yyyy年MM月dd日   hh:mm:ss",inboxList.getLast_inbox().getCreateDate()).toString();
 			inboxLastTime.setText(time);
-			inboxLastMessage.setText(inbox.getInboxContent());
+			inboxLastMessage.setText(inboxList.getLast_inbox().getInboxContent());
 			
 			
 			return view;
@@ -137,8 +138,8 @@ public class InboxActivity extends Activity {
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
 				try {
-					final Page<Inbox> data = new ObjectMapper().readValue(arg1.body().string(),
-							new TypeReference<Page<Inbox>>() {
+					final Page<InboxList> data = new ObjectMapper().readValue(arg1.body().string(),
+							new TypeReference<Page<InboxList>>() {
 							});
 					InboxActivity.this.runOnUiThread(new Runnable() {
 

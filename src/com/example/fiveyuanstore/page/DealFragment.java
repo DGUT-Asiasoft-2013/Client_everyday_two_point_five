@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import com.example.fiveyuanstore.CommentActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
+import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.MyOrder;
 import com.example.fiveyuanstore.entity.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -76,6 +78,7 @@ public class DealFragment extends Fragment {
 			} else {
 				view = convertView;
 			}
+/*<<<<<<< HEAD
 
 			TextView sellerName = (TextView) view.findViewById(R.id.seller_name); // 卖家名
 			TextView statusText = (TextView) view.findViewById(R.id.status_text); // 订单状态
@@ -88,6 +91,23 @@ public class DealFragment extends Fragment {
 			MyOrder myOrder = data.get(position);
 			final int pos = position;
 			// 状态
+=======*/
+			ProImgView proImg = (ProImgView) view.findViewById(R.id.proImg);
+			TextView sellerName=(TextView)view.findViewById(R.id.seller_name);			//卖家名
+			TextView statusText=(TextView)view.findViewById(R.id.status_text);			//订单状态
+			TextView proName=(TextView)view.findViewById(R.id.pro_name);				//商品名称
+			TextView createDate=(TextView)view.findViewById(R.id.create_date);			//购买时间
+			TextView countText=(TextView)view.findViewById(R.id.count_text);			//金额
+			Button btnStatusChanges=(Button)view.findViewById(R.id.btn_status_changes);	//状态更改按钮
+			ProImgView image=(ProImgView) view.findViewById(R.id.proImg);
+			
+			//从服务器获取信息
+			MyOrder myOrder=data.get(position);
+			
+			image.load(myOrder.getGoods());
+			
+			final int pos=position;
+			//状态
 			switch (myOrder.getStatus()) {
 			case 1:
 				statusText.setText("状态1:买家已付款");
@@ -137,10 +157,20 @@ public class DealFragment extends Fragment {
 
 				}
 			});
+/*<<<<<<< HEAD
 			// 标题
 			sellerName.setText(myOrder.getGoods().getTitle());
+=======*/
+			try{
+				proImg.load(myOrder.getGoods());
+			}catch(Exception e){
+				
+			}
+			
+			//标题
+			sellerName.setText(myOrder.getGoods().getSale_name());
 			// 名称
-			proName.setText(myOrder.getGoods().getText());
+			proName.setText(myOrder.getGoods().getTitle());
 			// 时间
 			String dateStr = DateFormat.format("yyyy-MM-dd hh:mm", myOrder.getCreateDate()).toString();
 			createDate.setText(dateStr);
@@ -149,6 +179,8 @@ public class DealFragment extends Fragment {
 			float price = myOrder.getGoods().getPrice();
 			countText.setText("合计：" + amount + "件*" + price + "元=" + amount * price + "元");
 
+			
+			
 			return view;
 		}
 
