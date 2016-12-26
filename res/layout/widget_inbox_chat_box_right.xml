@@ -21,7 +21,7 @@
         android:padding="5dp" >
 
         <com.example.fiveyuanstore.fragment.widgets.AvatarView
-            android:id="@+id/avatar_chat_right"
+            android:id="@+id/avatar"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_alignParentRight="true" />
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="7dp"
-            android:layout_toLeftOf="@id/avatar_chat_right"
+            android:layout_toLeftOf="@id/avatar"
             android:background="#ddd"
             android:maxWidth="170dp"
             android:padding="5dp"
