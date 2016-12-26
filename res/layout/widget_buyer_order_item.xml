@@ -48,7 +48,7 @@
             android:layout_height="match_parent" >
 
             <com.example.fiveyuanstore.customViews.ProImgView
-                android:id="@+id/pro_img"
+                android:id="@+id/proImg"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_alignParentLeft="true"

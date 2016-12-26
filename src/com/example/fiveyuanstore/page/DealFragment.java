@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
+import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.MyOrder;
 import com.example.fiveyuanstore.entity.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -66,7 +68,7 @@ public class DealFragment extends Fragment {
 			} else {
 				view = convertView;
 			}
-			
+			ProImgView proImg = (ProImgView) view.findViewById(R.id.proImg);
 			TextView sellerName=(TextView)view.findViewById(R.id.seller_name);			//卖家名
 			TextView statusText=(TextView)view.findViewById(R.id.status_text);			//订单状态
 			TextView proName=(TextView)view.findViewById(R.id.pro_name);				//商品名称
@@ -115,10 +117,16 @@ public class DealFragment extends Fragment {
 					
 				}
 			});
+			try{
+				proImg.load(myOrder.getGoods());
+			}catch(Exception e){
+				
+			}
+			
 			//标题
-			sellerName.setText(myOrder.getGoods().getTitle());
+			sellerName.setText(myOrder.getGoods().getSale_name());
 			// 名称
-			proName.setText(myOrder.getGoods().getText());
+			proName.setText(myOrder.getGoods().getTitle());
 			// 时间
 			String dateStr = DateFormat.format("yyyy-MM-dd hh:mm", myOrder.getCreateDate()).toString();
 			createDate.setText(dateStr);
