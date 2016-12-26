@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:padding="16dp"
-        android:text="LOGIN TO HELLO"
+        android:text="两块五商店"
         android:textSize="24sp"
         android:textStyle="bold|italic" />
 

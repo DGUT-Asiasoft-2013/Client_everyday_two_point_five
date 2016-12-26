@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,7 +34,9 @@ import android.widget.EditText;
 import android.widget.AdapterView.OnItemClickListener;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MultipartBody;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -269,6 +272,43 @@ public class CommodityFragment extends Fragment {
 	}
 
 	void search() {
-		search_text.getText();
+		
+		MultipartBody.Builder body=new 
+				MultipartBody.Builder()
+				.setType(MultipartBody.FORM)
+				.addFormDataPart("text", search_text.getText().toString());
+		RequestBody requestBody=body.build();
+		Request request=Server.requestBuilderWithPath("/search").post(requestBody).build();
+	
+		Server.getClient().newCall(request).enqueue(new Callback() {
+			
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				try {
+					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(),
+							new TypeReference<Page<Goods>>() {
+							});
+
+					getActivity().runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							CommodityFragment.this.page = data.getNumber();
+							CommodityFragment.this.data = data.getContent();
+							listAdapter.notifyDataSetInvalidated();
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+				}			
+				
+			}
+			
+			@Override
+			public void onFailure(Call arg0, IOException e) {
+				Log.d("Fragment", e.getMessage());
+				
+			}
+		});
 	}
 }
