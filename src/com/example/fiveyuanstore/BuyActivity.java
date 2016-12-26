@@ -6,7 +6,10 @@ import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment;
 
+import android.R.integer;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +31,7 @@ public class BuyActivity extends Activity {
 	SimpleTextInputCellFragment fragInputCount;
 	Float price;
 	Goods goods;
+	int num;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub//
@@ -102,7 +106,8 @@ public class BuyActivity extends Activity {
 					
 					@Override
 					public void run() {
-						Toast.makeText(getApplication(), "购买成功", Toast.LENGTH_LONG).show();
+						//showPayDialog();
+						Toast.makeText(getApplication(), "付款成功", Toast.LENGTH_LONG).show();
 					}
 				});
 			}
@@ -122,4 +127,26 @@ public class BuyActivity extends Activity {
 	
 		finish();
 	}
+	private void showPayDialog(){
+
+        AlertDialog.Builder Dialog =new AlertDialog.Builder(this);
+        num=Integer.parseInt(fragInputCount.getText()) ;
+        Dialog.setTitle("付款");
+        Dialog.setMessage("确认支付$"+price*num+"？");
+        
+        Dialog.setPositiveButton("确定", 
+            new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            	Toast.makeText(getApplication(), "付款成功", Toast.LENGTH_LONG).show();
+            }
+        });
+        Dialog.setNegativeButton("取消", 
+            new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {               
+            }
+        });
+        Dialog.create().show();
+    }
 }
