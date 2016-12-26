@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
+import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.MyOrder;
 import com.example.fiveyuanstore.entity.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -73,9 +74,13 @@ public class DealFragment extends Fragment {
 			TextView createDate=(TextView)view.findViewById(R.id.create_date);			//购买时间
 			TextView countText=(TextView)view.findViewById(R.id.count_text);			//金额
 			Button btnStatusChanges=(Button)view.findViewById(R.id.btn_status_changes);	//状态更改按钮
+			ProImgView image=(ProImgView) view.findViewById(R.id.pro_img);
 			
 			//从服务器获取信息
 			MyOrder myOrder=data.get(position);
+			
+			image.load(myOrder.getGoods());
+			
 			final int pos=position;
 			//状态
 			switch (myOrder.getStatus()) {
@@ -127,6 +132,8 @@ public class DealFragment extends Fragment {
 			float price = myOrder.getGoods().getPrice();
 			countText.setText("合计：" + amount + "件*" + price + "元=" + amount * price + "元");
 
+			
+			
 			return view;
 		}
 

@@ -106,8 +106,8 @@ public class BuyActivity extends Activity {
 					
 					@Override
 					public void run() {
-						//showPayDialog();
-						Toast.makeText(getApplication(), "付款成功", Toast.LENGTH_LONG).show();
+						showPayDialog();
+						//Toast.makeText(getApplication(), "付款成功", Toast.LENGTH_LONG).show();
 					}
 				});
 			}
@@ -125,7 +125,7 @@ public class BuyActivity extends Activity {
 		});
 		
 	
-		finish();
+		//finish();
 	}
 	private void showPayDialog(){
 
@@ -138,7 +138,9 @@ public class BuyActivity extends Activity {
             new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+            	
             	Toast.makeText(getApplication(), "付款成功", Toast.LENGTH_LONG).show();
+            	finish();
             }
         });
         Dialog.setNegativeButton("取消", 
