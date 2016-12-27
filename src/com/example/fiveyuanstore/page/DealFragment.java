@@ -110,23 +110,23 @@ public class DealFragment extends Fragment {
 			//状态
 			switch (myOrder.getStatus()) {
 			case 1:
-				statusText.setText("状态1:买家已付款");
+				statusText.setText("状态:买家已付款");
 				btnStatusChanges.setText("等待确认");
 				btnStatusChanges.setEnabled(false);
 				break;
 			case 2:
-				statusText.setText("状态2:已发货");
+				statusText.setText("状态:已发货");
 				btnStatusChanges.setText("确认收货");
 				btnStatusChanges.setEnabled(true);
 
 				break;
 			case 3:
-				statusText.setText("状态3:已取消");
+				statusText.setText("状态:已取消");
 				btnStatusChanges.setText("交易关闭");
 				btnStatusChanges.setEnabled(false);
 				break;
 			case 0:
-				statusText.setText("状态0:确认收货");
+				statusText.setText("状态:确认收货");
 				btnStatusChanges.setText("订单完成");
 				btnStatusChanges.setEnabled(false);
 				break;
@@ -168,9 +168,9 @@ public class DealFragment extends Fragment {
 			}
 			
 			//标题
-			sellerName.setText(myOrder.getGoods().getSale_name());
+			sellerName.setText("卖家： "+myOrder.getGoods().getSale_name());
 			// 名称
-			proName.setText(myOrder.getGoods().getTitle());
+			proName.setText("商品： "+myOrder.getGoods().getTitle());
 			// 时间
 			String dateStr = DateFormat.format("yyyy-MM-dd hh:mm", myOrder.getCreateDate()).toString();
 			createDate.setText(dateStr);

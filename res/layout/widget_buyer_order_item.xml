@@ -104,7 +104,8 @@
         android:background="@drawable/bg"
         android:text="确认收货"
         android:textColor="#FF5557"
-        android:textSize="10sp" />
+        android:textSize="10sp" 
+        android:padding="8dp"/>
    
     <FrameLayout
         android:layout_width="match_parent"
