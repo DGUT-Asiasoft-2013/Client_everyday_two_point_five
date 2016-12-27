@@ -45,6 +45,8 @@ public class MyProfileFragment extends Fragment {
 	AvatarView avatar;					//显示用户头像
 	TextListFragment inbox,wallet,password_changes, order_handler;//私信、钱包、密码修改
 	
+	Float money;
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,6 +74,7 @@ public class MyProfileFragment extends Fragment {
 				@Override
 				public void onNewClicked() {
 					Intent intent = new Intent(getActivity(), WalletActivity.class);
+					intent.putExtra("money", money);
 					startActivity(intent);
 
 				}
@@ -203,6 +206,7 @@ public class MyProfileFragment extends Fragment {
 		textView.setTextColor(Color.BLACK);
 		textView.setText(user.getUser_name());
 		userName=user.getUser_name();
+		money=user.getMoney();
 		
 	}
 	protected void onFailuer(Call arg0, Exception e) {
