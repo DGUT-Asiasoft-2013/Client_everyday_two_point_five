@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.Goods;
+import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment;
 
 import android.R.integer;
@@ -79,14 +80,25 @@ public class BuyActivity extends Activity {
 	void submit(){
 		
 		//price
-		price = goods.getPrice();
+		int goods_amount = goods.getGoods_count();
+		float myWallet = 0;
+		User me = goods.getUser();
+		myWallet = me.getMoney();
 		
 		String goods_id = goods.getGoods_id();
-	
 		String name = 	fragInputCellName.getText();
 		String phone = fragInputCellPhone.getText();
 		String address = fragInputCellAddress.getText();
 		String amount = fragInputCount.getText();
+		 int myAmount = (Integer.parseInt(amount));
+		
+		if(myWallet < price*myAmount || myAmount> goods_amount ){
+			//钱包不够，或者输入的数量大于库存，则返回
+			Toast.makeText(getApplication(), "余额不够，或者输入的数量大于库存", Toast.LENGTH_LONG).show();
+			
+		}else{
+			
+	
 		
 		RequestBody requestBody = new MultipartBody.Builder()
 				.setType(MultipartBody.FORM)
@@ -94,6 +106,7 @@ public class BuyActivity extends Activity {
 				.addFormDataPart("phone",phone)
 				.addFormDataPart("address", address)
 				.addFormDataPart("amount", amount)
+				.addFormDataPart("price", String.valueOf(price))
 				.build();
 		
 		Request request=  Server.requestBuilderWithPath("/buy/"+goods_id).post(requestBody).build();
@@ -124,7 +137,7 @@ public class BuyActivity extends Activity {
 			}
 		});
 		
-	
+		}
 		//finish();
 	}
 	private void showPayDialog(){
