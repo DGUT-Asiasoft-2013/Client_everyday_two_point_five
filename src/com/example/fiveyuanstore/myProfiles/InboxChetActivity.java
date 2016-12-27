@@ -65,6 +65,7 @@ public class InboxChetActivity extends Activity {
 		inboxSendText=(EditText)findViewById(R.id.inbox_send_text);
 		inboxChatTo=(TextView)findViewById(R.id.inbox_chat_to);
 		avatarView=(AvatarView)findViewById(R.id.avatar);
+		
 		listView.setAdapter(listAdapter);
 		listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 		listView.setStackFromBottom(true);		//滚动到最后一行
@@ -160,20 +161,24 @@ public class InboxChetActivity extends Activity {
 			Inbox inbox=data.get(i-position-1);
 
 			LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-			if (inbox.getSend_name().equals(send_name)){
-				view = inflater.inflate(R.layout.widget_inbox_chat_box_right, null);					
+			
+			User getUserAvatar=null;
+			if (inbox.getSend_user().getUser_name().equals(send_name)){
+				view = inflater.inflate(R.layout.widget_inbox_chat_box_right, null);	
+				getUserAvatar=inbox.getSend_user();
 			}else{
 				view = inflater.inflate(R.layout.widget_inbox_chat_box_left, null);
+				getUserAvatar=inbox.getRec_user();
 			}
 			str_text=inbox.getInboxContent();
 
 
 			TextView chatBoxTime=(TextView)view.findViewById(R.id.chat_box_time);
 			TextView inboxChat=(TextView)view.findViewById(R.id.inbox_chat);
-
+			AvatarView avatar=(AvatarView)view.findViewById(R.id.avatar);
 			String time=DateFormat.format("yyyy-MM-dd hh:mm:ss",inbox.getCreateDate()).toString();
 			chatBoxTime.setText(time);
-
+			avatar.load(getUserAvatar);
 			inboxChat.setText(str_text);
 
 

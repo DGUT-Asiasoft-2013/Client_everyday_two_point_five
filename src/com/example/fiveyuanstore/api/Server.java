@@ -17,7 +17,10 @@ import okhttp3.Request;
 public class Server {
 	static OkHttpClient client;
 
-	public static String serverAddress = "http://172.27.15.28:8080/storecenter/";
+
+
+	public static String serverAddress = "http://172.27.15.27:8080/storecenter/";
+
 
 	
 	static {

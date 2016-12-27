@@ -8,6 +8,7 @@ import com.example.fiveyuanstore.api.Server;
 
 import com.example.fiveyuanstore.entity.InboxList;
 import com.example.fiveyuanstore.entity.Page;
+import com.example.fiveyuanstore.fragment.widgets.AvatarView;
 import com.example.fiveyuanstore.page.CommodityFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -87,13 +88,16 @@ public class InboxActivity extends Activity {
 			TextView inboxName=(TextView)view.findViewById(R.id.inbox_name);
 			TextView inboxLastTime=(TextView)view.findViewById(R.id.inbox_last_time);
 			TextView inboxLastMessage=(TextView)view.findViewById(R.id.inbox_last_message);
-			
+			AvatarView avatar=(AvatarView)view.findViewById(R.id.avatar);
 			InboxList inboxList=data.get(position);
 			
-			if(!myName.equals(inboxList.getRec_name()))
+			if(!myName.equals(inboxList.getRec_name())){
 				inboxName.setText(inboxList.getRec_name());
-			else
+				avatar.load(inboxList.getLast_inbox().getRec_user());
+			}else{
 				inboxName.setText(inboxList.getSend_name());
+				avatar.load(inboxList.getLast_inbox().getSend_user());
+			}
 			
 			String time=DateFormat.format("yyyy年MM月dd日   hh:mm:ss",inboxList.getLast_inbox().getCreateDate()).toString();
 			inboxLastTime.setText(time);
