@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="#fff" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,7 +22,7 @@
             android:minHeight="25dp"
             android:minWidth="100dp"
             android:text="订单编号"
-            android:textColor="#ababab"
+            android:textColor="#3E3E3C"
             android:textSize="12dp" />
 
        
@@ -36,20 +37,8 @@
             android:minHeight="25dp"
             android:minWidth="30dp"
             android:text="数量"
-            android:textColor="#ababab"
+            android:textColor="#3E3E3C"
             android:textSize="12dp" />
-
-       <TextView
-           android:id="@+id/title"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_below="@+id/orderid"
-           android:layout_toRightOf="@+id/proImg"
-           android:minHeight="25dp"
-           android:minWidth="100dp"
-           android:text="商品名称"
-           android:textColor="#ababab"
-           android:textSize="12dp" />
 
        <TextView
            android:id="@+id/date"
@@ -57,7 +46,19 @@
            android:layout_height="wrap_content"
            android:layout_below="@+id/proImg"
            android:text="date"
-           android:textColor="#ababab"
+           android:textColor="#3E3E3C"
+           android:textSize="12dp" />
+
+       <TextView
+           android:id="@+id/title"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignLeft="@+id/orderid"
+           android:layout_below="@+id/orderid"
+           android:minHeight="25dp"
+           android:minWidth="100dp"
+           android:text="商品名称"
+           android:textColor="#3E3E3C"
            android:textSize="12dp" />
 
        <TextView
@@ -66,8 +67,9 @@
            android:layout_height="wrap_content"
            android:layout_alignParentRight="true"
            android:layout_below="@+id/proImg"
+           android:layout_marginRight="24dp"
            android:text="status"
-           android:textColor="#abEEDD"
+           android:textColor="#f82800"
            android:textSize="12dp" />
 
     </RelativeLayout>

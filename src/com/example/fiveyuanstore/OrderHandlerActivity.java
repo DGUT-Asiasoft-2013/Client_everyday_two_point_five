@@ -231,7 +231,7 @@ public class OrderHandlerActivity extends Activity {
 				// TODO Auto-generated catch block orders.getAmount()
 				e.printStackTrace();
 			}
-			title.setText("商品名称"+orders.getGoods().getTitle());
+			title.setText("商品名称: "+orders.getGoods().getTitle());
 			switch(orders.getStatus()){
 				case 0:
 					status.setText("订单状态： 确认收货");
@@ -255,7 +255,7 @@ public class OrderHandlerActivity extends Activity {
 			
 			
 			String dateStr = DateFormat.format("yy-MM-dd hh:mm", orders.getCreateDate()).toString();
-			date.setText("创建日期"+dateStr);
+			date.setText("创建日期: "+dateStr);
 			return view;
 		}
 		 
