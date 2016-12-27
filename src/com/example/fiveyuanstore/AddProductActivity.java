@@ -26,10 +26,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class AddProductActivity extends Activity {
-	SimpleTextInputCellFragment frag1,frag2, frag4;
+	SimpleTextInputCellFragment frag1, frag4;
 	PictureInputCellFragment frag5;
 	Button publish;
-	EditText frag3;
+	EditText frag2,frag3;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -42,7 +42,7 @@ public class AddProductActivity extends Activity {
 		 *图片*/
 		
 		frag1 =(SimpleTextInputCellFragment)  getFragmentManager().findFragmentById(R.id.frag1);
-		frag2 =(SimpleTextInputCellFragment)  getFragmentManager().findFragmentById(R.id.frag2);
+		frag2 =(EditText) findViewById(R.id.frag2);
 		frag3 =(EditText) findViewById(R.id.frag3);
 		frag4 =(SimpleTextInputCellFragment)  getFragmentManager().findFragmentById(R.id.frag4);
 		frag5 =(PictureInputCellFragment)  getFragmentManager().findFragmentById(R.id.frag5);
@@ -61,7 +61,7 @@ public class AddProductActivity extends Activity {
 	protected void publishGoods() {
 		String title = frag1.getText(),
 				text = frag4.getText(),
-				price = frag2.getText(),
+				price = frag2.getText().toString(),
 				goods_count = frag3.getText().toString();
 		
 	  	 
@@ -150,9 +150,9 @@ public class AddProductActivity extends Activity {
 		frag1.setIsPsw(false);
 
 		
-		frag2.setLabelText("价格");
-		frag2.setHintText("价格");
-		frag2.setIsPsw(false);
+	
+		frag2.setHint("价格");
+
 		
 		frag3.setHint(" 库存 ");
 		

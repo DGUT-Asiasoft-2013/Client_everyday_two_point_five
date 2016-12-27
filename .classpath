@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-<<<<<<< HEAD
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="src" path="src"/>
-=======
->>>>>>> branch 'master' of https://github.com/DGUT-Asiasoft-2013/Client_everyday_two_point_five.git
-	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-<<<<<<< HEAD
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
-=======
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="gen"/>
->>>>>>> branch 'master' of https://github.com/DGUT-Asiasoft-2013/Client_everyday_two_point_five.git
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
