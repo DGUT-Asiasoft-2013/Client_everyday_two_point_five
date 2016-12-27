@@ -18,6 +18,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -91,13 +92,15 @@ public class InboxActivity extends Activity {
 			AvatarView avatar=(AvatarView)view.findViewById(R.id.avatar);
 			InboxList inboxList=data.get(position);
 			
-			if(!myName.equals(inboxList.getRec_name())){
-				inboxName.setText(inboxList.getRec_name());
+			if(!myName.equals(inboxList.getLast_inbox().getRec_user().getUser_name())){
+				inboxName.setText(inboxList.getLast_inbox().getRec_user().getUser_name());
 				avatar.load(inboxList.getLast_inbox().getRec_user());
 			}else{
-				inboxName.setText(inboxList.getSend_name());
+				inboxName.setText(inboxList.getLast_inbox().getSend_user().getUser_name());
 				avatar.load(inboxList.getLast_inbox().getSend_user());
 			}
+			
+
 			
 			String time=DateFormat.format("yyyy年MM月dd日   hh:mm:ss",inboxList.getLast_inbox().getCreateDate()).toString();
 			inboxLastTime.setText(time);

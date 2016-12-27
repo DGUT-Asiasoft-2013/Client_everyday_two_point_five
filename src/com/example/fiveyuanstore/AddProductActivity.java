@@ -1,9 +1,10 @@
 package com.example.fiveyuanstore;
 
+import com.example.fiveyuanstore.inputcells.PictureInputCellFragment;
+
 import java.io.IOException;
 
 import com.example.fiveyuanstore.api.Server;
-import com.example.fiveyuanstore.inputcells.PictureInputCellFragment;
 import com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment;
 
 import android.app.Activity;
