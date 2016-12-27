@@ -28,8 +28,8 @@ public class OrderInfoActivity extends Activity {
 
 		setContentView(R.layout.activity_order_info);
 		order =  (MyOrder) getIntent().getSerializableExtra("orders");
-		Button sureSendGoods = (Button) findViewById(R.id.sureSendGoods);
-		Button cancleOrder = (Button) findViewById(R.id.cancleOrder);
+		final Button sureSendGoods = (Button) findViewById(R.id.sureSendGoods);
+		final Button cancleOrder = (Button) findViewById(R.id.cancleOrder);
 		ProImgView proImg = (ProImgView) findViewById(R.id.proImg);
 		TextView orderId = (TextView) findViewById(R.id.orderid);
 		TextView goods_num =(TextView) findViewById(R.id.orderNum);
@@ -79,6 +79,7 @@ public class OrderInfoActivity extends Activity {
 			public void onClick(View v) {
 				// 确认发货
 				SendGoods();
+				sureSendGoods.setEnabled(false);
 			}
 		});
 
@@ -88,6 +89,8 @@ public class OrderInfoActivity extends Activity {
 			public void onClick(View v) {
 				//取消订单
 				cancleOrder();
+				cancleOrder.setEnabled(false);
+				sureSendGoods.setEnabled(false);
 			}
 		});
 	}
@@ -138,6 +141,9 @@ public class OrderInfoActivity extends Activity {
 
 
 	protected void SendGoods() {
+		//不在取消状态
+		if(order.getStatus() != 3 && order.getStatus() != 2){
+	
 		//  确认发货
 		String myOrderId = order.getOrder_num();
 		RequestBody body = new MultipartBody.Builder()
@@ -177,6 +183,10 @@ public class OrderInfoActivity extends Activity {
 				});
 			}
 		});
+		}
+		else if(order.getStatus() ==2){
+			Toast.makeText(getApplication(), "你已发货~不可重复发货哦~", Toast.LENGTH_LONG).show();
+		}
 	}
 
 
