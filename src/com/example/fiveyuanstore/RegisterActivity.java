@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -29,8 +31,9 @@ public class RegisterActivity extends Activity {
 	SimpleTextInputCellFragment fragInputCellName;
 	SimpleTextInputCellFragment fragInputCellPassword;
 	SimpleTextInputCellFragment fragInputCellPasswordRepeat;
-	SimpleTextInputCellFragment fragInputEmailAddress;
+	EditText fragInputEmailAddress;
 	PictureInputCellFragment fragInputAvatar;
+	TextView textEmail ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +45,10 @@ public class RegisterActivity extends Activity {
 		fragInputCellName = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_name);
 		fragInputCellPassword = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_password);
 		fragInputCellPasswordRepeat = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_password_repeat);
-		fragInputEmailAddress = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.intput_email);
+		fragInputEmailAddress =(EditText)findViewById(R.id.intput_email);
 		fragInputAvatar = (PictureInputCellFragment) getFragmentManager().findFragmentById(R.id.picture);
-
+		textEmail = (TextView) findViewById(R.id.text_email);
+		
 		findViewById(R.id.btn_submit).setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -75,8 +79,8 @@ public class RegisterActivity extends Activity {
 		fragInputCellPasswordRepeat.setHintText("请输入确认密码");
 		fragInputCellPasswordRepeat.setIsPassword(true);
 
-		fragInputEmailAddress.setLabelText("电子邮箱");
-		fragInputEmailAddress.setHintText("请输入电子邮箱");
+		textEmail.setText("电子邮箱");
+		fragInputEmailAddress.setHint("请输入电子邮箱");
 	}
 
 	void submit() {
@@ -97,7 +101,7 @@ public class RegisterActivity extends Activity {
 		
 		String account = fragInputCellAccount.getText();
 		String name = fragInputCellName.getText();
-		String email = fragInputEmailAddress.getText();
+		String email = fragInputEmailAddress.getText().toString();
 		
 		OkHttpClient client = Server.getClient();
 		

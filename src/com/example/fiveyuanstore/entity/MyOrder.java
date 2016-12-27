@@ -13,10 +13,22 @@ public class MyOrder extends DateRecord implements Serializable{
 	amount;
 	String order_num;
 	Goods goods;
-	User user;
+
 	String title;
 	String goods_id;
+	User user;
+	Integer sale_id;//用户， 卖方id
+	String name, phone, address;
+
 	
+
+	public Integer getSale_id() {
+		return sale_id;
+	}
+
+	public void setSale_id(Integer sale_id) {
+		this.sale_id = sale_id;
+	}
 
 	public String getGoods_id() {
 		return goods_id;
@@ -26,7 +38,7 @@ public class MyOrder extends DateRecord implements Serializable{
 		this.goods_id = goods_id;
 	}
 
-	String name, phone, address;
+
 	
 	public String getName() {
 		return name;

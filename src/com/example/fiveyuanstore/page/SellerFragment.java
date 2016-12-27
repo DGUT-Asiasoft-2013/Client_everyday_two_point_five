@@ -122,7 +122,7 @@ public class SellerFragment extends Fragment {
 	}
 
 	void loadMore() {
-		Request request = Server.requestBuilderWithPath("/feeds/"+(page+1) ).get().build();
+		Request request = Server.requestBuilderWithPath("/goods/"+(page+1) ).get().build();
 
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
@@ -182,7 +182,7 @@ public class SellerFragment extends Fragment {
 	}
 
 	void reload() {
-		Request request = Server.requestBuilderWithPath("/feeds/" ).get().build();
+		Request request = Server.requestBuilderWithPath("/goods" ).get().build();
 
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
