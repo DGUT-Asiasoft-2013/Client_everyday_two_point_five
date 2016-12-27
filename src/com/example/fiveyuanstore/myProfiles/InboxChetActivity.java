@@ -55,8 +55,8 @@ public class InboxChetActivity extends Activity {
 	int page = 0;
 	
 	String sign;
-	int last_id;
-	int new_id;
+//	int last_id;
+//	int new_id;
 	InboxList inboxList;
 
 	@Override
@@ -191,7 +191,7 @@ public class InboxChetActivity extends Activity {
 				view = inflater.inflate(R.layout.widget_inbox_chat_box_left, null);
 			}
 			str_text=inbox.getInboxContent();
-			last_id=inbox.getId();
+//			last_id=inbox.getId();
 
 			TextView chatBoxTime=(TextView)view.findViewById(R.id.chat_box_time);
 			TextView inboxChat=(TextView)view.findViewById(R.id.inbox_chat);
@@ -263,7 +263,7 @@ public class InboxChetActivity extends Activity {
 
 							InboxChetActivity.this.page = data.getNumber();
 							InboxChetActivity.this.data = data.getContent();
-							InboxChetActivity.this.last_id=data.getContent().get(data.getContent().size()-1).getId();
+
 							
 							listAdapter.notifyDataSetInvalidated();
 						}

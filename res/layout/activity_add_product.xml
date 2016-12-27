@@ -32,12 +32,20 @@
             tools:layout="@layout/fragment_inputcell_simpletext"/>
           
 <!--           库存 -->
-            <fragment
-            android:id="@+id/frag3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
-            tools:layout="@layout/fragment_inputcell_simpletext"/>
+                     
+            <TextView
+                android:id="@+id/counttxt"
+                android:text="數量"
+                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ></TextView>
+                
+            <EditText 
+                android:id="@+id/frag3"
+                android:singleLine="true"
+				android:numeric="integer"
+				 android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
             
            <!-- 描述 -->
               <fragment

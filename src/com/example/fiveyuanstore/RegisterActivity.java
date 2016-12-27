@@ -1,6 +1,8 @@
 package com.example.fiveyuanstore;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.inputcells.PictureInputCellFragment;
@@ -103,6 +105,15 @@ public class RegisterActivity extends Activity {
 		String name = fragInputCellName.getText();
 		String email = fragInputEmailAddress.getText().toString();
 		
+		//email validate
+		//电子邮件    
+		 String check = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";    
+		 Pattern regex = Pattern.compile(check);    
+		 Matcher matcher = regex.matcher(email);    
+		 boolean isMatched = matcher.matches();    
+		
+		if(isMatched){
+		
 		OkHttpClient client = Server.getClient();
 		
 		MultipartBody.Builder requestBodyBuilder = new MultipartBody.Builder()
@@ -160,6 +171,10 @@ public class RegisterActivity extends Activity {
 			}
 
 		});
+		}else{
+			Toast.makeText(getApplication(), "邮箱错误", Toast.LENGTH_LONG).show();
+			
+		}
 	}
 
 	void startLoginActivity() {
