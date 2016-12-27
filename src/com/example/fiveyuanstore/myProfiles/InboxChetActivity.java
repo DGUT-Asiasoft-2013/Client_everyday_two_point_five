@@ -5,13 +5,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-
+import com.example.fiveyuanstore.GoodsContentActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.Inbox;
+import com.example.fiveyuanstore.entity.InboxList;
 import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.fragment.widgets.AvatarView;
+import com.example.fiveyuanstore.page.MyProfileFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,6 +21,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,17 +44,20 @@ import okhttp3.Response;
 public class InboxChetActivity extends Activity {
 
 	ListView listView;
-	Boolean isSend=false;
-	int int_test=8;
 	String str_text;
 	EditText inboxSendText;
 
 	String send_name;
+	static String my_name;
 	TextView inboxChatTo;
 	AvatarView avatarView;
-	User user;
 	List<Inbox> data;
 	int page = 0;
+	
+	String sign;
+	int last_id;
+	int new_id;
+	InboxList inboxList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,7 @@ public class InboxChetActivity extends Activity {
 		Log.d("0000","1223");
 		//获取联络人
 		send_name=(String) getIntent().getSerializableExtra("name");
+		
 
 		setContentView(R.layout.activity_inbox_chat);
 		listView=(ListView)findViewById(R.id.inbox_chat_list);
@@ -82,6 +89,23 @@ public class InboxChetActivity extends Activity {
 
 
 		});
+//		renovate();
+//		last_id=inboxList.getLast_inbox().getId();
+//		
+//		new Handler().postDelayed(new Runnable() {
+//			@Override
+//			public void run() {
+//				
+//				renovate();
+//				if(last_id!=inboxList.getLast_inbox().getId()){
+//					last_id=inboxList.getLast_inbox().getId();
+//						reload(0);
+//						listAdapter.notifyDataSetInvalidated();
+//				}
+//			new Handler().postDelayed(this, 1000);
+//			}
+//			},1000);
+		
 
 	}
 
@@ -159,26 +183,22 @@ public class InboxChetActivity extends Activity {
 			View view=null;
 			int i=data.size();
 			Inbox inbox=data.get(i-position-1);
-
 			LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 			
-			User getUserAvatar=null;
 			if (inbox.getSend_user().getUser_name().equals(send_name)){
 				view = inflater.inflate(R.layout.widget_inbox_chat_box_right, null);	
-				getUserAvatar=inbox.getSend_user();
 			}else{
 				view = inflater.inflate(R.layout.widget_inbox_chat_box_left, null);
-				getUserAvatar=inbox.getRec_user();
 			}
 			str_text=inbox.getInboxContent();
-
+			last_id=inbox.getId();
 
 			TextView chatBoxTime=(TextView)view.findViewById(R.id.chat_box_time);
 			TextView inboxChat=(TextView)view.findViewById(R.id.inbox_chat);
 			AvatarView avatar=(AvatarView)view.findViewById(R.id.avatar);
 			String time=DateFormat.format("yyyy-MM-dd hh:mm:ss",inbox.getCreateDate()).toString();
 			chatBoxTime.setText(time);
-			avatar.load(getUserAvatar);
+			avatar.load(inbox.getRec_user());
 			inboxChat.setText(str_text);
 
 
@@ -215,8 +235,10 @@ public class InboxChetActivity extends Activity {
 	void reload(int page) {
 
 
-		MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("text",
-				send_name);
+		MultipartBody.Builder body = new MultipartBody
+				.Builder()
+				.setType(MultipartBody.FORM)
+				.addFormDataPart("text",send_name);
 
 		RequestBody requestBody = body.build();
 		Request request = Server
@@ -241,6 +263,8 @@ public class InboxChetActivity extends Activity {
 
 							InboxChetActivity.this.page = data.getNumber();
 							InboxChetActivity.this.data = data.getContent();
+							InboxChetActivity.this.last_id=data.getContent().get(data.getContent().size()-1).getId();
+							
 							listAdapter.notifyDataSetInvalidated();
 						}
 					});
@@ -255,13 +279,40 @@ public class InboxChetActivity extends Activity {
 			}
 		});
 
-
-
-
-
-
 	}
 
+	void renovate(){
+		MultipartBody.Builder body = new MultipartBody
+				.Builder()
+				.setType(MultipartBody.FORM)
+				.addFormDataPart("sign",sign);
+		OkHttpClient client = Server.getClient();
+		Request request = Server.requestBuilderWithPath("inboxGetOne")
+				.method("GET", null)
+				.build();
+
+		Server.getClient().newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(Call arg0, final Response arg1) throws IOException {
+				try {
+					final InboxList data = new ObjectMapper().readValue(arg1.body().bytes(), InboxList.class);
+					InboxChetActivity.this.inboxList=data;
+					
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onFailure(Call arg0, final IOException e) {
+				Log.d("SellerFragment", e.getMessage());
+			}
+		});
+		
+	}
+	
 
 
 }

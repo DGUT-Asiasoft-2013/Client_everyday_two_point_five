@@ -13,18 +13,21 @@ import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Comment;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.Page;
+import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.fragment.widgets.AvatarView;
 import com.example.fiveyuanstore.myProfiles.InboxChetActivity;
-
+import com.example.fiveyuanstore.page.MyProfileFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +35,10 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -46,6 +51,9 @@ public class GoodsContentActivity extends Activity {
 	private Goods goods;
 	List<Comment> comments;
 	int page=0;
+
+
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +97,10 @@ public class GoodsContentActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent itnt = new Intent(GoodsContentActivity.this, InboxChetActivity.class);
-				itnt.putExtra("name", goods.getSale_name());
-				startActivity(itnt);
+				toCall();
 
 			}
+
 		});
 	}
 
@@ -203,4 +210,79 @@ public class GoodsContentActivity extends Activity {
 		new AlertDialog.Builder(this).setMessage(e.getMessage()).show();
 	}
 
+
+	void toCall() {
+		OkHttpClient client = Server.getClient();
+		Request request = Server.requestBuilderWithPath("me")
+				.method("GET", null)
+				.build();
+		
+		final ProgressDialog progressD = new ProgressDialog(this);
+		progressD.setCancelable(false);
+		progressD.setTitle("提示");
+		progressD.setMessage("请稍后");
+		progressD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		progressD.setCanceledOnTouchOutside(false);
+		progressD.show();
+		
+		client.newCall(request).enqueue(new Callback() {
+			
+			@Override
+			public void onResponse(final Call arg0, Response arg1) throws IOException {
+				progressD.dismiss();
+				try {
+					final User user = new ObjectMapper().readValue(arg1.body().bytes(), User.class);
+					String myname = user.getUser_name();
+					if (!myname.equals(goods.getSale_name())) {
+						Intent itnts = new Intent(GoodsContentActivity.this, InboxChetActivity.class);
+						itnts.putExtra("name", goods.getSale_name());
+						startActivity(itnts);
+					} else {
+						GoodsContentActivity.this.runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								new AlertDialog.Builder(GoodsContentActivity.this)
+								.setNegativeButton("OK", null)
+								.setTitle("哎呀")
+								.setMessage("不能给自己发私信哦")
+								.show();
+							}
+						});
+					}
+
+				} catch (final Exception e) {
+					e.printStackTrace();
+					Log.d("AddProductActivity", arg1.toString());
+					new AlertDialog.Builder(GoodsContentActivity.this)
+					.setNegativeButton("OK", null)
+					.setTitle("服务器好像出问题了_(:з」∠)_")
+					.setMessage(e.getMessage())
+					.show();
+					
+				}
+				
+			}
+			
+			@Override
+			public void onFailure(final Call arg0, final IOException arg1) {
+				runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						progressD.dismiss();
+
+						Log.d("AddProductActivity", arg1.toString());
+						new AlertDialog.Builder(GoodsContentActivity.this)
+						.setNegativeButton("OK", null)
+						.setTitle("服务器好像出问题了额_(:з」∠)_")
+						.setMessage(arg1.getMessage())
+						.show();
+						
+
+					}
+				});
+				
+			}
+		});
+	}
 }

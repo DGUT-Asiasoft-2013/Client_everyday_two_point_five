@@ -127,7 +127,7 @@ public class AvatarView extends View {				//头像处理
 
 			canvas.scale(1/scaleX, 1/scaleY);
 
-			canvas.drawCircle(srcWidth/2, srcHeight/2, Math.min(srcWidth, srcHeight)/2, paint);
+			canvas.drawCircle(Math.min(srcWidth, srcHeight)/2, Math.min(srcWidth, srcHeight)/2, Math.min(srcWidth, srcHeight)/2, paint);
 			
 			canvas.restore();
 		}
