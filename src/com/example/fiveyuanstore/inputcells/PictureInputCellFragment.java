@@ -1,8 +1,13 @@
 package com.example.fiveyuanstore.inputcells;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import com.example.fiveyuanstore.R;
 
@@ -143,4 +148,22 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	public byte[] getPngData(){
 		return pngData;
 	}
+	
+	public static void resizeImage(String srcImgPath, String distImgPath,  
+            int width, int height) throws IOException {  
+//		param srcImgPath 原图片路径 
+//	    param distImgPath  转换大小后图片路径 
+//	    param width   转换后图片宽度 
+//	    param height  转换后图片高度 
+        File srcFile = new File(srcImgPath);  
+        Image srcImg = ImageIO.read(srcFile);  
+        BufferedImage buffImg = null;  
+        buffImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);  
+        buffImg.getGraphics().drawImage(  
+                srcImg.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0,  
+                0, null);  
+  
+        ImageIO.write(buffImg, "JPEG", new File(distImgPath));  
+  
+    }
 }
