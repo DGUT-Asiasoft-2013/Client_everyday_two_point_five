@@ -79,25 +79,32 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:weightSum="2" >
 
             <Button
                 android:id="@+id/call"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="#FF9402"
                 android:textColor="@android:color/white"
-                android:text="联系卖家" />
+                android:text="联系卖家"
+                android:padding="10dp"
+                 android:layout_marginTop="20dp"
+              />
 
             <Button
                 android:id="@+id/btn_buy"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="#FF5000"
                 android:textColor="@android:color/white"
-                android:text="购买" />
+                android:text="购买"
+                android:padding="10dp" 
+                android:layout_marginTop="20dp"
+          />
         </LinearLayout>
 
         <ListView
