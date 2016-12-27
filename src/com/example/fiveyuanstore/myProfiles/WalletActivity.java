@@ -74,7 +74,7 @@ public class WalletActivity extends Activity {
 		normalDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				money += Integer.parseInt(editText.getText().toString());
+				money += Float.parseFloat(editText.getText().toString());
 				server(money);
 				reload();
 			}
@@ -93,7 +93,7 @@ public class WalletActivity extends Activity {
 		normalDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				money -= Integer.parseInt(editText.getText().toString());
+				money -= Float.parseFloat(editText.getText().toString());
 				server(money);
 				reload();
 			}
