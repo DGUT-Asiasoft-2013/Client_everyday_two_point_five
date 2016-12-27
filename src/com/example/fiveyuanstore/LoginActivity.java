@@ -147,9 +147,12 @@ public class LoginActivity extends Activity {
 
 	void goLogin() {
 
+//		ActivityOptionsCompat options = ActivityOptionsCompat.makeScaleUpAnimation(view, 0, 0,view.getWidth(), view.getHeight());
+//		ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
 
 		Intent itnt = new Intent(this, StoreActivity.class);
 		startActivity(itnt);
+		//overridePendingTransition(R.animator.zoom_in, R.animator.zoom_out);
 	}
 
 	void goRegister() {

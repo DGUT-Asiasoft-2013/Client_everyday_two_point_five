@@ -1,17 +1,14 @@
 package com.example.fiveyuanstore;
 
-import com.example.fiveyuanstore.inputcells.PictureInputCellFragment;
-
 import java.io.IOException;
 
 import com.example.fiveyuanstore.api.Server;
+import com.example.fiveyuanstore.inputcells.PictureInputCellFragment;
 import com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
