@@ -15,57 +15,64 @@
         android:textSize="24sp"
         android:textStyle="bold|italic" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="110dp" >
+        android:layout_marginTop="110dp"
+        android:orientation="vertical" >
 
-        <fragment
-            android:id="@+id/input_account"
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="75dp"
-            class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
-            tools:layout="@layout/fragment_inputcell_simpletext" />
-
-        <ImageView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="55dp"
-            android:paddingTop="13dp"
-            android:src="@drawable/account" />
-    </RelativeLayout>
+            android:layout_gravity="center" >
 
-    <RelativeLayout
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/account" />
+
+            <fragment
+                android:id="@+id/input_account"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+                tools:layout="@layout/fragment_inputcell_simpletext" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-        <fragment
-            android:id="@+id/input_password"
-            android:layout_width="220dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="75dp"
-            class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
-            tools:layout="@layout/fragment_inputcell_simpletext" />
+            android:layout_gravity="center" >
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="25dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="54dp"
-            android:padding="0dp"
-            android:src="@drawable/password" />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="30dp"
+                android:padding="0dp"
+                android:src="@drawable/password" />
 
-    </RelativeLayout>
+            <fragment
+                android:id="@+id/input_password"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+                tools:layout="@layout/fragment_inputcell_simpletext" />
+        </LinearLayout>
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/btn_login"
         android:layout_width="150dp"
         android:layout_height="80dp"
-        android:paddingTop="10dp"
         android:layout_gravity="center_horizontal"
+        android:paddingTop="10dp"
         android:src="@drawable/sign_bg" />
 
     <TextView
@@ -77,22 +84,15 @@
         android:text="Forgot password?"
         android:textColor="@android:color/darker_gray" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/btn_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="0.1"
-        android:gravity="center_horizontal"
-        android:orientation="vertical" >
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="New here? Sign Up"
+        android:textColor="@android:color/darker_gray" />
 
-        <TextView
-            android:id="@+id/btn_register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:text="New here? Sign Up"
-            android:textColor="@android:color/darker_gray" />
-
-    </LinearLayout>
 </LinearLayout>
