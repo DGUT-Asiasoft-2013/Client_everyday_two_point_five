@@ -25,8 +25,8 @@ public class MainActivity extends Activity {
 			public void run() {
 				startLoginActivity();				
 			}
-		}, 5000);
-		startLoginActivity();
+		}, 1000);
+		
 		
 	}
 	

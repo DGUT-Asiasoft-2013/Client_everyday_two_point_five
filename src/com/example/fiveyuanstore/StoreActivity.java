@@ -12,6 +12,9 @@ import com.example.fiveyuanstore.page.SellerFragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
 
 public class StoreActivity extends Activity {
 	
@@ -20,7 +23,12 @@ public class StoreActivity extends Activity {
 	SellerFragment contentSellerPage=new SellerFragment();
 	MyProfileFragment contentMyProfile=new MyProfileFragment();
 	
-	MainTabbarFragment tabbar;
+
+	
+	ImageView tab_storeList;
+	ImageView tab_dealMessage;
+	ImageView tab_sellerList;
+	ImageView tab_me;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,33 +36,98 @@ public class StoreActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_store);
 		
-		tabbar=(MainTabbarFragment) getFragmentManager().findFragmentById(R.id.frag_tabbar);
-		tabbar.setOnTabSelectedListener(new OnTabSelectedListener() {
+		tab_storeList=(ImageView)findViewById(R.id.tab_storeList);
+		tab_dealMessage=(ImageView)findViewById(R.id.tab_dealMessage);
+		tab_sellerList=(ImageView)findViewById(R.id.tab_sellerList);
+		tab_me=(ImageView)findViewById(R.id.tab_me);
+		
+		tab_storeList.setOnClickListener(new OnClickListener() {
 			
 			@Override
-			public void onTabSelected(int index) {
-				changeContentFragment(index);				
+			public void onClick(View v) {
+				changeContentFragment(0);
+				
 			}
-		});				
+		});
+		
+		tab_dealMessage.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				changeContentFragment(1);
+				
+			}
+		});
+		
+		tab_sellerList.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				changeContentFragment(2);
+				
+			}
+		});
+		
+		tab_me.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				changeContentFragment(3);
+				
+			}
+		});
+		
+		
+//		tabbar=(MainTabbarFragment) getFragmentManager().findFragmentById(R.id.frag_tabbar);
+//		tabbar.setOnTabSelectedListener(new OnTabSelectedListener() {
+//			
+//			@Override
+//			public void onTabSelected(int index) {
+//				changeContentFragment(index);				
+//			}
+//		});				
 	}
 
 	@Override
 	protected void onResume() {
 		
 		super.onResume();
-		if(tabbar.getSelectedIndex()<0){
-			tabbar.setSelectItem(0);
-		}
+		changeContentFragment(0);
+		
 	}
 	
 	void changeContentFragment(int index){
 		Fragment newFrag=null;
 		
 		switch (index) {
-		case 0:newFrag=contentGoodList;break;
-		case 1:newFrag=contentDealPage;break;
-		case 2:newFrag=contentSellerPage;break;
-		case 3:newFrag=contentMyProfile;break;
+		case 0:
+			newFrag = contentGoodList;
+			tab_storeList.setImageResource(R.drawable.ic_page_1_on);
+			tab_dealMessage.setImageResource(R.drawable.ic_page_2_off);
+			tab_sellerList.setImageResource(R.drawable.ic_page_3_off);
+			tab_me.setImageResource(R.drawable.ic_page_4_off);
+			break;
+		case 1:
+			newFrag = contentDealPage;
+			tab_storeList.setImageResource(R.drawable.ic_page_1_off);
+			tab_dealMessage.setImageResource(R.drawable.ic_page_2_on);
+			tab_sellerList.setImageResource(R.drawable.ic_page_3_off);
+			tab_me.setImageResource(R.drawable.ic_page_4_off);
+			break;
+		case 2:
+			newFrag = contentSellerPage;
+			tab_storeList.setImageResource(R.drawable.ic_page_1_off);
+			tab_dealMessage.setImageResource(R.drawable.ic_page_2_off);
+			tab_sellerList.setImageResource(R.drawable.ic_page_3_on);
+			tab_me.setImageResource(R.drawable.ic_page_4_off);
+			break;
+		case 3:
+			newFrag = contentMyProfile;
+			tab_storeList.setImageResource(R.drawable.ic_page_1_off);
+			tab_dealMessage.setImageResource(R.drawable.ic_page_2_off);
+			tab_sellerList.setImageResource(R.drawable.ic_page_3_off);
+			tab_me.setImageResource(R.drawable.ic_page_4_on);
+			break;
 			
 		default:break;
 		}

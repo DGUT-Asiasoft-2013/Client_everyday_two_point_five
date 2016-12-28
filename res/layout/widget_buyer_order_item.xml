@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content" 
+    android:background="#fff">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -11,24 +12,32 @@
     <RelativeLayout
         android:id="@+id/linear"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
+        android:layout_height="40dp"
+        android:paddingLeft="10dp" >
+        
+        <ImageView 
+            android:id="@+id/seller_image"
+            android:layout_width="60dp"
+            android:layout_height="16dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/seller"
+            android:layout_centerVertical="true"/>
 
         <TextView
             android:id="@+id/seller_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
+            android:layout_toRightOf="@id/seller_image"
+            android:layout_centerVertical="true"
             android:text="卖家名"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/status_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
             android:layout_centerInParent="true"
             android:text="交易状态"
             android:textColor="#f00"
@@ -38,56 +47,65 @@
     <FrameLayout
         android:id="@+id/frame"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="92dp"
         android:layout_below="@id/linear"
-        android:background="#eee"
-        android:padding="8dp" >
-
-        <RelativeLayout
-            android:layout_width="60dp"
-            android:layout_height="match_parent" >
-
-            <com.example.fiveyuanstore.customViews.ProImgView
-                android:id="@+id/proImg"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:layout_weight="0.54" />
-        </RelativeLayout>
+        android:background="#f1f1f1"
+        android:padding="6dp" >
+        
+        <com.example.fiveyuanstore.customViews.ProImgView
+            android:id="@+id/proImg"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="7dp"
+             />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="68dp" >
+            android:layout_marginLeft="95dp" 
+            android:layout_marginRight="12dp">
 
             <TextView
                 android:id="@+id/pro_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
+                android:layout_marginRight="59dp"
                 android:lines="2"
                 android:text="商品名称"
+                android:textSize="14dp"
                 android:textColor="@android:color/black" />
+            
+            <TextView 
+                android:id="@+id/one_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                 android:textSize="14dp"
+                android:text="-￥250"
+                />
 
             <TextView
                 android:id="@+id/create_date"
                 android:layout_width="wrap_content"
-                android:layout_height="18dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:text="时间"
-                android:textColor="#555"
-                android:textSize="12sp" />
+                android:textColor="#959595"
+                android:textSize="14dp" />
         </RelativeLayout>
+
     </FrameLayout>
 
     <TextView
         android:id="@+id/count_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="37dp"
         android:layout_below="@id/frame"
-        android:gravity="right"
-        android:text="合计：-999元" />
+        android:gravity="right|center_vertical"
+        android:layout_marginRight="13dp"
+        android:text="共n件商品   合计：-999元" 
+        android:textSize="15dp"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -97,26 +115,25 @@
 
     <Button
         android:id="@+id/btn_status_changes"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="12dp"
         android:layout_alignParentRight="true"
         android:layout_below="@id/count_text"
-        android:background="@drawable/bg"
+        android:padding="8dp"
         android:text="确认收货"
-        android:textColor="#FF5557"
-        android:textSize="10sp" 
-        android:padding="8dp"/>
-   
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_below="@id/btn_status_changes"
-        android:background="#fff" />
+        android:textColor="#fff"
+        android:textSize="18sp" 
+        android:background="@drawable/btn_true" />
+
+
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/btn_status_changes"
-        android:background="#eee" /> 
+        android:background="#eee" />
 
 </RelativeLayout>
