@@ -94,16 +94,15 @@ public class CommentActivity extends Activity {
 	}
 
 	protected void onResponse(String text) {
-
-		new AlertDialog.Builder(this).setMessage(text)
-		.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
+//		new AlertDialog.Builder(this).setMessage(text)
+//		.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
 				finish();
-				overridePendingTransition(R.anim.none, R.anim.slide_out_bottom);
-			}
-		}).show();
+//				overridePendingTransition(R.anim.none, R.anim.slide_out_bottom);
+//			}
+//		}).show();
 	}
 
 }
