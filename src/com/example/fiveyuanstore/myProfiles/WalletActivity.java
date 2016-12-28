@@ -24,6 +24,7 @@ import okhttp3.Callback;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class WalletActivity extends Activity {
@@ -43,6 +44,7 @@ public class WalletActivity extends Activity {
 			public void onClick(View v) {
 				// 充值按钮
 				recharge();
+				
 				remaining_sum.setText("$" + money);
 			}
 		});
@@ -74,8 +76,9 @@ public class WalletActivity extends Activity {
 		normalDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				money += Float.parseFloat(editText.getText().toString());
+				money += Float.parseFloat(editText.getText().toString());			
 				server(money);
+				serverrecharge("0",money);
 				reload();
 			}
 		});
@@ -131,5 +134,45 @@ public class WalletActivity extends Activity {
 
 			}
 		});
+	}
+	void serverrecharge(String goods_id,Float price){
+		
+	RequestBody requestBody = new MultipartBody.Builder()
+			.setType(MultipartBody.FORM)
+			.addFormDataPart("name","充值")
+			.addFormDataPart("phone","0")
+			.addFormDataPart("address","admin")
+			.addFormDataPart("amount", "1")
+			.addFormDataPart("price", String.valueOf(price))
+			.build();
+	
+	Request request=  Server.requestBuilderWithPath("/buy/"+goods_id).post(requestBody).build();
+	
+	Server.getClient().newCall(request).enqueue(new Callback() {
+		
+		@Override
+		public void onResponse(Call arg0, final Response res) throws IOException {
+			runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					
+					//Toast.makeText(getApplication(), "付款成功", Toast.LENGTH_LONG).show();
+				}
+			});
+		}
+		
+		@Override
+		public void onFailure(Call arg0,final IOException e) {
+			runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					Toast.makeText(getApplication(), "购买失败"+ e.getMessage(), Toast.LENGTH_LONG).show();
+				}
+			});
+		}
+	});
+	
 	}
 }
