@@ -42,7 +42,8 @@
         </activity>
         <activity
             android:name="com.example.fiveyuanstore.StoreActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            android:theme="@android:style/Theme.Light.NoTitleBar" 
+            android:windowSoftInputMode="stateVisible|adjustPan">
         </activity>
         <activity
             android:name="com.example.fiveyuanstore.AddProductActivity"
@@ -94,6 +95,18 @@
         </activity>
         <activity
             android:name="com.example.fiveyuanstore.OrderInfoActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+     	 <activity
+            android:name="com.example.fiveyuanstore.BillListActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.BillInfoActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.TransactionActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
     </application>

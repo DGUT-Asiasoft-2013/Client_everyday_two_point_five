@@ -48,16 +48,6 @@
         android:textSize="12dp" />
 
     <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/sureSendGoods"
-        android:layout_below="@+id/title"
-        android:text="text"
-        android:textColor="@android:color/black"
-        android:textSize="12dp" />
-
-    <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,29 +59,6 @@
         android:textColor="#3E3E3C"
         android:textSize="12dp" />
 
-    <Button
-        android:id="@+id/cancleOrder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/status"
-        android:layout_marginTop="14dp"
-        android:background="#fff"
-        android:text="取消订单"
-        android:textColor="#3E3E3C"
-        android:textSize="12dp" />
-
-    <Button
-        android:id="@+id/sureSendGoods"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/cancleOrder"
-        android:layout_alignBottom="@+id/cancleOrder"
-        android:layout_alignRight="@+id/title"
-        android:background="#fff"
-        android:text="确认发货"
-        android:textColor="#3E3E3C"
-        android:textSize="12dp" />
 
     <TextView
         android:id="@+id/phone"
@@ -125,6 +92,17 @@
         android:layout_below="@+id/phone"
         android:text="status"
         android:textColor="#f82800"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/title"
+        android:layout_below="@+id/title"
+        android:layout_marginLeft="23dp"
+        android:text="text"
+        android:textColor="@android:color/black"
         android:textSize="12dp" />
 
     </RelativeLayout>

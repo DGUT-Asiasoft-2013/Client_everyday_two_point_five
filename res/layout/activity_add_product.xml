@@ -3,6 +3,7 @@
     	xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:windowSoftInputMode="stateVisible"
      >
     <LinearLayout 
            android:layout_width="match_parent"
@@ -23,21 +24,39 @@
             android:layout_height="wrap_content"
             class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
             tools:layout="@layout/fragment_inputcell_simpletext"/>
+
 <!--         价格 -->
-          <fragment
-            android:id="@+id/frag2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
-            tools:layout="@layout/fragment_inputcell_simpletext"/>
-          
+        
+            <TextView
+                android:id="@+id/txt"
+                android:text="价格"
+                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ></TextView>
+                
+            <EditText 
+                android:id="@+id/frag2"
+                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+        		android:inputType="numberDecimal"
+        		android:digits="0123456789." 
+				/>
 <!--           库存 -->
-            <fragment
-            android:id="@+id/frag3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
-            tools:layout="@layout/fragment_inputcell_simpletext"/>
+                     
+            <TextView
+                android:id="@+id/counttxt"
+                android:text="数量"
+                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ></TextView>
+                
+            <EditText 
+                android:id="@+id/frag3"
+                android:singleLine="true"
+				android:numeric="integer"
+				 android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
             
            <!-- 描述 -->
               <fragment

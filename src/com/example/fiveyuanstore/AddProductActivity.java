@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -25,9 +26,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class AddProductActivity extends Activity {
-	SimpleTextInputCellFragment frag1,frag2, frag3, frag4;
+	SimpleTextInputCellFragment frag1, frag4;
 	PictureInputCellFragment frag5;
 	Button publish;
+	EditText frag2,frag3;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -40,8 +42,8 @@ public class AddProductActivity extends Activity {
 		 *图片*/
 		
 		frag1 =(SimpleTextInputCellFragment)  getFragmentManager().findFragmentById(R.id.frag1);
-		frag2 =(SimpleTextInputCellFragment)  getFragmentManager().findFragmentById(R.id.frag2);
-		frag3 =(SimpleTextInputCellFragment)  getFragmentManager().findFragmentById(R.id.frag3);
+		frag2 =(EditText) findViewById(R.id.frag2);
+		frag3 =(EditText) findViewById(R.id.frag3);
 		frag4 =(SimpleTextInputCellFragment)  getFragmentManager().findFragmentById(R.id.frag4);
 		frag5 =(PictureInputCellFragment)  getFragmentManager().findFragmentById(R.id.frag5);
 		
@@ -59,8 +61,8 @@ public class AddProductActivity extends Activity {
 	protected void publishGoods() {
 		String title = frag1.getText(),
 				text = frag4.getText(),
-				price = frag2.getText(),
-				goods_count = frag3.getText();
+				price = frag2.getText().toString(),
+				goods_count = frag3.getText().toString();
 		
 	  	 
 	   	 MultipartBody.Builder builder = new MultipartBody.Builder()
@@ -148,13 +150,11 @@ public class AddProductActivity extends Activity {
 		frag1.setIsPsw(false);
 
 		
-		frag2.setLabelText("价格");
-		frag2.setHintText("价格");
-		frag2.setIsPsw(false);
+	
+		frag2.setHint("价格");
+
 		
-		frag3.setLabelText(" 库存 ");
-		frag3.setHintText(" 库存 ");
-		frag3.setIsPsw(false);
+		frag3.setHint(" 库存 ");
 		
 		frag4.setLabelText("描述");
 		frag4.setHintText("描述");

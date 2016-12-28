@@ -4,6 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <TextView 
+        android:id="@+id/transactions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:gravity="right"
+        android:text="零钱明细"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="108dp"
@@ -16,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="-999¥WRONG"
+        android:text="$0"
         android:textSize="40sp" />
 
     <Button
