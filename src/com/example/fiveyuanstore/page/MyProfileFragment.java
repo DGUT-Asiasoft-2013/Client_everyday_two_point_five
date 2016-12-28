@@ -4,6 +4,7 @@ package com.example.fiveyuanstore.page;
 
 import java.io.IOException;
 
+import com.example.fiveyuanstore.BillListActivity;
 import com.example.fiveyuanstore.OrderHandlerActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.StoreActivity;
@@ -43,7 +44,7 @@ public class MyProfileFragment extends Fragment {
 	TextView textView;					//显示用户名
 	ProgressBar progress;				//显示载入图案
 	AvatarView avatar;					//显示用户头像
-	TextListFragment inbox,wallet,password_changes, order_handler;//私信、钱包、密码修改
+	TextListFragment inbox,wallet,password_changes, order_handler, bill_list;//私信、钱包、密码修改, 訂單處理， 帳單查詢
 	
 	Float money;
 	
@@ -59,6 +60,7 @@ public class MyProfileFragment extends Fragment {
 			wallet=(TextListFragment)getFragmentManager().findFragmentById(R.id.wallet);
 			password_changes=(TextListFragment)getFragmentManager().findFragmentById(R.id.password_changes);
 			order_handler = (TextListFragment)getFragmentManager().findFragmentById(R.id.order_handler);
+			bill_list =  (TextListFragment)getFragmentManager().findFragmentById(R.id.bill_list);
 			inbox.setOnNewClickedListener(new OnNewClickedListener() {
 				
 				@Override
@@ -98,6 +100,15 @@ public class MyProfileFragment extends Fragment {
 				
 			});
 			
+			bill_list.setOnNewClickedListener(new OnNewClickedListener(){
+
+				@Override
+				public void onNewClicked() {
+					Intent intent = new Intent(getActivity(), BillListActivity.class);
+					startActivity(intent);
+				}
+				
+			});
 			view.findViewById(R.id.btn_log_off).setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -147,6 +158,7 @@ public class MyProfileFragment extends Fragment {
 		wallet.setLabelText("钱包");
 		password_changes.setLabelText("修改密码");
 		order_handler.setLabelText("订单处理");
+		bill_list.setLabelText("我的账单");
 		textView.setVisibility(View.GONE);			//隐藏
 		progress.setVisibility(View.VISIBLE);		//显示
 		

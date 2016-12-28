@@ -37,6 +37,9 @@ public class OrderInfoActivity extends Activity {
 		TextView date = (TextView) findViewById(R.id.date);
 		TextView status = (TextView) findViewById(R.id.status);
 		TextView name = (TextView) findViewById(R.id.text);
+		TextView buyerName = (TextView) findViewById(R.id.name);
+		TextView phone = (TextView) findViewById(R.id.phone);
+		TextView adress = (TextView) findViewById(R.id.adress);
 		proImg.load(order.getGoods());
 		orderId.setText("订单编号： "+order.getOrder_num());
 		name.setText(" "+order.getGoods().getText());
@@ -49,7 +52,9 @@ public class OrderInfoActivity extends Activity {
 			e1.printStackTrace();
 		}
 		goods_num.setText("订单数量: "+ order.getAmount());
-
+		buyerName.setText("购买用户： "+order.getName());
+		phone.setText("电话： "+order.getPhone());
+		adress.setText("地址： "+order.getAddress());
 		title.setText("商品名称"+order.getGoods().getTitle());
 		switch(order.getStatus()){
 		case 0:
