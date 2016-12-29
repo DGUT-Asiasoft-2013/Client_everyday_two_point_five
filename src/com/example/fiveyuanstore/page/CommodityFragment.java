@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.example.fiveyuanstore.AllGoodsActivity;
 import com.example.fiveyuanstore.GoodsContentActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
@@ -31,6 +32,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.AdapterView.OnItemClickListener;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -40,18 +42,22 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CommodityFragment extends Fragment {
 
 	View view;
-	ListView listView;
 
 	View btnLoadMore;
 	TextView textLoadMore;
-	EditText search_text;
-	List<Goods> data;
-	int page = 0;
-
+	
+	ImageView btn1, btn2, btn3, btn4, btn5, btn6;
+	
+	FruitFragment fruit = new FruitFragment();
+	SnackFragment snack = new SnackFragment();
+	ClothingFragment clothing = new ClothingFragment();
+	ElectricFragment elec = new ElectricFragment();
+	ShoesBagFragment shoesbag = new ShoesBagFragment();
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -60,41 +66,108 @@ public class CommodityFragment extends Fragment {
 
 			btnLoadMore = inflater.inflate(R.layout.widget_load_more_button, null);
 			textLoadMore = (TextView) btnLoadMore.findViewById(R.id.text);
-			search_text = (EditText) view.findViewById(R.id.search_text);
-			listView = (ListView) view.findViewById(R.id.goods_list);
-			listView.addFooterView(btnLoadMore);
-			listView.setAdapter(listAdapter);
-
-			listView.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					onItemClicked(position);
-
-				}
-			});
-			btnLoadMore.setOnClickListener(new View.OnClickListener() {
-
+			
+			
+			btn1 = (ImageView) view.findViewById(R.id.btn1);
+			btn2 = (ImageView) view.findViewById(R.id.btn2);
+			btn3 = (ImageView) view.findViewById(R.id.btn3);
+			btn4 = (ImageView) view.findViewById(R.id.btn4);
+			btn5 = (ImageView) view.findViewById(R.id.btn5);
+			btn6 = (ImageView) view.findViewById(R.id.btn6);
+			
+			
+			btn1.setOnClickListener(new View.OnClickListener() {
+				
 				@Override
 				public void onClick(View v) {
-					loadmore();
+					sort(1);
 				}
 			});
-
-			view.findViewById(R.id.btn_search).setOnClickListener(new OnClickListener() {
-
+			btn2.setOnClickListener(new View.OnClickListener() {
+				
 				@Override
 				public void onClick(View v) {
-					search();
-
+					sort(2);
 				}
 			});
+			btn3.setOnClickListener(new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			sort(3);
+		}
+	});
+			btn4.setOnClickListener(new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			sort(4);
+		}
+	});
+			btn5.setOnClickListener(new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			sort(5);
+		}
+	});
+			btn6.setOnClickListener(new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			goAllGoods();
+		}
+	});
+			
+		
 
 		}
 		return view;
 	}
+	
+	protected void goAllGoods() {
+		Intent itt = new Intent(getActivity(), AllGoodsActivity.class);
+		startActivity(itt);
+	}
 
-	BaseAdapter listAdapter = new BaseAdapter() {
+	void sort(int i){
+		Fragment frag = null;
+		
+		switch(i){
+		case 1:
+				frag = snack;
+			break;
+		case 2:
+			frag = fruit;
+			break;
+		case 3:
+			frag = clothing;
+			break;
+			
+		case 4:
+			frag = elec;
+			break;
+			
+		case 5:
+				frag = shoesbag;
+			break;
+		
+		default:
+				break;
+		}
+		
+		if (frag == null) return; //保护措施，当frag为空时，返回
+		 
+		 getFragmentManager()
+		 .beginTransaction()
+		 .replace(R.id.SortContnet, frag)
+		 .commit();
+		 
+
+		//Toast.makeText(getActivity(), "敬請期待", Toast.LENGTH_LONG).show();
+	}
+
+/*	BaseAdapter listAdapter = new BaseAdapter() {
 
 		@SuppressLint("InflateParams")
 		@Override
@@ -155,160 +228,16 @@ public class CommodityFragment extends Fragment {
 		Intent itnt = new Intent(this.getActivity(), GoodsContentActivity.class);
 		itnt.putExtra("pos", (Serializable) pos);
 		startActivity(itnt);
-	}
+	}*/
 
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		reload();
 	}
 
-	void reload() {
-		Request request = Server.requestBuilderWithPath("feeds").get().build();
-		Server.getClient().newCall(request).enqueue(new Callback() {
-
-			@Override
-			public void onResponse(Call arg0, Response arg1) throws IOException {
-				try {
-					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(),
-							new TypeReference<Page<Goods>>() {
-							});
-					getActivity().runOnUiThread(new Runnable() {
-
-						@Override
-						public void run() {
-							listAdapter.notifyDataSetInvalidated();
-							CommodityFragment.this.page = data.getNumber();
-							CommodityFragment.this.data = data.getContent();
-						}
-					});
-				} catch (final Exception e) {
-
-				/*	getActivity().runOnUiThread(new Runnable() {
-
-						@Override
-						public void run() {
-							new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()).show();
-						}
-					});*/
-				}
-			}
-
-			@Override
-			public void onFailure(Call arg0, final IOException e) {
-				getActivity().runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()).show();
-
-					}
-				});
-
-			}
-		});
-
-	}
-
-	void loadmore() {
-		btnLoadMore.setEnabled(false);
-		textLoadMore.setText("载入中。。。");
-
-		Request request = Server.requestBuilderWithPath("feeds/" + (page + 1)).get().build();
-		Server.getClient().newCall(request).enqueue(new Callback() {
-
-			@Override
-			public void onResponse(Call arg0, Response arg1) throws IOException {
-				getActivity().runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						btnLoadMore.setEnabled(true);
-						textLoadMore.setText("加载更多");
-
-					}
-				});
-
-				try {
-					final Page<Goods> goods = new ObjectMapper().readValue(arg1.body().string(),
-							new TypeReference<Page<Goods>>() {
-							});
-					if (goods.getNumber() > page) {
-
-						getActivity().runOnUiThread(new Runnable() {
-
-							@Override
-							public void run() {
-								if (data == null) {
-									data = goods.getContent();
-								} else {
-									data.addAll(goods.getContent());
-								}
-								page = goods.getNumber();
-								listAdapter.notifyDataSetChanged();
-							}
-						});
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-
-			@Override
-			public void onFailure(Call arg0, IOException arg1) {
-				getActivity().runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						btnLoadMore.setEnabled(true);
-						textLoadMore.setText("加载更多");
-
-					}
-				});
-
-			}
-		});
-	}
-
-	void search() {
-		
-		MultipartBody.Builder body=new 
-				MultipartBody.Builder()
-				.setType(MultipartBody.FORM)
-				.addFormDataPart("text", search_text.getText().toString());
-		RequestBody requestBody=body.build();
-		Request request=Server.requestBuilderWithPath("/search").post(requestBody).build();
 	
-		Server.getClient().newCall(request).enqueue(new Callback() {
-			
-			@Override
-			public void onResponse(Call arg0, Response arg1) throws IOException {
-				try {
-					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(),
-							new TypeReference<Page<Goods>>() {
-							});
+	
 
-					getActivity().runOnUiThread(new Runnable() {
-
-						@Override
-						public void run() {
-							CommodityFragment.this.page = data.getNumber();
-							CommodityFragment.this.data = data.getContent();
-							listAdapter.notifyDataSetInvalidated();
-						}
-					});
-				} catch (Exception e) {
-					e.printStackTrace();
-				}			
-				
-			}
-			
-			@Override
-			public void onFailure(Call arg0, IOException e) {
-				Log.d("Fragment", e.getMessage());
-				
-			}
-		});
-	}
+	
 }

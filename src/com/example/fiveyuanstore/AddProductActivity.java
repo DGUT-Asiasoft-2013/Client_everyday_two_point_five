@@ -13,8 +13,13 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -30,6 +35,10 @@ public class AddProductActivity extends Activity {
 	PictureInputCellFragment frag5;
 	Button publish;
 	EditText frag2,frag3;
+    private Spinner spinner;
+    private TextView view;
+    private ArrayAdapter<CharSequence> adapter;
+    String sort;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -49,6 +58,24 @@ public class AddProductActivity extends Activity {
 		
 		publish = (Button) findViewById(R.id.publish);
 		
+		  spinner = (Spinner) findViewById(R.id.Spinner01);
+	        //将可选内容与ArrayAdapter连接起来
+	       // adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,m);
+		  adapter = ArrayAdapter
+	                .createFromResource(this, R.array.sort,
+	                        android.R.layout.simple_spinner_item);
+	        //设置下拉列表的风格
+	        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	         
+	        //将adapter 添加到spinner中
+	        spinner.setAdapter(adapter);
+	         
+	        //添加事件Spinner事件监听  
+	        spinner.setOnItemSelectedListener(new SpinnerSelectedListener());
+	         
+	        //设置默认值
+	        spinner.setVisibility(View.VISIBLE);
+		
 		publish.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -57,6 +84,18 @@ public class AddProductActivity extends Activity {
 			}
 		});
 	}
+	
+	//使用数组形式操作
+    class SpinnerSelectedListener implements OnItemSelectedListener{
+ 
+        public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+                long arg3) {
+            sort =  spinner.getSelectedItem().toString();
+        }
+ 
+        public void onNothingSelected(AdapterView<?> arg0) {
+        }
+    }
 	
 	protected void publishGoods() {
 		String title = frag1.getText(),
@@ -70,7 +109,8 @@ public class AddProductActivity extends Activity {
 	   		        .addFormDataPart("title",title)
 	   		        .addFormDataPart("text",text)
 	   		        .addFormDataPart("price",price)
-	   		        .addFormDataPart("goods_count",goods_count);
+	   		        .addFormDataPart("goods_count",goods_count)
+	   		     .addFormDataPart("sort",sort);
         
       	 if(frag5.getPngData() != null){
       		 builder
