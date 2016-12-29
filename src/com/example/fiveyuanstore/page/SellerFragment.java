@@ -269,7 +269,7 @@ public class SellerFragment extends Fragment {
 			Goods goods = data.get(position);
 
 			textContent.setText("商品简介： " + goods.getText());
-			goodsName.setText("商品名称： " + goods.getTitle());
+			goodsName.setText("              " + goods.getTitle());
 			money.setText("$" + Float.toString(goods.getPrice()));
 
 			img.load(goods);
