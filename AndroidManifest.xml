@@ -105,14 +105,21 @@
             android:name="com.example.fiveyuanstore.BillInfoActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
+<<<<<<< HEAD
         <activity
             android:name="com.example.fiveyuanstore.AllGoodsActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
+=======
+>>>>>>> branch 'master' of https://github.com/DGUT-Asiasoft-2013/Client_everyday_two_point_five.git
         <activity
             android:name="com.example.fiveyuanstore.TransactionActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'master' of https://github.com/DGUT-Asiasoft-2013/Client_everyday_two_point_five.git
     </application>
 
     <!--

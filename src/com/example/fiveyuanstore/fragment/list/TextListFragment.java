@@ -8,17 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class TextListFragment extends Fragment {
 
 	TextView label;
+	ImageView image;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_text_list, container);
 		label = (TextView) view.findViewById(R.id.label);
-		
+		image=(ImageView)view.findViewById(R.id.ic);
 		view.setOnClickListener(new OnClickListener() {			//点击事件
 			
 			@Override
@@ -36,6 +38,10 @@ public class TextListFragment extends Fragment {
 
 	public void setLabelText(String labelText) {
 		label.setText(labelText);
+	}
+	
+	public void setLabelImage(int resource) {
+		image.setImageResource(resource);
 	}
 	
 	public static interface OnNewClickedListener{
