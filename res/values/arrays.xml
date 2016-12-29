@@ -2,10 +2,7 @@
   <string-array name="sort">
         <item>零食</item>
         <item>水果</item>
-        <item>农产品</item>
-        <item>电器</item>
         <item>服饰</item>
-        <item>其他</item>
     </string-array>
     
     </resources>

@@ -102,6 +102,24 @@ public class AddProductActivity extends Activity {
 				text = frag4.getText(),
 				price = frag2.getText().toString(),
 				goods_count = frag3.getText().toString();
+		if( sort != null){
+		switch(sort){
+		case "衣服":
+			sort = "clothing";
+			break;
+		case "水果":
+			sort= "fruit";
+			break;
+		case "零食":
+			sort = "snack";
+			break;
+		default:
+			break;
+		
+		}}
+		else{
+			sort = "other";
+		}
 		
 	  	 
 	   	 MultipartBody.Builder builder = new MultipartBody.Builder()

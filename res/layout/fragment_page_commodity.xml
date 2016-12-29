@@ -9,206 +9,123 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-   
+        <FrameLayout
+            android:id="@+id/navbar"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@drawable/s_bg" >
 
-       <!--  feilei -->
-         <LinearLayout 
+            <EditText
+                android:id="@+id/search_text"
                 android:layout_width="match_parent"
-    			android:layout_height="120dp"
-    			android:orientation="vertical"
-    			android:layout_marginTop="25dp"
-    			android:weightSum="1"
-    			  >
-    			
-                 <LinearLayout 
-                android:layout_width="match_parent"
-    			android:layout_height="70dp"
-    			android:orientation="horizontal"
-    			android:layout_weight="1"
-    			 >
-    			
-     			<RelativeLayout  
-                android:layout_width="match_parent"
-    			android:layout_height="match_parent"
-    			android:layout_weight="0.3"
-    			android:gravity="center"
-    			>
-    			
-              <ImageView
-                android:id="@+id/btn1"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:padding="1dp"
-                android:layout_gravity="center"
-                 android:src="@drawable/circle_bg"
-                />
-              
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text=" 零食"
-                  android:layout_below="@id/btn1"
-                  android:textSize="13sp"
-                  android:textColor="#ababab"
-                  ></TextView>
-                </RelativeLayout>
-                
-            <RelativeLayout  
-                android:layout_width="match_parent"
-    			android:layout_height="match_parent"
-    			android:layout_weight="0.3"
-    			android:gravity="center"
-    			>
-    			
-              <ImageView
-                android:id="@+id/btn2"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:padding="1dp"
-                android:layout_gravity="center"
-                 android:src="@drawable/circle_bg"
-                />
-              
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text=" 水果"
-                  android:layout_below="@id/btn2"
-                  android:textSize="13sp"
-                  android:textColor="#ababab"
-                  ></TextView>
-                </RelativeLayout>
-                 
-                            
-           <RelativeLayout  
-                android:layout_width="match_parent"
-    			android:layout_height="match_parent"
-    			android:layout_weight="0.3"
-    			android:gravity="center"
-    			>
-    			
-              <ImageView
-                android:id="@+id/btn3"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:padding="1dp"
-                android:layout_gravity="center"
-                 android:src="@drawable/circle_bg"
-                />
-              
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text=" 服饰"
-                  android:layout_below="@id/btn3"
-                  android:textSize="13sp"
-                  android:textColor="#ababab"
-                  ></TextView>
-                </RelativeLayout>
-                
-                </LinearLayout>
-                
-                 
-               <LinearLayout 
-                android:layout_width="match_parent"
-    			android:layout_height="50dp"
-    			android:orientation="horizontal"
-    			android:layout_marginTop="20dp"
-    			android:layout_weight="1"  >
-         		
-                   <RelativeLayout  
-                android:layout_width="match_parent"
-    			android:layout_height="match_parent"
-    			android:layout_weight="0.3"
-    			android:gravity="center"
-    			>
-    			
-              <ImageView
-                android:id="@+id/btn4"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:padding="1dp"
-                android:layout_gravity="center"
-                 android:src="@drawable/circle_bg"
-                />
-              
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text=" 电器"
-                  android:layout_below="@id/btn4"
-                  android:textSize="13sp"
-                  android:textColor="#ababab"
-                  ></TextView>
-                </RelativeLayout>
-                
-                   
-                   <RelativeLayout  
-                android:layout_width="match_parent"
-    			android:layout_height="match_parent"
-    			android:layout_weight="0.3"
-    			android:gravity="center"
-    			>
-    			
-              <ImageView
-                android:id="@+id/btn5"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:padding="1dp"
-                android:layout_gravity="center"
-                 android:src="@drawable/circle_bg"
-                />
-              
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="鞋包"
-                  android:layout_below="@id/btn5"
-                  android:textSize="13sp"
-                  android:textColor="#ababab"
-                  ></TextView>
-                </RelativeLayout>
-                
-                   
-                   <RelativeLayout  
-                android:layout_width="match_parent"
-    			android:layout_height="match_parent"
-    			android:layout_weight="0.3"
-    			android:gravity="center"
-    			>
-    			
-              <ImageView
-                android:id="@+id/btn6"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:padding="1dp"
-                android:layout_gravity="center"
-                 android:src="@drawable/circle_bg"
-                />
-              
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="全部商品"
-                  android:layout_below="@id/btn6"
-                  android:textSize="13sp"
-                  android:textColor="#ababab"
-                  ></TextView>
-                </RelativeLayout>
-                
-                </LinearLayout>
-            </LinearLayout>
-			 <FrameLayout
-			    android:id="@+id/SortContnet"
-			    android:layout_width="match_parent"
-			    android:layout_height="wrap_content"
-			    android:layout_marginBottom="60dp"
-			      android:layout_marginTop="10dp" >
+                android:layout_height="wrap_content"
+                android:layout_marginRight="33dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/bg_bar"
+                android:gravity="left"
+                android:inputType="textMultiLine"
+                android:padding="8dp" />
 
-			     
-			</FrameLayout>   
+            <ImageView
+                android:id="@+id/btn_search"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_gravity="right|center_vertical"
+                android:gravity="center"
+                android:padding="1dp"
+                android:src="@drawable/search_50" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="@android:color/darker_gray" />
+        </FrameLayout>
+       
+        <LinearLayout 
+            android:layout_width="match_parent"
+             android:layout_height="50dp"
+             android:orientation="horizontal"
+                 android:weightSum = "1">
+     
+            <RelativeLayout 
+                  android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3">
+                 <ImageView
+                android:id="@+id/snack"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:padding="1dp"
+                android:src="@drawable/circle_bg" />
+                
+                <TextView 
+                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text=" 零食"
+                android:layout_below="@id/snack"
+                    />
+        </RelativeLayout>
+        
+              <RelativeLayout 
+                  android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3">
+                 <ImageView
+                android:id="@+id/clothing"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:padding="1dp"
+                android:src="@drawable/circle_bg" />
+                
+                <TextView 
+                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text=" 服飾"
+                android:layout_below="@id/clothing"
+                    />
+            
+        </RelativeLayout>
+        
+                <RelativeLayout 
+                  android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3">
+                 <ImageView
+                android:id="@+id/fruit"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:padding="1dp"
+                android:src="@drawable/circle_bg" />
+                
+                <TextView 
+                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text=" 水果"
+                android:layout_below="@id/fruit"
+                    />
+            
+        </RelativeLayout>
+</LinearLayout>
 
+        
+        <ListView
+            android:id="@+id/goods_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            
+            android:dividerHeight="0dip" 
+            android:divider="#00000000" >
+        </ListView>
     </LinearLayout>
 
 </FrameLayout>
