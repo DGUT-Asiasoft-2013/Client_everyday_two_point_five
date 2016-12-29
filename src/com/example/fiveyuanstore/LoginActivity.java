@@ -9,10 +9,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
 import android.widget.Toast;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -25,18 +29,20 @@ import okhttp3.Response;
 
 
 
-
 public class LoginActivity extends Activity {
 
 	SimpleTextInputCellFragment fragAccount;
 	SimpleTextInputCellFragment fragPassword;
-
+	CheckBox checkBox1;
+	private static final String FILE_NAME="saveUserNamePwd";
+	 String usernameContent, passwordContent;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
+		checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
 		findViewById(R.id.btn_register).setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -51,7 +57,9 @@ public class LoginActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				login();
-
+				if (checkBox1.isChecked()){
+					onSaveContent();
+				}
 			}
 		});
 
@@ -67,8 +75,33 @@ public class LoginActivity extends Activity {
 		fragAccount = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_account);
 		fragPassword = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_password);
 
+	     SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+	        //从文件中获取保存的数据
+	        String usernameContent = sharedPreferences.getString("username", "");
+	        String passwordContent = sharedPreferences.getString("password", "");
+	        //判断是否有数据存在，并进行相应处理
+	        if(usernameContent != null && !"".equals(usernameContent))
+	        	fragAccount.setText(usernameContent);
+	        if(passwordContent != null && !"".equals(passwordContent))
+	        	fragPassword.setText(passwordContent);
 	}
-
+	
+	   protected void onSaveContent() {
+	        super.onStop();
+	        usernameContent = fragAccount.getText();
+	        passwordContent = fragPassword.getText();
+	        //获取SharedPreferences时，需要设置两参数
+	        //第一个是保存的文件的名称，第二个参数是保存的模式（是否只被本应用使用）
+	        SharedPreferences sharedPreferences = 
+	                getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+	        Editor editor = sharedPreferences.edit();
+	        //添加要保存的数据
+	        editor.putString("username", usernameContent);
+	        editor.putString("password", passwordContent);
+	        //确认保存
+	        editor.commit();
+	    }
+	
 	@Override
 	protected void onResume() {
 

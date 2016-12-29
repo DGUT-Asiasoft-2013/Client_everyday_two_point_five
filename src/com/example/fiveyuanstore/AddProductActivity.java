@@ -104,7 +104,7 @@ public class AddProductActivity extends Activity {
 				goods_count = frag3.getText().toString();
 		if( sort != null){
 		switch(sort){
-		case "衣服":
+		case "服饰":
 			sort = "clothing";
 			break;
 		case "水果":
