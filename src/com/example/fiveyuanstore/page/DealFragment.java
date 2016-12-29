@@ -149,6 +149,7 @@ public class DealFragment extends Fragment {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
 									confirm(pos);
+									//int saler=myOrder.getSale_id();
 								}
 
 							})
@@ -253,9 +254,15 @@ public class DealFragment extends Fragment {
 	protected void confirm(int position) {
 		// 确认收货
 		final MyOrder myOrder = data.get(position);
-		String myOrderId = myOrder.getOrder_num();
-		RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-				.addFormDataPart("order_id", myOrderId).build();
+		String myOrderId = myOrder.getOrder_num();		
+		
+		RequestBody body = new MultipartBody.Builder()
+				.setType(MultipartBody.FORM)
+				.addFormDataPart("order_id", myOrderId)
+				.addFormDataPart("sale_id", myOrder.getSale_id().toString())
+				.addFormDataPart("amount", String.valueOf(myOrder.getAmount()))
+				.addFormDataPart("price", String.valueOf(myOrder.getPrice()))
+				.build();
 		Request request = Server.requestBuilderWithPath("/confirmGoods").post(body).build();
 
 		Server.getClient().newCall(request).enqueue(new Callback() {

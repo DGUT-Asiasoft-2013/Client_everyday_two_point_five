@@ -7,10 +7,9 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class MyOrder extends DateRecord implements Serializable{
-	int
-	id,
-	status,
-	amount;
+	int id;
+	int status;
+	int amount;
 	String order_num;
 	Goods goods;
 
