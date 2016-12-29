@@ -70,6 +70,15 @@ public class WalletActivity extends Activity {
 			}
 
 		});
+		
+		findViewById(R.id.btn_wallet_back).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+				
+			}
+		});
 	}
 
 	@Override

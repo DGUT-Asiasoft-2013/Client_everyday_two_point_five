@@ -9,18 +9,26 @@
         android:id="@+id/contnet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="76dp" >
+        android:layout_marginBottom="55dp" >
+    </FrameLayout>
+    
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="55dp" 
+        android:background="#dddddd"
+        android:layout_gravity="bottom">
     </FrameLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="76dp"
+        android:layout_height="55dp"
         android:layout_gravity="bottom"
         android:background="#fff" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="33dp"
             android:layout_centerVertical="true"
             android:orientation="horizontal" >
 
