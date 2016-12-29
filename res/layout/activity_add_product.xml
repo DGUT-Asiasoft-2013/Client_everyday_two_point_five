@@ -5,18 +5,15 @@
     android:layout_height="wrap_content"
     android:windowSoftInputMode="stateVisible"
      >
-    <LinearLayout 
+    <ScrollView 
            android:layout_width="match_parent"
     		android:layout_height="wrap_content"
-    		android:orientation="vertical"
     		>
-    		              
-                <Button
-                    android:id="@+id/publish"
-                     android:layout_width="match_parent"
-              		android:layout_height="wrap_content"
-              		android:text="发布"
-              		></Button>
+    	<LinearLayout 
+    	    android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:orientation="vertical"
+    	    >
  <!-- 	名称 -->
         <fragment
             android:id="@+id/frag1"
@@ -74,8 +71,29 @@
               class="com.example.fiveyuanstore.inputcells.PictureInputCellFragment"
                tools:layout="@layout/fragment_inputcell_picture" />
           
-  
-         </LinearLayout>
+          
+            <TextView android:id="@+id/spinnerText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+                
+            </TextView>
+                
+  		<Spinner 
+  		    android:id="@+id/Spinner01"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+  		    
+  		</Spinner>
+             
+                <Button
+                    android:id="@+id/publish"
+                     android:layout_width="match_parent"
+              		android:layout_height="wrap_content"
+              		android:text="发布"
+              		></Button>
+                
+                </LinearLayout>
+         </ScrollView>
          
     
 </FrameLayout>

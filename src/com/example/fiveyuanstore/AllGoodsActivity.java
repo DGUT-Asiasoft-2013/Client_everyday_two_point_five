@@ -1,33 +1,33 @@
-package com.example.fiveyuanstore.page;
+package com.example.fiveyuanstore;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
-import com.example.fiveyuanstore.GoodsContentActivity;
-import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.Page;
+import com.example.fiveyuanstore.page.CommodityFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -35,135 +35,55 @@ import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import android.widget.ListView;
-import android.widget.TextView;
 
-public class CommodityFragment extends Fragment {
-
-	View view;
-	ListView listView;
-	ImageView snack, clothing, fruit;
-	View btnLoadMore;
-	TextView textLoadMore;
-	EditText search_text;
+public class AllGoodsActivity extends Activity {
+	private ListView listView;
+	private View btnLoadMore;
+	private TextView textLoadMore;
 	List<Goods> data;
+	EditText search_text;
 	int page = 0;
-
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-		if (view == null) {
-			view = inflater.inflate(R.layout.fragment_page_commodity, null);
-
-			btnLoadMore = inflater.inflate(R.layout.widget_load_more_button, null);
-			textLoadMore = (TextView) btnLoadMore.findViewById(R.id.text);
-			search_text = (EditText) view.findViewById(R.id.search_text);
-			listView = (ListView) view.findViewById(R.id.goods_list);
-			fruit = (ImageView) view.findViewById(R.id.fruit);
-			snack = (ImageView) view.findViewById(R.id.snack);
-			clothing = (ImageView) view.findViewById(R.id.clothing);
-			listView.addFooterView(btnLoadMore);
-			listView.setAdapter(listAdapter);
-
-			fruit.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					sortList("fruit");
-				}
-			});
-			
-
-			snack.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					sortList("snack");
-				}
-			});
-			
-			clothing.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					sortList("clothing");
-				}
-			});
-			
-			
-			listView.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					onItemClicked(position);
-
-				}
-			});
-			btnLoadMore.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					loadmore();
-				}
-			});
-
-			view.findViewById(R.id.btn_search).setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					search();
-
-				}
-			});
-
-		}
-		return view;
-	}
-
-	protected void sortList(String sort) {
-		Request request = Server.requestBuilderWithPath("goods/sort/"+sort).get().build();
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
 		
-		Server.getClient().newCall(request).enqueue(new Callback() {
-			
+		setContentView(R.layout.activity_all_goods);
+		listView = (ListView) findViewById(R.id.goods_list);
+		
+		btnLoadMore = LayoutInflater.from(this).inflate(R.layout.widget_load_more_button, null);
+		textLoadMore = (TextView) btnLoadMore.findViewById(R.id.text);
+		search_text = (EditText) findViewById(R.id.search_text);
+		listView.addFooterView(btnLoadMore);
+		listView.setAdapter(listAdapter);
+
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
 			@Override
-			public void onResponse(Call arg0, Response arg1) throws IOException {
-				
-				try {
-					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(), new TypeReference<Page<Goods>>(){});
-					
-					getActivity().runOnUiThread(new Runnable() {
-						
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							
-							CommodityFragment.this.page = data.getNumber();
-							CommodityFragment.this.data = data.getContent();
-							listAdapter.notifyDataSetInvalidated();
-							
-						}
-					});
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				onItemClicked(position);
+
 			}
-			
+		});
+		btnLoadMore.setOnClickListener(new View.OnClickListener() {
+
 			@Override
-			public void onFailure(Call arg0, final IOException e) {
-				getActivity().runOnUiThread(new Runnable() {
-					
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()).show();
-					}
-				});
-				
+			public void onClick(View v) {
+				loadmore();
+			}
+		});
+		
+
+	findViewById(R.id.btn_search).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				search();
+
 			}
 		});
 	}
-
+	
 	BaseAdapter listAdapter = new BaseAdapter() {
 
 		@SuppressLint("InflateParams")
@@ -172,7 +92,7 @@ public class CommodityFragment extends Fragment {
 
 			View view = null;
 			if (convertView == null) {
-				LayoutInflater inflater = LayoutInflater.from(getActivity());
+				LayoutInflater inflater = LayoutInflater.from(AllGoodsActivity.this);
 				view = inflater.inflate(R.layout.fragment_inputcell_goods, null);
 			} else {
 				view = convertView;
@@ -186,7 +106,7 @@ public class CommodityFragment extends Fragment {
 			Goods goods = data.get(position);
 
 			textContent.setText(goods.getText());
-			goodsName.setText("              "+goods.getTitle());
+			goodsName.setText(goods.getTitle());
 			money.setText("$" + Float.toString(goods.getPrice()));
 
 			img.load(goods);
@@ -199,21 +119,18 @@ public class CommodityFragment extends Fragment {
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return data.get(position);
 
 		}
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return data == null ? 0 : data.size();
 
 		}
@@ -222,17 +139,11 @@ public class CommodityFragment extends Fragment {
 	void onItemClicked(int position) {
 		Goods pos = data.get(position);
 
-		Intent itnt = new Intent(this.getActivity(), GoodsContentActivity.class);
+		Intent itnt = new Intent(this, GoodsContentActivity.class);
 		itnt.putExtra("pos", (Serializable) pos);
 		startActivity(itnt);
 	}
-
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		reload();
-	}
+	
 
 	void reload() {
 		Request request = Server.requestBuilderWithPath("feeds").get().build();
@@ -244,34 +155,34 @@ public class CommodityFragment extends Fragment {
 					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(),
 							new TypeReference<Page<Goods>>() {
 							});
-					getActivity().runOnUiThread(new Runnable() {
+					 runOnUiThread(new Runnable() {
 
 						@Override
 						public void run() {
-							
-							CommodityFragment.this.page = data.getNumber();
-							CommodityFragment.this.data = data.getContent();
 							listAdapter.notifyDataSetInvalidated();
+							AllGoodsActivity.this.page = data.getNumber();
+							AllGoodsActivity.this.data = data.getContent();
 						}
 					});
 				} catch (final Exception e) {
 
-				/*	getActivity().runOnUiThread(new Runnable() {
+			 runOnUiThread(new Runnable() {
+
 						@Override
 						public void run() {
-							new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()).show();
+							new AlertDialog.Builder(AllGoodsActivity.this).setMessage(e.getMessage()).show();
 						}
-					});*/
+					});
 				}
 			}
 
 			@Override
 			public void onFailure(Call arg0, final IOException e) {
-				getActivity().runOnUiThread(new Runnable() {
+				 runOnUiThread(new Runnable() {
 
 					@Override
 					public void run() {
-						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()).show();
+						new AlertDialog.Builder(AllGoodsActivity.this).setMessage(e.getMessage()).show();
 
 					}
 				});
@@ -281,6 +192,14 @@ public class CommodityFragment extends Fragment {
 
 	}
 
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		reload();
+	}
+	
 	void loadmore() {
 		btnLoadMore.setEnabled(false);
 		textLoadMore.setText("载入中。。。");
@@ -290,7 +209,7 @@ public class CommodityFragment extends Fragment {
 
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
-				getActivity().runOnUiThread(new Runnable() {
+				runOnUiThread(new Runnable() {
 
 					@Override
 					public void run() {
@@ -306,7 +225,7 @@ public class CommodityFragment extends Fragment {
 							});
 					if (goods.getNumber() > page) {
 
-						getActivity().runOnUiThread(new Runnable() {
+					runOnUiThread(new Runnable() {
 
 							@Override
 							public void run() {
@@ -327,7 +246,7 @@ public class CommodityFragment extends Fragment {
 
 			@Override
 			public void onFailure(Call arg0, IOException arg1) {
-				getActivity().runOnUiThread(new Runnable() {
+				runOnUiThread(new Runnable() {
 
 					@Override
 					public void run() {
@@ -340,8 +259,8 @@ public class CommodityFragment extends Fragment {
 			}
 		});
 	}
-
-	void search() {
+	
+void search() {
 		
 		MultipartBody.Builder body=new 
 				MultipartBody.Builder()
@@ -359,12 +278,12 @@ public class CommodityFragment extends Fragment {
 							new TypeReference<Page<Goods>>() {
 							});
 
-					getActivity().runOnUiThread(new Runnable() {
+					runOnUiThread(new Runnable() {
 
 						@Override
 						public void run() {
-							CommodityFragment.this.page = data.getNumber();
-							CommodityFragment.this.data = data.getContent();
+							AllGoodsActivity.this.page = data.getNumber();
+							AllGoodsActivity.this.data = data.getContent();
 							listAdapter.notifyDataSetInvalidated();
 						}
 					});

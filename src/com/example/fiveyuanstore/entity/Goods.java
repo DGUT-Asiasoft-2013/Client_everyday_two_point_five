@@ -19,6 +19,17 @@ public class Goods extends BaseEntity implements Serializable {
 	Date createDate;
 	Date editDate;
 	float price;
+	String sort;
+	
+	
+
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
 
 	public int getGoods_count() {
 		return goods_count;
