@@ -1,64 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="100dp"
-    android:padding="8dp" >
-     
-    <LinearLayout 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    android:layout_height="114dp" >
 
-        
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#00000000" />
+
     <com.example.fiveyuanstore.customViews.ProImgView
         android:id="@+id/goods_img"
-        android:layout_width="88dp"
-        android:layout_height="88dp"
-        android:layout_centerVertical="true" />
+        android:layout_width="113dp"
+        android:layout_height="113dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
 
     <RelativeLayout
+        android:id="@+id/relay"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="107dp"
+        android:layout_toRightOf="@id/goods_img"
+        android:paddingLeft="5dp"
+        android:paddingRight="10dp" >
+
+        <ImageView
+            android:id="@+id/on_sell"
+            android:layout_width="45dp"
+            android:layout_height="17dp"
+            android:layout_marginTop="3.9dp"
+            android:src="@drawable/ic_on_sell" />
 
         <TextView
             android:id="@+id/goods_name"
             android:layout_width="wrap_content"
-            android:layout_height="18dp"
-            android:text="Title"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:lines="2"
+            android:text="            商品标题"
             android:textColor="@android:color/black"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Content Text"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="40dp" />
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:text="money"
-            android:layout_below="@id/text"
-            android:textColor="#f82800" 
-            android:layout_marginTop="35dp"/>
+            android:layout_alignParentLeft="true"
+            android:text="￥-1646"
+            android:textColor="#ff5337"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
-            android:layout_height="14dp"
-            android:layout_alignParentLeft="true"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@id/money"
             android:text="Create Date"
             android:textColor="#aaa"
-            android:textSize="12sp" 
-            android:layout_marginTop="95dp"/>
-
-    </RelativeLayout>
+            android:textSize="12dp" />
         
-</LinearLayout>
-</FrameLayout>
+        <ImageView 
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="4dp"
+            android:src="@drawable/ic_in"/>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignLeft="@id/relay"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="7dp"
+        android:background="#ddd" />
+
+</RelativeLayout>

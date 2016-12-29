@@ -15,10 +15,12 @@ import com.example.fiveyuanstore.entity.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import android.R.color;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.text.format.Time;
@@ -28,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +47,12 @@ public class DealFragment extends Fragment {
 
 	List<MyOrder> data;
 	int page = 0;
-	private Button reload;
+	private ImageButton reload;
+	TextView filterAll;
+	TextView filterSend;
+	TextView filterGet;
+	TextView filterFinish;
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,7 +60,12 @@ public class DealFragment extends Fragment {
 			view = inflater.inflate(R.layout.fragment_page_deal, null);
 			listView = (ListView) view.findViewById(R.id.deal_list);
 			listView.setAdapter(listAdapter);
-			reload = (Button) view.findViewById(R.id.reload);
+			reload = (ImageButton) view.findViewById(R.id.reload);
+			filterAll=(TextView)view.findViewById(R.id.filter_all);
+			filterSend=(TextView)view.findViewById(R.id.filter_send);
+			filterGet=(TextView)view.findViewById(R.id.filter_get);
+			filterFinish=(TextView)view.findViewById(R.id.filter_finish);
+			
 		}
 		reload();
 
@@ -63,6 +76,67 @@ public class DealFragment extends Fragment {
 				reload();
 			}
 		});
+				
+		filterAll.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				filterAll.setTextColor(Color.parseColor("#ff5337"));
+				filterAll.setBackground(getResources().getDrawable(R.drawable.filter));
+				filterSend.setTextColor(Color.parseColor("#000000"));
+				filterSend.setBackground(null);
+				filterGet.setTextColor(Color.parseColor("#000000"));
+				filterGet.setBackground(null);
+				filterFinish.setTextColor(Color.parseColor("#000000"));
+				filterFinish.setBackground(null);
+
+			}
+		});
+		filterSend.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				filterAll.setTextColor(Color.parseColor("#000000"));
+				filterAll.setBackground(null);
+				filterSend.setTextColor(Color.parseColor("#ff5337"));
+				filterSend.setBackground(getResources().getDrawable(R.drawable.filter));
+				filterGet.setTextColor(Color.parseColor("#000000"));
+				filterGet.setBackground(null);
+				filterFinish.setTextColor(Color.parseColor("#000000"));
+				filterFinish.setBackground(null);
+
+			}
+		});
+		filterGet.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				filterAll.setTextColor(Color.parseColor("#000000"));
+				filterAll.setBackground(null);
+				filterSend.setTextColor(Color.parseColor("#000000"));
+				filterSend.setBackground(null);
+				filterGet.setTextColor(Color.parseColor("#ff5337"));
+				filterGet.setBackground(getResources().getDrawable(R.drawable.filter));
+				filterFinish.setTextColor(Color.parseColor("#000000"));
+				filterFinish.setBackground(null);
+
+			}
+		});
+		filterFinish.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				filterAll.setTextColor(Color.parseColor("#000000"));
+				filterAll.setBackground(null);
+				filterSend.setTextColor(Color.parseColor("#000000"));
+				filterSend.setBackground(null);
+				filterGet.setTextColor(Color.parseColor("#000000"));
+				filterGet.setBackground(null);
+				filterFinish.setTextColor(Color.parseColor("#ff5337"));
+				filterFinish.setBackground(getResources().getDrawable(R.drawable.filter));
+			}
+		});
+		
 		return view;
 	}
 
@@ -78,22 +152,10 @@ public class DealFragment extends Fragment {
 			} else {
 				view = convertView;
 			}
-/*<<<<<<< HEAD
 
-			TextView sellerName = (TextView) view.findViewById(R.id.seller_name); // 卖家名
-			TextView statusText = (TextView) view.findViewById(R.id.status_text); // 订单状态
-			TextView proName = (TextView) view.findViewById(R.id.pro_name); // 商品名称
-			TextView createDate = (TextView) view.findViewById(R.id.create_date); // 购买时间
-			TextView countText = (TextView) view.findViewById(R.id.count_text); // 金额
-			Button btnStatusChanges = (Button) view.findViewById(R.id.btn_status_changes); // 状态更改按钮
-
-			// 从服务器获取信息
-			MyOrder myOrder = data.get(position);
-			final int pos = position;
-			// 状态
-=======*/
 			ProImgView proImg = (ProImgView) view.findViewById(R.id.proImg);
 			TextView sellerName=(TextView)view.findViewById(R.id.seller_name);			//卖家名
+			TextView onePrice=(TextView)view.findViewById(R.id.one_price);	
 			TextView statusText=(TextView)view.findViewById(R.id.status_text);			//订单状态
 			TextView proName=(TextView)view.findViewById(R.id.pro_name);				//商品名称
 			TextView createDate=(TextView)view.findViewById(R.id.create_date);			//购买时间
@@ -110,30 +172,39 @@ public class DealFragment extends Fragment {
 			//状态
 			switch (myOrder.getStatus()) {
 			case 1:
-				statusText.setText("状态:买家已付款");
+				statusText.setText("买家已付款");
 				btnStatusChanges.setText("等待确认");
 				btnStatusChanges.setEnabled(false);
+				btnStatusChanges.setBackground(getResources().getDrawable(R.drawable.btn_false));
+				btnStatusChanges.setTextColor(Color.parseColor("#bdbdbd"));
 				break;
 			case 2:
-				statusText.setText("状态:已发货");
+				statusText.setText("已发货");
 				btnStatusChanges.setText("确认收货");
 				btnStatusChanges.setEnabled(true);
-
+				btnStatusChanges.setBackground(getResources().getDrawable(R.drawable.btn_true));
+				btnStatusChanges.setTextColor(Color.parseColor("#ffffff"));
 				break;
 			case 3:
-				statusText.setText("状态:已取消");
+				statusText.setText("已取消");
 				btnStatusChanges.setText("交易关闭");
 				btnStatusChanges.setEnabled(false);
+				btnStatusChanges.setBackground(getResources().getDrawable(R.drawable.btn_false));
+				btnStatusChanges.setTextColor(Color.parseColor("#bdbdbd"));
 				break;
 			case 0:
-				statusText.setText("状态:确认收货");
+				statusText.setText("确认收货");
 				btnStatusChanges.setText("订单完成");
 				btnStatusChanges.setEnabled(false);
+				btnStatusChanges.setBackground(getResources().getDrawable(R.drawable.btn_false));
+				btnStatusChanges.setTextColor(Color.parseColor("#bdbdbd"));
 				break;
 			default:
 				statusText.setText("状态未知");
 				btnStatusChanges.setText("状态未知");
 				btnStatusChanges.setEnabled(false);
+				btnStatusChanges.setBackground(getResources().getDrawable(R.drawable.btn_false));
+				btnStatusChanges.setTextColor(Color.parseColor("#bdbdbd"));
 				break;
 			}
 			btnStatusChanges.setOnClickListener(new OnClickListener() {
@@ -158,10 +229,7 @@ public class DealFragment extends Fragment {
 
 				}
 			});
-/*<<<<<<< HEAD
-			// 标题
-			sellerName.setText(myOrder.getGoods().getTitle());
-=======*/
+
 			try{
 				proImg.load(myOrder.getGoods());
 			}catch(Exception e){
@@ -169,16 +237,17 @@ public class DealFragment extends Fragment {
 			}
 			
 			//标题
-			sellerName.setText("卖家： "+myOrder.getGoods().getSale_name());
+			sellerName.setText(myOrder.getGoods().getSale_name());
 			// 名称
-			proName.setText("商品： "+myOrder.getGoods().getTitle());
+			proName.setText(myOrder.getGoods().getTitle());
 			// 时间
 			String dateStr = DateFormat.format("yyyy-MM-dd hh:mm", myOrder.getCreateDate()).toString();
 			createDate.setText(dateStr);
 			// 金额
 			int amount = myOrder.getAmount();
 			float price = myOrder.getGoods().getPrice();
-			countText.setText("合计：" + amount + "件*" + price + "元=" + amount * price + "元");
+			onePrice.setText("￥"+price);
+			countText.setText("共 " + amount + " 件商品    合计：￥"+amount * price);
 
 			
 			
