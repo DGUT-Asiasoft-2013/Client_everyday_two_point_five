@@ -9,7 +9,7 @@ public class Comment extends BaseEntity  implements Serializable{
 	 *订单id
 	 *内容
 	 *创建时间 */
-	String	 goods_id,text, order_num;
+	String	 text, order_num;
 
 	Date createDate, editDate;
 	public Date getEditDate() {
@@ -39,12 +39,7 @@ public class Comment extends BaseEntity  implements Serializable{
 	public void setText(String text) {
 		this.text = text;
 	}
-	public String getGoods_id() {
-		return goods_id;
-	}
-	public void setGoods_id(String goods_id) {
-		this.goods_id = goods_id;
-	}
+
 	public Goods getGoods() {
 		return goods;
 	}

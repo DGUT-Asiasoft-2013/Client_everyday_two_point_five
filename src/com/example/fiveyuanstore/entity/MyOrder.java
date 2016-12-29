@@ -15,7 +15,6 @@ public class MyOrder extends DateRecord implements Serializable{
 	Goods goods;
 
 	String title;
-	String goods_id;
 	User user;
 	Integer sale_id;//用户， 卖方id
 	String name, phone, address;
@@ -39,13 +38,7 @@ public class MyOrder extends DateRecord implements Serializable{
 		this.sale_id = sale_id;
 	}
 
-	public String getGoods_id() {
-		return goods_id;
-	}
 
-	public void setGoods_id(String goods_id) {
-		this.goods_id = goods_id;
-	}
 
 
 	

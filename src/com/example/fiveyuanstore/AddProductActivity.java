@@ -118,7 +118,7 @@ public class AddProductActivity extends Activity {
 		
 		}}
 		else{
-			sort = "other";
+			sort = "all";
 		}
 		
 	  	 
@@ -172,7 +172,6 @@ public class AddProductActivity extends Activity {
 						
 				}
 
-				
 			});
 		}
 		

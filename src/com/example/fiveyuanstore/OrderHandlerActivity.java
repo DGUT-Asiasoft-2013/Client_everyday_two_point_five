@@ -47,7 +47,7 @@ public class OrderHandlerActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_oder_handler);
-		
+		reload();
 		list = (ListView) findViewById(R.id.list);
 		
 		loadMoreView = LayoutInflater.from(this).inflate(R.layout.widget_load_root_more_btn, null);
@@ -73,7 +73,7 @@ public class OrderHandlerActivity extends Activity {
 		});
 		
 		
-		reload();
+	
 	}
 	
 

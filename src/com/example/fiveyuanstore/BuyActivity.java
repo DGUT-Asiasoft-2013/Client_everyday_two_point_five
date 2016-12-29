@@ -158,7 +158,7 @@ public class BuyActivity extends Activity {
 				.addFormDataPart("price", String.valueOf(price))
 				.build();
 		
-		Request request=  Server.requestBuilderWithPath("/buy/"+goods_id).post(requestBody).build();
+		Request request=  Server.requestBuilderWithPath("/buy/"+goods_id+"/"+goods.getId()).post(requestBody).build();
 		
 		Server.getClient().newCall(request).enqueue(new Callback() {
 			

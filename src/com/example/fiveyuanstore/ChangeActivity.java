@@ -77,7 +77,7 @@ public class ChangeActivity extends Activity {
      RequestBody requestBody = builder.build();
   	 OkHttpClient client = Server.getClient();
   	 
-  	 Request request = Server.requestBuilderWithPath("/goods/"+goods.getGoods_id()+"/changeGoods")
+  	 Request request = Server.requestBuilderWithPath("/goods/"+goods.getId()+"/changeGoods")
 				.method("POST", requestBody)
 				.post(requestBody)
 				.build();
