@@ -1,23 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
-    <FrameLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+        
+            <FrameLayout
         android:id="@+id/profile_top"
         android:layout_width="match_parent"
-        android:layout_height="116dp"
+        android:layout_height="220dp"
         android:background="#ffb245" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_my_profile" />
+
+        <ImageView
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_gravity="center"
+            android:src="@drawable/bg_avatar" />
+
+        <com.example.fiveyuanstore.fragment.widgets.AvatarView
+            android:id="@+id/avatar"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_gravity="center" />
 
         <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="MY PROFILE" 
-            android:layout_marginTop="50dp"/>
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="26dp"
+            android:text="MY PROFILE" />
 
         <ProgressBar
             android:id="@+id/progress"
@@ -25,70 +47,92 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
-
-        <com.example.fiveyuanstore.fragment.widgets.AvatarView
-            android:id="@+id/avatar"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp" />
     </FrameLayout>
 
-    <RelativeLayout
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        
-        <fragment 
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="18dp"
+        android:text="我的功能"
+        android:textSize="17dp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#eee" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="88dp"
+        android:orientation="horizontal" >
+
+        <fragment
             android:id="@+id/inbox"
             android:layout_width="match_parent"
-           	android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             class="com.example.fiveyuanstore.fragment.list.TextListFragment"
-            tools:layout="@layout/fragment_text_list"/>
-        
-        <fragment 
+            tools:layout="@layout/fragment_text_list" />
+
+        <fragment
             android:id="@+id/wallet"
             android:layout_width="match_parent"
-           	android:layout_height="wrap_content"
-           	android:layout_below="@id/inbox"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             class="com.example.fiveyuanstore.fragment.list.TextListFragment"
-            tools:layout="@layout/fragment_text_list"/>
-        
-        <fragment 
+            tools:layout="@layout/fragment_text_list" />
+
+        <fragment
             android:id="@+id/password_changes"
             android:layout_width="match_parent"
-           	android:layout_height="wrap_content"
-           	android:layout_below="@id/wallet"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             class="com.example.fiveyuanstore.fragment.list.TextListFragment"
-            tools:layout="@layout/fragment_text_list"/>
-        
-          <fragment 
+            tools:layout="@layout/fragment_text_list" />
+
+        <fragment
             android:id="@+id/order_handler"
             android:layout_width="match_parent"
-           	android:layout_height="wrap_content"
-           	android:layout_below="@id/password_changes"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             class="com.example.fiveyuanstore.fragment.list.TextListFragment"
-            tools:layout="@layout/fragment_text_list"/>
-          
-           <fragment 
+            tools:layout="@layout/fragment_text_list" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="88dp"
+        android:orientation="horizontal" >
+
+        <fragment
             android:id="@+id/bill_list"
             android:layout_width="match_parent"
-           	android:layout_height="wrap_content"
-           	android:layout_below="@id/order_handler"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
             class="com.example.fiveyuanstore.fragment.list.TextListFragment"
-            tools:layout="@layout/fragment_text_list"/>
+            tools:layout="@layout/fragment_text_list" />
 
-        <Button
-            android:id="@+id/btn_log_off"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            android:background="#ff2929"
-            android:gravity="center"
-            android:text="注销"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+    </LinearLayout>
 
-    </RelativeLayout>
 
-</LinearLayout>
+
+    <Button
+        android:id="@+id/btn_log_off"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:background="#ff2929"
+        android:gravity="center"
+        android:text="注销"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
