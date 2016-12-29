@@ -157,10 +157,7 @@ public class DealFragment extends Fragment {
 
 				}
 			});
-/*<<<<<<< HEAD
-			// 标题
-			sellerName.setText(myOrder.getGoods().getTitle());
-=======*/
+
 			try{
 				proImg.load(myOrder.getGoods());
 			}catch(Exception e){
