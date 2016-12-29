@@ -182,11 +182,11 @@ public class MyProfileFragment extends Fragment {
 					});					
 				} catch (final Exception e) {
 					e.printStackTrace();
-					getActivity().runOnUiThread(new Runnable() {
-						public void run() {
-						MyProfileFragment.this.onFailuer(arg0, e);
-						}
-					});
+//					getActivity().runOnUiThread(new Runnable() {
+//						public void run() {
+//						MyProfileFragment.this.onFailuer(arg0, e);
+//						}
+//					});
 				}
 				
 			}

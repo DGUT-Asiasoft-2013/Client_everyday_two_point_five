@@ -41,6 +41,8 @@ public class StoreActivity extends Activity {
 		tab_sellerList=(ImageView)findViewById(R.id.tab_sellerList);
 		tab_me=(ImageView)findViewById(R.id.tab_me);
 		
+		changeContentFragment(0);
+		
 		tab_storeList.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -92,7 +94,7 @@ public class StoreActivity extends Activity {
 	protected void onResume() {
 		
 		super.onResume();
-		changeContentFragment(0);
+//		changeContentFragment(0);
 		
 	}
 	
