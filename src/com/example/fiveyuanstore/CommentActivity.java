@@ -56,7 +56,7 @@ public class CommentActivity extends Activity {
 				.addFormDataPart("text", text)
 				.build();
 
-		Request req = Server.requestBuilderWithPath("/goods/"+order.getGoods_id()+"/"+order.getOrder_num()+"/comments")
+		Request req = Server.requestBuilderWithPath("/goods/"+order.getGoods().getId()+"/"+order.getOrder_num()+"/comments")
 				.post(body)
 				.build();
 

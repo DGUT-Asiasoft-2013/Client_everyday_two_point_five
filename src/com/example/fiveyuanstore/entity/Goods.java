@@ -8,6 +8,9 @@ public class Goods extends BaseEntity implements Serializable {
 	/*
 	 * 商品名称， 商品编号 图片
 	 */
+	Integer id;
+
+
 	String title;
 	User user;
 	int status;
@@ -22,7 +25,13 @@ public class Goods extends BaseEntity implements Serializable {
 	String sort;
 	
 	
+	public Integer getId() {
+		return id;
+	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getSort() {
 		return sort;
 	}

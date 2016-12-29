@@ -132,7 +132,7 @@ public class GoodsInfo extends Activity {
 
 	protected void down() {
 		// 下架
-		Request request = Server.requestBuilderWithPath("/goods/" + goods.getGoods_id() + "/deleteGoods").delete().build();
+		Request request = Server.requestBuilderWithPath("/goods/" + goods.getId() + "/deleteGoods").delete().build();
 
 		Server.getClient().newCall(request).enqueue(new Callback() {
 

@@ -133,13 +133,19 @@ public class BuyActivity extends Activity {
 		});
 	}
 
-	void buy(String name, String phone, String address, String amount, float price, String goods_id) {
-		RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("name", name)
-				.addFormDataPart("phone", phone).addFormDataPart("address", address).addFormDataPart("amount", amount)
-				.addFormDataPart("price", String.valueOf(price)).build();
-
-		Request request = Server.requestBuilderWithPath("/buy/" + goods_id).post(requestBody).build();
-
+	
+	void buy(String name,String phone, String address, String amount,float price, String goods_id){
+		RequestBody requestBody = new MultipartBody.Builder()
+				.setType(MultipartBody.FORM)
+				.addFormDataPart("name",name)
+				.addFormDataPart("phone",phone)
+				.addFormDataPart("address", address)
+				.addFormDataPart("amount", amount)
+				.addFormDataPart("price", String.valueOf(price))
+				.build();
+		
+		Request request=  Server.requestBuilderWithPath("/buy/"+goods_id+"/"+goods.getId()).post(requestBody).build();
+		
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
 			@Override

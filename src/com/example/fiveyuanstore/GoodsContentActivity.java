@@ -160,7 +160,7 @@ public class GoodsContentActivity extends Activity {
 
 	void reload() {
 
-		Request request = Server.requestBuilderWithPath("/goods/" + goods.getGoods_id() + "/comments").get().build();
+		Request request = Server.requestBuilderWithPath("/goods/" + goods.getId() + "/comments").get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
 			@Override
