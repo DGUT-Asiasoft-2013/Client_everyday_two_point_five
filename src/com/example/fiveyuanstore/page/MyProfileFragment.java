@@ -29,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import okhttp3.Call;
@@ -45,6 +46,7 @@ public class MyProfileFragment extends Fragment {
 	ProgressBar progress;				//显示载入图案
 	AvatarView avatar;					//显示用户头像
 	TextListFragment inbox,wallet,password_changes, order_handler, bill_list;//私信、钱包、密码修改, 訂單處理， 帳單查詢
+
 	
 	Float money;
 	
@@ -61,6 +63,10 @@ public class MyProfileFragment extends Fragment {
 			password_changes=(TextListFragment)getFragmentManager().findFragmentById(R.id.password_changes);
 			order_handler = (TextListFragment)getFragmentManager().findFragmentById(R.id.order_handler);
 			bill_list =  (TextListFragment)getFragmentManager().findFragmentById(R.id.bill_list);
+			
+
+			
+			
 			inbox.setOnNewClickedListener(new OnNewClickedListener() {
 				
 				@Override
@@ -159,6 +165,14 @@ public class MyProfileFragment extends Fragment {
 		password_changes.setLabelText("修改密码");
 		order_handler.setLabelText("订单处理");
 		bill_list.setLabelText("我的账单");
+		
+		inbox.setLabelImage(R.drawable.ic_inbox);
+		wallet.setLabelImage(R.drawable.ic_wallet);
+		password_changes.setLabelImage(R.drawable.ic_password_changes);
+		order_handler.setLabelImage(R.drawable.ic_order_handler);
+		bill_list.setLabelImage(R.drawable.ic_order_handler);
+		
+		
 		textView.setVisibility(View.GONE);			//隐藏
 		progress.setVisibility(View.VISIBLE);		//显示
 		
@@ -181,13 +195,15 @@ public class MyProfileFragment extends Fragment {
 						}
 					});					
 				} catch (final Exception e) {
-					e.printStackTrace();
 				/*	getActivity().runOnUiThread(new Runnable() {
+=======
+*/
+				getActivity().runOnUiThread(new Runnable() {
 						public void run() {
 						MyProfileFragment.this.onFailuer(arg0, e);
 					
 						}
-					});*/
+					});
 				}
 				
 			}
@@ -216,7 +232,7 @@ public class MyProfileFragment extends Fragment {
 		progress.setVisibility(View.GONE);
 		avatar.load(user);
 		textView.setVisibility(View.VISIBLE);	
-		textView.setTextColor(Color.BLACK);
+		textView.setTextColor(Color.WHITE);
 		textView.setText(user.getUser_name());
 		userName=user.getUser_name();
 		money=user.getMoney();

@@ -2,9 +2,11 @@ package com.example.fiveyuanstore.myProfiles;
 
 import java.io.IOException;
 
+import com.example.fiveyuanstore.LoginActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.R.id;
 import com.example.fiveyuanstore.R.layout;
+import com.example.fiveyuanstore.TransactionActivity;
 import com.example.fiveyuanstore.api.Server;
 
 import android.R.integer;
@@ -38,13 +40,23 @@ public class WalletActivity extends Activity {
 		setContentView(R.layout.activity_wallet);
 		remaining_sum = (TextView) findViewById(R.id.remaining_sum);
 		money=getIntent().getFloatExtra("money", -1);
+		
+		findViewById(R.id.transactions).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(WalletActivity.this, TransactionActivity.class);				
+				startActivity(intent);
+				
+			}
+		});
+		
 		findViewById(R.id.btn_recharge).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// 充值按钮
-				recharge();
-				
+				recharge();				
 				remaining_sum.setText("$" + money);
 			}
 		});
@@ -57,6 +69,15 @@ public class WalletActivity extends Activity {
 				remaining_sum.setText("$" + money);
 			}
 
+		});
+		
+		findViewById(R.id.btn_wallet_back).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+				
+			}
 		});
 	}
 
@@ -76,9 +97,10 @@ public class WalletActivity extends Activity {
 		normalDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				money += Float.parseFloat(editText.getText().toString());			
+				Float addmoney=Float.parseFloat(editText.getText().toString());
+				money += addmoney;			
 				server(money);
-				serverrecharge("0",money);
+				serverRecharge("充值",addmoney);
 				reload();
 			}
 		});
@@ -96,8 +118,10 @@ public class WalletActivity extends Activity {
 		normalDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				money -= Float.parseFloat(editText.getText().toString());
+				Float addmoney=Float.parseFloat(editText.getText().toString());
+				money -= addmoney;
 				server(money);
+				serverRecharge("提现",addmoney);
 				reload();
 			}
 		});
@@ -135,18 +159,15 @@ public class WalletActivity extends Activity {
 			}
 		});
 	}
-	void serverrecharge(String goods_id,Float price){
+	void serverRecharge(String state,Float price){
 		
 	RequestBody requestBody = new MultipartBody.Builder()
 			.setType(MultipartBody.FORM)
-			.addFormDataPart("name","充值")
-			.addFormDataPart("phone","0")
-			.addFormDataPart("address","admin")
-			.addFormDataPart("amount", "1")
-			.addFormDataPart("price", String.valueOf(price))
+			.addFormDataPart("state",state)
+			.addFormDataPart("money",String.valueOf(price))
 			.build();
 	
-	Request request=  Server.requestBuilderWithPath("/buy/"+goods_id).post(requestBody).build();
+	Request request=  Server.requestBuilderWithPath("/confirmRecord/").post(requestBody).build();
 	
 	Server.getClient().newCall(request).enqueue(new Callback() {
 		
@@ -155,9 +176,8 @@ public class WalletActivity extends Activity {
 			runOnUiThread(new Runnable() {
 				
 				@Override
-				public void run() {
-					
-					//Toast.makeText(getApplication(), "付款成功", Toast.LENGTH_LONG).show();
+				public void run() {				
+					Toast.makeText(getApplication(), "成功", Toast.LENGTH_LONG).show();
 				}
 			});
 		}
@@ -168,7 +188,7 @@ public class WalletActivity extends Activity {
 				
 				@Override
 				public void run() {
-					Toast.makeText(getApplication(), "购买失败"+ e.getMessage(), Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplication(), "失败"+ e.getMessage(), Toast.LENGTH_LONG).show();
 				}
 			});
 		}

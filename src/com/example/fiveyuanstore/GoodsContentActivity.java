@@ -52,9 +52,6 @@ public class GoodsContentActivity extends Activity {
 	List<Comment> comments;
 	int page=0;
 
-
-	
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub

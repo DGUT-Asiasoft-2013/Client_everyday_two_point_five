@@ -97,7 +97,6 @@ public class SellerFragment extends Fragment {
 				public void onClick(View v) {
 					// 搜索
 					search();
-
 				}
 			});
 
@@ -115,43 +114,39 @@ public class SellerFragment extends Fragment {
 
 	void onItemClicked(int position) {
 		Goods goods = data.get(position);
-
 		Intent itnt = new Intent(this.getActivity(), GoodsInfo.class);
 		itnt.putExtra("data", (Serializable) goods);
 		startActivity(itnt);
 	}
 
 	void loadMore() {
-		Request request = Server.requestBuilderWithPath("/goods/"+(page+1) ).get().build();
+		Request request = Server.requestBuilderWithPath("/goods/" + (page + 1)).get().build();
 
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
 			@Override
 			public void onResponse(Call arg0, final Response arg1) throws IOException {
-					
 
-					getActivity().runOnUiThread(new Runnable() {
+				getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						loadMore.setEnabled(true);
+						txtLoadmore.setText("加载更多");
 
-						@Override
-						public void run() {
-							loadMore.setEnabled(true);
-							txtLoadmore.setText("加载更多");
-							
-						}
-					});
-					try {
+					}
+				});
+				try {
 					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(),
 							new TypeReference<Page<Goods>>() {
 							});
-					if(data.getNumber()> page){
+					if (data.getNumber() > page) {
 						getActivity().runOnUiThread(new Runnable() {
-							
+
 							@Override
 							public void run() {
-								if(SellerFragment.this.data == null){
+								if (SellerFragment.this.data == null) {
 									SellerFragment.this.data = data.getContent();
-								}
-								else{
+								} else {
 									SellerFragment.this.data.addAll(data.getContent());
 								}
 								SellerFragment.this.page = data.getNumber();
@@ -159,8 +154,6 @@ public class SellerFragment extends Fragment {
 							}
 						});
 					}
-				
-					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -177,13 +170,11 @@ public class SellerFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		reload();
-		Toast.makeText(getActivity(), "searchTxt is: " + search_txt.getText().toString(), Toast.LENGTH_LONG).show();
-
 	}
 
 	void reload() {
-		Request request = Server.requestBuilderWithPath("/goods" ).get().build();
 
+		Request request = Server.requestBuilderWithPath("/goods").get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
 			@Override
@@ -223,7 +214,6 @@ public class SellerFragment extends Fragment {
 		Request request = Server.requestBuilderWithPath("/search").post(requestBody).build();
 
 		Server.getClient().newCall(request).enqueue(new Callback() {
-
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
 				try {
@@ -255,7 +245,6 @@ public class SellerFragment extends Fragment {
 	protected void addNewGoods() {
 		Intent itt = new Intent(getActivity(), AddProductActivity.class);
 		startActivity(itt);
-
 	}
 
 	BaseAdapter adapter = new BaseAdapter() {
@@ -275,12 +264,12 @@ public class SellerFragment extends Fragment {
 			TextView goodsName = (TextView) view.findViewById(R.id.goods_name);
 			TextView money = (TextView) view.findViewById(R.id.money);
 			TextView textDate = (TextView) view.findViewById(R.id.date);
-			ProImgView img = (ProImgView)view.findViewById(R.id.goods_img);
+			ProImgView img = (ProImgView) view.findViewById(R.id.goods_img);
 
 			Goods goods = data.get(position);
 
-			textContent.setText("商品简介： "+goods.getText());
-			goodsName.setText("商品名称： "+goods.getTitle());
+			textContent.setText("商品简介： " + goods.getText());
+			goodsName.setText("              " + goods.getTitle());
 			money.setText("$" + Float.toString(goods.getPrice()));
 
 			img.load(goods);
@@ -293,28 +282,20 @@ public class SellerFragment extends Fragment {
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
-
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return data.get(position);
-
 		}
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return data == null ? 0 : data.size();
-
 		}
 	};
 
-
-	
 	// 订单处理
 	private void orderHandler() {
 		Intent itt = new Intent(getActivity(), OrderHandlerActivity.class);
@@ -325,14 +306,12 @@ public class SellerFragment extends Fragment {
 	void change() {
 		Intent itt = new Intent(getActivity(), ChangeActivity.class);
 		startActivity(itt);
-
 	}
 
 	// 获得评论
 	private void getComment() {
 		Intent itt = new Intent(getActivity(), CommentActivity.class);
 		startActivity(itt);
-
 	}
 
 	// 下架
@@ -352,14 +331,5 @@ public class SellerFragment extends Fragment {
 					}
 				}).show();
 	}
-	// Intent 点击进入详情页面
-
-	/*
-	 * public void `(int position) { Goods pro = data.get(position); Intent itt
-	 * = new Intent(getActivity(), StoreActivity.class); itt.putExtra("data",
-	 * pro); startActivity(itt);
-	 * 
-	 * }
-	 */
 
 }
