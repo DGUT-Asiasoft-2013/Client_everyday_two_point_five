@@ -73,11 +73,18 @@
     </RelativeLayout>
 
     <FrameLayout
+        android:id="@+id/fra"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_alignLeft="@id/relay"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="7dp"
         android:background="#ddd" />
+    
+        <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@id/fra"
+        android:background="#eee" />
 
 </RelativeLayout>

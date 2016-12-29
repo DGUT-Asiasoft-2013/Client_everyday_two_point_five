@@ -116,7 +116,7 @@ public class CommodityFragment extends Fragment {
 			Goods goods = data.get(position);
 
 			textContent.setText(goods.getText());
-			goodsName.setText(goods.getTitle());
+			goodsName.setText("              "+goods.getTitle());
 			money.setText("$" + Float.toString(goods.getPrice()));
 
 			img.load(goods);
