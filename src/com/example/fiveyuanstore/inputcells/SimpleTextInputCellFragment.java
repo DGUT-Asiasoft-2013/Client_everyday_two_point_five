@@ -46,6 +46,12 @@ public class SimpleTextInputCellFragment extends Fragment{
 			edit.setInputType(EditorInfo.TYPE_CLASS_TEXT);
 		}
 	}
+	
+	public void setText(String str){
+		edit.setText(str);
+		
+	}
+	
 
 	public void setIsPsw(boolean isPassword){
 		if(isPassword){

@@ -2,8 +2,6 @@ package com.example.fiveyuanstore.page;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import com.example.fiveyuanstore.GoodsContentActivity;
@@ -20,7 +18,6 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,8 +26,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.AdapterView.OnItemClickListener;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -45,7 +42,7 @@ public class CommodityFragment extends Fragment {
 
 	View view;
 	ListView listView;
-
+	ImageView snack, clothing, fruit;
 	View btnLoadMore;
 	TextView textLoadMore;
 	EditText search_text;
@@ -62,9 +59,38 @@ public class CommodityFragment extends Fragment {
 			textLoadMore = (TextView) btnLoadMore.findViewById(R.id.text);
 			search_text = (EditText) view.findViewById(R.id.search_text);
 			listView = (ListView) view.findViewById(R.id.goods_list);
+			fruit = (ImageView) view.findViewById(R.id.fruit);
+			snack = (ImageView) view.findViewById(R.id.snack);
+			clothing = (ImageView) view.findViewById(R.id.clothing);
 			listView.addFooterView(btnLoadMore);
 			listView.setAdapter(listAdapter);
 
+			fruit.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					sortList("fruit");
+				}
+			});
+			
+
+			snack.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					sortList("snack");
+				}
+			});
+			
+			clothing.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					sortList("clothing");
+				}
+			});
+			
+			
 			listView.setOnItemClickListener(new OnItemClickListener() {
 
 				@Override
@@ -92,6 +118,50 @@ public class CommodityFragment extends Fragment {
 
 		}
 		return view;
+	}
+
+	protected void sortList(String sort) {
+		Request request = Server.requestBuilderWithPath("goods/sort/"+sort).get().build();
+		
+		Server.getClient().newCall(request).enqueue(new Callback() {
+			
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				
+				try {
+					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(), new TypeReference<Page<Goods>>(){});
+					
+					getActivity().runOnUiThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							
+							CommodityFragment.this.page = data.getNumber();
+							CommodityFragment.this.data = data.getContent();
+							listAdapter.notifyDataSetInvalidated();
+							
+						}
+					});
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			@Override
+			public void onFailure(Call arg0, final IOException e) {
+				getActivity().runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()).show();
+					}
+				});
+				
+			}
+		});
 	}
 
 	BaseAdapter listAdapter = new BaseAdapter() {
@@ -178,15 +248,15 @@ public class CommodityFragment extends Fragment {
 
 						@Override
 						public void run() {
-							listAdapter.notifyDataSetInvalidated();
+							
 							CommodityFragment.this.page = data.getNumber();
 							CommodityFragment.this.data = data.getContent();
+							listAdapter.notifyDataSetInvalidated();
 						}
 					});
 				} catch (final Exception e) {
 
 				/*	getActivity().runOnUiThread(new Runnable() {
-
 						@Override
 						public void run() {
 							new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()).show();

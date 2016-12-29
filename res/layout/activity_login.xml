@@ -13,12 +13,13 @@
         android:padding="16dp"
         android:text="两块五商店"
         android:textSize="24sp"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold|italic"
+        android:textColor="@android:color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="80dp"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -84,15 +85,24 @@
         android:text="Forgot password?"
         android:textColor="@android:color/darker_gray" />
 
+
+    <CheckBox
+        android:id="@+id/checkBox1"
+		android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="remember me"
+         android:textColor="@android:color/darker_gray"  />
+
     <TextView
         android:id="@+id/btn_register"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_gravity="center"
-        android:layout_weight="1"
         android:gravity="center"
         android:padding="8dp"
         android:text="New here? Sign Up"
         android:textColor="@android:color/darker_gray" />
-
 </LinearLayout>

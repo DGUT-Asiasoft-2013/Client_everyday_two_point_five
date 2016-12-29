@@ -41,7 +41,83 @@
                 android:layout_gravity="bottom"
                 android:background="@android:color/darker_gray" />
         </FrameLayout>
+       
+        <LinearLayout 
+            android:layout_width="match_parent"
+             android:layout_height="50dp"
+             android:orientation="horizontal"
+                 android:weightSum = "1">
+     
+            <RelativeLayout 
+                  android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3">
+                 <ImageView
+                android:id="@+id/snack"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:padding="1dp"
+                android:src="@drawable/circle_bg" />
+                
+                <TextView 
+                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text=" 零食"
+                android:layout_below="@id/snack"
+                    />
+        </RelativeLayout>
+        
+              <RelativeLayout 
+                  android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3">
+                 <ImageView
+                android:id="@+id/clothing"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:padding="1dp"
+                android:src="@drawable/circle_bg" />
+                
+                <TextView 
+                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text=" 服飾"
+                android:layout_below="@id/clothing"
+                    />
+            
+        </RelativeLayout>
+        
+                <RelativeLayout 
+                  android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3">
+                 <ImageView
+                android:id="@+id/fruit"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:padding="1dp"
+                android:src="@drawable/circle_bg" />
+                
+                <TextView 
+                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text=" 水果"
+                android:layout_below="@id/fruit"
+                    />
+            
+        </RelativeLayout>
+</LinearLayout>
 
+        
         <ListView
             android:id="@+id/goods_list"
             android:layout_width="match_parent"

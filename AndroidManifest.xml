@@ -109,6 +109,7 @@
             android:name="com.example.fiveyuanstore.TransactionActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
+
     </application>
 
     <!--
