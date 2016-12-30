@@ -68,12 +68,20 @@ public class DealFragment extends Fragment {
 			filterFinish=(TextView)view.findViewById(R.id.filter_finish);
 			
 		}
-		reload();
+		
 
 		reload.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				filterAll.setTextColor(Color.parseColor("#ff5337"));
+				filterAll.setBackground(getResources().getDrawable(R.drawable.filter));
+				filterSend.setTextColor(Color.parseColor("#000000"));
+				filterSend.setBackground(null);
+				filterGet.setTextColor(Color.parseColor("#000000"));
+				filterGet.setBackground(null);
+				filterFinish.setTextColor(Color.parseColor("#000000"));
+				filterFinish.setBackground(null);
 				reload();
 			}
 		});
@@ -90,10 +98,12 @@ public class DealFragment extends Fragment {
 				filterGet.setBackground(null);
 				filterFinish.setTextColor(Color.parseColor("#000000"));
 				filterFinish.setBackground(null);
-
+				
+				reload();
 			}
 		});
 		filterSend.setOnClickListener(new OnClickListener() {
+			//1：已付款
 
 			@Override
 			public void onClick(View v) {
@@ -105,10 +115,12 @@ public class DealFragment extends Fragment {
 				filterGet.setBackground(null);
 				filterFinish.setTextColor(Color.parseColor("#000000"));
 				filterFinish.setBackground(null);
-
+				
+				getDifOrder(1);
 			}
 		});
 		filterGet.setOnClickListener(new OnClickListener() {
+			//2：已发货
 
 			@Override
 			public void onClick(View v) {
@@ -120,10 +132,12 @@ public class DealFragment extends Fragment {
 				filterGet.setBackground(getResources().getDrawable(R.drawable.filter));
 				filterFinish.setTextColor(Color.parseColor("#000000"));
 				filterFinish.setBackground(null);
+				getDifOrder(2);
 
 			}
 		});
 		filterFinish.setOnClickListener(new OnClickListener() {
+			//0：确认收货，交易结束
 
 			@Override
 			public void onClick(View v) {
@@ -135,10 +149,66 @@ public class DealFragment extends Fragment {
 				filterGet.setBackground(null);
 				filterFinish.setTextColor(Color.parseColor("#ff5337"));
 				filterFinish.setBackground(getResources().getDrawable(R.drawable.filter));
+			
+				getDifOrder(0);
 			}
 		});
 		
 		return view;
+	}
+
+	protected void getDifOrder(int status) {
+		// 查询不同状态的账单order/status/{status}/
+		Request request = Server.requestBuilderWithPath("/order/status/"+status).get().build();
+		
+		Server.getClient().newCall(request).enqueue(new Callback() {
+			
+			@Override
+			public void onResponse(Call arg0, final Response arg1) throws IOException {
+				
+				try {
+					final Page<MyOrder> data = new ObjectMapper().readValue(arg1.body().string(), new TypeReference<Page<MyOrder>>(){});
+			
+				
+				
+				getActivity().runOnUiThread(new Runnable() {
+					
+					
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						if (	DealFragment.this.data != null){
+							DealFragment.this.data =null;
+						}
+						DealFragment.this.page = data.getNumber();
+						DealFragment.this.data = data.getContent();
+						listAdapter.notifyDataSetInvalidated();
+
+						
+					}
+					
+				});
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			@Override
+			public void onFailure(Call arg0, final IOException e) {
+				// TODO Auto-generated method stub
+				getActivity().runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						Toast.makeText(getActivity().getApplication(), e.getMessage(), Toast.LENGTH_LONG).show();
+						
+					}
+				});
+			}
+		});
+		
 	}
 
 	BaseAdapter listAdapter = new BaseAdapter() {
@@ -164,7 +234,6 @@ public class DealFragment extends Fragment {
 			Button btnStatusChanges=(Button)view.findViewById(R.id.btn_status_changes);	//状态更改按钮
 			ProImgView image=(ProImgView) view.findViewById(R.id.proImg);
 			
-			reload();
 			try {//从服务器获取信息
 			MyOrder myOrder = data.get(position);
 			Goods goods1 = myOrder.getGoods();
@@ -300,9 +369,10 @@ public class DealFragment extends Fragment {
 
 						@Override
 						public void run() {
-							listAdapter.notifyDataSetInvalidated();
+							
 							DealFragment.this.page = data.getNumber();
 							DealFragment.this.data = data.getContent();
+							listAdapter.notifyDataSetInvalidated();
 						}
 					});
 				} catch (final Exception e) {
