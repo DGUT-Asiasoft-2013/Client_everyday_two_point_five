@@ -52,30 +52,34 @@ public class CommodityFragment extends Fragment {
 	EditText search_text;
 	List<Goods> data;
 	int page = 0;
+	View headerView;
 	TextView CommoditySortTime,CommoditySortPrice,CommoditySortCustom;
+	ImageView search;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		if (view == null) {
 			view = inflater.inflate(R.layout.fragment_page_commodity, null);
-
+			headerView = inflater.inflate(R.layout.comm_header_view,null);
+			
+			
 			btnLoadMore = inflater.inflate(R.layout.widget_load_more_button, null);
 			textLoadMore = (TextView) btnLoadMore.findViewById(R.id.text);
-			search_text = (EditText) view.findViewById(R.id.search_text);
+			search_text = (EditText) headerView.findViewById(R.id.search_text);
 			listView = (ListView) view.findViewById(R.id.goods_list);
-
+			
+			search =(ImageView) headerView.findViewById(R.id.btn_search);
 			fruit = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.fruit);
 			snack = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.snack);
 			clothing = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.clothing);
 			others= (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.others);
 
-			listView.addFooterView(btnLoadMore);
-			listView.setAdapter(listAdapter);
+		
 			
-			CommoditySortTime=(TextView)view.findViewById(R.id.commodity_sort_time);
-			CommoditySortPrice=(TextView)view.findViewById(R.id.commodity_sort_price);
-			CommoditySortCustom=(TextView)view.findViewById(R.id.commodity_sort_custom);
-
+			CommoditySortTime=(TextView)headerView.findViewById(R.id.commodity_sort_time);
+			CommoditySortPrice=(TextView)headerView.findViewById(R.id.commodity_sort_price);
+			CommoditySortCustom=(TextView)headerView.findViewById(R.id.commodity_sort_custom);
+			
 			fruit.setOnNewClickedListener(new OnNewClickedListener() {
 				
 				@Override
@@ -124,7 +128,7 @@ public class CommodityFragment extends Fragment {
 				}
 			});
 
-			view.findViewById(R.id.btn_search).setOnClickListener(new OnClickListener() {
+			search.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
@@ -171,6 +175,10 @@ public class CommodityFragment extends Fragment {
 			});
 
 		}
+		
+		listView.addHeaderView(headerView);
+		listView.addFooterView(btnLoadMore);
+		listView.setAdapter(listAdapter);
 		return view;
 	}
 
@@ -313,7 +321,7 @@ public class CommodityFragment extends Fragment {
 						}
 					});
 				} catch (final Exception e) {
-
+					e.printStackTrace();
 				/*	getActivity().runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
