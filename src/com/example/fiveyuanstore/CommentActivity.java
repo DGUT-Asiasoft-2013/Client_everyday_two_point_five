@@ -56,6 +56,7 @@ public class CommentActivity extends Activity {
 		String text = editText.getText().toString();
 		MultipartBody body = new MultipartBody.Builder()
 				.addFormDataPart("text", text)
+				.addFormDataPart("id", ""+order.getGoods().getId())
 				.build();
 
 		Request req = Server.requestBuilderWithPath("/goods/"+order.getOrder_num()+"/comments")
