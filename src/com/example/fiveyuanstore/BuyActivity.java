@@ -88,8 +88,7 @@ public class BuyActivity extends Activity {
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
 				try {
-					final User me = new ObjectMapper().readValue(arg1.body().string(), new TypeReference<User>() {
-					});
+					final User me = new ObjectMapper().readValue(arg1.body().string(), new TypeReference<User>() {});
 					runOnUiThread(new Runnable() {
 
 						@Override
