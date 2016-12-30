@@ -173,12 +173,13 @@ public class CommodityFragment extends Fragment {
 
 				}
 			});
+			listView.addHeaderView(headerView);
+			listView.addFooterView(btnLoadMore);
+			listView.setAdapter(listAdapter);
 
 		}
 		
-		listView.addHeaderView(headerView);
-		listView.addFooterView(btnLoadMore);
-		listView.setAdapter(listAdapter);
+		
 		return view;
 	}
 
