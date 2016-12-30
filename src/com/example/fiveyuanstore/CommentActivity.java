@@ -68,13 +68,19 @@ public class CommentActivity extends Activity {
 
 			@Override
 			public void onResponse(Call arg0, final Response arg1) throws IOException {
-				runOnUiThread(new Runnable() {
-					String resBody = new ObjectMapper().readValue(arg1.body().string(),new TypeReference <String>(){});
-					@Override
-					public void run() {
-						CommentActivity.this.onResponse(resBody);
-					}
-				});
+				try {
+					final String resBody = new ObjectMapper().readValue(arg1.body().string(),new TypeReference<String>(){});
+					runOnUiThread(new Runnable() {
+					
+						@Override
+						public void run() {
+							CommentActivity.this.onResponse(resBody);
+						}
+					});
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 			@Override
