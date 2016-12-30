@@ -10,6 +10,8 @@ import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.Page;
+import com.example.fiveyuanstore.fragment.list.PageCommodityClassifyFragment;
+import com.example.fiveyuanstore.fragment.list.PageCommodityClassifyFragment.OnNewClickedListener;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -17,6 +19,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -42,13 +45,13 @@ public class CommodityFragment extends Fragment {
 
 	View view;
 	ListView listView;
-	ImageView snack, clothing, fruit;
+	PageCommodityClassifyFragment snack, clothing, fruit;
 	View btnLoadMore;
 	TextView textLoadMore;
 	EditText search_text;
 	List<Goods> data;
 	int page = 0;
-
+	TextView CommoditySortTime,CommoditySortPrice,CommoditySortCustom;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -59,33 +62,37 @@ public class CommodityFragment extends Fragment {
 			textLoadMore = (TextView) btnLoadMore.findViewById(R.id.text);
 			search_text = (EditText) view.findViewById(R.id.search_text);
 			listView = (ListView) view.findViewById(R.id.goods_list);
-			fruit = (ImageView) view.findViewById(R.id.fruit);
-			snack = (ImageView) view.findViewById(R.id.snack);
-			clothing = (ImageView) view.findViewById(R.id.clothing);
+			fruit = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.fruit);
+			snack = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.snack);
+			clothing = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.clothing);
 			listView.addFooterView(btnLoadMore);
 			listView.setAdapter(listAdapter);
+			
+			CommoditySortTime=(TextView)view.findViewById(R.id.commodity_sort_time);
+			CommoditySortPrice=(TextView)view.findViewById(R.id.commodity_sort_price);
+			CommoditySortCustom=(TextView)view.findViewById(R.id.commodity_sort_custom);
 
-			fruit.setOnClickListener(new View.OnClickListener() {
+			fruit.setOnNewClickedListener(new OnNewClickedListener() {
 				
 				@Override
-				public void onClick(View v) {
+				public void onNewClicked() {
 					sortList("fruit");
 				}
 			});
 			
 
-			snack.setOnClickListener(new View.OnClickListener() {
+			snack.setOnNewClickedListener(new OnNewClickedListener() {
 				
 				@Override
-				public void onClick(View v) {
+				public void onNewClicked() {
 					sortList("snack");
 				}
 			});
 			
-			clothing.setOnClickListener(new View.OnClickListener() {
+			clothing.setOnNewClickedListener(new OnNewClickedListener() {
 				
 				@Override
-				public void onClick(View v) {
+				public void onNewClicked() {
 					sortList("clothing");
 				}
 			});
@@ -112,6 +119,43 @@ public class CommodityFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					search();
+
+				}
+			});
+			
+			CommoditySortTime.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					CommoditySortTime.setText("时间排序▼");
+					CommoditySortTime.setTextColor(Color.parseColor("#ff5337"));
+					CommoditySortPrice.setText("价格排序");
+					CommoditySortPrice.setTextColor(Color.parseColor("#000000"));
+					CommoditySortCustom.setTextColor(Color.parseColor("#000000"));
+
+				}
+			});
+			CommoditySortPrice.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					CommoditySortTime.setText("时间排序");
+					CommoditySortTime.setTextColor(Color.parseColor("#000000"));
+					CommoditySortPrice.setText("价格排序▼");
+					CommoditySortPrice.setTextColor(Color.parseColor("#ff5337"));
+					CommoditySortCustom.setTextColor(Color.parseColor("#000000"));
+
+				}
+			});
+			CommoditySortCustom.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					CommoditySortTime.setText("时间排序");
+					CommoditySortTime.setTextColor(Color.parseColor("#000000"));
+					CommoditySortPrice.setText("价格排序");
+					CommoditySortPrice.setTextColor(Color.parseColor("#000000"));
+					CommoditySortCustom.setTextColor(Color.parseColor("#ff5337"));
 
 				}
 			});
@@ -229,8 +273,12 @@ public class CommodityFragment extends Fragment {
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
+		
+		fruit.setLabelImage(R.drawable.ic_frult);
+		snack.setLabelImage(R.drawable.ic_snacks);
+		clothing.setLabelImage(R.drawable.ic_clothes);
+		
 		reload();
 	}
 
