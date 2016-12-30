@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" 
     android:id="@+id/goods_list"
-    android:background="#fff"
+    android:background="#eee"
     android:divider="#fff"
     android:dividerHeight="0dip" >
  </ListView>
