@@ -59,6 +59,8 @@ public class LoginActivity extends Activity {
 				login();
 				if (checkBox1.isChecked()){
 					onSaveContent();
+				}else{
+					onNotSaveContent();
 				}
 			}
 		});
@@ -93,11 +95,22 @@ public class LoginActivity extends Activity {
 	        //获取SharedPreferences时，需要设置两参数
 	        //第一个是保存的文件的名称，第二个参数是保存的模式（是否只被本应用使用）
 	        SharedPreferences sharedPreferences = 
-	                getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+	                getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);	        
 	        Editor editor = sharedPreferences.edit();
 	        //添加要保存的数据
 	        editor.putString("username", usernameContent);
 	        editor.putString("password", passwordContent);
+	        //确认保存
+	        editor.commit();
+	    }
+	   protected void onNotSaveContent() {
+	        super.onStop();
+	        SharedPreferences sharedPreferences = 
+	                getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+	        Editor editor = sharedPreferences.edit();
+	        //添加要保存的数据
+	        editor.putString("username", "");
+	        editor.putString("password", "");
 	        //确认保存
 	        editor.commit();
 	    }

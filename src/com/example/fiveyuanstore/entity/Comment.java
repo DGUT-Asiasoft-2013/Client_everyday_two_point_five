@@ -10,7 +10,10 @@ public class Comment extends BaseEntity  implements Serializable{
 	 *内容
 	 *创建时间 */
 	String	 text, order_num;
-
+	int
+	order_id;
+	User author;
+	Goods goods;
 	Date createDate, editDate;
 	public Date getEditDate() {
 		return editDate;
@@ -18,10 +21,7 @@ public class Comment extends BaseEntity  implements Serializable{
 	public void setEditDate(Date editDate) {
 		this.editDate = editDate;
 	}
-	int
-	order_id;
-	User author;
-	Goods goods;
+
 	
 	
 	public String getOrder_num() {

@@ -223,7 +223,11 @@ public class OrderHandlerActivity extends Activity {
 			TextView date = (TextView) view.findViewById(R.id.date);
 			TextView status = (TextView) view.findViewById(R.id.status);
 			
-			proImg.load(orders.getGoods());
+			try {
+				proImg.load(orders.getGoods());
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 			orderId.setText("订单编号： "+orders.getOrder_num());
 			try {
 				goods_num.setText("订单数量: "+ orders.getAmount());

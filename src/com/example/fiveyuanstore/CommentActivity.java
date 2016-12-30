@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.MyOrder;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -56,7 +58,7 @@ public class CommentActivity extends Activity {
 				.addFormDataPart("text", text)
 				.build();
 
-		Request req = Server.requestBuilderWithPath("/goods/"+order.getGoods().getId()+"/"+order.getOrder_num()+"/comments")
+		Request req = Server.requestBuilderWithPath("/goods/"+order.getOrder_num()+"/comments")
 				.post(body)
 				.build();
 
@@ -66,7 +68,7 @@ public class CommentActivity extends Activity {
 			@Override
 			public void onResponse(Call arg0, final Response arg1) throws IOException {
 				runOnUiThread(new Runnable() {
-					String resBody = arg1.body().string();
+					String resBody = new ObjectMapper().readValue(arg1.body().string(),new TypeReference <String>(){});
 					@Override
 					public void run() {
 						CommentActivity.this.onResponse(resBody);
