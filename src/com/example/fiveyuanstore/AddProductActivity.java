@@ -113,6 +113,9 @@ public class AddProductActivity extends Activity {
 		case "零食":
 			sort = "snack";
 			break;
+		case "其他":
+			sort = "other";
+			break;
 		default:
 			break;
 		

@@ -42,7 +42,7 @@ public class CommodityFragment extends Fragment {
 
 	View view;
 	ListView listView;
-	ImageView snack, clothing, fruit;
+	ImageView snack, clothing, fruit,other;
 	View btnLoadMore;
 	TextView textLoadMore;
 	EditText search_text;
@@ -62,6 +62,7 @@ public class CommodityFragment extends Fragment {
 			fruit = (ImageView) view.findViewById(R.id.fruit);
 			snack = (ImageView) view.findViewById(R.id.snack);
 			clothing = (ImageView) view.findViewById(R.id.clothing);
+			other = (ImageView) view.findViewById(R.id.other);
 			listView.addFooterView(btnLoadMore);
 			listView.setAdapter(listAdapter);
 
@@ -89,7 +90,13 @@ public class CommodityFragment extends Fragment {
 					sortList("clothing");
 				}
 			});
-			
+			other.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					sortList("other");
+				}
+			});
 			
 			listView.setOnItemClickListener(new OnItemClickListener() {
 

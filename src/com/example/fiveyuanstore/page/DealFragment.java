@@ -10,6 +10,7 @@ import com.example.fiveyuanstore.CommentActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
+import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.MyOrder;
 import com.example.fiveyuanstore.entity.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -163,12 +164,15 @@ public class DealFragment extends Fragment {
 			Button btnStatusChanges=(Button)view.findViewById(R.id.btn_status_changes);	//状态更改按钮
 			ProImgView image=(ProImgView) view.findViewById(R.id.proImg);
 			
-			//从服务器获取信息
-			MyOrder myOrder=data.get(position);
+			reload();
+			try {//从服务器获取信息
+			MyOrder myOrder = data.get(position);
+			Goods goods1 = myOrder.getGoods();
 			
-			image.load(myOrder.getGoods());
+		
+				image.load(goods1);
 			
-			final int pos=position;
+			
 			//状态
 			switch (myOrder.getStatus()) {
 			case 1:
@@ -207,6 +211,8 @@ public class DealFragment extends Fragment {
 				btnStatusChanges.setTextColor(Color.parseColor("#bdbdbd"));
 				break;
 			}
+		
+			final int pos=position;
 			btnStatusChanges.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -230,11 +236,8 @@ public class DealFragment extends Fragment {
 				}
 			});
 
-			try{
 				proImg.load(myOrder.getGoods());
-			}catch(Exception e){
-				
-			}
+		
 			
 			//标题
 			sellerName.setText(myOrder.getGoods().getSale_name());
@@ -248,7 +251,10 @@ public class DealFragment extends Fragment {
 			float price = myOrder.getGoods().getPrice();
 			onePrice.setText("￥"+price);
 			countText.setText("共 " + amount + " 件商品    合计：￥"+amount * price);
-
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 			
 			return view;
