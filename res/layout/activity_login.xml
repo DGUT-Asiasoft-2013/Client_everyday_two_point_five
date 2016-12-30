@@ -12,9 +12,9 @@
         android:gravity="center_horizontal"
         android:padding="16dp"
         android:text="两块五商店"
+        android:textColor="@android:color/white"
         android:textSize="24sp"
-        android:textStyle="bold|italic"
-        android:textColor="@android:color/white" />
+        android:textStyle="bold|italic" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -85,24 +85,38 @@
         android:text="Forgot password?"
         android:textColor="@android:color/darker_gray" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-    <CheckBox
-        android:id="@+id/checkBox1"
-		android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:padding="8dp"
-        android:text="remember me"
-         android:textColor="@android:color/darker_gray"  />
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="130dp"
+            android:gravity="center"
+            android:text="Remember me"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16dp" />
+
+        <CheckBox
+            android:id="@+id/checkBox1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="95dp" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/btn_register"
         android:layout_width="wrap_content"
-        android:layout_height="45dp"
+        android:layout_height="125dp"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:padding="8dp"
+        android:paddingTop="70dp"
         android:text="New here? Sign Up"
         android:textColor="@android:color/darker_gray" />
+
 </LinearLayout>
