@@ -61,7 +61,7 @@
                 android:textColor="#fff"
                 android:textSize="18dp" >
 
-                <requestFocus />
+                
             </EditText>
         </RelativeLayout>
 
