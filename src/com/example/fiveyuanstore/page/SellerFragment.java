@@ -9,7 +9,7 @@ import com.example.fiveyuanstore.AddProductActivity;
 import com.example.fiveyuanstore.ChangeActivity;
 import com.example.fiveyuanstore.CommentActivity;
 import com.example.fiveyuanstore.GoodsContentActivity;
-import com.example.fiveyuanstore.GoodsInfo;
+import com.example.fiveyuanstore.GoodsInfoActivity;
 import com.example.fiveyuanstore.OrderHandlerActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.StoreActivity;
@@ -114,7 +114,7 @@ public class SellerFragment extends Fragment {
 
 	void onItemClicked(int position) {
 		Goods goods = data.get(position);
-		Intent itnt = new Intent(this.getActivity(), GoodsInfo.class);
+		Intent itnt = new Intent(this.getActivity(), GoodsInfoActivity.class);
 		itnt.putExtra("data", (Serializable) goods);
 		startActivity(itnt);
 	}
