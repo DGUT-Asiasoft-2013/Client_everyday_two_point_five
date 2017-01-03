@@ -18,6 +18,7 @@ import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.goodslist.AddGoodsListActivity;
+import com.example.fiveyuanstore.goodslist.GoodsListActivity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -82,6 +83,15 @@ public class SellerFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					Intent itnt= new Intent(getActivity(), AddGoodsListActivity.class);
+					startActivity(itnt);
+				}
+			});
+			
+			view.findViewById(R.id.show_goods_list).setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent itnt= new Intent(getActivity(), GoodsListActivity.class);
 					startActivity(itnt);
 				}
 			});

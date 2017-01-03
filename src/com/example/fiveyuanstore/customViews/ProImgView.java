@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.Goods;
+import com.example.fiveyuanstore.entity.GoodsListNoItem;
 import com.example.fiveyuanstore.entity.User;
 
 import android.annotation.SuppressLint;
@@ -68,6 +69,11 @@ public class ProImgView extends View {
 
 	public void load(Goods goods) {
 		load(Server.serverAddress + goods.getGoods_img());
+
+	}
+	
+	public void load(GoodsListNoItem goodsListNoItem) {
+		load(Server.serverAddress + goodsListNoItem.getGoods_list_image());
 
 	}
 
