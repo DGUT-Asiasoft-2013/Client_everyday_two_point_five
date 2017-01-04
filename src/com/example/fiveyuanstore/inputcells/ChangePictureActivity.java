@@ -90,7 +90,6 @@ public class ChangePictureActivity extends Activity {
 				runOnUiThread(new Runnable() {
 					public void run() {
 						Toast.makeText(getApplicationContext(),e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-					Log.d("5555555555", e.getLocalizedMessage());
 					}
 				});				
 			}
