@@ -170,7 +170,7 @@
                 android:id="@+id/goods_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_minHeight="124dp"
+                android:minHeight="124dp"
                 android:background="#eee"
                 android:divider="#fff"
                 android:dividerHeight="0dip" >
