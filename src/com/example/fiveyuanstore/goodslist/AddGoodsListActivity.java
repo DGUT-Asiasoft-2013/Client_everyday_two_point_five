@@ -4,11 +4,11 @@ package com.example.fiveyuanstore.goodslist;
 import java.io.IOException;
 import java.util.List;
 
-import com.example.fiveyuanstore.AddProductActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.Page;
+import com.example.fiveyuanstore.goods.AddProductActivity;
 import com.example.fiveyuanstore.inputcells.PictureInputCellFragment;
 import com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment;
 import com.example.fiveyuanstore.page.SellerFragment;

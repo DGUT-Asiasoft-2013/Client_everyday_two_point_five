@@ -5,10 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.example.fiveyuanstore.api.MyScrollView
-        android:id="@+id/myScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -176,13 +172,7 @@
                 android:dividerHeight="0dip" >
             </ListView>
         </LinearLayout>
-    </com.example.fiveyuanstore.api.MyScrollView>
 
-    <LinearLayout
-        android:id="@+id/search01"
-        android:layout_width="match_parent"
-        android:layout_height="40dip"
-        android:orientation="vertical" >
-    </LinearLayout>
+    
 
 </LinearLayout>

@@ -3,8 +3,8 @@ package com.example.fiveyuanstore.myProfiles;
 import java.io.IOException;
 
 import com.example.fiveyuanstore.LoginActivity;
-import com.example.fiveyuanstore.MD5;
 import com.example.fiveyuanstore.R;
+import com.example.fiveyuanstore.api.MD5;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment;
 

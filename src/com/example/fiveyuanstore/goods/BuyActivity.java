@@ -1,9 +1,12 @@
-package com.example.fiveyuanstore;
+package com.example.fiveyuanstore.goods;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.example.fiveyuanstore.R;
+import com.example.fiveyuanstore.R.id;
+import com.example.fiveyuanstore.R.layout;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.User;

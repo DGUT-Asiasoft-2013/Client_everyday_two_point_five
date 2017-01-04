@@ -3,15 +3,14 @@ package com.example.fiveyuanstore.page;
 import java.io.IOException;
 import java.util.List;
 
-import com.example.fiveyuanstore.GoodsActivity;
 import com.example.fiveyuanstore.R;
-import com.example.fiveyuanstore.api.MyScrollView.OnScrollListener;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.GoodsListNoItem;
 import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.fragment.list.PageCommodityClassifyFragment;
 import com.example.fiveyuanstore.fragment.list.PageCommodityClassifyFragment.OnNewClickedListener;
+import com.example.fiveyuanstore.goods.GoodsActivity;
 import com.example.fiveyuanstore.goodslist.GoodsListActivity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,7 +37,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class CommodityFragment extends Fragment implements OnScrollListener {
+public class CommodityFragment extends Fragment {
 
 	View view;
 	ListView listView;
@@ -50,9 +49,7 @@ public class CommodityFragment extends Fragment implements OnScrollListener {
 	TextView CommoditySortTime,CommoditySortPrice,CommoditySortCustom;
 
 	ImageView search;
-	LinearLayout search01;
-	RelativeLayout search02;
-    private int searchLayoutTop; 
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -62,8 +59,6 @@ public class CommodityFragment extends Fragment implements OnScrollListener {
 			search_text = (EditText) view.findViewById(R.id.search_text);
 			listView = (ListView) view.findViewById(R.id.goods_list);
 			
-			 search01 = (LinearLayout)view.findViewById(R.id.search01); 
-			 search02 = (RelativeLayout) view.findViewById(R.id.navbar);
 			search = (ImageView) view.findViewById(R.id.btn_search);
 			fruit = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.fruit);
 			snack = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.snack);
@@ -144,21 +139,6 @@ public class CommodityFragment extends Fragment implements OnScrollListener {
 
 
   
-	    //监听滚动Y值变化，通过addView和removeView来实现悬停效果  
-	    @Override  
-	    public void onScroll(int scrollY) {  
-	        if(scrollY >= searchLayoutTop){    
-	            if (search_text.getParent()!=search01) {  
-	                search02.removeView(search_text);  
-	                search01.addView(search_text);  
-	            }  
-	        }else{  
-	            if (search_text.getParent()!=search02) {  
-	                search01.removeView(search_text);  
-	                search02.addView(search_text);  
-	            }  
-	        }  
-	    }  
 	
 	void allgoodslist() {
 		Request request = Server.requestBuilderWithPath("/allGoodsList").get().build();
@@ -262,16 +242,6 @@ public class CommodityFragment extends Fragment implements OnScrollListener {
 		
 		allgoodslist();
 
-	}
-
-
-
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		//super.onWindowFocusChanged(hasFocus);   
-		if(hasFocus){    
-	            searchLayoutTop = search02.getBottom();//获取searchLayout的顶部位置  
-	        }  
 	}
 
 }

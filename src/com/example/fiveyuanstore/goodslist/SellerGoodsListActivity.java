@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
-import com.example.fiveyuanstore.GoodsContentActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.GoodsListNoItem;
 
 import com.example.fiveyuanstore.entity.Page;
+import com.example.fiveyuanstore.goods.GoodsContentActivity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

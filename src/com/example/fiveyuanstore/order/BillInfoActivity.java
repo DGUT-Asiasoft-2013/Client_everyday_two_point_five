@@ -1,5 +1,8 @@
-package com.example.fiveyuanstore;
+package com.example.fiveyuanstore.order;
 
+import com.example.fiveyuanstore.R;
+import com.example.fiveyuanstore.R.id;
+import com.example.fiveyuanstore.R.layout;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.MyOrder;
 import android.app.Activity;

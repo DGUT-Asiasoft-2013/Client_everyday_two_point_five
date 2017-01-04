@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
-import com.example.fiveyuanstore.AddProductActivity;
-import com.example.fiveyuanstore.GoodsInfoActivity;
-import com.example.fiveyuanstore.OrderInfoActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
@@ -15,8 +12,11 @@ import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.GoodsListNoItem;
 import com.example.fiveyuanstore.entity.MyOrder;
 import com.example.fiveyuanstore.entity.Page;
+import com.example.fiveyuanstore.goods.AddProductActivity;
+import com.example.fiveyuanstore.goods.GoodsInfoActivity;
 import com.example.fiveyuanstore.goodslist.AddGoodsListActivity;
 import com.example.fiveyuanstore.goodslist.GoodsListActivity;
+import com.example.fiveyuanstore.order.OrderInfoActivity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

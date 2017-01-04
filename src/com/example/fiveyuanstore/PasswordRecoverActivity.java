@@ -2,6 +2,7 @@ package com.example.fiveyuanstore;
 
 import java.io.IOException;
 
+import com.example.fiveyuanstore.api.MD5;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.fragment.PasswordRecoverStep1Fragment;
 import com.example.fiveyuanstore.fragment.PasswordRecoverStep1Fragment.OnGoNextListener;

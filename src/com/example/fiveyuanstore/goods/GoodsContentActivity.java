@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.example.fiveyuanstore;
+package com.example.fiveyuanstore.goods;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,6 +10,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.example.fiveyuanstore.R;
+import com.example.fiveyuanstore.R.drawable;
+import com.example.fiveyuanstore.R.id;
+import com.example.fiveyuanstore.R.layout;
+import com.example.fiveyuanstore.R.string;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Comment;

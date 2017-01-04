@@ -1,7 +1,11 @@
-package com.example.fiveyuanstore;
+package com.example.fiveyuanstore.goods;
 
 import java.io.IOException;
 
+import com.example.fiveyuanstore.R;
+import com.example.fiveyuanstore.StoreActivity;
+import com.example.fiveyuanstore.R.id;
+import com.example.fiveyuanstore.R.layout;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.MyOrder;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -10,10 +14,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MultipartBody;
@@ -69,12 +75,12 @@ public class CommentActivity extends Activity {
 			@Override
 			public void onResponse(Call arg0, final Response arg1) throws IOException {
 				try {
-					final String resBody = new ObjectMapper().readValue(arg1.body().string(),new TypeReference<String>(){});
 					runOnUiThread(new Runnable() {
 					
 						@Override
 						public void run() {
-							CommentActivity.this.onResponse(resBody);
+								CommentActivity.this.onResponse();
+							
 						}
 					});
 				} catch (Exception e) {
@@ -102,16 +108,13 @@ public class CommentActivity extends Activity {
 
 	}
 
-	protected void onResponse(String text) {
-//		new AlertDialog.Builder(this).setMessage(text)
-//		.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//
-//			@Override
-//			public void onClick(DialogInterface dialog, int which) {
-				finish();
-//				overridePendingTransition(R.anim.none, R.anim.slide_out_bottom);
-//			}
-//		}).show();
+	protected void onResponse() {
+		
+		Toast.makeText(CommentActivity.this, "評論成功", Toast.LENGTH_LONG).show();
+		Intent itt = new Intent(CommentActivity.this, StoreActivity.class);
+		startActivity(itt);
+		finish();
+
 	}
 
 }
