@@ -13,9 +13,14 @@ import javax.imageio.ImageIO;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.Goods;
+import com.example.fiveyuanstore.entity.GoodsListNoItem;
+import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.fragment.widgets.AvatarView;
 import com.example.fiveyuanstore.inputcells.ChangePictureActivity;
+import com.example.fiveyuanstore.page.MyProfileFragment;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.NumberDeserializers.LongDeserializer;
 
 import android.app.Activity;
@@ -56,7 +61,11 @@ public class MyDataActivity extends Activity {
 	byte[] pngData;
 
 	User myuser;
-	
+
+	TextView account;
+	TextView email;
+	TextView name;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -65,17 +74,17 @@ public class MyDataActivity extends Activity {
 		setContentView(R.layout.activity_my_data);
 		final String myName = (String) getIntent().getSerializableExtra("name");
 		final String myEmail = (String) getIntent().getSerializableExtra("email");
-		myuser = (User) getIntent().getSerializableExtra("user");
+//		myuser = (User) getIntent().getSerializableExtra("user");
 
-		TextView account = (TextView) findViewById(R.id.my_account);
-		TextView email = (TextView) findViewById(R.id.my_email);
-		TextView name = (TextView) findViewById(R.id.my_name);
+		account = (TextView) findViewById(R.id.my_account);
+		email = (TextView) findViewById(R.id.my_email);
+		name = (TextView) findViewById(R.id.my_name);
 		avatar = (AvatarView) findViewById(R.id.avatar);
 
-		account.setText(myuser.getAccount());
-		email.setText(myuser.getEmail());
-		name.setText(myuser.getUser_name());
-		avatar.load(myuser);
+//		account.setText(myuser.getAccount());
+//		email.setText(myuser.getEmail());
+//		name.setText(myuser.getUser_name());
+//		avatar.load(myuser);
 
 		findViewById(R.id.back).setOnClickListener(new OnClickListener() {
 
@@ -91,7 +100,7 @@ public class MyDataActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				showTypeDialog();
-				
+
 			}
 		});
 
@@ -143,7 +152,7 @@ public class MyDataActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent itnt = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				startActivityForResult(itnt, REQUESTCODE_CAMERA);										
+				startActivityForResult(itnt, REQUESTCODE_CAMERA);
 			}
 		});
 		dialog.setView(view);
@@ -157,17 +166,17 @@ public class MyDataActivity extends Activity {
 			return;
 
 		if (requestCode == REQUESTCODE_CAMERA) {
-			Bitmap bmp = (Bitmap) data.getExtras().get("data");			
-			Intent itnt=new Intent(this,ChangePictureActivity.class);
+			Bitmap bmp = (Bitmap) data.getExtras().get("data");
+			Intent itnt = new Intent(this, ChangePictureActivity.class);
 			itnt.putExtra("uid", String.valueOf(myuser.getId()));
 			itnt.putExtra("img", bmp);
 			startActivity(itnt);
-			
+
 		} else if (requestCode == REQUESTCODE_ALBUM) {
 
 			try {
-				Bitmap bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());				
-				Intent itnt=new Intent(this,ChangePictureActivity.class);
+				Bitmap bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+				Intent itnt = new Intent(this, ChangePictureActivity.class);
 				itnt.putExtra("uid", String.valueOf(myuser.getId()));
 				itnt.putExtra("img", bmp);
 				startActivity(itnt);
@@ -178,6 +187,58 @@ public class MyDataActivity extends Activity {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		reload();
+		
+	}
+
+	void reload() {
+
+		Request request = Server.requestBuilderWithPath("me")
+				.get()
+				.build();
+		
+		Server.getClient().newCall(request).enqueue(new Callback(){
+
+			@Override
+			public void onResponse(Call arg0, Response res) throws IOException {
+				try {
+					final User user = new ObjectMapper().readValue(res.body().string(),
+							new TypeReference<User>(){});
+
+					runOnUiThread(new Runnable() {
+						public void run() {
+							MyDataActivity.this.myuser = user;
+							account.setText(myuser.getAccount());
+							email.setText(myuser.getEmail());
+							name.setText(myuser.getUser_name());
+							avatar.load(myuser);
+						}
+					});
+
+				} catch (final Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+
+			@Override
+			public void onFailure(final Call arg0, final IOException arg1) {
+				runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						Toast.makeText(getApplication(), arg1.getMessage(), Toast.LENGTH_LONG).show();
+
+					}
+				});
+
+			}
+		});
 	}
 
 }

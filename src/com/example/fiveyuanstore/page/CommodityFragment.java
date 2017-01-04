@@ -27,14 +27,12 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.AdapterView.OnItemClickListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.Response;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class CommodityFragment extends Fragment {
@@ -47,18 +45,20 @@ public class CommodityFragment extends Fragment {
 	List<GoodsListNoItem> data;
 	int page = 0;
 	TextView CommoditySortTime,CommoditySortPrice,CommoditySortCustom;
+	View headerView = null, btnLoadMore = null;
 
 	ImageView search;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		if (view == null ) {
+		if (view == null && headerView == null && btnLoadMore == null) {
 			view = inflater.inflate(R.layout.fragment_page_commodity, null);
+			headerView = inflater.inflate(R.layout.comm_header_view, null);
 
 			search_text = (EditText) view.findViewById(R.id.search_text);
 			listView = (ListView) view.findViewById(R.id.goods_list);
-			
+
 			search = (ImageView) view.findViewById(R.id.btn_search);
 			fruit = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.fruit);
 			snack = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.snack);
@@ -128,6 +128,7 @@ public class CommodityFragment extends Fragment {
 				}
 			});
 
+			listView.addHeaderView(headerView);
 
 			listView.setAdapter(goodsListAdapter);
 
@@ -137,9 +138,6 @@ public class CommodityFragment extends Fragment {
 	}
 
 
-
-  
-	
 	void allgoodslist() {
 		Request request = Server.requestBuilderWithPath("/allGoodsList").get().build();
 
