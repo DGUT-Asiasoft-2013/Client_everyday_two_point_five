@@ -11,13 +11,18 @@ import com.example.fiveyuanstore.CommentActivity;
 import com.example.fiveyuanstore.GoodsContentActivity;
 import com.example.fiveyuanstore.GoodsInfo;
 import com.example.fiveyuanstore.OrderHandlerActivity;
+import com.example.fiveyuanstore.OrderInfoActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.StoreActivity;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;
+import com.example.fiveyuanstore.entity.GoodsListNoItem;
+import com.example.fiveyuanstore.entity.GoodsListWithItem;
+import com.example.fiveyuanstore.entity.MyOrder;
 import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.goodslist.AddGoodsListActivity;
+import com.example.fiveyuanstore.goodslist.GoodsListActivity;
 import com.example.fiveyuanstore.goodslist.SellerGoodsListActivity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,13 +58,20 @@ public class SellerFragment extends Fragment {
 
 	View view;
 	View loadMore;
-	List<Goods> data;
-	EditText search_txt;
-	String searchTxt;
-	Integer page = 0;
+
 	ListView listview;
 	TextView txtLoadmore;
-	Button addGoods, search;
+	Button addGoods;
+	int set_page = 1;
+	// 1
+	List<Goods> data1;
+	Integer page1 = 0;
+	// 2
+	List<MyOrder> order2;
+	int page2 = 0;
+	// 3
+	List<GoodsListNoItem> order3;
+	int page3 = 0;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,53 +83,17 @@ public class SellerFragment extends Fragment {
 
 			txtLoadmore = (TextView) loadMore.findViewById(R.id.more_text);
 			addGoods = (Button) view.findViewById(R.id.addProduct);
-			search = (Button) view.findViewById(R.id.search);
-			search_txt = (EditText) view.findViewById(R.id.searchText);
 
 			listview = (ListView) view.findViewById(R.id.list);
 			listview.addFooterView(loadMore);
-			listview.setAdapter(adapter);
-			
+			listview.setAdapter(adapter_goodsInfo);
+
 			view.findViewById(R.id.add_goods_list).setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
-					Intent itnt= new Intent(getActivity(), AddGoodsListActivity.class);
+					Intent itnt = new Intent(getActivity(), AddGoodsListActivity.class);
 					startActivity(itnt);
-				}
-			});
-			
-			view.findViewById(R.id.show_goods_list).setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					Intent itnt= new Intent(getActivity(), SellerGoodsListActivity.class);
-					startActivity(itnt);
-				}
-			});
-
-			listview.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					onItemClicked(position);
-				}
-			});
-			// 加载更多
-			txtLoadmore.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					loadMore();
-				}
-			});
-
-			search.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					// 搜索
-					search();
 				}
 			});
 
@@ -125,23 +101,141 @@ public class SellerFragment extends Fragment {
 
 				@Override
 				public void onClick(View v) {
-					addNewGoods();
-					reload();
+					Intent itt = new Intent(getActivity(), AddProductActivity.class);
+					startActivity(itt);
 				}
 			});
+
+			listview.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					switch (set_page) {
+					case 1:
+						onItemClicked_1(position);
+						break;
+					case 2:
+						onItemClicked_2(position);
+						break;
+					case 3:
+						onItemClicked_3(position);
+						break;
+					default:
+						break;
+					}
+
+				}
+			});
+			// 加载更多
+			txtLoadmore.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+
+					switch (set_page) {
+					case 1:
+						loadMore1();
+						break;
+					case 2:
+						loadMore2();
+						break;
+					case 3:
+						loadMore3();
+						break;
+					default:
+						break;
+					}
+				}
+			});
+
+			view.findViewById(R.id.seller_page_1).setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					set_page = 1;
+					reload1();
+					page1 = 0;
+					listview.removeAllViewsInLayout();
+					adapter_goodsInfo.notifyDataSetInvalidated();
+					listview.setAdapter(adapter_goodsInfo);
+
+				}
+			});
+			view.findViewById(R.id.seller_page_2).setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					set_page = 2;
+					reload2();
+					page2 = 0;
+					listview.removeAllViewsInLayout();
+					adapter_orderHandler.notifyDataSetInvalidated();
+					listview.setAdapter(adapter_orderHandler);
+
+				}
+			});
+			view.findViewById(R.id.seller_page_3).setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					set_page = 3;
+					reload3();
+					page3 = 0;
+					listview.removeAllViewsInLayout();
+					listAdapter_goodsList.notifyDataSetInvalidated();
+					listview.setAdapter(listAdapter_goodsList);
+				}
+			});
+
 		}
 		return view;
 	}
 
-	void onItemClicked(int position) {
-		Goods goods = data.get(position);
-		Intent itnt = new Intent(this.getActivity(), GoodsInfo.class);
-		itnt.putExtra("data", (Serializable) goods);
-		startActivity(itnt);
+	@Override
+	public void onResume() {
+		super.onResume();
+		set_page = 1;
+		reload1();
 	}
 
-	void loadMore() {
-		Request request = Server.requestBuilderWithPath("/goods/" + (page + 1)).get().build();
+	// 1
+	void reload1() {
+
+		Request request = Server.requestBuilderWithPath("/goods").get().build();
+		Server.getClient().newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(Call arg0, final Response arg1) throws IOException {
+				try {
+					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(),
+							new TypeReference<Page<Goods>>() {
+							});
+
+					getActivity().runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							SellerFragment.this.page1 = data.getNumber();
+							SellerFragment.this.data1 = data.getContent();
+							adapter_goodsInfo.notifyDataSetInvalidated();
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onFailure(Call arg0, final IOException e) {
+				Log.d("SellerFragment", e.getMessage());
+			}
+		});
+	}
+
+	void loadMore1() {
+		loadMore.setEnabled(false);
+		txtLoadmore.setText("载入中...");
+		Request request = Server.requestBuilderWithPath("/goods/" + (page1 + 1)).get().build();
 
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
@@ -160,18 +254,18 @@ public class SellerFragment extends Fragment {
 					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(),
 							new TypeReference<Page<Goods>>() {
 							});
-					if (data.getNumber() > page) {
+					if (data.getNumber() > page1) {
 						getActivity().runOnUiThread(new Runnable() {
 
 							@Override
 							public void run() {
-								if (SellerFragment.this.data == null) {
-									SellerFragment.this.data = data.getContent();
+								if (SellerFragment.this.data1 == null) {
+									SellerFragment.this.data1 = data.getContent();
 								} else {
-									SellerFragment.this.data.addAll(data.getContent());
+									SellerFragment.this.data1.addAll(data.getContent());
 								}
-								SellerFragment.this.page = data.getNumber();
-								adapter.notifyDataSetInvalidated();
+								SellerFragment.this.page1 = data.getNumber();
+								adapter_goodsInfo.notifyDataSetInvalidated();
 							}
 						});
 					}
@@ -183,92 +277,13 @@ public class SellerFragment extends Fragment {
 			@Override
 			public void onFailure(Call arg0, final IOException e) {
 				Log.d("SellerFragment", e.getMessage());
+				loadMore.setEnabled(true);
+				txtLoadmore.setText("加载更多");
 			}
 		});
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		reload();
-	}
-
-	void reload() {
-
-		Request request = Server.requestBuilderWithPath("/goods").get().build();
-		Server.getClient().newCall(request).enqueue(new Callback() {
-
-			@Override
-			public void onResponse(Call arg0, final Response arg1) throws IOException {
-				try {
-					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(),
-							new TypeReference<Page<Goods>>() {
-							});
-
-					getActivity().runOnUiThread(new Runnable() {
-
-						@Override
-						public void run() {
-							SellerFragment.this.page = data.getNumber();
-							SellerFragment.this.data = data.getContent();
-							adapter.notifyDataSetInvalidated();
-						}
-					});
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-
-			@Override
-			public void onFailure(Call arg0, final IOException e) {
-				Log.d("SellerFragment", e.getMessage());
-			}
-		});
-	}
-
-	public void search() {
-		searchTxt = search_txt.getText().toString();
-		MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("text",
-				searchTxt);
-
-		RequestBody requestBody = body.build();
-		Request request = Server.requestBuilderWithPath("/search").post(requestBody).build();
-
-		Server.getClient().newCall(request).enqueue(new Callback() {
-			@Override
-			public void onResponse(Call arg0, Response arg1) throws IOException {
-				try {
-					final Page<Goods> data = new ObjectMapper().readValue(arg1.body().string(),
-							new TypeReference<Page<Goods>>() {
-							});
-
-					getActivity().runOnUiThread(new Runnable() {
-
-						@Override
-						public void run() {
-							SellerFragment.this.page = data.getNumber();
-							SellerFragment.this.data = data.getContent();
-							adapter.notifyDataSetInvalidated();
-						}
-					});
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-
-			@Override
-			public void onFailure(Call arg0, IOException e) {
-				Log.d("SellerFragment", e.getMessage());
-			}
-		});
-	}
-
-	protected void addNewGoods() {
-		Intent itt = new Intent(getActivity(), AddProductActivity.class);
-		startActivity(itt);
-	}
-
-	BaseAdapter adapter = new BaseAdapter() {
+	BaseAdapter adapter_goodsInfo = new BaseAdapter() {
 
 		@SuppressLint("InflateParams")
 		@Override
@@ -287,7 +302,7 @@ public class SellerFragment extends Fragment {
 			TextView textDate = (TextView) view.findViewById(R.id.date);
 			ProImgView img = (ProImgView) view.findViewById(R.id.goods_img);
 
-			Goods goods = data.get(position);
+			Goods goods = data1.get(position);
 
 			textContent.setText("商品简介： " + goods.getText());
 			goodsName.setText("              " + goods.getTitle());
@@ -308,49 +323,347 @@ public class SellerFragment extends Fragment {
 
 		@Override
 		public Object getItem(int position) {
-			return data.get(position);
+			return data1.get(position);
 		}
 
 		@Override
 		public int getCount() {
-			return data == null ? 0 : data.size();
+			return data1 == null ? 0 : data1.size();
 		}
 	};
 
 	// 订单处理
-	private void orderHandler() {
-		Intent itt = new Intent(getActivity(), OrderHandlerActivity.class);
-		startActivity(itt);
+
+	void onItemClicked_1(int position) {
+		Goods goods = data1.get(position);
+		Intent itnt = new Intent(this.getActivity(), GoodsInfo.class);
+		itnt.putExtra("data", (Serializable) goods);
+		startActivity(itnt);
 	}
 
-	// 修改
-	void change() {
-		Intent itt = new Intent(getActivity(), ChangeActivity.class);
-		startActivity(itt);
-	}
+	// 2
+	void reload2() {
+		Request request = Server.requestBuilderWithPath("/order").get().build();
 
-	// 获得评论
-	private void getComment() {
-		Intent itt = new Intent(getActivity(), CommentActivity.class);
-		startActivity(itt);
-	}
+		Server.getClient().newCall(request).enqueue(new Callback() {
 
-	// 下架
-	void down() {
-		new AlertDialog.Builder(getActivity()).setMessage("确定要下架改商品吗？")
-				.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+			@Override
+			public void onResponse(Call arg0, Response res) throws IOException {
+				try {
+
+					final Page<MyOrder> data = new ObjectMapper().readValue(res.body().string(),
+							new TypeReference<Page<MyOrder>>() {
+							});
+					getActivity().runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							SellerFragment.this.order2 = data.getContent();
+							SellerFragment.this.page2 = data.getNumber();
+							adapter_orderHandler.notifyDataSetChanged();
+						}
+					});
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onFailure(Call arg0, final IOException e) {
+				getActivity().runOnUiThread(new Runnable() {
 
 					@Override
-					public void onClick(DialogInterface dialog, int which) {
-
+					public void run() {
+						Log.d("SellerFragment", e.getMessage());
 					}
-				}).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Toast.makeText(getActivity(), "商品已下架", Toast.LENGTH_LONG).show();
-					}
-				}).show();
+				});
+			}
+		});
 	}
 
+	void loadMore2() {
+		loadMore.setEnabled(false);
+		txtLoadmore.setText("载入中...");
+
+		Request request = Server.requestBuilderWithPath("/order/" + (page2++)).get().build();
+		Server.getClient().newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(Call arg0, final Response res) throws IOException {
+				getActivity().runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						loadMore.setEnabled(true);
+						txtLoadmore.setText("加载更多");
+
+						try {
+							final Page<MyOrder> data = new ObjectMapper().readValue(res.body().string(),
+									new TypeReference<Page<MyOrder>>() {
+									});
+							if (data.getNumber() > page2) {
+
+								if (order2 == null) {
+									order2 = data.getContent();
+
+								} else {
+									order2.addAll(data.getContent());
+								}
+
+								page2 = data.getNumber();
+								adapter_orderHandler.notifyDataSetChanged();
+
+							}
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+
+			}
+
+			@Override
+			public void onFailure(Call arg0, IOException e) {
+				getActivity().runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						loadMore.setEnabled(true);
+						txtLoadmore.setText("加载更多");
+					}
+				});
+			}
+		});
+	}
+
+	BaseAdapter adapter_orderHandler = new BaseAdapter() {
+
+		@Override
+		public int getCount() {
+			return order2 == null ? 0 : order2.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return order2.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View view, ViewGroup parent) {
+			if (view == null) {
+				view = LayoutInflater.from(parent.getContext()).inflate(R.layout.widget_order_item, null);
+
+			}
+
+			MyOrder orders = order2.get(position);
+			ProImgView proImg = (ProImgView) view.findViewById(R.id.proImg);
+			TextView orderId = (TextView) view.findViewById(R.id.orderid);
+			TextView goods_num = (TextView) view.findViewById(R.id.orderNum);
+			TextView title = (TextView) view.findViewById(R.id.title);
+			TextView date = (TextView) view.findViewById(R.id.date);
+			TextView status = (TextView) view.findViewById(R.id.status);
+
+			try {
+				proImg.load(orders.getGoods());
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			orderId.setText("订单编号： " + orders.getOrder_num());
+			try {
+				goods_num.setText("订单数量: " + orders.getAmount());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block orders.getAmount()
+				e.printStackTrace();
+			}
+			title.setText("商品名称: " + orders.getGoods().getTitle());
+			switch (orders.getStatus()) {
+			case 0:
+				status.setText("订单状态： 确认收货");
+				break;
+			case 1:
+				status.setText("订单状态： 已付款");
+				break;
+
+			case 2:
+				status.setText("订单状态： 已发货");
+				break;
+
+			case 3:
+				status.setText("订单状态： 已取消");
+				break;
+			default:
+				status.setText("订单状态： 未知状态");
+				break;
+
+			}
+
+			String dateStr = DateFormat.format("yy-MM-dd hh:mm", orders.getCreateDate()).toString();
+			date.setText("创建日期: " + dateStr);
+			return view;
+		}
+
+	};
+
+	void onItemClicked_2(int position) {
+
+		MyOrder orders = order2.get(position);
+
+		Intent itnt = new Intent(this.getActivity(), OrderInfoActivity.class);
+		itnt.putExtra("orders", (Serializable) orders);
+		startActivity(itnt);
+	}
+
+	void reload3() {
+		Request request = Server.requestBuilderWithPath("/sellerGoodsList").get().build();
+
+		Server.getClient().newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(Call arg0, Response res) throws IOException {
+				try {
+
+					final Page<GoodsListNoItem> data = new ObjectMapper().readValue(res.body().string(),
+							new TypeReference<Page<GoodsListNoItem>>() {
+							});
+					getActivity().runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							SellerFragment.this.order3 = data.getContent();
+							SellerFragment.this.page3 = data.getNumber();
+							listAdapter_goodsList.notifyDataSetChanged();
+						}
+					});
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onFailure(Call arg0, final IOException e) {
+				getActivity().runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						Log.d("SellerFragment", e.getMessage());
+					}
+				});
+			}
+		});
+	}
+
+	void loadMore3() {
+		loadMore.setEnabled(false);
+		txtLoadmore.setText("载入中...");
+
+		Request request = Server.requestBuilderWithPath("/order/" + (page3++)).get().build();
+		Server.getClient().newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(Call arg0, final Response res) throws IOException {
+				getActivity().runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						loadMore.setEnabled(true);
+						txtLoadmore.setText("加载更多");
+
+						try {
+							final Page<GoodsListNoItem> data = new ObjectMapper().readValue(res.body().string(),
+									new TypeReference<Page<MyOrder>>() {
+									});
+							if (data.getNumber() > page3) {
+
+								if (order3 == null) {
+									order3 = data.getContent();
+
+								} else {
+									order3.addAll(data.getContent());
+								}
+
+								page3 = data.getNumber();
+								adapter_orderHandler.notifyDataSetChanged();
+
+							}
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+
+			}
+
+			@Override
+			public void onFailure(Call arg0, IOException e) {
+				getActivity().runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						loadMore.setEnabled(true);
+						txtLoadmore.setText("加载更多");
+					}
+				});
+			}
+		});
+	}
+
+	BaseAdapter listAdapter_goodsList = new BaseAdapter() {
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View view = null;
+			if (convertView == null) {
+
+				LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+				view = inflater.inflate(R.layout.widget_goods_list_item, null);
+			} else {
+				view = convertView;
+			}
+
+			GoodsListNoItem goodslist = order3.get(position);
+
+			ProImgView goodsListImg = (ProImgView) view.findViewById(R.id.goodsListImg);
+			TextView goodListName = (TextView) view.findViewById(R.id.goodListName);
+
+			try {
+				goodsListImg.load(goodslist);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			goodListName.setText(goodslist.getGoods_list_name());
+
+			return view;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return order3.get(position);
+		}
+
+		@Override
+		public int getCount() {
+			return order3 == null ? 0 : order3.size();
+		}
+	};
+
+	void onItemClicked_3(int position) {
+		int id = order3.get(position).getId();
+		Intent itnt = new Intent(this.getActivity(), GoodsListActivity.class);
+		itnt.putExtra("id", id);
+		startActivity(itnt);
+	}
 }
