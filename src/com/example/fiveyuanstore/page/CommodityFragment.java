@@ -48,6 +48,7 @@ public class CommodityFragment extends Fragment {
 	View headerView = null, btnLoadMore = null;
 
 	ImageView search;
+	ImageView image;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +60,8 @@ public class CommodityFragment extends Fragment {
 			search_text = (EditText) view.findViewById(R.id.search_text);
 			listView = (ListView) view.findViewById(R.id.goods_list);
 
+			image=(ImageView) headerView.findViewById(R.id.head_image);
+			
 			search = (ImageView) view.findViewById(R.id.btn_search);
 			fruit = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.fruit);
 			snack = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.snack);
@@ -127,9 +130,18 @@ public class CommodityFragment extends Fragment {
 
 				}
 			});
+			
+			image.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 
+			listView.setCacheColorHint(0);
 			listView.addHeaderView(headerView);
-
 			listView.setAdapter(goodsListAdapter);
 
 		}
@@ -222,6 +234,10 @@ public class CommodityFragment extends Fragment {
 	};
 
 	void onItemClicked(int position) {
+		
+		if(position==0){
+			return;
+		}
 		GoodsListNoItem pos = data.get(position - 1);
 
 		Intent itnt = new Intent(this.getActivity(), GoodsListActivity.class);
