@@ -10,6 +10,7 @@ import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.inputcells.PictureInputCellFragment;
+import com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment;
 import com.example.fiveyuanstore.page.SellerFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,8 +39,8 @@ import okhttp3.Response;
 
 public class AddGoodsListActivity extends Activity {
 
-	EditText edit_goods_list_name;
-	EditText edit_goods_list_text;
+	SimpleTextInputCellFragment edit_goods_list_name;
+	SimpleTextInputCellFragment edit_goods_list_text;
 	PictureInputCellFragment set_goods_list_image;
 	Button btn_set_goods_list_item;
 	TextView goods_list_item_text;
@@ -48,20 +49,27 @@ public class AddGoodsListActivity extends Activity {
 	String[] items;
 	int[] int_items;
 	boolean[] checkedItems;
-	String good_list_item;
+	String good_list_item="";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_goods_list);
-		edit_goods_list_name=(EditText)findViewById(R.id.edit_goods_list_name);
-		edit_goods_list_text=(EditText)findViewById(R.id.edit_goods_list_text);
+		edit_goods_list_name=(SimpleTextInputCellFragment)getFragmentManager().findFragmentById(R.id.intput_goods_list_name);
+		edit_goods_list_text=(SimpleTextInputCellFragment)getFragmentManager().findFragmentById(R.id.intput_goods_list_text);
 		set_goods_list_image=(PictureInputCellFragment)getFragmentManager().findFragmentById(R.id.set_goods_list_image);
 		btn_set_goods_list_item=(Button)findViewById(R.id.btn_set_goods_list_item);
 		goods_list_item_text=(TextView)findViewById(R.id.goods_list_item_text);
 		btn_goods_list_confirm=(Button)findViewById(R.id.btn_goods_list_confirm);
 		
-		
+		findViewById(R.id.btn_add_goods_list_back).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+				
+			}
+		});
 		btn_set_goods_list_item.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -73,7 +81,10 @@ public class AddGoodsListActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				add();
+				if(!edit_goods_list_name.getText().equals("")&&!edit_goods_list_text.getText().equals("")&&!good_list_item.equals(""))
+					add();
+				else
+					Toast.makeText(getApplication(), "以上填写不能为空哦", Toast.LENGTH_LONG).show();
 				
 			}
 		});
@@ -86,7 +97,7 @@ public class AddGoodsListActivity extends Activity {
 		int_items = new int[data.size()];
 		checkedItems = new boolean[data.size()];
 		for (int i = 0; i < data.size(); i++) {
-			items[i] = data.get(i).getGoods_id() + data.get(i).getTitle();
+			items[i] ="商品:"+data.get(i).getTitle();
 			int_items[i] = data.get(i).getId();
 			checkedItems[i] = false;
 		}
@@ -105,13 +116,20 @@ public class AddGoodsListActivity extends Activity {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				String str = "";
+				boolean isChoise=false;
+				String str = "\n";
+				good_list_item="";
 				for (int i = 0; i < items.length; i++) {
-					if (checkedItems[i])
-						str = str + int_items[i] + "-";
+					isChoise=true;
+					if (checkedItems[i]){
+						good_list_item = good_list_item + int_items[i] + "-";
+						str+=items[i]+"\n";
+					}
 				}
-				good_list_item = str;
-				goods_list_item_text.setText("你选择了：" + good_list_item);
+				if(isChoise)
+					goods_list_item_text.setText("你选择了：" + str);
+				else
+					goods_list_item_text.setText("请选择至少一件商品");
 
 			}
 		});
@@ -126,8 +144,8 @@ public class AddGoodsListActivity extends Activity {
 	}
 	
 	void add() {
-		String name=edit_goods_list_name.getText().toString();
-		String text=edit_goods_list_text.getText().toString();
+		String name=edit_goods_list_name.getText();
+		String text=edit_goods_list_text.getText();
 		String item=good_list_item;
 		MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
 				.addFormDataPart("name", name)
@@ -195,6 +213,10 @@ public class AddGoodsListActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		edit_goods_list_name.setLabelText("清单名字");
+		edit_goods_list_name.setHintText("请输入清单名字");
+		edit_goods_list_text.setLabelText("清单详情");
+		edit_goods_list_text.setHintText("请输入清单的详细介绍");
 		getGoods();
 	}
 

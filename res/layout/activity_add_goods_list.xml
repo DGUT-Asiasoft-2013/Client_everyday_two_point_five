@@ -5,29 +5,55 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="请输入清单名字" />
-
-    <EditText
-        android:id="@+id/edit_goods_list_name"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10" >
-    </EditText>
+        android:layout_height="55dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="请输入清单详情" />
+        <ImageView
+            android:id="@+id/btn_add_goods_list_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_back" />
 
-    <EditText
-        android:id="@+id/edit_goods_list_text"
+        <FrameLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:background="#ddd" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="17dp"
+            android:text="添加清单"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10" >
-    </EditText>
+        android:layout_height="1dp"
+        android:background="#ddd" />
+
+
+          <fragment 
+              android:id="@+id/intput_goods_list_name"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+              tools:layout="@layout/fragment_inputcell_simpletext"/>
+                    <fragment 
+              android:id="@+id/intput_goods_list_text"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+              tools:layout="@layout/fragment_inputcell_simpletext"/>
+
 
     <fragment
         android:id="@+id/set_goods_list_image"
@@ -35,6 +61,7 @@
         android:layout_height="92dp"
         class="com.example.fiveyuanstore.inputcells.PictureInputCellFragment"
         tools:layout="@layout/fragment_inputcell_picture" />
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -51,7 +78,7 @@
         android:id="@+id/goods_list_item_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="请选择至少一件商品" />
 
     <Button
         android:id="@+id/btn_goods_list_confirm"
