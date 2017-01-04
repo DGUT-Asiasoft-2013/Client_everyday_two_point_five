@@ -5,9 +5,9 @@ package com.example.fiveyuanstore.page;
 import java.io.IOException;
 
 import com.example.fiveyuanstore.BillListActivity;
+import com.example.fiveyuanstore.GetInforActivity;
 import com.example.fiveyuanstore.OrderHandlerActivity;
 import com.example.fiveyuanstore.R;
-import com.example.fiveyuanstore.StoreActivity;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.fragment.list.TextListFragment;
@@ -16,7 +16,7 @@ import com.example.fiveyuanstore.fragment.widgets.AvatarView;
 import com.example.fiveyuanstore.myProfiles.InboxActivity;
 import com.example.fiveyuanstore.myProfiles.PasswordChangeActivity;
 import com.example.fiveyuanstore.myProfiles.WalletActivity;
-
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.AlertDialog;
@@ -29,16 +29,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MyProfileFragment extends Fragment {
+public class MyProfileFragment extends Fragment{
 	View view;
 	String userName;
 	
@@ -49,6 +49,7 @@ public class MyProfileFragment extends Fragment {
 
 	
 	Float money;
+	TextListFragment access_info;
 	
 	
 	@Override
@@ -63,7 +64,7 @@ public class MyProfileFragment extends Fragment {
 			password_changes=(TextListFragment)getFragmentManager().findFragmentById(R.id.password_changes);
 			order_handler = (TextListFragment)getFragmentManager().findFragmentById(R.id.order_handler);
 			bill_list =  (TextListFragment)getFragmentManager().findFragmentById(R.id.bill_list);
-			
+			access_info = (TextListFragment)getFragmentManager().findFragmentById(R.id.access_info);
 
 			
 			
@@ -115,6 +116,16 @@ public class MyProfileFragment extends Fragment {
 				}
 				
 			});
+			access_info.setOnNewClickedListener(new OnNewClickedListener() {
+				
+				@Override
+				public void onNewClicked() {
+					Intent intent = new Intent(getActivity(), GetInforActivity.class);
+					startActivity(intent);
+					
+				}
+			});
+			
 			view.findViewById(R.id.btn_log_off).setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -165,7 +176,7 @@ public class MyProfileFragment extends Fragment {
 		password_changes.setLabelText("修改密码");
 		order_handler.setLabelText("订单处理");
 		bill_list.setLabelText("我的账单");
-		
+		access_info.setLabelText("授权信息");
 		inbox.setLabelImage(R.drawable.ic_inbox);
 		wallet.setLabelImage(R.drawable.ic_wallet);
 		password_changes.setLabelImage(R.drawable.ic_password_changes);
@@ -189,15 +200,17 @@ public class MyProfileFragment extends Fragment {
 			public void onResponse(final Call arg0, Response arg1) throws IOException {
 				try {
 					final User user = new ObjectMapper().readValue(arg1.body().bytes(), User.class);
+					if (user == null){ //如果user 为空， 则为授权登陆
+						toAccess();
+					}else{
+				
 					getActivity().runOnUiThread(new Runnable() {
 						public void run() {
 							MyProfileFragment.this.onResponse(arg0,user);
 						}
-					});					
+					});		
+					}
 				} catch (final Exception e) {
-				/*	getActivity().runOnUiThread(new Runnable() {
-=======
-*/
 				getActivity().runOnUiThread(new Runnable() {
 						public void run() {
 						MyProfileFragment.this.onFailuer(arg0, e);
@@ -228,6 +241,55 @@ public class MyProfileFragment extends Fragment {
 
 
 
+	protected void toAccess() {
+		OkHttpClient client = Server.getClient();
+		Request request = Server.requestBuilderWithPath("access_me")
+				.get()
+				.build();
+		
+		client.newCall(request).enqueue(new Callback() {
+			
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				try {
+					final User user = new ObjectMapper().readValue(arg1.body().string(), new TypeReference<User>(){});
+					
+					
+					getActivity().runOnUiThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							//获得授权账户的名字，id
+							userName = user.getUser_name();
+							progress.setVisibility(View.GONE);
+							textView.setVisibility(View.VISIBLE);	
+							textView.setTextColor(Color.WHITE);
+							textView.setText(user.getUser_name());
+							
+						}
+					});
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			@Override
+			public void onFailure(Call arg0, final IOException arg1) {
+				getActivity().runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						//
+						Toast.makeText(getActivity(), "出错："+arg1.getMessage(), Toast.LENGTH_LONG).show();
+						
+					}
+				});
+				
+			}
+		});
+	}
+
 	protected void onResponse(Call arg0, User user) {		
 		progress.setVisibility(View.GONE);
 		avatar.load(user);
@@ -246,4 +308,5 @@ public class MyProfileFragment extends Fragment {
 		userName="null";
 		
 	}
+
 }

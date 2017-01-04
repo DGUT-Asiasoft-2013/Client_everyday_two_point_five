@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import cn.sharesdk.framework.AbstractWeibo;
 import cn.sharesdk.framework.TitleLayout;
 import com.example.fiveyuanstore.R;
 
@@ -17,7 +18,7 @@ public class ShowInforActivity  extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_show_info);
-		
+		AbstractWeibo.initSDK(this);	
 		llTitle = (TitleLayout) findViewById(R.id.llTitle);
 		llTitle.getBtnBack().setOnClickListener(this);
 		llTitle.getTvTitle().setText("用户资料");

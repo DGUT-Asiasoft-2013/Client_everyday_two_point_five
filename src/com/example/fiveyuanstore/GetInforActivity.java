@@ -42,7 +42,7 @@ public class GetInforActivity  extends Activity implements Callback, OnClickList
 		handler = new Handler(this);
 		
 		setContentView(R.layout.activity_userinfo);
-					
+		AbstractWeibo.initSDK(this);				
 		initView();
 		
 		initData();

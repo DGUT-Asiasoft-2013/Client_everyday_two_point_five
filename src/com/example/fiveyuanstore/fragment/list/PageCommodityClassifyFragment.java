@@ -16,10 +16,13 @@ public class PageCommodityClassifyFragment extends Fragment{
 
 
 	ImageView image;
-
+	View view;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_page_commodity_classify, container);
+		if (view == null){
+			
+	
+		view = inflater.inflate(R.layout.fragment_page_commodity_classify, container);
 
 		image=(ImageView)view.findViewById(R.id.classify_ic);
 		view.setOnClickListener(new OnClickListener() {			//点击事件
@@ -32,9 +35,8 @@ public class PageCommodityClassifyFragment extends Fragment{
 
 		
 		});
+		}
 		return view;
-		
-		
 	}
 
 	

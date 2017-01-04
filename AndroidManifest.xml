@@ -28,7 +28,19 @@
         android:theme="@style/AppTheme" >
         
     <!--     分享功能 -->
+     <activity
+            android:name="com.example.fiveyuanstore.GetInforActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
     
+      <activity
+            android:name="com.example.fiveyuanstore.ShowInforActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+          <activity
+            android:name="com.example.fiveyuanstore.AuthActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
         <activity  
                 android:name="cn.sharesdk.onekeyshare.ShareAllGird"  
                 android:configChanges="keyboardHidden|orientation"  
@@ -39,6 +51,7 @@
                 android:name="cn.sharesdk.onekeyshare.SharePage"  
                 android:configChanges="keyboardHidden|orientation"  
                 android:screenOrientation="portrait"  
+                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                 android:windowSoftInputMode="stateHidden|adjustResize" />  
         <activity  
                 android:name="cn.sharesdk.framework.AuthorizeActivity"  
@@ -51,7 +64,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar" >
+             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"> >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -113,7 +126,7 @@
         </activity>
         <activity
             android:name="com.example.fiveyuanstore.GoodsContentActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name="com.example.fiveyuanstore.BuyActivity"
