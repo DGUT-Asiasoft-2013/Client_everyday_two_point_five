@@ -1,29 +1,32 @@
 package com.example.fiveyuanstore.goodslist;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.Serializable;
 
+import com.example.fiveyuanstore.GoodsContentActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.GoodsListNoItem;
 import com.example.fiveyuanstore.entity.GoodsListWithItem;
-import com.example.fiveyuanstore.entity.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Request;
@@ -48,8 +51,16 @@ public class GoodsListActivity extends Activity {
 		list = (ListView) findViewById(R.id.goodsItemList);
 		goodListName=(TextView)findViewById(R.id.goodListName);
 		goodListText=(TextView)findViewById(R.id.goodListText);
+		goodsListImg=(ProImgView)findViewById(R.id.goodsListImg);
 		list.setAdapter(listAdapter);
 
+		list.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				onItemClicked(position);
+			}
+		});
 	}
 	
 	@Override
@@ -60,7 +71,13 @@ public class GoodsListActivity extends Activity {
 		
 		
 	}
+	void onItemClicked(int position) {
+		Goods pos = order.getGoods_list_item().get(position);
 
+		Intent itnt = new Intent(this, GoodsContentActivity.class);
+		itnt.putExtra("pos", (Serializable) pos);
+		startActivity(itnt);
+	}
 	void reload() {
 		Request request = Server.requestBuilderWithPath("/GoodsList/"+id)
 				.get()
@@ -81,6 +98,7 @@ public class GoodsListActivity extends Activity {
 							Log.d("11111", data.getGoods_list_name());
 							goodListName.setText(order.getGoods_list_name());
 							goodListText.setText(order.getGoods_list_text());
+							goodsListImg.load(order);
 							listAdapter.notifyDataSetChanged();
 						}
 					});
