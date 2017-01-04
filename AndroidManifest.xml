@@ -4,27 +4,75 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+   
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="19" />
+   <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.READ_SOCIAL_STREAM" />
 
-    <uses-sdk
-        android:minSdkVersion="19"
-        android:targetSdkVersion="19" />
-
+    
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
+    <!--     分享功能 -->
+     <activity
+            android:name="com.example.fiveyuanstore.GetInforActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+    
+      <activity
+            android:name="com.example.fiveyuanstore.ShowInforActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+          <activity
+            android:name="com.example.fiveyuanstore.AuthActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity  
+                android:name="cn.sharesdk.onekeyshare.ShareAllGird"  
+                android:configChanges="keyboardHidden|orientation"  
+                android:screenOrientation="portrait"  
+                android:theme="@android:style/Theme.Translucent.NoTitleBar"  
+                android:windowSoftInputMode="adjustPan|stateHidden" />  
+            <activity  
+                android:name="cn.sharesdk.onekeyshare.SharePage"  
+                android:configChanges="keyboardHidden|orientation"  
+                android:screenOrientation="portrait"  
+                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                android:windowSoftInputMode="stateHidden|adjustResize" />  
+        <activity  
+                android:name="cn.sharesdk.framework.AuthorizeActivity"  
+                android:configChanges="keyboardHidden|orientation"  
+                android:screenOrientation="portrait"  
+                android:theme="@android:style/Theme.Translucent.NoTitleBar"  
+                android:windowSoftInputMode="stateHidden|adjustResize" >            
+        </activity>  
+        
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar" >
+             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"> >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,8 +93,8 @@
         </activity>
         <activity
             android:name="com.example.fiveyuanstore.StoreActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" 
-            android:windowSoftInputMode="stateVisible|adjustPan">
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:windowSoftInputMode="stateVisible|adjustPan" >
         </activity>
         <activity
             android:name="com.example.fiveyuanstore.AddProductActivity"
@@ -86,21 +134,21 @@
         </activity>
         <activity
             android:name="com.example.fiveyuanstore.GoodsContentActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name="com.example.fiveyuanstore.BuyActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.example.fiveyuanstore.GoodsInfo"
+            android:name="com.example.fiveyuanstore.GoodsInfoActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:name="com.example.fiveyuanstore.OrderInfoActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
-     	 <activity
+        <activity
             android:name="com.example.fiveyuanstore.BillListActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
@@ -113,6 +161,7 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
+
             android:name="com.example.fiveyuanstore.myProfiles.MyDataActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
@@ -126,6 +175,24 @@
         </activity>
         <activity
             android:name="com.example.fiveyuanstore.inputcells.ChangePictureActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>     
+        <activity
+            android:name="com.example.fiveyuanstore.goodslist.AddGoodsListActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+                <activity
+            android:name="com.example.fiveyuanstore.goodslist.SellerGoodsListActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+                
+         <activity
+            android:name="com.example.fiveyuanstore.goodslist.GoodsListActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        
+                  <activity
+            android:name="com.example.fiveyuanstore.GoodsActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
 

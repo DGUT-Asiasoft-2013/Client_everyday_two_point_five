@@ -3,6 +3,8 @@
  */
 package com.example.fiveyuanstore;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,7 +27,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,9 +39,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.sharesdk.framework.AbstractWeibo;
+import cn.sharesdk.onekeyshare.ShareAllGird;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -46,19 +55,25 @@ import okhttp3.Response;
  * @author 卖家商品页面
  */
 
-public class GoodsContentActivity extends Activity {
+public class GoodsContentActivity extends Activity implements OnClickListener{
 
 	private Goods goods;
 	List<Comment> comments;
 	int page=0;
-
+	private Button shareGuiBtn, btn_buy;
+	private Button call;
+	//定义图片存放的地址  
+    public static String TEST_IMAGE;  
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.goods_content);
-
+		//分享设置
+		AbstractWeibo.initSDK(this);	
+		initImagePath();     
+		
 		TextView name = (TextView) findViewById(R.id.username);// 卖家名字/
 		TextView title = (TextView) findViewById(R.id.title);// 商品名
 		TextView date = (TextView) findViewById(R.id.date);
@@ -68,7 +83,7 @@ public class GoodsContentActivity extends Activity {
 		ListView listView = (ListView) findViewById(R.id.goods_comment);
 
 		listView.setAdapter(listAdapter);
-
+		shareGuiBtn = (Button)findViewById(R.id.btnShareAllGui);
 		goods = (Goods) getIntent().getSerializableExtra("pos");
 
 		title.setText(goods.getTitle() + "(库存：" + goods.getGoods_count() + ")");
@@ -79,28 +94,49 @@ public class GoodsContentActivity extends Activity {
 		money.setText("$" + Float.toString(goods.getPrice()));
 		content.setText("商品简介：" + goods.getText());
 
-		findViewById(R.id.btn_buy).setOnClickListener(new OnClickListener() {
+		btn_buy = (Button) findViewById(R.id.btn_buy);
+		call = (Button) findViewById(R.id.call);
 
-			@Override
-			public void onClick(View v) {
-				Intent itnt = new Intent(GoodsContentActivity.this, BuyActivity.class);
-				itnt.putExtra("goods", goods);
-				startActivity(itnt);
-
-			}
-		});
-
-		findViewById(R.id.call).setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				toCall();
-
-			}
-
-		});
+		
+		initData();
 	}
 
+	
+	  private void initData() {
+		  shareGuiBtn.setOnClickListener(this);
+		  btn_buy.setOnClickListener(this);
+	}
+
+	/** 
+     * 初始化分享的图片 
+     */  
+    private void initImagePath() {  
+        try {//判断SD卡中是否存在此文件夹  
+            if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())  
+                    && Environment.getExternalStorageDirectory().exists()) {  
+                TEST_IMAGE = Environment.getExternalStorageDirectory().getAbsolutePath() + "/pic.png";  
+            }  
+            else {  
+                TEST_IMAGE = getApplication().getFilesDir().getAbsolutePath() + "/pic.png";  
+            }  
+            File file = new File(TEST_IMAGE);  
+            //判断图片是否存此文件夹中  
+            if (!file.exists()) {  
+                file.createNewFile();  
+                Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.pic);  
+                FileOutputStream fos = new FileOutputStream(file);  
+                pic.compress(CompressFormat.JPEG, 100, fos);  
+                fos.flush();  
+                fos.close();  
+            }  
+        } catch(Throwable t) {  
+            t.printStackTrace();  
+            TEST_IMAGE = null;  
+        }  
+    }  
+
+
+	
 	BaseAdapter listAdapter = new BaseAdapter() {
 
 		@SuppressLint("InflateParams")
@@ -282,4 +318,86 @@ public class GoodsContentActivity extends Activity {
 			}
 		});
 	}
+
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()){
+		case R.id.btn_buy:
+			Intent itnt = new Intent(GoodsContentActivity.this, BuyActivity.class);
+			itnt.putExtra("goods", goods);
+			startActivity(itnt);
+			break;
+			
+		case R.id.btnShareAllGui:  
+	            showGrid(false);  
+	            break; 
+		case R.id.call:
+			toCall();
+			break;
+	    default:
+	    	break;
+		}
+	
+	}
+	
+	/** 
+     * 使用快捷分享完成图文分享 
+     */  
+    private void showGrid(boolean silent) {  
+        Intent i = new Intent(this, ShareAllGird.class);  
+        // 分享时Notification的图标  
+        i.putExtra("notif_icon", R.drawable.ic_launcher);  
+        // 分享时Notification的标题  
+        i.putExtra("notif_title", this.getString(R.string.app_name));  
+  
+        // title标题，在印象笔记、邮箱、信息、微信（包括好友和朋友圈）、人人网和QQ空间使用，否则可以不提供  
+        i.putExtra("title", this.getString(R.string.share));  
+        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用，否则可以不提供  
+        i.putExtra("titleUrl", "http://sharesdk.cn");  
+        // text是分享文本，所有平台都需要这个字段  
+        i.putExtra("text", this.getString(R.string.share_content));  
+        // imagePath是本地的图片路径，所有平台都支持这个字段，不提供，则表示不分享图片  
+        i.putExtra("imagePath", GoodsInfoActivity.TEST_IMAGE);  
+        // url仅在微信（包括好友和朋友圈）中使用，否则可以不提供  
+        i.putExtra("url", "http://sharesdk.cn");  
+        // thumbPath是缩略图的本地路径，仅在微信（包括好友和朋友圈）中使用，否则可以不提供  
+        i.putExtra("thumbPath", GoodsInfoActivity.TEST_IMAGE);  
+        // appPath是待分享应用程序的本地路劲，仅在微信（包括好友和朋友圈）中使用，否则可以不提供  
+        i.putExtra("appPath", GoodsInfoActivity.TEST_IMAGE);  
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用，否则可以不提供  
+        i.putExtra("comment", this.getString(R.string.share));  
+        // site是分享此内容的网站名称，仅在QQ空间使用，否则可以不提供  
+        i.putExtra("site", this.getString(R.string.app_name));  
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用，否则可以不提供  
+        i.putExtra("siteUrl", "http://sharesdk.cn");  
+  
+        // 是否直接分享  
+        i.putExtra("silent", silent);  
+        this.startActivity(i);  
+    }  
+    
+    /** 
+     * 将action转换为String 
+     */  
+    public static String actionToString(int action) {  
+        switch (action) {  
+            case AbstractWeibo.ACTION_AUTHORIZING: return "ACTION_AUTHORIZING";  
+            case AbstractWeibo.ACTION_GETTING_FRIEND_LIST: return "ACTION_GETTING_FRIEND_LIST";  
+            case AbstractWeibo.ACTION_FOLLOWING_USER: return "ACTION_FOLLOWING_USER";  
+            case AbstractWeibo.ACTION_SENDING_DIRECT_MESSAGE: return "ACTION_SENDING_DIRECT_MESSAGE";  
+            case AbstractWeibo.ACTION_TIMELINE: return "ACTION_TIMELINE";  
+            case AbstractWeibo.ACTION_USER_INFOR: return "ACTION_USER_INFOR";  
+            case AbstractWeibo.ACTION_SHARE: return "ACTION_SHARE";  
+            default: {  
+                return "UNKNOWN";  
+            }  
+        }  
+    }  
+      
+    protected void onDestroy() {  
+        //结束ShareSDK的统计功能并释放资源  
+        AbstractWeibo.stopSDK(this);  
+        super.onDestroy();  
+    }  
+	
 }

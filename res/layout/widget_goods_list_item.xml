@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#eee"
+    android:orientation="vertical" >
+
+    <com.example.fiveyuanstore.customViews.ProImgView
+        android:id="@+id/goodsListImg"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="7dp" />
+
+    <TextView
+        android:id="@+id/goodListName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="good_list_name" />
+
+</LinearLayout>

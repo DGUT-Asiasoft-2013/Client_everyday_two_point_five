@@ -33,6 +33,7 @@
             android:layout_height="110dp"
             android:layout_gravity="center" />
 
+
         <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
@@ -104,7 +105,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="88dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:weightSum="3" >
 
         <fragment
             android:id="@+id/bill_list"
@@ -121,12 +123,22 @@
             android:layout_weight="1"
             class="com.example.fiveyuanstore.fragment.list.TextListFragment"
             tools:layout="@layout/fragment_text_list" />
+        
+          <fragment
+            android:id="@+id/access_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            class="com.example.fiveyuanstore.fragment.list.TextListFragment"
+            tools:layout="@layout/fragment_text_list" />
+        
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.67" />
     </LinearLayout>
+
     </LinearLayout>
 
 
