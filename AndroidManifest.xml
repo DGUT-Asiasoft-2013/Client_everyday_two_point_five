@@ -152,6 +152,24 @@
             android:name="com.example.fiveyuanstore.TransactionActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
+        <activity
+            android:name="com.example.fiveyuanstore.goodslist.AddGoodsListActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+                <activity
+            android:name="com.example.fiveyuanstore.goodslist.SellerGoodsListActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+                
+         <activity
+            android:name="com.example.fiveyuanstore.goodslist.GoodsListActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        
+                  <activity
+            android:name="com.example.fiveyuanstore.GoodsActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
     </application>
 
     <!--

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请输入清单名字" />
+
+    <EditText
+        android:id="@+id/edit_goods_list_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" >
+    </EditText>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请输入清单详情" />
+
+    <EditText
+        android:id="@+id/edit_goods_list_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" >
+    </EditText>
+
+    <fragment
+        android:id="@+id/set_goods_list_image"
+        android:layout_width="match_parent"
+        android:layout_height="92dp"
+        class="com.example.fiveyuanstore.inputcells.PictureInputCellFragment"
+        tools:layout="@layout/fragment_inputcell_picture" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请选择你想要展示的商品" />
+
+    <Button
+        android:id="@+id/btn_set_goods_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="选择" />
+
+    <TextView
+        android:id="@+id/goods_list_item_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/btn_goods_list_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="确定" />
+
+</LinearLayout>
