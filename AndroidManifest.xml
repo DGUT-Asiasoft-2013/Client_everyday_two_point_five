@@ -37,16 +37,16 @@
         
     <!--     分享功能 -->
      <activity
-            android:name="com.example.fiveyuanstore.GetInforActivity"
+            android:name="com.example.fiveyuanstore.share.GetInforActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
     
       <activity
-            android:name="com.example.fiveyuanstore.ShowInforActivity"
+            android:name="com.example.fiveyuanstore.share.ShowInforActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
           <activity
-            android:name="com.example.fiveyuanstore.AuthActivity"
+            android:name="com.example.fiveyuanstore.share.AuthActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity  
@@ -97,15 +97,15 @@
             android:windowSoftInputMode="stateVisible|adjustPan" >
         </activity>
         <activity
-            android:name="com.example.fiveyuanstore.AddProductActivity"
+            android:name="com.example.fiveyuanstore.goods.AddProductActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.example.fiveyuanstore.ChangeActivity"
+            android:name="com.example.fiveyuanstore.goods.ChangeActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.example.fiveyuanstore.CommentActivity"
+            android:name="com.example.fiveyuanstore.goods.CommentActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
@@ -133,15 +133,15 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.example.fiveyuanstore.GoodsContentActivity"
+            android:name="com.example.fiveyuanstore.goods.GoodsContentActivitytivity"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-            android:name="com.example.fiveyuanstore.BuyActivity"
+            android:name="com.example.fiveyuanstore.goods.BuyActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.example.fiveyuanstore.GoodsInfoActivity"
+            android:name = "com.example.fiveyuanstore.goods.GoodsInfoActivityInfoActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
@@ -191,11 +191,14 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         
-                  <activity
-            android:name="com.example.fiveyuanstore.GoodsActivity"
+          <activity
+            android:name="com.example.fiveyuanstore.goods.GoodsActivityoodsActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
-
+	<activity
+            android:name="com.example.fiveyuanstore.FinishOrderActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
     </application>
 
     <!--

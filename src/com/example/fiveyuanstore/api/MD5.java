@@ -1,4 +1,4 @@
-package com.example.fiveyuanstore;
+package com.example.fiveyuanstore.api;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

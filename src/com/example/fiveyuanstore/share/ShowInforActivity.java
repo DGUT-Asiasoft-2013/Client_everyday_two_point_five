@@ -1,4 +1,4 @@
-package com.example.fiveyuanstore;
+package com.example.fiveyuanstore.share;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 import cn.sharesdk.framework.AbstractWeibo;
 import cn.sharesdk.framework.TitleLayout;
 import com.example.fiveyuanstore.R;
+import com.example.fiveyuanstore.R.id;
+import com.example.fiveyuanstore.R.layout;
 
 /**
  *	xian shi zi liao

@@ -3,7 +3,6 @@ package com.example.fiveyuanstore.page;
 import java.io.IOException;
 import java.util.List;
 
-import com.example.fiveyuanstore.GoodsActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
@@ -11,6 +10,7 @@ import com.example.fiveyuanstore.entity.GoodsListNoItem;
 import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.fragment.list.PageCommodityClassifyFragment;
 import com.example.fiveyuanstore.fragment.list.PageCommodityClassifyFragment.OnNewClickedListener;
+import com.example.fiveyuanstore.goods.GoodsActivity;
 import com.example.fiveyuanstore.goodslist.GoodsListActivity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -148,6 +148,7 @@ public class CommodityFragment extends Fragment {
 
 		return view;
 	}
+
 
 	void allgoodslist() {
 		Request request = Server.requestBuilderWithPath("/allGoodsList").get().build();
