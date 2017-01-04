@@ -1,10 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" 
-    android:id="@+id/goods_list"
-    android:background="#eee"
-    android:divider="#fff"
-    android:dividerHeight="0dip" >
- </ListView>
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.example.fiveyuanstore.api.MyScrollView
+        android:id="@+id/myScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/navbar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#ff593e"
+                android:padding="5dp" >
+
+                <ImageView
+                    android:id="@+id/btn_search"
+                    android:layout_width="65dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/btn_search" />
+
+                <ImageView
+                    android:id="@+id/bg_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/btn_search"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@id/btn_search"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bg_search" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignBottom="@id/bg_search"
+                    android:layout_alignLeft="@id/bg_search"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginLeft="11dp"
+                    android:src="@drawable/ic_search" />
+
+                <EditText
+                    android:id="@+id/search_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/bg_search"
+                    android:layout_alignLeft="@id/bg_search"
+                    android:layout_alignRight="@id/bg_search"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginLeft="36dp"
+                    android:background="#00000000"
+                    android:hint="搜索商品"
+                    android:textColor="#fff"
+                    android:textColorHint="#ffa293"
+                    android:textSize="18dp" >
+                </EditText>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="115dp"
+                    android:layout_marginBottom="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_text" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="#fff"
+                    android:orientation="vertical" >
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="10dp" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_classify" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="67dp"
+                        android:orientation="horizontal" >
+
+                        <fragment
+                            android:id="@+id/snack"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            class="com.example.fiveyuanstore.fragment.list.PageCommodityClassifyFragment"
+                            tools:layout="@layout/fragment_page_commodity_classify" />
+
+                        <fragment
+                            android:id="@+id/clothing"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            class="com.example.fiveyuanstore.fragment.list.PageCommodityClassifyFragment"
+                            tools:layout="@layout/fragment_page_commodity_classify" />
+
+                        <fragment
+                            android:id="@+id/fruit"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            class="com.example.fiveyuanstore.fragment.list.PageCommodityClassifyFragment"
+                            tools:layout="@layout/fragment_page_commodity_classify" />
+
+                        <fragment
+                            android:id="@+id/others"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            class="com.example.fiveyuanstore.fragment.list.PageCommodityClassifyFragment"
+                            tools:layout="@layout/fragment_page_commodity_classify" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fff"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="8dp"
+                        android:text="必买清单"
+                        android:textColor="#ff593e"
+                        android:textSize="20dp" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/goods_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_minHeight="124dp"
+                android:background="#eee"
+                android:divider="#fff"
+                android:dividerHeight="0dip" >
+            </ListView>
+        </LinearLayout>
+    </com.example.fiveyuanstore.api.MyScrollView>
+
+    <LinearLayout
+        android:id="@+id/search01"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+</LinearLayout>

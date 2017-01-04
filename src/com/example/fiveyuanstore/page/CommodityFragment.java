@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.fiveyuanstore.GoodsActivity;
 import com.example.fiveyuanstore.R;
+import com.example.fiveyuanstore.api.MyScrollView.OnScrollListener;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.GoodsListNoItem;
@@ -27,15 +28,17 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.AdapterView.OnItemClickListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.Response;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class CommodityFragment extends Fragment {
+public class CommodityFragment extends Fragment implements OnScrollListener {
 
 	View view;
 	ListView listView;
@@ -45,21 +48,23 @@ public class CommodityFragment extends Fragment {
 	List<GoodsListNoItem> data;
 	int page = 0;
 	TextView CommoditySortTime,CommoditySortPrice,CommoditySortCustom;
-	View headerView = null, btnLoadMore = null;
 
 	ImageView search;
-
+	LinearLayout search01;
+	RelativeLayout search02;
+    private int searchLayoutTop; 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		if (view == null && headerView == null && btnLoadMore == null) {
+		if (view == null ) {
 			view = inflater.inflate(R.layout.fragment_page_commodity, null);
-			headerView = inflater.inflate(R.layout.comm_header_view, null);
 
-			search_text = (EditText) headerView.findViewById(R.id.search_text);
+			search_text = (EditText) view.findViewById(R.id.search_text);
 			listView = (ListView) view.findViewById(R.id.goods_list);
-
-			search = (ImageView) headerView.findViewById(R.id.btn_search);
+			
+			 search01 = (LinearLayout)view.findViewById(R.id.search01); 
+			 search02 = (RelativeLayout) view.findViewById(R.id.navbar);
+			search = (ImageView) view.findViewById(R.id.btn_search);
 			fruit = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.fruit);
 			snack = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.snack);
 			clothing = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.clothing);
@@ -128,7 +133,6 @@ public class CommodityFragment extends Fragment {
 				}
 			});
 
-			listView.addHeaderView(headerView);
 
 			listView.setAdapter(goodsListAdapter);
 
@@ -137,6 +141,25 @@ public class CommodityFragment extends Fragment {
 		return view;
 	}
 
+
+
+  
+	    //监听滚动Y值变化，通过addView和removeView来实现悬停效果  
+	    @Override  
+	    public void onScroll(int scrollY) {  
+	        if(scrollY >= searchLayoutTop){    
+	            if (search_text.getParent()!=search01) {  
+	                search02.removeView(search_text);  
+	                search01.addView(search_text);  
+	            }  
+	        }else{  
+	            if (search_text.getParent()!=search02) {  
+	                search01.removeView(search_text);  
+	                search02.addView(search_text);  
+	            }  
+	        }  
+	    }  
+	
 	void allgoodslist() {
 		Request request = Server.requestBuilderWithPath("/allGoodsList").get().build();
 
@@ -239,6 +262,16 @@ public class CommodityFragment extends Fragment {
 		
 		allgoodslist();
 
+	}
+
+
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		//super.onWindowFocusChanged(hasFocus);   
+		if(hasFocus){    
+	            searchLayoutTop = search02.getBottom();//获取searchLayout的顶部位置  
+	        }  
 	}
 
 }
