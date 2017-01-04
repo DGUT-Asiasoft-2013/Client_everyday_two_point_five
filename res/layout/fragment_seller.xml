@@ -6,43 +6,69 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:orientation="horizontal"
-        android:weightSum="4" >
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/addProduct"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="发布" />
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="商家页面" />
 
-        <EditText
-            android:id="@+id/searchText"
-            android:layout_width="149dp"
-            android:layout_height="44dp"
-            android:layout_weight="2.29"
-            android:ems="10"
-            android:hint="SEARCH" >
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ddd" />
 
-            <requestFocus />
-        </EditText>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            android:weightSum="4" >
 
-        <Button
-            android:id="@+id/search"
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="搜索" />
+            android:layout_gravity="center_horizontal" >
+
+            <TextView
+                android:id="@+id/seller_page_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="7dp"
+                android:background="#eee"
+                android:text="我的商品" />
+
+            <TextView
+                android:id="@+id/seller_page_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="7dp"
+                android:background="#eee"
+                android:text="订单处理" />
+
+            <TextView
+                android:id="@+id/seller_page_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="7dp"
+                android:background="#eee"
+                android:text="我的清单" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/widget_product_item" >
+        </ListView>
     </LinearLayout>
-
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        tools:listitem="@layout/widget_product_item" >
-    </ListView>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -55,14 +81,15 @@
             android:id="@+id/add_goods_list"
             android:layout_width="100dp"
             android:layout_height="30dp"
-            android:text="addGoodList"
+            android:text="发布清单"
             android:textSize="10dp" />
 
         <Button
-            android:id="@+id/show_goods_list"
+            android:id="@+id/addProduct"
             android:layout_width="100dp"
             android:layout_height="30dp"
-            android:text="show_goods_list"
+            android:text="发布商品"
             android:textSize="10dp" />
     </LinearLayout>
+
 </FrameLayout>
