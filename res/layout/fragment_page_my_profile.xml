@@ -110,14 +110,22 @@
             android:id="@+id/bill_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="1"
+            class="com.example.fiveyuanstore.fragment.list.TextListFragment"
+            tools:layout="@layout/fragment_text_list" />
+        
+        <fragment
+            android:id="@+id/my_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             class="com.example.fiveyuanstore.fragment.list.TextListFragment"
             tools:layout="@layout/fragment_text_list" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="0.67" />
     </LinearLayout>
     </LinearLayout>
 
