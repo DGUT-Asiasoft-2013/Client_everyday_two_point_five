@@ -56,10 +56,10 @@ public class CommodityFragment extends Fragment {
 			view = inflater.inflate(R.layout.fragment_page_commodity, null);
 			headerView = inflater.inflate(R.layout.comm_header_view, null);
 
-			search_text = (EditText) headerView.findViewById(R.id.search_text);
+			search_text = (EditText) view.findViewById(R.id.search_text);
 			listView = (ListView) view.findViewById(R.id.goods_list);
 
-			search = (ImageView) headerView.findViewById(R.id.btn_search);
+			search = (ImageView) view.findViewById(R.id.btn_search);
 			fruit = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.fruit);
 			snack = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.snack);
 			clothing = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.clothing);
