@@ -86,15 +86,13 @@ public class AvatarView extends View {				//头像处理
 					byte[] bytes = arg1.body().bytes();
 					final Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 					mainThreadHandler.post(new Runnable() {
-						public void run() {
-							Log.d("paint123", "3333");
+						public void run() {							
 							setBitmap(bmp);
 						}
 					});
 				}catch(Exception ex){
 					mainThreadHandler.post(new Runnable() {
 						public void run() {
-							Log.d("paint123", "4444");
 							setBitmap(null);
 						}
 					});

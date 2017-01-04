@@ -182,9 +182,36 @@ public class SellerFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		set_page = 1;
-		reload1();
+		reload();
 
+	}
+	
+	void reload(){
+		switch (set_page) {
+		case 1:
+			reload1();
+			page1 = 0;
+			listview.removeAllViewsInLayout();
+			adapter_goodsInfo.notifyDataSetInvalidated();
+			listview.setAdapter(adapter_goodsInfo);
+			break;
+		case 2:
+			reload2();
+			page2 = 0;
+			listview.removeAllViewsInLayout();
+			adapter_orderHandler.notifyDataSetInvalidated();
+			listview.setAdapter(adapter_orderHandler);
+			break;
+		case 3:
+			reload3();
+			page3 = 0;
+			listview.removeAllViewsInLayout();
+			listAdapter_goodsList.notifyDataSetInvalidated();
+			listview.setAdapter(listAdapter_goodsList);
+			break;
+		default:
+			break;
+		}
 	}
 
 	// 1
