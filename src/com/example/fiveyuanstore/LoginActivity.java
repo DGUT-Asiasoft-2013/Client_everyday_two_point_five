@@ -16,8 +16,12 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+import cn.sharesdk.framework.AuthorizeActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MultipartBody;
@@ -29,13 +33,15 @@ import okhttp3.Response;
 
 
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements OnClickListener{
 
 	SimpleTextInputCellFragment fragAccount;
 	SimpleTextInputCellFragment fragPassword;
 	CheckBox checkBox1;
 	private static final String FILE_NAME="saveUserNamePwd";
 	 String usernameContent, passwordContent;
+	 TextView btn_register;
+	 ImageView btn_login;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -43,28 +49,15 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 
 		checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
-		findViewById(R.id.btn_register).setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				goRegister();
-
-			}
-		});
-
-		findViewById(R.id.btn_login).setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				login();
-				if (checkBox1.isChecked()){
-					onSaveContent();
-				}else{
-					onNotSaveContent();
-				}
-			}
-		});
-
+		
+		TextView auth = (TextView) findViewById(R.id.btnLogin);
+		btn_register = (TextView) findViewById(R.id.btn_register);
+		btn_login = (ImageView)findViewById(R.id.btn_login);
+		
+		auth.setOnClickListener(this);
+		btn_register.setOnClickListener(this);
+		btn_login.setOnClickListener(this);
+		
 		findViewById(R.id.btn_forgot_password).setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -213,6 +206,32 @@ public class LoginActivity extends Activity {
 	void goRecoverPassword() {
 		Intent itnt = new Intent(this, PasswordRecoverActivity.class);
 		startActivity(itnt);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()){
+		case R.id.btnLogin:
+			Intent itt = new Intent (LoginActivity.this, AuthActivity.class);
+			startActivity(itt);
+			break;
+			
+		case R.id.btn_register:
+			goRegister();
+			break;
+			
+		case R.id.btn_login:
+			login();
+			if (checkBox1.isChecked()){
+				onSaveContent();
+			}else{
+				onNotSaveContent();
+			}
+			break;
+			
+		default:
+				break;
+		}
 	}
 
 }

@@ -6,31 +6,22 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.example.fiveyuanstore.AddProductActivity;
-import com.example.fiveyuanstore.ChangeActivity;
-import com.example.fiveyuanstore.CommentActivity;
-import com.example.fiveyuanstore.GoodsContentActivity;
-import com.example.fiveyuanstore.GoodsInfo;
-import com.example.fiveyuanstore.OrderHandlerActivity;
+import com.example.fiveyuanstore.GoodsInfoActivity;
 import com.example.fiveyuanstore.OrderInfoActivity;
 import com.example.fiveyuanstore.R;
-import com.example.fiveyuanstore.StoreActivity;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.GoodsListNoItem;
-import com.example.fiveyuanstore.entity.GoodsListWithItem;
 import com.example.fiveyuanstore.entity.MyOrder;
 import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.goodslist.AddGoodsListActivity;
 import com.example.fiveyuanstore.goodslist.GoodsListActivity;
-import com.example.fiveyuanstore.goodslist.SellerGoodsListActivity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -42,16 +33,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MultipartBody;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class SellerFragment extends Fragment {
@@ -191,11 +178,13 @@ public class SellerFragment extends Fragment {
 		return view;
 	}
 
+
 	@Override
 	public void onResume() {
 		super.onResume();
 		set_page = 1;
 		reload1();
+
 	}
 
 	// 1
@@ -336,7 +325,7 @@ public class SellerFragment extends Fragment {
 
 	void onItemClicked_1(int position) {
 		Goods goods = data1.get(position);
-		Intent itnt = new Intent(this.getActivity(), GoodsInfo.class);
+		Intent itnt = new Intent(this.getActivity(), GoodsInfoActivity.class);
 		itnt.putExtra("data", (Serializable) goods);
 		startActivity(itnt);
 	}

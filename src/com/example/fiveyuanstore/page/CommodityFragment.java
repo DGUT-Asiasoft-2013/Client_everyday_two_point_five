@@ -44,14 +44,15 @@ public class CommodityFragment extends Fragment {
 	EditText search_text;
 	List<GoodsListNoItem> data;
 	int page = 0;
-	View headerView;
+	TextView CommoditySortTime,CommoditySortPrice,CommoditySortCustom;
+	View headerView = null, btnLoadMore = null;
 
 	ImageView search;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		if (view == null) {
+		if (view == null && headerView == null && btnLoadMore == null) {
 			view = inflater.inflate(R.layout.fragment_page_commodity, null);
 			headerView = inflater.inflate(R.layout.comm_header_view, null);
 

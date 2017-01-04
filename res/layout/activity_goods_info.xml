@@ -81,7 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" 
-            android:weightSum="4">
+            android:weightSum="5">
 
             <Button
                 android:id="@+id/down"
@@ -91,6 +91,7 @@
                 android:background="@drawable/bg"
                 android:text="下架"
                 android:textColor="#FF5557"
+                android:padding="5dp"
                 android:layout_marginLeft="15dp" />
 
             <Button
@@ -100,6 +101,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg"
                 android:text="修改"
+                  android:padding="5dp"
                 android:layout_marginLeft="15dp"
                 android:textColor="#FF5557" />
 
@@ -107,11 +109,24 @@
                 android:id="@+id/freshComment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
+                android:layout_weight="2"
                 android:background="@drawable/bg"
                 android:text="刷新评论"
+                  android:padding="5dp"
                 android:textColor="#FF5557"
                 android:layout_marginLeft="15dp" />
+            
+       <Button  
+        android:id="@+id/btnShareAllGui"  
+        android:layout_width="0dp"  
+        android:layout_height="wrap_content"  
+        android:layout_weight="1" 
+        android:padding="5dp"
+        android:textColor="#FF5557"
+        android:background="@drawable/bg"
+       android:layout_marginLeft="15dp"
+        android:text="分享"  
+     />  
         </LinearLayout>
 
         <ListView
