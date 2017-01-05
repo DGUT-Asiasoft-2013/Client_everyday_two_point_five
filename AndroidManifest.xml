@@ -195,6 +195,10 @@
             android:name="com.example.fiveyuanstore.order.FinishOrderActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
+                <activity
+            android:name="com.example.fiveyuanstore.ZoneActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
     </application>
 
     <!--

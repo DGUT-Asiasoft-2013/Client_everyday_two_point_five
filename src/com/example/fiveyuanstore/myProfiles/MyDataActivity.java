@@ -30,7 +30,6 @@ import com.example.fiveyuanstore.myProfiles.myData.SetPlaceFragment;
 import com.example.fiveyuanstore.myProfiles.myData.SetPlaceFragment.OnConfirmClickedListener2;
 import com.example.fiveyuanstore.myProfiles.myData.SetSexActivtiy;
 import com.example.fiveyuanstore.myProfiles.myData.SetWhatsUpFragment;
-import com.example.fiveyuanstore.myProfiles.myData.TimeActivity;
 import com.example.fiveyuanstore.myProfiles.myData.SetWhatsUpFragment.OnConfirmClickedListener3;
 import com.example.fiveyuanstore.page.MyProfileFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
