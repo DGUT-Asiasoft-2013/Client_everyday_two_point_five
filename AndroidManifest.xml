@@ -109,7 +109,7 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.example.fiveyuanstore.OrderHandlerActivity"
+            android:name="com.example.fiveyuanstore.order.OrderHandlerActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
@@ -133,7 +133,7 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.example.fiveyuanstore.goods.GoodsContentActivitytivity"
+            android:name="com.example.fiveyuanstore.goods.GoodsContentActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         </activity>
         <activity
@@ -141,19 +141,19 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name = "com.example.fiveyuanstore.goods.GoodsInfoActivityInfoActivity"
+            android:name = "com.example.fiveyuanstore.goods.GoodsInfoActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.example.fiveyuanstore.OrderInfoActivity"
+            android:name="com.example.fiveyuanstore.order.OrderInfoActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.example.fiveyuanstore.BillListActivity"
+            android:name="com.example.fiveyuanstore.order.BillListActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.example.fiveyuanstore.BillInfoActivity"
+            android:name="com.example.fiveyuanstore.order.BillInfoActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
@@ -192,11 +192,11 @@
         </activity>
         
           <activity
-            android:name="com.example.fiveyuanstore.goods.GoodsActivityoodsActivity"
+            android:name="com.example.fiveyuanstore.goods.GoodsActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
 	<activity
-            android:name="com.example.fiveyuanstore.FinishOrderActivity"
+            android:name="com.example.fiveyuanstore.order.FinishOrderActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
     </application>

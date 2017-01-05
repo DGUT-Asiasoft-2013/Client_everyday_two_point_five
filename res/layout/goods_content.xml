@@ -51,6 +51,44 @@
                     android:textColor="#aaa"
                     android:textSize="12sp" />
             </FrameLayout>
+
+            <Button
+                android:id="@+id/like"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/like"
+                android:text=" " />
+            
+            <TextView
+                android:id="@+id/count_num"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                   android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="5dp"
+                 android:layout_below="@id/like"
+                 android:text=" "
+                 ></TextView>
+            
+              <Button
+                android:id="@+id/down"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                  android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                 android:layout_marginTop="35dp"
+                android:layout_below="@id/count_num"
+                android:background="@drawable/down"
+                android:text=" " />
+              
+         
+            
+
         </RelativeLayout>
 
         <TextView
@@ -117,7 +155,6 @@
 		        android:layout_height="36dp"
 		        android:textColor="@android:color/white"
 		        android:background="@drawable/share"
-		     
 		        android:layout_marginLeft="15dp"
 		     />  
               
