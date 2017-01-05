@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import com.example.fiveyuanstore.GoodsContentActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.Inbox;
@@ -13,6 +12,7 @@ import com.example.fiveyuanstore.entity.InboxList;
 import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.fragment.widgets.AvatarView;
+import com.example.fiveyuanstore.goods.GoodsContentActivity;
 import com.example.fiveyuanstore.page.MyProfileFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

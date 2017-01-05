@@ -1,4 +1,4 @@
-package com.example.fiveyuanstore;
+package com.example.fiveyuanstore.share;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -31,8 +31,13 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import com.example.fiveyuanstore.R;
+import com.example.fiveyuanstore.StoreActivity;
+import com.example.fiveyuanstore.R.id;
+import com.example.fiveyuanstore.R.layout;
+import com.example.fiveyuanstore.R.string;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.User;
+import com.example.fiveyuanstore.goods.GoodsInfoActivity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

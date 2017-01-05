@@ -3,7 +3,6 @@ package com.example.fiveyuanstore.page;
 import java.io.IOException;
 import java.util.List;
 
-import com.example.fiveyuanstore.GoodsActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
@@ -11,6 +10,7 @@ import com.example.fiveyuanstore.entity.GoodsListNoItem;
 import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.fragment.list.PageCommodityClassifyFragment;
 import com.example.fiveyuanstore.fragment.list.PageCommodityClassifyFragment.OnNewClickedListener;
+import com.example.fiveyuanstore.goods.GoodsActivity;
 import com.example.fiveyuanstore.goodslist.GoodsListActivity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,6 +48,7 @@ public class CommodityFragment extends Fragment {
 	View headerView = null, btnLoadMore = null;
 
 	ImageView search;
+	ImageView image;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +60,8 @@ public class CommodityFragment extends Fragment {
 			search_text = (EditText) view.findViewById(R.id.search_text);
 			listView = (ListView) view.findViewById(R.id.goods_list);
 
+			image=(ImageView) headerView.findViewById(R.id.head_image);
+			
 			search = (ImageView) view.findViewById(R.id.btn_search);
 			fruit = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.fruit);
 			snack = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.snack);
@@ -127,15 +130,25 @@ public class CommodityFragment extends Fragment {
 
 				}
 			});
+			
+			image.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 
+			listView.setCacheColorHint(0);
 			listView.addHeaderView(headerView);
-
 			listView.setAdapter(goodsListAdapter);
 
 		}
 
 		return view;
 	}
+
 
 	void allgoodslist() {
 		Request request = Server.requestBuilderWithPath("/allGoodsList").get().build();
@@ -222,6 +235,10 @@ public class CommodityFragment extends Fragment {
 	};
 
 	void onItemClicked(int position) {
+		
+		if(position==0){
+			return;
+		}
 		GoodsListNoItem pos = data.get(position - 1);
 
 		Intent itnt = new Intent(this.getActivity(), GoodsListActivity.class);

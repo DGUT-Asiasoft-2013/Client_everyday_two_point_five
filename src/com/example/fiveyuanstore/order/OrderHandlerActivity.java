@@ -1,9 +1,12 @@
-package com.example.fiveyuanstore;
+package com.example.fiveyuanstore.order;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
+import com.example.fiveyuanstore.R;
+import com.example.fiveyuanstore.R.id;
+import com.example.fiveyuanstore.R.layout;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;

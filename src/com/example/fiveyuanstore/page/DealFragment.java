@@ -6,13 +6,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import com.example.fiveyuanstore.CommentActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.MyOrder;
 import com.example.fiveyuanstore.entity.Page;
+import com.example.fiveyuanstore.goods.CommentActivity;
+import com.example.fiveyuanstore.order.FinishOrderActivity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -419,7 +420,7 @@ public class DealFragment extends Fragment {
 					getActivity().runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							Intent itt= new Intent(DealFragment.this.getActivity(), CommentActivity.class);
+							Intent itt= new Intent(DealFragment.this.getActivity(), FinishOrderActivity.class);
 							itt.putExtra("myOrder", myOrder);
 							startActivity(itt);
 							

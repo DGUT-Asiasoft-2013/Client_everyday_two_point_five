@@ -1,8 +1,9 @@
-package com.example.fiveyuanstore;
+package com.example.fiveyuanstore.share;
 
 import java.util.HashMap;
 
 import com.example.fiveyuanstore.api.JsonUtils;
+import com.example.fiveyuanstore.goods.GoodsInfoActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,6 +23,9 @@ import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.tencent.weibo.TencentWeibo;
 import com.example.fiveyuanstore.R;
+import com.example.fiveyuanstore.R.id;
+import com.example.fiveyuanstore.R.layout;
+import com.example.fiveyuanstore.R.string;
 
 /**
  * @author yangyu

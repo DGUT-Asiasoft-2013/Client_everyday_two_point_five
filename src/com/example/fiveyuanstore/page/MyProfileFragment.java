@@ -4,9 +4,6 @@ package com.example.fiveyuanstore.page;
 
 import java.io.IOException;
 
-import com.example.fiveyuanstore.BillListActivity;
-import com.example.fiveyuanstore.GetInforActivity;
-import com.example.fiveyuanstore.OrderHandlerActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.User;
@@ -17,6 +14,9 @@ import com.example.fiveyuanstore.myProfiles.InboxActivity;
 import com.example.fiveyuanstore.myProfiles.MyDataActivity;
 import com.example.fiveyuanstore.myProfiles.PasswordChangeActivity;
 import com.example.fiveyuanstore.myProfiles.WalletActivity;
+import com.example.fiveyuanstore.order.BillListActivity;
+import com.example.fiveyuanstore.order.OrderHandlerActivity;
+import com.example.fiveyuanstore.share.GetInforActivity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

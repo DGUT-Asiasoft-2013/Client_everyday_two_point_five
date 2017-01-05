@@ -2,9 +2,11 @@ package com.example.fiveyuanstore;
 
 import java.io.IOException;
 
+import com.example.fiveyuanstore.api.MD5;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment;
+import com.example.fiveyuanstore.share.AuthActivity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.Activity;
