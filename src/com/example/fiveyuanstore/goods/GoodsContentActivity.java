@@ -3,6 +3,8 @@
  */
 package com.example.fiveyuanstore.goods;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -23,7 +25,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +41,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import cn.sharesdk.framework.AbstractWeibo;
 import cn.sharesdk.onekeyshare.ShareAllGird;
 import okhttp3.Call;
@@ -60,6 +68,8 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
     Button like, down;
     ProImgView img;
     TextView count_num;
+	private boolean isDowned = false;
+	private int downNum = 0, likeNum = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -100,7 +110,16 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		initData();
 		reloadLikes();
 	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		reload();
 
+	}
+
+	
 	
 	  private void initData() {
 		  shareGuiBtn.setOnClickListener(this);
@@ -109,20 +128,52 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		  down.setOnClickListener(this);
 	}
 
+	  //点击事件
+		@Override
+		public void onClick(View v) {
+			switch(v.getId()){
+			case R.id.btn_buy:
+				Intent itnt = new Intent(GoodsContentActivity.this, BuyActivity.class);
+				itnt.putExtra("goods", goods);
+				startActivity(itnt);
+				break;
+				
+			case R.id.btnShareAllGui:  
+		            showGrid(false);  
+		            break; 
+			case R.id.call:
+				toCall();
+				break;
+				
+			case R.id.like:
+				Likes();
+				break;
+			case R.id.down:
+				down();
+				break;
+		    default:
+		    	break;
+			}
+		
+		}
+	  
+
+
+
 	/** 
      * 初始化分享的图片 
      */  
     private void initImagePath() {  
         try {//判断SD卡中是否存在此文件夹  
-        	if (img != null){
-          	  img.load(goods);
-            }
-          /*  if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())  
+        	
+          if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())  
                     && Environment.getExternalStorageDirectory().exists()) {  
-                TEST_IMAGE = Environment.getExternalStorageDirectory().getAbsolutePath() + "/pic.png";  
+                TEST_IMAGE = Server.serverAddress + goods.getGoods_img();  
+                //Toast.makeText(GoodsContentActivity.this, TEST_IMAGE, Toast.LENGTH_LONG).show();
+                Log.d("img", Server.serverAddress + goods.getGoods_img());
             }  
             else {  
-                TEST_IMAGE = getApplication().getFilesDir().getAbsolutePath() + "/pic.png";  
+                TEST_IMAGE = Server.serverAddress + goods.getGoods_img();   
             }  
             File file = new File(TEST_IMAGE);  
             //判断图片是否存此文件夹中  
@@ -133,7 +184,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
                 pic.compress(CompressFormat.JPEG, 100, fos);  
                 fos.flush();  
                 fos.close();  
-            }  */
+            }  
         } catch(Throwable t) {  
             t.printStackTrace();  
             TEST_IMAGE = null;  
@@ -192,16 +243,19 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		}
 	};
 
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		reload();
-		reloadLikes();
-	}
+
 
 	void reload() {
-
+		//分享设置
+		AbstractWeibo.initSDK(this);	
+		initImagePath();  
+		
+		checkLiked();
+		reloadLikes();
+		reloadDowns();
+		checkDowned();
+		onCheckLikedResult(isLiked);
+		onCheckDownedResult(isDowned);
 		Request request = Server.requestBuilderWithPath("/goods/" + goods.getId() + "/comments").get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
@@ -325,33 +379,6 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		});
 	}
 
-	@Override
-	public void onClick(View v) {
-		switch(v.getId()){
-		case R.id.btn_buy:
-			Intent itnt = new Intent(GoodsContentActivity.this, BuyActivity.class);
-			itnt.putExtra("goods", goods);
-			startActivity(itnt);
-			break;
-			
-		case R.id.btnShareAllGui:  
-	            showGrid(false);  
-	            break; 
-		case R.id.call:
-			toCall();
-			break;
-			
-		case R.id.like:
-			Likes();
-			break;
-		case R.id.down:
-			
-			break;
-	    default:
-	    	break;
-		}
-	
-	}
 	
 	
 	
@@ -370,7 +397,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用，否则可以不提供  
         i.putExtra("titleUrl", "http://sharesdk.cn");  
         // text是分享文本，所有平台都需要这个字段  
-        i.putExtra("text", this.getString(R.string.share_content));  
+        i.putExtra("text", this.getString(R.string.share_content)+goods.getTitle());  
         // imagePath是本地的图片路径，所有平台都支持这个字段，不提供，则表示不分享图片  
         i.putExtra("imagePath", GoodsInfoActivity.TEST_IMAGE);  
         // url仅在微信（包括好友和朋友圈）中使用，否则可以不提供  
@@ -456,33 +483,29 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		});
 	}
 
-	void onCheckLikedResult(boolean result) {
-		isLiked = result;
-		like.setBackgroundResource(R.drawable.like_click);
-	}
-
-	void reloadLikes() {
-		Request request = Server.requestBuilderWithPath("goods/" + goods.getId() + "/likes").get().build();
+    void checkDowned() {
+		Request request = Server.requestBuilderWithPath("goods/" + goods.getId() + "/isDowned").get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
-
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
 				try {
-					String responseString = arg1.body().string();
-					final Integer count = new ObjectMapper().readValue(responseString, Integer.class);
+					final String responseString = arg1.body().string();
+					Log.d("check liked", responseString);
+
+					final Boolean result = new ObjectMapper().readValue(responseString, Boolean.class);
 
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							onReloadLikesResult(count);
+							onCheckDownedResult(result);
 						}
 					});
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					e.printStackTrace();
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							onReloadLikesResult(0);
+							onCheckDownedResult(false);
 						}
 					});
 				}
@@ -494,21 +517,143 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						onReloadLikesResult(0);
+						onCheckLikedResult(false);
+					}
+				});
+			}
+		});
+	}
+    
+	void onCheckLikedResult(boolean result) {
+		isLiked = result;
+		like.setBackgroundResource((isLiked)? R.drawable.like_click: R.drawable.like);
+	}
+
+	void onCheckDownedResult(boolean result) {
+		isDowned = result;
+		down.setBackgroundResource((isDowned)? R.drawable.down_click: R.drawable.down);
+	}
+	
+	void reloadLikes() {
+		Request request = Server.requestBuilderWithPath("goods/" + goods.getId() + "/likes").get().build();
+		Server.getClient().newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				try {
+					String responseString = arg1.body().string();
+					final Integer count = new ObjectMapper().readValue(responseString, Integer.class);
+					
+					runOnUiThread(new Runnable() {
+					
+						
+						@Override
+						public void run() {
+							onReloadLikesResult(count, downNum);
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onFailure(Call arg0, IOException e) {
+				e.printStackTrace();
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						Toast.makeText(GoodsContentActivity.this, "操作失败", Toast.LENGTH_LONG).show();
 					}
 				});
 			}
 		});
 	}
 
-	void onReloadLikesResult(int count) {
-		if (count > 0) {
+	
+	void reloadDowns() {
+		Request request = Server.requestBuilderWithPath("goods/" + goods.getId() + "/downs").get().build();
+		Server.getClient().newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				try {
+					String responseString = arg1.body().string();
+					Integer count = new ObjectMapper().readValue(responseString, Integer.class);
+					downNum = count;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onFailure(Call arg0, IOException e) {
+				e.printStackTrace();
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						Toast.makeText(GoodsContentActivity.this, "操作失败", Toast.LENGTH_LONG).show();
+					}
+				});
+			}
+		});
+		
+	}
+	
+	void onReloadLikesResult(int likeNum, int downNum) {
+		int count = likeNum - downNum;
+		if (count >= 0) {
 			count_num.setText(""+ count );
 		} else {
-			count_num.setText("0");
+			count_num.setText("-"+count);
 		}
 	}
     
+	//踩  
+	private void down() {
+	/*	 oooO ↘┏━┓ ↙ Oooo 
+		 
+	*/
+		MultipartBody body = new MultipartBody.Builder().addFormDataPart("downs", String.valueOf(!isDowned)).build();
+
+		Request request = Server.requestBuilderWithPath("goods/" + goods.getId() + "/downs").post(body).build();
+
+		Server.getClient().newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(Call arg0, final Response arg1) throws IOException {
+
+				try {
+					String responseString = arg1.body().string();
+					final Integer count = new ObjectMapper().readValue(responseString, new TypeReference<Integer>(){});
+					downNum = count;
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							onReloadLikesResult(likeNum,downNum);
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onFailure(Call arg0, IOException e) {
+				e.printStackTrace();
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						Toast.makeText(GoodsContentActivity.this, "操作失败", Toast.LENGTH_LONG).show();
+					}
+				});
+			}
+		});
+		
+
+		
+	}
+	
 	//点赞
 		void Likes() {
 			MultipartBody body = new MultipartBody.Builder().addFormDataPart("likes", String.valueOf(!isLiked)).build();
@@ -523,21 +668,15 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 					try {
 						String responseString = arg1.body().string();
 						final Integer count = new ObjectMapper().readValue(responseString, new TypeReference<Integer>(){});
-
+						likeNum = count;
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								onReloadLikesResult(count);
+								onReloadLikesResult(likeNum,downNum);
 							}
 						});
 					} catch (Exception e) {
 						e.printStackTrace();
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								onReloadLikesResult(0);
-							}
-						});
 					}
 				}
 
@@ -547,7 +686,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							onReloadLikesResult(0);
+							Toast.makeText(GoodsContentActivity.this, "操作失败", Toast.LENGTH_LONG).show();
 						}
 					});
 				}
