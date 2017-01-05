@@ -29,6 +29,8 @@ public class StoreActivity extends Activity {
 	ImageView tab_dealMessage;
 	ImageView tab_sellerList;
 	ImageView tab_me;
+	int num;
+	int point=0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +49,7 @@ public class StoreActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				changeContentFragment(0);
-				
+				changeContentFragment(0);			
 			}
 		});
 		
@@ -56,8 +57,7 @@ public class StoreActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				changeContentFragment(1);
-				
+				changeContentFragment(1);				
 			}
 		});
 		
@@ -65,8 +65,7 @@ public class StoreActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				changeContentFragment(2);
-				
+				changeContentFragment(2);				
 			}
 		});
 		
@@ -74,28 +73,10 @@ public class StoreActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				changeContentFragment(3);
-				
+				changeContentFragment(3);			
 			}
 		});
-		
-		
-//		tabbar=(MainTabbarFragment) getFragmentManager().findFragmentById(R.id.frag_tabbar);
-//		tabbar.setOnTabSelectedListener(new OnTabSelectedListener() {
-//			
-//			@Override
-//			public void onTabSelected(int index) {
-//				changeContentFragment(index);				
-//			}
-//		});				
-	}
-
-	@Override
-	protected void onResume() {
-		
-		super.onResume();
-//		changeContentFragment(0);
-		
+					
 	}
 	
 	void changeContentFragment(int index){
@@ -103,6 +84,7 @@ public class StoreActivity extends Activity {
 		
 		switch (index) {
 		case 0:
+			num=0;
 			newFrag = contentGoodList;
 			tab_storeList.setImageResource(R.drawable.ic_page_1_on);
 			tab_dealMessage.setImageResource(R.drawable.ic_page_2_off);
@@ -110,6 +92,7 @@ public class StoreActivity extends Activity {
 			tab_me.setImageResource(R.drawable.ic_page_4_off);
 			break;
 		case 1:
+			num=1;
 			newFrag = contentDealPage;
 			tab_storeList.setImageResource(R.drawable.ic_page_1_off);
 			tab_dealMessage.setImageResource(R.drawable.ic_page_2_on);
@@ -117,6 +100,7 @@ public class StoreActivity extends Activity {
 			tab_me.setImageResource(R.drawable.ic_page_4_off);
 			break;
 		case 2:
+			num=2;
 			newFrag = contentSellerPage;
 			tab_storeList.setImageResource(R.drawable.ic_page_1_off);
 			tab_dealMessage.setImageResource(R.drawable.ic_page_2_off);
@@ -124,6 +108,7 @@ public class StoreActivity extends Activity {
 			tab_me.setImageResource(R.drawable.ic_page_4_off);
 			break;
 		case 3:
+			num=3;
 			newFrag = contentMyProfile;
 			tab_storeList.setImageResource(R.drawable.ic_page_1_off);
 			tab_dealMessage.setImageResource(R.drawable.ic_page_2_off);
@@ -135,6 +120,19 @@ public class StoreActivity extends Activity {
 		}
 		if(newFrag==null)return;
 		
-		getFragmentManager().beginTransaction().replace(R.id.contnet, newFrag).commit();
+		if(point<=num){
+		getFragmentManager().beginTransaction()
+		.setCustomAnimations(R.animator.slide_in_right,
+	             R.animator.slide_out_left)
+		.replace(R.id.contnet, newFrag).commit();
+		
+		}else{
+			
+			getFragmentManager().beginTransaction()
+			.setCustomAnimations(R.animator.slide_in_left,
+	                R.animator.slide_out_right)
+			.replace(R.id.contnet, newFrag).commit();
+		}
+		point=num;
 	}
 }
