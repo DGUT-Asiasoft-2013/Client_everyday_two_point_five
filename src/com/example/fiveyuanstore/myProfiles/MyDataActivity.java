@@ -16,8 +16,10 @@ import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.GoodsListNoItem;
 import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.entity.User;
+import com.example.fiveyuanstore.entity.UserInformation;
 import com.example.fiveyuanstore.fragment.widgets.AvatarView;
 import com.example.fiveyuanstore.inputcells.ChangePictureActivity;
+import com.example.fiveyuanstore.myProfiles.myData.SetSexActivtiy;
 import com.example.fiveyuanstore.page.MyProfileFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,9 +40,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 import okhttp3.Call;
@@ -56,15 +61,25 @@ public class MyDataActivity extends Activity {
 
 	final int REQUESTCODE_CAMERA = 1;
 	final int REQUESTCODE_ALBUM = 2;
+	
+	final int REQUESTCODE_SEX=1001;
+	final int RESULT_MALE=11;
+	final int RESULT_FEMALE=12;
 
 	AvatarView avatar;
 	byte[] pngData;
 
 	User myuser;
+	UserInformation myInfor;
 
 	TextView account;
 	TextView email;
 	TextView name;
+	TextView sex;
+	TextView birth;
+	TextView place;
+	TextView whats_up;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,17 +89,17 @@ public class MyDataActivity extends Activity {
 		setContentView(R.layout.activity_my_data);
 		final String myName = (String) getIntent().getSerializableExtra("name");
 		final String myEmail = (String) getIntent().getSerializableExtra("email");
-//		myuser = (User) getIntent().getSerializableExtra("user");
+
 
 		account = (TextView) findViewById(R.id.my_account);
 		email = (TextView) findViewById(R.id.my_email);
 		name = (TextView) findViewById(R.id.my_name);
 		avatar = (AvatarView) findViewById(R.id.avatar);
-
-//		account.setText(myuser.getAccount());
-//		email.setText(myuser.getEmail());
-//		name.setText(myuser.getUser_name());
-//		avatar.load(myuser);
+		sex = (TextView) findViewById(R.id.my_sex);
+		birth = (TextView) findViewById(R.id.my_birth);
+		place = (TextView) findViewById(R.id.my_place);
+		whats_up = (TextView) findViewById(R.id.my_whats_up);
+		
 
 		findViewById(R.id.back).setOnClickListener(new OnClickListener() {
 
@@ -126,6 +141,19 @@ public class MyDataActivity extends Activity {
 				startActivity(itnt);
 
 			}
+		});
+		findViewById(R.id.change_sex).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setClass(MyDataActivity.this, SetSexActivtiy.class);
+				
+				startActivityForResult(intent, REQUESTCODE_SEX);
+				
+			}
+
+
 		});
 	}
 
@@ -187,12 +215,25 @@ public class MyDataActivity extends Activity {
 				e.printStackTrace();
 			}
 		}
+		//sex
+		if(requestCode == REQUESTCODE_SEX ){
+			if(resultCode == RESULT_MALE)
+				myInfor.setSex("male");
+  
+			else if (resultCode == RESULT_FEMALE)
+				myInfor.setSex("female");
+
+			
+			changeInformation();
+			
+		}
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		reload();
+		
 		
 	}
 
@@ -217,6 +258,7 @@ public class MyDataActivity extends Activity {
 							email.setText(myuser.getEmail());
 							name.setText(myuser.getUser_name());
 							avatar.load(myuser);
+							getInformation();
 						}
 					});
 
@@ -237,6 +279,101 @@ public class MyDataActivity extends Activity {
 					}
 				});
 
+			}
+		});
+	}
+	
+	void getInformation(){
+
+		
+		Request request = Server.requestBuilderWithPath("/getInformation/" + myuser.getId()).get().build();
+		Server.getClient().newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(Call arg0, Response res) throws IOException {
+				try {
+					final UserInformation infor = new ObjectMapper().readValue(res.body().string(),
+							new TypeReference<UserInformation>(){});
+
+					runOnUiThread(new Runnable() {
+						public void run() {
+							MyDataActivity.this.myInfor = infor;
+							sex.setText(infor.getSex());
+							if(infor.getBirth()==""||infor.getBirth()==null)
+								birth.setHint("还没填写生日耶~");
+							else
+								birth.setText(infor.getBirth());
+							if(infor.getPlace()==""||infor.getPlace()==null)
+								place.setHint("还没填写地区耶~");
+							else
+								place.setText(infor.getPlace());
+							if(infor.getWhats_up()==""||infor.getWhats_up()==null)
+								whats_up.setHint("还没填写个性签名耶~");
+							else
+								whats_up.setText(infor.getWhats_up());
+						}
+					});
+
+				} catch (final Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+
+			@Override
+			public void onFailure(final Call arg0, final IOException arg1) {
+				runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						Toast.makeText(getApplication(), arg1.getMessage(), Toast.LENGTH_LONG).show();
+
+					}
+				});
+
+			}
+		});
+	}
+
+
+	void changeInformation(){
+		MultipartBody.Builder builder=new MultipartBody.Builder()
+				.setType(MultipartBody.FORM)
+				.addFormDataPart("sex", myInfor.getSex())
+				.addFormDataPart("birth", myInfor.getBirth()==null? "":myInfor.getBirth())
+				.addFormDataPart("place", myInfor.getPlace()==null? "":myInfor.getPlace())
+				.addFormDataPart("whats_up", myInfor.getWhats_up()==null? "":myInfor.getWhats_up());
+
+		RequestBody requestBody=builder.build();
+		OkHttpClient client=Server.getClient();
+		
+		Request request=Server.requestBuilderWithPath("changeInformation")
+				.method("POST", requestBody)
+				.post(requestBody)
+				.build();
+		
+		client.newCall(request).enqueue(new Callback() {
+			
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						reload();
+					}
+				});
+				
+			}
+			
+			@Override
+			public void onFailure(Call arg0, IOException arg1) {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						Toast.makeText(getApplicationContext(), "修改失败",   
+		                        Toast.LENGTH_SHORT).show(); 
+					}
+				});
+	
+				
 			}
 		});
 	}

@@ -195,6 +195,10 @@
             android:name="com.example.fiveyuanstore.GoodsActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
+                          <activity
+            android:name="com.example.fiveyuanstore.myProfiles.myData.SetSexActivtiy"
+            android:theme="@style/MyDialogStyleBottom" >
+        </activity>
 
     </application>
 
