@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.example.fiveyuanstore.LoginActivity;
 import com.example.fiveyuanstore.MainActivity;
 import com.example.fiveyuanstore.R;
+import com.example.fiveyuanstore.ZoneActivity;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.fragment.list.TextListFragment;
@@ -73,7 +74,16 @@ public class MyProfileFragment extends Fragment {
 			my_data = (TextListFragment) getFragmentManager().findFragmentById(R.id.my_data);
 
 			access_info = (TextListFragment) getFragmentManager().findFragmentById(R.id.access_info);
-
+			avatar.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(getActivity(), ZoneActivity.class);
+					intent.putExtra("id", myuser.getId());
+					startActivity(intent);
+					
+				}
+			});
 			inbox.setOnNewClickedListener(new OnNewClickedListener() {
 
 				@Override

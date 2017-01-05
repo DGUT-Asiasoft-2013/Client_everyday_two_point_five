@@ -40,7 +40,6 @@
         android:background="#ddd" />
 
     <FrameLayout
-        android:id="@+id/profile_top"
         android:layout_width="match_parent"
         android:layout_height="190dp"
         android:background="#ffb245" >
@@ -103,7 +102,6 @@
         android:background="#ddd" />
 
     <TextView
-        android:id="@+id/user_whats_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -126,7 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#ddd"
-            android:text="ta的清单" />
+            android:text="ta的商品" />
 
         <FrameLayout
             android:layout_width="50dp"
@@ -137,7 +135,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#ddd"
-            android:text="ta的商品" />
+            android:text="ta的清单" />
     </LinearLayout>
         <FrameLayout
         android:layout_width="match_parent"
