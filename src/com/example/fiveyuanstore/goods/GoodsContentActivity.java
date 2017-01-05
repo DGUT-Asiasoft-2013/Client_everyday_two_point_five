@@ -3,6 +3,8 @@
  */
 package com.example.fiveyuanstore.goods;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -23,8 +25,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -62,6 +68,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
     Button like, down;
     ProImgView img;
     TextView count_num;
+	private boolean isDowned = false;
 	private int downNum = 0, likeNum = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +110,16 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		initData();
 		reloadLikes();
 	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		reload();
 
+	}
+
+	
 	
 	  private void initData() {
 		  shareGuiBtn.setOnClickListener(this);
@@ -149,15 +165,15 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
      */  
     private void initImagePath() {  
         try {//判断SD卡中是否存在此文件夹  
-        	if (img != null){
-          	  img.load(goods);
-            }
-          /*  if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())  
+        	
+          if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())  
                     && Environment.getExternalStorageDirectory().exists()) {  
-                TEST_IMAGE = Environment.getExternalStorageDirectory().getAbsolutePath() + "/pic.png";  
+                TEST_IMAGE = Server.serverAddress + goods.getGoods_img();  
+                //Toast.makeText(GoodsContentActivity.this, TEST_IMAGE, Toast.LENGTH_LONG).show();
+                Log.d("img", Server.serverAddress + goods.getGoods_img());
             }  
             else {  
-                TEST_IMAGE = getApplication().getFilesDir().getAbsolutePath() + "/pic.png";  
+                TEST_IMAGE = Server.serverAddress + goods.getGoods_img();   
             }  
             File file = new File(TEST_IMAGE);  
             //判断图片是否存此文件夹中  
@@ -168,7 +184,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
                 pic.compress(CompressFormat.JPEG, 100, fos);  
                 fos.flush();  
                 fos.close();  
-            }  */
+            }  
         } catch(Throwable t) {  
             t.printStackTrace();  
             TEST_IMAGE = null;  
@@ -226,17 +242,14 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 			return comments == null ? 0 : comments.size();
 		}
 	};
-	private boolean isDowned = false;
 
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		reload();
-		
-	}
+
 
 	void reload() {
+		//分享设置
+		AbstractWeibo.initSDK(this);	
+		initImagePath();  
+		
 		checkLiked();
 		reloadLikes();
 		reloadDowns();
@@ -384,7 +397,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用，否则可以不提供  
         i.putExtra("titleUrl", "http://sharesdk.cn");  
         // text是分享文本，所有平台都需要这个字段  
-        i.putExtra("text", this.getString(R.string.share_content));  
+        i.putExtra("text", this.getString(R.string.share_content)+goods.getTitle());  
         // imagePath是本地的图片路径，所有平台都支持这个字段，不提供，则表示不分享图片  
         i.putExtra("imagePath", GoodsInfoActivity.TEST_IMAGE);  
         // url仅在微信（包括好友和朋友圈）中使用，否则可以不提供  
