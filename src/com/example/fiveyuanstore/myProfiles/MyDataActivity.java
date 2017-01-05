@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import javax.imageio.ImageIO;
 
@@ -27,6 +30,7 @@ import com.example.fiveyuanstore.myProfiles.myData.SetPlaceFragment;
 import com.example.fiveyuanstore.myProfiles.myData.SetPlaceFragment.OnConfirmClickedListener2;
 import com.example.fiveyuanstore.myProfiles.myData.SetSexActivtiy;
 import com.example.fiveyuanstore.myProfiles.myData.SetWhatsUpFragment;
+import com.example.fiveyuanstore.myProfiles.myData.TimeActivity;
 import com.example.fiveyuanstore.myProfiles.myData.SetWhatsUpFragment.OnConfirmClickedListener3;
 import com.example.fiveyuanstore.page.MyProfileFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -35,6 +39,7 @@ import com.fasterxml.jackson.databind.deser.std.NumberDeserializers.LongDeserial
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
@@ -54,6 +59,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -99,6 +105,26 @@ public class MyDataActivity extends Activity {
 	SetPlaceFragment placeFrag=new SetPlaceFragment();
 	SetWhatsUpFragment whatsupFrag=new SetWhatsUpFragment();
 
+	DateFormat fmtDate = new java.text.SimpleDateFormat("yyyy-MM-dd");
+	Calendar dateAndTime = Calendar.getInstance(Locale.CHINA);  
+	
+    //当点击DatePickerDialog控件的设置按钮时，调用该方法  
+    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener()  
+    {  
+        @Override  
+        public void onDateSet(DatePicker view, int year, int monthOfYear,  
+                int dayOfMonth) {  
+            //修改日历控件的年，月，日  
+            //这里的year,monthOfYear,dayOfMonth的值与DatePickerDialog控件设置的最新值一致  
+            dateAndTime.set(Calendar.YEAR, year);  
+            dateAndTime.set(Calendar.MONTH, monthOfYear);  
+            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);      
+            //将页面TextView的显示更新为最新时间  
+            upDateDate();     
+              
+        }          
+    };
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -177,9 +203,18 @@ public class MyDataActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				goNext(1);
+//				goNext(1);
+				DatePickerDialog  dateDlg = new DatePickerDialog(MyDataActivity.this,  
+                        d,  
+                        dateAndTime.get(Calendar.YEAR),  
+                        dateAndTime.get(Calendar.MONTH),  
+                        dateAndTime.get(Calendar.DAY_OF_MONTH));  
+               
+                dateDlg.show();  
 			}
 		});
+		upDateDate();
+		
 		birthFrag.setOnConfirmClickedListener1(new OnConfirmClickedListener1() {
 			
 			@Override
@@ -484,4 +519,8 @@ public class MyDataActivity extends Activity {
 		});
 	}
 
+    private void upDateDate() {  
+    	birth.setText(fmtDate.format(dateAndTime.getTime()));  
+        } 
+    
 }
