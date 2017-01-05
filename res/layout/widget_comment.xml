@@ -4,16 +4,21 @@
     android:layout_height="wrap_content"
     android:minHeight="100dp"
     android:padding="8dp" >
-    
+      
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
     <RelativeLayout 
         android:layout_width="60dp"
-        android:layout_height="match_parent">
+        android:layout_height="80dp">
 
     <com.example.fiveyuanstore.fragment.widgets.AvatarView
         android:id="@+id/avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_centerInParent="true"/>
+    
     
     <TextView 
         android:id="@+id/username"
@@ -24,7 +29,43 @@
         android:text="name"
         android:textColor="@android:color/darker_gray"/>
     
+    
     </RelativeLayout>
+    
+       <Button
+                android:id="@+id/like"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/like"
+                android:text=" " />
+            
+            <TextView
+                android:id="@+id/count_num"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                   android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="5dp"
+                 android:layout_below="@id/like"
+                 android:text=" "
+                 ></TextView>
+            
+              <Button
+                android:id="@+id/down"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                  android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                 android:layout_marginTop="35dp"
+                android:layout_below="@id/count_num"
+                android:background="@drawable/down"
+                android:text=" " />
+              
     
     <FrameLayout 
         android:layout_width="match_parent"
@@ -49,4 +90,6 @@
             android:textColor="@android:color/black"
             android:text="Content Text"/>
     </FrameLayout>
+    
+    </RelativeLayout>
 </FrameLayout>
