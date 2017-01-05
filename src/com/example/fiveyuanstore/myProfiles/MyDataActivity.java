@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import javax.imageio.ImageIO;
 
@@ -17,9 +20,18 @@ import com.example.fiveyuanstore.entity.GoodsListNoItem;
 import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.entity.UserInformation;
+import com.example.fiveyuanstore.fragment.PasswordRecoverStep1Fragment.OnGoNextListener;
 import com.example.fiveyuanstore.fragment.widgets.AvatarView;
 import com.example.fiveyuanstore.inputcells.ChangePictureActivity;
+import com.example.fiveyuanstore.myProfiles.myData.SetBirthFragment;
+
+import com.example.fiveyuanstore.myProfiles.myData.SetBirthFragment.OnConfirmClickedListener1;
+import com.example.fiveyuanstore.myProfiles.myData.SetPlaceFragment;
+import com.example.fiveyuanstore.myProfiles.myData.SetPlaceFragment.OnConfirmClickedListener2;
 import com.example.fiveyuanstore.myProfiles.myData.SetSexActivtiy;
+import com.example.fiveyuanstore.myProfiles.myData.SetWhatsUpFragment;
+import com.example.fiveyuanstore.myProfiles.myData.TimeActivity;
+import com.example.fiveyuanstore.myProfiles.myData.SetWhatsUpFragment.OnConfirmClickedListener3;
 import com.example.fiveyuanstore.page.MyProfileFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +39,9 @@ import com.fasterxml.jackson.databind.deser.std.NumberDeserializers.LongDeserial
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -44,6 +59,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -79,8 +95,36 @@ public class MyDataActivity extends Activity {
 	TextView birth;
 	TextView place;
 	TextView whats_up;
-	
+	FragmentManager frg_mng1;
+	FragmentManager frg_mng2;
+	FragmentManager frg_mng3;
+	FragmentTransaction ft1;
+	FragmentTransaction ft2;
+	FragmentTransaction ft3;
+	SetBirthFragment birthFrag=new SetBirthFragment();
+	SetPlaceFragment placeFrag=new SetPlaceFragment();
+	SetWhatsUpFragment whatsupFrag=new SetWhatsUpFragment();
 
+	DateFormat fmtDate = new java.text.SimpleDateFormat("yyyy-MM-dd");
+	Calendar dateAndTime = Calendar.getInstance(Locale.CHINA);  
+	
+    //当点击DatePickerDialog控件的设置按钮时，调用该方法  
+    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener()  
+    {  
+        @Override  
+        public void onDateSet(DatePicker view, int year, int monthOfYear,  
+                int dayOfMonth) {  
+            //修改日历控件的年，月，日  
+            //这里的year,monthOfYear,dayOfMonth的值与DatePickerDialog控件设置的最新值一致  
+            dateAndTime.set(Calendar.YEAR, year);  
+            dateAndTime.set(Calendar.MONTH, monthOfYear);  
+            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);      
+            //将页面TextView的显示更新为最新时间  
+            upDateDate();     
+              
+        }          
+    };
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -155,6 +199,103 @@ public class MyDataActivity extends Activity {
 
 
 		});
+		findViewById(R.id.change_birth).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+//				goNext(1);
+				DatePickerDialog  dateDlg = new DatePickerDialog(MyDataActivity.this,  
+                        d,  
+                        dateAndTime.get(Calendar.YEAR),  
+                        dateAndTime.get(Calendar.MONTH),  
+                        dateAndTime.get(Calendar.DAY_OF_MONTH));  
+               
+                dateDlg.show();  
+			}
+		});
+		upDateDate();
+		
+		birthFrag.setOnConfirmClickedListener1(new OnConfirmClickedListener1() {
+			
+			@Override
+			public void onConfirmClicked1() {
+				myInfor.setBirth(birthFrag.getText());
+				changeInformation();
+				
+				
+			}
+		});
+		findViewById(R.id.change_place).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				goNext(2);
+			}
+		});
+		placeFrag.setOnConfirmClickedListener2(new OnConfirmClickedListener2() {
+			
+			@Override
+			public void onConfirmClicked2() {
+				myInfor.setPlace(placeFrag.getText());
+				changeInformation();	
+			}
+		});
+		findViewById(R.id.change_whats_up).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				goNext(3);
+			}
+		});
+		whatsupFrag.setOnConfirmClickedListener3(new OnConfirmClickedListener3() {
+			
+			@Override
+			public void onConfirmClicked3() {
+				myInfor.setWhats_up(whatsupFrag.getText());
+				changeInformation();
+				
+				
+			}
+		});
+	}
+	
+	void goNext(int i){
+		
+
+		switch (i) {
+		case 1:
+			frg_mng1=getFragmentManager();
+			ft1=frg_mng1.beginTransaction();
+			ft1.setCustomAnimations(R.animator.slide_in_right,
+					             R.animator.slide_out_left,
+						         R.animator.slide_in_left,
+				                 R.animator.slide_out_right);
+			ft1.replace(R.id.container,birthFrag ).addToBackStack(null).commit();
+			break;
+		case 2:
+			frg_mng2=getFragmentManager();
+			ft2=frg_mng2.beginTransaction();
+			ft2.setCustomAnimations(R.animator.slide_in_right,
+					             R.animator.slide_out_left,
+						         R.animator.slide_in_left,
+				                 R.animator.slide_out_right);
+			ft2.replace(R.id.container,placeFrag ).addToBackStack(null).commit();
+			break;
+		case 3:
+			frg_mng3=getFragmentManager();
+			ft3=frg_mng3.beginTransaction();
+			ft3.setCustomAnimations(R.animator.slide_in_right,
+					             R.animator.slide_out_left,
+						         R.animator.slide_in_left,
+				                 R.animator.slide_out_right);
+			ft3.replace(R.id.container,whatsupFrag ).addToBackStack(null).commit();
+			break;
+		default:
+			break;
+		}
+		
+		
+		
 	}
 
 	private void showTypeDialog() {
@@ -378,4 +519,8 @@ public class MyDataActivity extends Activity {
 		});
 	}
 
+    private void upDateDate() {  
+    	birth.setText(fmtDate.format(dateAndTime.getTime()));  
+        } 
+    
 }
