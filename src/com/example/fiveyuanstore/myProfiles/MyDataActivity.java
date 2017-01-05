@@ -17,9 +17,17 @@ import com.example.fiveyuanstore.entity.GoodsListNoItem;
 import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.entity.UserInformation;
+import com.example.fiveyuanstore.fragment.PasswordRecoverStep1Fragment.OnGoNextListener;
 import com.example.fiveyuanstore.fragment.widgets.AvatarView;
 import com.example.fiveyuanstore.inputcells.ChangePictureActivity;
+import com.example.fiveyuanstore.myProfiles.myData.SetBirthFragment;
+
+import com.example.fiveyuanstore.myProfiles.myData.SetBirthFragment.OnConfirmClickedListener1;
+import com.example.fiveyuanstore.myProfiles.myData.SetPlaceFragment;
+import com.example.fiveyuanstore.myProfiles.myData.SetPlaceFragment.OnConfirmClickedListener2;
 import com.example.fiveyuanstore.myProfiles.myData.SetSexActivtiy;
+import com.example.fiveyuanstore.myProfiles.myData.SetWhatsUpFragment;
+import com.example.fiveyuanstore.myProfiles.myData.SetWhatsUpFragment.OnConfirmClickedListener3;
 import com.example.fiveyuanstore.page.MyProfileFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +35,8 @@ import com.fasterxml.jackson.databind.deser.std.NumberDeserializers.LongDeserial
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -79,7 +89,15 @@ public class MyDataActivity extends Activity {
 	TextView birth;
 	TextView place;
 	TextView whats_up;
-	
+	FragmentManager frg_mng1;
+	FragmentManager frg_mng2;
+	FragmentManager frg_mng3;
+	FragmentTransaction ft1;
+	FragmentTransaction ft2;
+	FragmentTransaction ft3;
+	SetBirthFragment birthFrag=new SetBirthFragment();
+	SetPlaceFragment placeFrag=new SetPlaceFragment();
+	SetWhatsUpFragment whatsupFrag=new SetWhatsUpFragment();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -155,6 +173,94 @@ public class MyDataActivity extends Activity {
 
 
 		});
+		findViewById(R.id.change_birth).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				goNext(1);
+			}
+		});
+		birthFrag.setOnConfirmClickedListener1(new OnConfirmClickedListener1() {
+			
+			@Override
+			public void onConfirmClicked1() {
+				myInfor.setBirth(birthFrag.getText());
+				changeInformation();
+				
+				
+			}
+		});
+		findViewById(R.id.change_place).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				goNext(2);
+			}
+		});
+		placeFrag.setOnConfirmClickedListener2(new OnConfirmClickedListener2() {
+			
+			@Override
+			public void onConfirmClicked2() {
+				myInfor.setPlace(placeFrag.getText());
+				changeInformation();	
+			}
+		});
+		findViewById(R.id.change_whats_up).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				goNext(3);
+			}
+		});
+		whatsupFrag.setOnConfirmClickedListener3(new OnConfirmClickedListener3() {
+			
+			@Override
+			public void onConfirmClicked3() {
+				myInfor.setWhats_up(whatsupFrag.getText());
+				changeInformation();
+				
+				
+			}
+		});
+	}
+	
+	void goNext(int i){
+		
+
+		switch (i) {
+		case 1:
+			frg_mng1=getFragmentManager();
+			ft1=frg_mng1.beginTransaction();
+			ft1.setCustomAnimations(R.animator.slide_in_right,
+					             R.animator.slide_out_left,
+						         R.animator.slide_in_left,
+				                 R.animator.slide_out_right);
+			ft1.replace(R.id.container,birthFrag ).addToBackStack(null).commit();
+			break;
+		case 2:
+			frg_mng2=getFragmentManager();
+			ft2=frg_mng2.beginTransaction();
+			ft2.setCustomAnimations(R.animator.slide_in_right,
+					             R.animator.slide_out_left,
+						         R.animator.slide_in_left,
+				                 R.animator.slide_out_right);
+			ft2.replace(R.id.container,placeFrag ).addToBackStack(null).commit();
+			break;
+		case 3:
+			frg_mng3=getFragmentManager();
+			ft3=frg_mng3.beginTransaction();
+			ft3.setCustomAnimations(R.animator.slide_in_right,
+					             R.animator.slide_out_left,
+						         R.animator.slide_in_left,
+				                 R.animator.slide_out_right);
+			ft3.replace(R.id.container,whatsupFrag ).addToBackStack(null).commit();
+			break;
+		default:
+			break;
+		}
+		
+		
+		
 	}
 
 	private void showTypeDialog() {
