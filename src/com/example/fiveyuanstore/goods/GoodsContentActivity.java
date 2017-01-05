@@ -3,18 +3,10 @@
  */
 package com.example.fiveyuanstore.goods;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import com.example.fiveyuanstore.R;
-import com.example.fiveyuanstore.R.drawable;
-import com.example.fiveyuanstore.R.id;
-import com.example.fiveyuanstore.R.layout;
-import com.example.fiveyuanstore.R.string;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Comment;
@@ -23,7 +15,6 @@ import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.fragment.widgets.AvatarView;
 import com.example.fiveyuanstore.myProfiles.InboxChetActivity;
-import com.example.fiveyuanstore.page.MyProfileFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -32,11 +23,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,11 +34,11 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import cn.sharesdk.framework.AbstractWeibo;
 import cn.sharesdk.onekeyshare.ShareAllGird;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -67,8 +54,12 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 	int page=0;
 	private Button shareGuiBtn, btn_buy;
 	private Button call;
+	private boolean isLiked;
 	//定义图片存放的地址  
     public static String TEST_IMAGE;  
+    Button like, down;
+    ProImgView img;
+    TextView count_num;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -83,10 +74,13 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		TextView title = (TextView) findViewById(R.id.title);// 商品名
 		TextView date = (TextView) findViewById(R.id.date);
 		TextView content = (TextView) findViewById(R.id.text);
-		ProImgView img = (ProImgView) findViewById(R.id.img);// 商品图片
+		img = (ProImgView) findViewById(R.id.img);// 商品图片
 		TextView money = (TextView) findViewById(R.id.money);
 		ListView listView = (ListView) findViewById(R.id.goods_comment);
-
+		like = (Button) findViewById(R.id.like);
+		down = (Button) findViewById(R.id.down);
+		count_num = (TextView) findViewById(R.id.count_num);
+		
 		listView.setAdapter(listAdapter);
 		shareGuiBtn = (Button)findViewById(R.id.btnShareAllGui);
 		goods = (Goods) getIntent().getSerializableExtra("pos");
@@ -104,12 +98,15 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 
 		
 		initData();
+		reloadLikes();
 	}
 
 	
 	  private void initData() {
 		  shareGuiBtn.setOnClickListener(this);
 		  btn_buy.setOnClickListener(this);
+		  like.setOnClickListener(this);
+		  down.setOnClickListener(this);
 	}
 
 	/** 
@@ -117,7 +114,10 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
      */  
     private void initImagePath() {  
         try {//判断SD卡中是否存在此文件夹  
-            if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())  
+        	if (img != null){
+          	  img.load(goods);
+            }
+          /*  if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())  
                     && Environment.getExternalStorageDirectory().exists()) {  
                 TEST_IMAGE = Environment.getExternalStorageDirectory().getAbsolutePath() + "/pic.png";  
             }  
@@ -133,7 +133,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
                 pic.compress(CompressFormat.JPEG, 100, fos);  
                 fos.flush();  
                 fos.close();  
-            }  
+            }  */
         } catch(Throwable t) {  
             t.printStackTrace();  
             TEST_IMAGE = null;  
@@ -169,7 +169,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 
 			String dateStr = DateFormat.format("yyyy-MM-dd hh:mm", comment.getCreateDate()).toString();
 			textDate.setText(dateStr);
-
+			
 			return view;
 		}
 
@@ -197,6 +197,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onResume();
 		reload();
+		reloadLikes();
 	}
 
 	void reload() {
@@ -339,11 +340,20 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		case R.id.call:
 			toCall();
 			break;
+			
+		case R.id.like:
+			Likes();
+			break;
+		case R.id.down:
+			
+			break;
 	    default:
 	    	break;
 		}
 	
 	}
+	
+	
 	
 	/** 
      * 使用快捷分享完成图文分享 
@@ -404,5 +414,146 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
         AbstractWeibo.stopSDK(this);  
         super.onDestroy();  
     }  
+    
+    void checkLiked() {
+		Request request = Server.requestBuilderWithPath("goods/" + goods.getId() + "/isliked").get().build();
+		Server.getClient().newCall(request).enqueue(new Callback() {
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				try {
+					final String responseString = arg1.body().string();
+					Log.d("check liked", responseString);
+
+					final Boolean result = new ObjectMapper().readValue(responseString, Boolean.class);
+
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							onCheckLikedResult(result);
+						}
+					});
+				} catch (final Exception e) {
+					e.printStackTrace();
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							onCheckLikedResult(false);
+						}
+					});
+				}
+			}
+
+			@Override
+			public void onFailure(Call arg0, IOException e) {
+				e.printStackTrace();
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						onCheckLikedResult(false);
+					}
+				});
+			}
+		});
+	}
+
+	void onCheckLikedResult(boolean result) {
+		isLiked = result;
+		like.setBackgroundResource(R.drawable.like_click);
+	}
+
+	void reloadLikes() {
+		Request request = Server.requestBuilderWithPath("goods/" + goods.getId() + "/likes").get().build();
+		Server.getClient().newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				try {
+					String responseString = arg1.body().string();
+					final Integer count = new ObjectMapper().readValue(responseString, Integer.class);
+
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							onReloadLikesResult(count);
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							onReloadLikesResult(0);
+						}
+					});
+				}
+			}
+
+			@Override
+			public void onFailure(Call arg0, IOException e) {
+				e.printStackTrace();
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						onReloadLikesResult(0);
+					}
+				});
+			}
+		});
+	}
+
+	void onReloadLikesResult(int count) {
+		if (count > 0) {
+			count_num.setText(""+ count );
+		} else {
+			count_num.setText("0");
+		}
+	}
+    
+	//点赞
+		void Likes() {
+			MultipartBody body = new MultipartBody.Builder().addFormDataPart("likes", String.valueOf(!isLiked)).build();
+
+			Request request = Server.requestBuilderWithPath("goods/" + goods.getId() + "/likes").post(body).build();
+
+			Server.getClient().newCall(request).enqueue(new Callback() {
+
+				@Override
+				public void onResponse(Call arg0, final Response arg1) throws IOException {
+
+					try {
+						String responseString = arg1.body().string();
+						final Integer count = new ObjectMapper().readValue(responseString, new TypeReference<Integer>(){});
+
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								onReloadLikesResult(count);
+							}
+						});
+					} catch (Exception e) {
+						e.printStackTrace();
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								onReloadLikesResult(0);
+							}
+						});
+					}
+				}
+
+				@Override
+				public void onFailure(Call arg0, IOException e) {
+					e.printStackTrace();
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							onReloadLikesResult(0);
+						}
+					});
+				}
+			});
+		}
+		
+		
 	
 }

@@ -30,34 +30,40 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-
-
-
-public class LoginActivity extends Activity implements OnClickListener{
+public class LoginActivity extends Activity implements OnClickListener {
 
 	SimpleTextInputCellFragment fragAccount;
 	SimpleTextInputCellFragment fragPassword;
-	CheckBox checkBox1;
-	private static final String FILE_NAME="saveUserNamePwd";
-	 String usernameContent, passwordContent;
-	 TextView btn_register;
-	 ImageView btn_login;
+	// CheckBox checkBox1;
+	private static final String FILE_NAME = "saveUserNamePwd";
+	String usernameContent;
+	String passwordContent;
+	public static SharedPreferences sharedPreferences;
+	static String userNameContent;
+	static String passWordContent;
+
+	TextView btn_register;
+	ImageView btn_login;
+	public static Editor editor;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
-		checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
-		
+		// checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
+		// checkBox1.setChecked(true);
+		// checkBox1.setVisibility(View.GONE);
+
 		TextView auth = (TextView) findViewById(R.id.btnLogin);
 		btn_register = (TextView) findViewById(R.id.btn_register);
-		btn_login = (ImageView)findViewById(R.id.btn_login);
-		
+		btn_login = (ImageView) findViewById(R.id.btn_login);
+
 		auth.setOnClickListener(this);
 		btn_register.setOnClickListener(this);
 		btn_login.setOnClickListener(this);
-		
+
 		findViewById(R.id.btn_forgot_password).setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -70,44 +76,40 @@ public class LoginActivity extends Activity implements OnClickListener{
 		fragAccount = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_account);
 		fragPassword = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_password);
 
-	     SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-	        //从文件中获取保存的数据
-	        String usernameContent = sharedPreferences.getString("username", "");
-	        String passwordContent = sharedPreferences.getString("password", "");
-	        //判断是否有数据存在，并进行相应处理
-	        if(usernameContent != null && !"".equals(usernameContent))
-	        	fragAccount.setText(usernameContent);
-	        if(passwordContent != null && !"".equals(passwordContent))
-	        	fragPassword.setText(passwordContent);
+		sharedPreferences = getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+		// 从文件中获取保存的数据
+		userNameContent = sharedPreferences.getString("username", "");
+		passWordContent = sharedPreferences.getString("password", "");
+		// 判断是否有数据存在，并进行相应处理
+		if (userNameContent != null && !"".equals(userNameContent))
+			fragAccount.setText(userNameContent);
+		if (passWordContent != null && !"".equals(passWordContent))
+			fragPassword.setText(passWordContent);
 	}
-	
-	   protected void onSaveContent() {
-	        super.onStop();
-	        usernameContent = fragAccount.getText();
-	        passwordContent = fragPassword.getText();
-	        //获取SharedPreferences时，需要设置两参数
-	        //第一个是保存的文件的名称，第二个参数是保存的模式（是否只被本应用使用）
-	        SharedPreferences sharedPreferences = 
-	                getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);	        
-	        Editor editor = sharedPreferences.edit();
-	        //添加要保存的数据
-	        editor.putString("username", usernameContent);
-	        editor.putString("password", passwordContent);
-	        //确认保存
-	        editor.commit();
-	    }
-	   protected void onNotSaveContent() {
-	        super.onStop();
-	        SharedPreferences sharedPreferences = 
-	                getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-	        Editor editor = sharedPreferences.edit();
-	        //添加要保存的数据
-	        editor.putString("username", "");
-	        editor.putString("password", "");
-	        //确认保存
-	        editor.commit();
-	    }
-	
+
+	protected void onSaveContent() {
+		super.onStop();
+		usernameContent = fragAccount.getText();
+		passwordContent = fragPassword.getText();
+		// 获取SharedPreferences时，需要设置两参数
+		// 第一个是保存的文件的名称，第二个参数是保存的模式（是否只被本应用使用）
+		editor = sharedPreferences.edit();
+		// 添加要保存的数据
+		editor.putString("username", usernameContent);
+		editor.putString("password", passwordContent);
+		// 确认保存
+		editor.commit();
+	}
+
+	public static void onNotSaveContent() {
+		//super.onStop();
+		Editor editor = sharedPreferences.edit();
+		// 添加要保存的数据
+		editor.putString("password", "");
+		// 确认保存
+		editor.commit();
+	}
+
 	@Override
 	protected void onResume() {
 
@@ -124,26 +126,18 @@ public class LoginActivity extends Activity implements OnClickListener{
 		String account = fragAccount.getText();
 		String my_psw = MD5.getMD5(fragPassword.getText());
 
-		MultipartBody.Builder builder = new MultipartBody.Builder()
-				.setType(MultipartBody.FORM)
-				.addFormDataPart("account",account)
-				.addFormDataPart("passwordHash",my_psw);
+		MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
+				.addFormDataPart("account", account).addFormDataPart("passwordHash", my_psw);
 
 		RequestBody requestBody = builder.build();
 
 		OkHttpClient client = Server.getClient();
 
-
-		Request request =Server.requestBuilderWithPath("login")
-				.method("POST", requestBody)
-				.post(requestBody)
-				.build();
+		Request request = Server.requestBuilderWithPath("login").method("POST", requestBody).post(requestBody).build();
 
 		final ProgressDialog progressD = new ProgressDialog(LoginActivity.this);
 		progressD.setCancelable(false);
 		progressD.setTitle("Tip");
-
-
 
 		progressD.setMessage("Login...");
 		progressD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -155,27 +149,30 @@ public class LoginActivity extends Activity implements OnClickListener{
 			@Override
 			public void onResponse(Call arg0, final Response res) throws IOException {
 
-				try{
+				try {
 					final User user = new ObjectMapper().readValue(res.body().string(), User.class);
 
 					runOnUiThread(new Runnable() {
 						public void run() {
 							progressD.dismiss();
 							goLogin();
-							Toast.makeText(getApplicationContext(), "welcome , "+user.getUser_name(), Toast.LENGTH_SHORT).show();
-						}});
-				}catch(final Exception e){
+							Toast.makeText(getApplicationContext(), "welcome , " + user.getUser_name(),
+									Toast.LENGTH_SHORT).show();
+						}
+					});
+				} catch (final Exception e) {
 					runOnUiThread(new Runnable() {
 						public void run() {
 							progressD.dismiss();
 
 							Toast.makeText(LoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-						}});
+						}
+					});
 				}
 			}
 
 			@Override
-			public void onFailure(Call arg0,final IOException e) {
+			public void onFailure(Call arg0, final IOException e) {
 				runOnUiThread(new Runnable() {
 					public void run() {
 						progressD.dismiss();
@@ -185,17 +182,13 @@ public class LoginActivity extends Activity implements OnClickListener{
 				});
 			}
 		});
-		
+
 	}
 
 	void goLogin() {
-
-//		ActivityOptionsCompat options = ActivityOptionsCompat.makeScaleUpAnimation(view, 0, 0,view.getWidth(), view.getHeight());
-//		ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
-
 		Intent itnt = new Intent(this, StoreActivity.class);
 		startActivity(itnt);
-		//overridePendingTransition(R.animator.zoom_in, R.animator.zoom_out);
+		finish();
 	}
 
 	void goRegister() {
@@ -210,27 +203,24 @@ public class LoginActivity extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		switch(v.getId()){
+		switch (v.getId()) {
 		case R.id.btnLogin:
-			Intent itt = new Intent (LoginActivity.this, AuthActivity.class);
+			Intent itt = new Intent(LoginActivity.this, AuthActivity.class);
 			startActivity(itt);
 			break;
-			
+
 		case R.id.btn_register:
 			goRegister();
 			break;
-			
+
 		case R.id.btn_login:
 			login();
-			if (checkBox1.isChecked()){
-				onSaveContent();
-			}else{
-				onNotSaveContent();
-			}
+			onSaveContent();
+
 			break;
-			
+
 		default:
-				break;
+			break;
 		}
 	}
 

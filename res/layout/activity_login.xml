@@ -91,12 +91,13 @@
         android:layout_height="wrap_content" 
         android:layout_gravity="center_horizontal">
 
-       <CheckBox
+   <!--    <CheckBox
             android:id="@+id/checkBox1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"/>
-        <TextView
+       
+       <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -104,7 +105,8 @@
             android:layout_centerVertical="true"
             android:text="Remember me"
             android:textColor="@android:color/darker_gray"
-            android:textSize="16dp" />
+            android:textSize="16dp" />       
+       -->
 
 
     </RelativeLayout>
