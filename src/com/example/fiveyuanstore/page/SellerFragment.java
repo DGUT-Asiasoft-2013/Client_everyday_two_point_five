@@ -17,6 +17,7 @@ import com.example.fiveyuanstore.goods.GoodsInfoActivity;
 import com.example.fiveyuanstore.goodslist.AddGoodsListActivity;
 import com.example.fiveyuanstore.goodslist.GoodsListActivity;
 import com.example.fiveyuanstore.order.OrderInfoActivity;
+import com.example.fiveyuanstore.page.fragment.SellerAddItemFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -49,7 +50,6 @@ public class SellerFragment extends Fragment {
 
 	ListView listview;
 	TextView txtLoadmore;
-	Button addGoods;
 	int set_page = 1;
 	// 1
 	List<Goods> data1;
@@ -64,6 +64,8 @@ public class SellerFragment extends Fragment {
 	TextView textPage1;
 	TextView textPage2;
 	TextView textPage3;
+	
+	SellerAddItemFragment frag=new SellerAddItemFragment();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,7 +76,6 @@ public class SellerFragment extends Fragment {
 			loadMore = inflater.inflate(R.layout.widget_load_root_more_btn, null);
 
 			txtLoadmore = (TextView) loadMore.findViewById(R.id.more_text);
-			addGoods = (Button) view.findViewById(R.id.addProduct);
 			textPage1= (TextView) view.findViewById(R.id.seller_page_1);
 			textPage2= (TextView) view.findViewById(R.id.seller_page_2);
 			textPage3= (TextView) view.findViewById(R.id.seller_page_3);
@@ -82,24 +83,6 @@ public class SellerFragment extends Fragment {
 			listview = (ListView) view.findViewById(R.id.list);
 			listview.addFooterView(loadMore);
 			listview.setAdapter(adapter_goodsInfo);
-
-			view.findViewById(R.id.add_goods_list).setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					Intent itnt = new Intent(getActivity(), AddGoodsListActivity.class);
-					startActivity(itnt);
-				}
-			});
-
-			addGoods.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					Intent itt = new Intent(getActivity(), AddProductActivity.class);
-					startActivity(itt);
-				}
-			});
 
 			listview.setOnItemClickListener(new OnItemClickListener() {
 
@@ -181,6 +164,19 @@ public class SellerFragment extends Fragment {
 					listAdapter_goodsList.notifyDataSetInvalidated();
 					listview.setAdapter(listAdapter_goodsList);
 					changeText();
+				}
+			});
+			view.findViewById(R.id.btn_add).setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					getFragmentManager().beginTransaction()
+							.setCustomAnimations(R.animator.slide_in_right,
+							             R.animator.slide_out_left,
+								         R.animator.slide_in_left,
+						                 R.animator.slide_out_right)
+							.replace(R.id.container,frag, "TWO").addToBackStack(null).commit();
+					
 				}
 			});
 
