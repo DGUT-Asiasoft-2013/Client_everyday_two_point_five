@@ -26,13 +26,13 @@ import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class CommentInfoActivity extends Activity implements OnClickListener{
+public class CommentInfoActivity extends Activity {
 	public Button like;
 	public Button down;
 	public TextView count_num;
 
 	public boolean isDowned = false, isLiked = false;
-	public int downNum = 0, likeNum = 0;
+	public int downNum , likeNum ;
 	public Comment comment;
 	public Integer com_id;
 	@Override
@@ -60,7 +60,15 @@ public class CommentInfoActivity extends Activity implements OnClickListener{
 				Toast.makeText(CommentInfoActivity.this, "点赞成功", Toast.LENGTH_LONG).show();
 			}
 		});
-		down.setOnClickListener(this);
+		down.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				down();
+				Toast.makeText(CommentInfoActivity.this, "踩贴成功", Toast.LENGTH_LONG).show();
+			}
+		});
 		
 		TextView textComment = (TextView) findViewById(R.id.list_comment_text);
 		TextView textAuthorName = (TextView) findViewById(R.id.username);
@@ -77,21 +85,7 @@ public class CommentInfoActivity extends Activity implements OnClickListener{
 		textDate.setText(dateStr);		
 	}
 
-	@Override
-	public void onClick(View v) {
-		switch(v.getId()){
-			case R.id.like:
-				Likes();
-				Toast.makeText(CommentInfoActivity.this, "点赞成功", Toast.LENGTH_LONG).show();
-				break;
-			case R.id.down:
-				down();
-				Toast.makeText(CommentInfoActivity.this, "踩贴成功", Toast.LENGTH_LONG).show();
-				break;
-		    default:
-		    	break;
-			}
-	}
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -124,14 +118,16 @@ public class CommentInfoActivity extends Activity implements OnClickListener{
 			public void onResponse(Call arg0, final Response arg1) throws IOException {
 
 				try {
-					/*<html>\n<head>\n<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>\n<title>Error 400 Bad Request</title>\n</head>\n<body><h2>HTTP ERROR 400</h2>\n<p>Problem accessing /storecenter/api/comment/null/likes. Reason:\n<pre>    Bad Request</pre></p><hr /><i><small>Powered by Jetty://</small></i><br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n\n</body>\n</html>\n*/
 					String responseString = arg1.body().string();
 					final Integer count = new ObjectMapper().readValue(responseString, new TypeReference<Integer>(){});
 					likeNum = count;
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							onReloadLikesResult(likeNum,downNum);
+							getDownNum();
+							onReloadLikesResult(count,downNum);
+							reload();
+							isDowned = false;
 						}
 					});
 				} catch (Exception e) {
@@ -152,6 +148,76 @@ public class CommentInfoActivity extends Activity implements OnClickListener{
 		});
 	}
 	
+	void getLikeNum(){
+		Request request = Server.requestBuilderWithPath("comment/" + com_id + "/getLikeNum").build();
+		Server.getClient().newCall(request).enqueue(new Callback() {
+			
+			@Override
+			public void onResponse(Call arg0, final Response arg1) throws IOException {
+				// TODO Auto-generated method stub
+				runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						String responseString;
+						try {
+							responseString = arg1.body().string();
+							final Integer count = new ObjectMapper().readValue(responseString, new TypeReference<Integer>(){});
+							likeNum = count;
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+					}
+				});
+				
+			}
+			
+			@Override
+			public void onFailure(Call arg0, IOException arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+	
+
+	void getDownNum(){
+		Request request = Server.requestBuilderWithPath("comment/" + com_id + "/getDownNum").build();
+		Server.getClient().newCall(request).enqueue(new Callback() {
+			
+			@Override
+			public void onResponse(Call arg0, final Response arg1) throws IOException {
+				// TODO Auto-generated method stub
+				runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						String responseString;
+						try {
+							responseString = arg1.body().string();
+							final Integer count = new ObjectMapper().readValue(responseString, new TypeReference<Integer>(){});
+							downNum = count;
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+					}
+				});
+				
+			}
+			
+			@Override
+			public void onFailure(Call arg0, IOException arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
 	
 	//踩  
 		private void down() {
@@ -176,7 +242,10 @@ public class CommentInfoActivity extends Activity implements OnClickListener{
 
 							@Override
 							public void run() {
-								onReloadLikesResult(likeNum,downNum);
+								getLikeNum();
+								onReloadLikesResult(likeNum,count);
+								reload();
+								isLiked = false;
 							}
 						});
 					} catch (Exception e) {
@@ -204,7 +273,7 @@ public class CommentInfoActivity extends Activity implements OnClickListener{
 			if (count >= 0) {
 				count_num.setText(""+ count );
 			} else {
-				count_num.setText("-"+count);
+				count_num.setText("-"+(Math.abs(count)));
 			}
 		}
 		
@@ -218,7 +287,7 @@ public class CommentInfoActivity extends Activity implements OnClickListener{
 						final String responseString = arg1.body().string();
 						Log.d("check liked", responseString);
 
-						final Boolean result = new ObjectMapper().readValue(responseString, Boolean.class);
+						final Boolean result = new ObjectMapper().readValue(responseString, new TypeReference<Boolean>(){});
 
 						runOnUiThread(new Runnable() {
 							@Override
