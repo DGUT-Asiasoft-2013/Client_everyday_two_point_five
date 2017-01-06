@@ -3,7 +3,9 @@ package com.example.fiveyuanstore.myProfiles;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import com.example.fiveyuanstore.R;
@@ -12,6 +14,7 @@ import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.entity.UserInformation;
 import com.example.fiveyuanstore.fragment.widgets.AvatarView;
 import com.example.fiveyuanstore.inputcells.ChangePictureActivity;
+import com.example.fiveyuanstore.myProfiles.myData.CustomDatePicker;
 import com.example.fiveyuanstore.myProfiles.myData.SetBirthFragment;
 
 import com.example.fiveyuanstore.myProfiles.myData.SetBirthFragment.OnConfirmClickedListener1;
@@ -59,6 +62,7 @@ public class MyDataActivity extends Activity {
 
 	User myuser;
 	UserInformation myInfor;
+	private CustomDatePicker customDatePicker1, customDatePicker2;
 
 	TextView account;
 	TextView email;
@@ -92,8 +96,9 @@ public class MyDataActivity extends Activity {
             dateAndTime.set(Calendar.MONTH, monthOfYear);  
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);      
             //将页面TextView的显示更新为最新时间  
-            upDateDate();     
-              
+            
+            //upDateDate();     
+            initDatePicker();
         }          
     };
     
@@ -117,6 +122,8 @@ public class MyDataActivity extends Activity {
 		whats_up = (TextView) findViewById(R.id.my_whats_up);
 		
 
+		initDatePicker();
+		
 		findViewById(R.id.back).setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -176,16 +183,17 @@ public class MyDataActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 //				goNext(1);
-				DatePickerDialog  dateDlg = new DatePickerDialog(MyDataActivity.this,  
-                        d,  
-                        dateAndTime.get(Calendar.YEAR),  
-                        dateAndTime.get(Calendar.MONTH),  
-                        dateAndTime.get(Calendar.DAY_OF_MONTH));  
-               
-                dateDlg.show();  
+//				DatePickerDialog  dateDlg = new DatePickerDialog(MyDataActivity.this,  
+//                        d,  
+//                        dateAndTime.get(Calendar.YEAR),  
+//                        dateAndTime.get(Calendar.MONTH),  
+//                        dateAndTime.get(Calendar.DAY_OF_MONTH));  
+//               
+//                dateDlg.show();  
+				customDatePicker1.show(birth.getText().toString());
 			}
 		});
-		upDateDate();
+		//upDateDate();
 		
 		birthFrag.setOnConfirmClickedListener1(new OnConfirmClickedListener1() {
 			
@@ -331,10 +339,10 @@ public class MyDataActivity extends Activity {
 		//sex
 		if(requestCode == REQUESTCODE_SEX ){
 			if(resultCode == RESULT_MALE)
-				myInfor.setSex("male");
+				myInfor.setSex("男");
   
 			else if (resultCode == RESULT_FEMALE)
-				myInfor.setSex("female");
+				myInfor.setSex("女");
 
 			
 			changeInformation();
@@ -491,6 +499,30 @@ public class MyDataActivity extends Activity {
 		});
 	}
 
+	private void initDatePicker() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+        String now = sdf.format(new Date());
+        birth.setText(now.split(" ")[0]);
+       
+
+        customDatePicker1 = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
+            @Override
+            public void handle(String time) { // 回调接口，获得选中的时间
+            	birth.setText(time.split(" ")[0]);
+            }
+        }, "1900-01-01 00:00", now); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+        customDatePicker1.showSpecificTime(false); // 不显示时和分
+        customDatePicker1.setIsLoop(false); // 不允许循环滚动
+
+        customDatePicker2 = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
+            @Override
+            public void handle(String time) { // 回调接口，获得选中的时间
+                
+            }
+        }, "1900-01-01 00:00", now); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+        customDatePicker2.showSpecificTime(true); // 显示时和分
+        customDatePicker2.setIsLoop(true); // 允许循环滚动
+    }
     private void upDateDate() {  
     	birth.setText(fmtDate.format(dateAndTime.getTime()));  
         } 
