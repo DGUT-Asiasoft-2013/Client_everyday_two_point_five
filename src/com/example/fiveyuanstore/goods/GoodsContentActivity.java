@@ -188,12 +188,12 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
         	
           if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())  
                     && Environment.getExternalStorageDirectory().exists()) {  
-                TEST_IMAGE = Server.serverAddress + goods.getGoods_img();  
+                TEST_IMAGE = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ironman.jpg";
                 //Toast.makeText(GoodsContentActivity.this, TEST_IMAGE, Toast.LENGTH_LONG).show();
                 //Log.d("img", Server.serverAddress + goods.getGoods_img());
             }  
             else {  
-                TEST_IMAGE = Server.serverAddress + goods.getGoods_img();   
+            	TEST_IMAGE = getApplication().getFilesDir().getAbsolutePath() + "/ironman.jpg";   
             }  
             File file = new File(TEST_IMAGE);  
             //判断图片是否存此文件夹中  
