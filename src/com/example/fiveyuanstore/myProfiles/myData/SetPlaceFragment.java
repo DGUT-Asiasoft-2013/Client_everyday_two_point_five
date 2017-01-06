@@ -4,10 +4,12 @@ import com.example.fiveyuanstore.R;
 
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 
@@ -19,10 +21,15 @@ public class SetPlaceFragment extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+		
+	    
 		if (view == null) {
 			view = inflater.inflate(R.layout.fragment_my_data_place, null);
 			editPlace = (EditText) view.findViewById(R.id.edit_place);
 
+//			InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);  
+//		    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+ 
 			view.findViewById(R.id.layout_out).setOnClickListener(new OnClickListener() {
 
 				@Override

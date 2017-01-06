@@ -37,6 +37,8 @@ import android.provider.MediaStore;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,10 +54,10 @@ public class MyDataActivity extends Activity {
 
 	final int REQUESTCODE_CAMERA = 1;
 	final int REQUESTCODE_ALBUM = 2;
-	
-	final int REQUESTCODE_SEX=1001;
-	final int RESULT_MALE=11;
-	final int RESULT_FEMALE=12;
+
+	final int REQUESTCODE_SEX = 1001;
+	final int RESULT_MALE = 11;
+	final int RESULT_FEMALE = 12;
 
 	AvatarView avatar;
 	byte[] pngData;
@@ -77,31 +79,29 @@ public class MyDataActivity extends Activity {
 	FragmentTransaction ft1;
 	FragmentTransaction ft2;
 	FragmentTransaction ft3;
-	SetBirthFragment birthFrag=new SetBirthFragment();
-	SetPlaceFragment placeFrag=new SetPlaceFragment();
-	SetWhatsUpFragment whatsupFrag=new SetWhatsUpFragment();
+
+	SetPlaceFragment placeFrag = new SetPlaceFragment();
+	SetWhatsUpFragment whatsupFrag = new SetWhatsUpFragment();
 
 	DateFormat fmtDate = new java.text.SimpleDateFormat("yyyy-MM-dd");
-	Calendar dateAndTime = Calendar.getInstance(Locale.CHINA);  
-	
-    //当点击DatePickerDialog控件的设置按钮时，调用该方法  
-    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener()  
-    {  
-        @Override  
-        public void onDateSet(DatePicker view, int year, int monthOfYear,  
-                int dayOfMonth) {  
-            //修改日历控件的年，月，日  
-            //这里的year,monthOfYear,dayOfMonth的值与DatePickerDialog控件设置的最新值一致  
-            dateAndTime.set(Calendar.YEAR, year);  
-            dateAndTime.set(Calendar.MONTH, monthOfYear);  
-            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);      
-            //将页面TextView的显示更新为最新时间  
-            
-            //upDateDate();     
-            initDatePicker();
-        }          
-    };
-    
+	Calendar dateAndTime = Calendar.getInstance(Locale.CHINA);
+
+	// 当点击DatePickerDialog控件的设置按钮时，调用该方法
+	DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
+		@Override
+		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+			// 修改日历控件的年，月，日
+			// 这里的year,monthOfYear,dayOfMonth的值与DatePickerDialog控件设置的最新值一致
+			dateAndTime.set(Calendar.YEAR, year);
+			dateAndTime.set(Calendar.MONTH, monthOfYear);
+			dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+			// 将页面TextView的显示更新为最新时间
+
+			// upDateDate();
+			initDatePicker();
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -111,7 +111,6 @@ public class MyDataActivity extends Activity {
 		final String myName = (String) getIntent().getSerializableExtra("name");
 		final String myEmail = (String) getIntent().getSerializableExtra("email");
 
-
 		account = (TextView) findViewById(R.id.my_account);
 		email = (TextView) findViewById(R.id.my_email);
 		name = (TextView) findViewById(R.id.my_name);
@@ -120,15 +119,15 @@ public class MyDataActivity extends Activity {
 		birth = (TextView) findViewById(R.id.my_birth);
 		place = (TextView) findViewById(R.id.my_place);
 		whats_up = (TextView) findViewById(R.id.my_whats_up);
-		
 
 		initDatePicker();
-		
+
 		findViewById(R.id.back).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				finish();
+				MyDataActivity.this.finish();
+				overridePendingTransition(R.anim.in_from_left,R.anim.out_to_right); 
 			}
 		});
 
@@ -150,6 +149,7 @@ public class MyDataActivity extends Activity {
 				Intent itnt = new Intent(MyDataActivity.this, NameChangeActivity.class);
 				itnt.putExtra("name", myName);
 				startActivity(itnt);
+				overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left); 
 
 			}
 		});
@@ -162,120 +162,94 @@ public class MyDataActivity extends Activity {
 				Intent itnt = new Intent(MyDataActivity.this, EmailChangeActivity.class);
 				itnt.putExtra("email", myEmail);
 				startActivity(itnt);
+				overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left); 
 
 			}
 		});
 		findViewById(R.id.change_sex).setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent();
 				intent.setClass(MyDataActivity.this, SetSexActivtiy.class);
-				
-				startActivityForResult(intent, REQUESTCODE_SEX);
-				
-			}
 
+				startActivityForResult(intent, REQUESTCODE_SEX);
+
+			}
 
 		});
 		findViewById(R.id.change_birth).setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-//				goNext(1);
-//				DatePickerDialog  dateDlg = new DatePickerDialog(MyDataActivity.this,  
-//                        d,  
-//                        dateAndTime.get(Calendar.YEAR),  
-//                        dateAndTime.get(Calendar.MONTH),  
-//                        dateAndTime.get(Calendar.DAY_OF_MONTH));  
-//               
-//                dateDlg.show();  
+				// goNext(1);
+				// DatePickerDialog dateDlg = new
+				// DatePickerDialog(MyDataActivity.this,
+				// d,
+				// dateAndTime.get(Calendar.YEAR),
+				// dateAndTime.get(Calendar.MONTH),
+				// dateAndTime.get(Calendar.DAY_OF_MONTH));
+				// dateDlg.show();
 				customDatePicker1.show(birth.getText().toString());
 			}
 		});
-		//upDateDate();
-		
-		birthFrag.setOnConfirmClickedListener1(new OnConfirmClickedListener1() {
-			
-			@Override
-			public void onConfirmClicked1() {
-				myInfor.setBirth(birthFrag.getText());
-				changeInformation();
-				
-				
-			}
-		});
+		// upDateDate();
+
 		findViewById(R.id.change_place).setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				goNext(2);
 			}
 		});
 		placeFrag.setOnConfirmClickedListener2(new OnConfirmClickedListener2() {
-			
+
 			@Override
 			public void onConfirmClicked2() {
 				myInfor.setPlace(placeFrag.getText());
-				changeInformation();	
+				changeInformation();
 			}
 		});
 		findViewById(R.id.change_whats_up).setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				goNext(3);
 			}
 		});
 		whatsupFrag.setOnConfirmClickedListener3(new OnConfirmClickedListener3() {
-			
+
 			@Override
 			public void onConfirmClicked3() {
 				myInfor.setWhats_up(whatsupFrag.getText());
 				changeInformation();
-				
-				
+
 			}
 		});
 	}
-	
-	void goNext(int i){
-		
+
+	void goNext(int i) {
 
 		switch (i) {
-		case 1:
-			frg_mng1=getFragmentManager();
-			ft1=frg_mng1.beginTransaction();
-			ft1.setCustomAnimations(R.animator.slide_in_right,
-					             R.animator.slide_out_left,
-						         R.animator.slide_in_left,
-				                 R.animator.slide_out_right);
-			ft1.replace(R.id.container,birthFrag ).addToBackStack(null).commit();
-			break;
+
 		case 2:
-			frg_mng2=getFragmentManager();
-			ft2=frg_mng2.beginTransaction();
-			ft2.setCustomAnimations(R.animator.slide_in_right,
-					             R.animator.slide_out_left,
-						         R.animator.slide_in_left,
-				                 R.animator.slide_out_right);
-			ft2.replace(R.id.container,placeFrag ).addToBackStack(null).commit();
+			frg_mng2 = getFragmentManager();
+			ft2 = frg_mng2.beginTransaction();
+			ft2.setCustomAnimations(R.animator.slide_in_top,R.animator.slide_out_bottom,
+					R.animator.slide_in_bottom, R.animator.slide_out_top);
+			ft2.replace(R.id.container, placeFrag).addToBackStack(null).commit();
 			break;
 		case 3:
-			frg_mng3=getFragmentManager();
-			ft3=frg_mng3.beginTransaction();
-			ft3.setCustomAnimations(R.animator.slide_in_right,
-					             R.animator.slide_out_left,
-						         R.animator.slide_in_left,
-				                 R.animator.slide_out_right);
-			ft3.replace(R.id.container,whatsupFrag ).addToBackStack(null).commit();
+			frg_mng3 = getFragmentManager();
+			ft3 = frg_mng3.beginTransaction();
+			ft3.setCustomAnimations( R.animator.slide_in_top,R.animator.slide_out_bottom,
+					R.animator.slide_in_bottom, R.animator.slide_out_top);
+			ft3.replace(R.id.container, whatsupFrag).addToBackStack(null).commit();
 			break;
 		default:
 			break;
 		}
-		
-		
-		
+
 	}
 
 	private void showTypeDialog() {
@@ -284,7 +258,8 @@ public class MyDataActivity extends Activity {
 		View view = View.inflate(this, R.layout.dialog_select_photo, null);
 		TextView tv_select_gallery = (TextView) view.findViewById(R.id.tv_select_gallery);
 		TextView tv_select_camera = (TextView) view.findViewById(R.id.tv_select_camera);
-
+		
+		 
 		// 相册
 		tv_select_gallery.setOnClickListener(new OnClickListener() {// 在相册中选取
 			@Override
@@ -302,6 +277,7 @@ public class MyDataActivity extends Activity {
 			public void onClick(View v) {
 				Intent itnt = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 				startActivityForResult(itnt, REQUESTCODE_CAMERA);
+				dialog.dismiss();
 			}
 		});
 		dialog.setView(view);
@@ -336,17 +312,15 @@ public class MyDataActivity extends Activity {
 				e.printStackTrace();
 			}
 		}
-		//sex
-		if(requestCode == REQUESTCODE_SEX ){
-			if(resultCode == RESULT_MALE)
+		// sex
+		if (requestCode == REQUESTCODE_SEX) {
+			if (resultCode == RESULT_MALE)
 				myInfor.setSex("男");
-  
+
 			else if (resultCode == RESULT_FEMALE)
 				myInfor.setSex("女");
 
-			
 			changeInformation();
-			
 		}
 	}
 
@@ -354,23 +328,19 @@ public class MyDataActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		reload();
-		
-		
 	}
 
 	void reload() {
 
-		Request request = Server.requestBuilderWithPath("me")
-				.get()
-				.build();
-		
-		Server.getClient().newCall(request).enqueue(new Callback(){
+		Request request = Server.requestBuilderWithPath("me").get().build();
+
+		Server.getClient().newCall(request).enqueue(new Callback() {
 
 			@Override
 			public void onResponse(Call arg0, Response res) throws IOException {
 				try {
-					final User user = new ObjectMapper().readValue(res.body().string(),
-							new TypeReference<User>(){});
+					final User user = new ObjectMapper().readValue(res.body().string(), new TypeReference<User>() {
+					});
 
 					runOnUiThread(new Runnable() {
 						public void run() {
@@ -386,7 +356,6 @@ public class MyDataActivity extends Activity {
 				} catch (final Exception e) {
 					e.printStackTrace();
 				}
-
 			}
 
 			@Override
@@ -399,14 +368,12 @@ public class MyDataActivity extends Activity {
 
 					}
 				});
-
 			}
 		});
 	}
-	
-	void getInformation(){
 
-		
+	void getInformation() {
+
 		Request request = Server.requestBuilderWithPath("/getInformation/" + myuser.getId()).get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
@@ -414,21 +381,22 @@ public class MyDataActivity extends Activity {
 			public void onResponse(Call arg0, Response res) throws IOException {
 				try {
 					final UserInformation infor = new ObjectMapper().readValue(res.body().string(),
-							new TypeReference<UserInformation>(){});
+							new TypeReference<UserInformation>() {
+							});
 
 					runOnUiThread(new Runnable() {
 						public void run() {
 							MyDataActivity.this.myInfor = infor;
 							sex.setText(infor.getSex());
-							if(infor.getBirth()==""||infor.getBirth()==null)
+							if (infor.getBirth() == "" || infor.getBirth() == null)
 								birth.setHint("还没填写生日耶~");
 							else
 								birth.setText(infor.getBirth());
-							if(infor.getPlace()==""||infor.getPlace()==null)
+							if (infor.getPlace() == "" || infor.getPlace() == null)
 								place.setHint("还没填写地区耶~");
 							else
 								place.setText(infor.getPlace());
-							if(infor.getWhats_up()==""||infor.getWhats_up()==null)
+							if (infor.getWhats_up() == "" || infor.getWhats_up() == null)
 								whats_up.setHint("还没填写个性签名耶~");
 							else
 								whats_up.setText(infor.getWhats_up());
@@ -438,7 +406,6 @@ public class MyDataActivity extends Activity {
 				} catch (final Exception e) {
 					e.printStackTrace();
 				}
-
 			}
 
 			@Override
@@ -451,30 +418,26 @@ public class MyDataActivity extends Activity {
 
 					}
 				});
-
 			}
 		});
 	}
 
-
-	void changeInformation(){
-		MultipartBody.Builder builder=new MultipartBody.Builder()
-				.setType(MultipartBody.FORM)
+	void changeInformation() {
+		MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
 				.addFormDataPart("sex", myInfor.getSex())
-				.addFormDataPart("birth", myInfor.getBirth()==null? "":myInfor.getBirth())
-				.addFormDataPart("place", myInfor.getPlace()==null? "":myInfor.getPlace())
-				.addFormDataPart("whats_up", myInfor.getWhats_up()==null? "":myInfor.getWhats_up());
+				.addFormDataPart("birth", myInfor.getBirth() == null ? "" : myInfor.getBirth())
+				.addFormDataPart("place", myInfor.getPlace() == null ? "" : myInfor.getPlace())
+				.addFormDataPart("whats_up", myInfor.getWhats_up() == null ? ""
+						: myInfor.getWhats_up());
 
-		RequestBody requestBody=builder.build();
-		OkHttpClient client=Server.getClient();
-		
-		Request request=Server.requestBuilderWithPath("changeInformation")
-				.method("POST", requestBody)
-				.post(requestBody)
-				.build();
-		
+		RequestBody requestBody = builder.build();
+		OkHttpClient client = Server.getClient();
+
+		Request request = Server.requestBuilderWithPath("changeInformation").method("POST", requestBody)
+				.post(requestBody).build();
+
 		client.newCall(request).enqueue(new Callback() {
-			
+
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
 				runOnUiThread(new Runnable() {
@@ -482,49 +445,50 @@ public class MyDataActivity extends Activity {
 						reload();
 					}
 				});
-				
 			}
-			
+
 			@Override
 			public void onFailure(Call arg0, IOException arg1) {
 				runOnUiThread(new Runnable() {
 					public void run() {
-						Toast.makeText(getApplicationContext(), "修改失败",   
-		                        Toast.LENGTH_SHORT).show(); 
+						Toast.makeText(getApplicationContext(), "修改失败", Toast.LENGTH_SHORT).show();
 					}
 				});
-	
-				
 			}
 		});
 	}
 
 	private void initDatePicker() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
-        String now = sdf.format(new Date());
-        birth.setText(now.split(" ")[0]);
-       
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+		String now = sdf.format(new Date());
+		birth.setText(now.split(" ")[0]);
 
-        customDatePicker1 = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
-            @Override
-            public void handle(String time) { // 回调接口，获得选中的时间
-            	birth.setText(time.split(" ")[0]);
-            }
-        }, "1900-01-01 00:00", now); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
-        customDatePicker1.showSpecificTime(false); // 不显示时和分
-        customDatePicker1.setIsLoop(false); // 不允许循环滚动
+		customDatePicker1 = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
+			@Override
+			public void handle(String time) { // 回调接口，获得选中的时间
+				birth.setText(time.split(" ")[0]);
+				myInfor.setBirth(birth.getText().toString());
+				changeInformation();
+			}
+		}, "1900-01-01 00:00", now); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+		customDatePicker1.showSpecificTime(false); // 不显示时和分
+		customDatePicker1.setIsLoop(false); // 不允许循环滚动
 
-        customDatePicker2 = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
-            @Override
-            public void handle(String time) { // 回调接口，获得选中的时间
-                
-            }
-        }, "1900-01-01 00:00", now); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
-        customDatePicker2.showSpecificTime(true); // 显示时和分
-        customDatePicker2.setIsLoop(true); // 允许循环滚动
-    }
-    private void upDateDate() {  
-    	birth.setText(fmtDate.format(dateAndTime.getTime()));  
-        } 
-    
+		customDatePicker2 = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
+			@Override
+			public void handle(String time) { // 回调接口，获得选中的时间
+
+			}
+		}, "1900-01-01 00:00", now); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+		customDatePicker2.showSpecificTime(true); // 显示时和分
+		customDatePicker2.setIsLoop(true); // 允许循环滚动
+
+	}
+
+	private void upDateDate() {
+		birth.setText(fmtDate.format(dateAndTime.getTime()));
+		myInfor.setBirth(birth.getText().toString());
+		changeInformation();
+	}
+
 }

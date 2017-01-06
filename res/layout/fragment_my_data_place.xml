@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#22000000" >
+    android:padding="8dp"
+    android:background="#00000000" >
 
     <FrameLayout
         android:id="@+id/layout_out"
@@ -17,10 +18,30 @@
         android:background="#fff"
         android:orientation="vertical" >
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="请输入地区" />
+            android:padding="3dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请输入地区"
+                android:textColor="#ff593e"
+                android:textSize="15sp" 
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ff593e"
+                android:textSize="18sp"
+                android:text="确定"
+                android:layout_weight="1"
+                android:gravity="right" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/edit_place"
@@ -30,12 +51,6 @@
 
             <requestFocus />
         </EditText>
-
-        <Button
-            android:id="@+id/confirm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="确定" />
     </LinearLayout>
 
 </RelativeLayout>
