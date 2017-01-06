@@ -11,6 +11,7 @@ import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.Page;
+import com.example.fiveyuanstore.goods.FragmentGoodClassify.OnConfirmClickedListener;
 import com.example.fiveyuanstore.page.CommodityFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,6 +57,7 @@ public class GoodsActivity extends Activity{
 	ImageView search;
 	TextView CommoditySortTime,CommoditySortPrice,CommoditySortCustom;
 	Boolean isGetSearch;
+	FragmentGoodClassify frag=new FragmentGoodClassify();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +83,9 @@ public class GoodsActivity extends Activity{
 		CommoditySortTime=(TextView)findViewById(R.id.commodity_sort_time);
 		CommoditySortPrice=(TextView)findViewById(R.id.commodity_sort_price);
 		CommoditySortCustom=(TextView)findViewById(R.id.commodity_sort_custom);
-
+		
+		
+		
 		search.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -143,6 +147,37 @@ public class GoodsActivity extends Activity{
 		});
 		goods_list.setAdapter(listAdapter);
 		goods_list.addFooterView(btnLoadMore);
+		
+		findViewById(R.id.btn_classify).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				getFragmentManager().beginTransaction()
+						.setCustomAnimations(R.animator.slide_in_right,
+						             R.animator.slide_out_left,
+							         R.animator.slide_in_left,
+					                 R.animator.slide_out_right)
+						.replace(R.id.container_in_goods,frag).addToBackStack(null).commit();
+				
+			}
+		});
+		frag.setOnConfirmClickedListener(new OnConfirmClickedListener() {
+			
+			@Override
+			public void onConfirmClicked() {
+				String str=frag.getText();
+				if(str.equals("")){
+					isGetSearch=true;
+					searchText="";
+					search();
+				}
+					
+				else
+					sortList(frag.getText());
+				
+			}
+		});
+		
 	}
 	
 	BaseAdapter listAdapter = new BaseAdapter() {

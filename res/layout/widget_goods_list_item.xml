@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#eee"
+    android:background="#fff"
     android:orientation="vertical" >
 
     <com.example.fiveyuanstore.customViews.ProImgView
@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="7dp" />
+        />
 
     <TextView
         android:id="@+id/goodListName"

@@ -6,6 +6,7 @@ package com.example.fiveyuanstore.goods;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 import com.example.fiveyuanstore.R;
@@ -37,6 +38,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -90,6 +93,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener {
 
 		listView.setAdapter(listAdapter);
 		shareGuiBtn = (Button) findViewById(R.id.btnShareAllGui);
+		shareGuiBtn = (Button)findViewById(R.id.btnShareAllGui);
 		goods = (Goods) getIntent().getSerializableExtra("pos");
 
 		title.setText(goods.getTitle() + "(库存：" + goods.getGoods_count() + ")");
@@ -103,6 +107,14 @@ public class GoodsContentActivity extends Activity implements OnClickListener {
 		btn_buy = (Button) findViewById(R.id.btn_buy);
 		call = (Button) findViewById(R.id.call);
 
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				onItemClicked(position);
+			}
+		});
+		listView.setAdapter(listAdapter);
 		initData();
 		reloadLikes();
 	}
@@ -115,12 +127,21 @@ public class GoodsContentActivity extends Activity implements OnClickListener {
 
 	}
 
-	private void initData() {
-		shareGuiBtn.setOnClickListener(this);
-		btn_buy.setOnClickListener(this);
-		like.setOnClickListener(this);
-		down.setOnClickListener(this);
-		call.setOnClickListener(this);
+	// 订单处理
+
+	void onItemClicked(int position) {
+		Comment comment = comments.get(position);
+		Intent itnt = new Intent(this, CommentInfoActivity.class);
+		itnt.putExtra("data", (Serializable) comment);
+		itnt.putExtra("id", (Serializable) comment.getId());
+		startActivity(itnt);
+	}
+	
+	  private void initData() {
+		  shareGuiBtn.setOnClickListener(this);
+		  btn_buy.setOnClickListener(this);
+		  like.setOnClickListener(this);
+		  down.setOnClickListener(this);
 	}
 
 	// 点击事件
@@ -154,48 +175,49 @@ public class GoodsContentActivity extends Activity implements OnClickListener {
 		}
 
 	}
+	
+	/** 
+     * 初始化分享的图片 
+     */  
+    private void initImagePath() {  
+        try {//判断SD卡中是否存在此文件夹  
+        	
+          if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())  
+                    && Environment.getExternalStorageDirectory().exists()) {  
+                TEST_IMAGE = Server.serverAddress + goods.getGoods_img();  
+                //Toast.makeText(GoodsContentActivity.this, TEST_IMAGE, Toast.LENGTH_LONG).show();
+                //Log.d("img", Server.serverAddress + goods.getGoods_img());
+            }  
+            else {  
+                TEST_IMAGE = Server.serverAddress + goods.getGoods_img();   
+            }  
+            File file = new File(TEST_IMAGE);  
+            //判断图片是否存此文件夹中  
+            if (!file.exists()) {  
+                file.createNewFile();  
+                Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.pic);  
+                FileOutputStream fos = new FileOutputStream(file);  
+                pic.compress(CompressFormat.JPEG, 100, fos);  
+                fos.flush();  
+                fos.close();  
+            }  
+        } catch(Throwable t) {  
+            t.printStackTrace();  
+            TEST_IMAGE = null;  
+        }  
+    }  
 
-	/**
-	 * 初始化分享的图片
-	 */
-	private void initImagePath() {
-		try {// 判断SD卡中是否存在此文件夹
-
-			if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
-					&& Environment.getExternalStorageDirectory().exists()) {
-				TEST_IMAGE = Server.serverAddress + goods.getGoods_img();
-				// Toast.makeText(GoodsContentActivity.this, TEST_IMAGE,
-				// Toast.LENGTH_LONG).show();
-				Log.d("img", Server.serverAddress + goods.getGoods_img());
-			} else {
-				TEST_IMAGE = Server.serverAddress + goods.getGoods_img();
-			}
-			File file = new File(TEST_IMAGE);
-			// 判断图片是否存此文件夹中
-			if (!file.exists()) {
-				file.createNewFile();
-				Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.pic);
-				FileOutputStream fos = new FileOutputStream(file);
-				pic.compress(CompressFormat.JPEG, 100, fos);
-				fos.flush();
-				fos.close();
-			}
-		} catch (Throwable t) {
-			t.printStackTrace();
-			TEST_IMAGE = null;
-		}
-	}
-
+	//评论列表
+    
 	BaseAdapter listAdapter = new BaseAdapter() {
-
-		@SuppressLint("InflateParams")
+		@SuppressLint("InflateParams") // 标注忽略指定的警告
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 
 			View view = null;
 			if (convertView == null) {
 				LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-				view = inflater.inflate(R.layout.widget_comment, null);
+				view = inflater.inflate(R.layout.comment_item, null);
 			} else {
 				view = convertView;
 			}
@@ -205,8 +227,9 @@ public class GoodsContentActivity extends Activity implements OnClickListener {
 			TextView textDate = (TextView) view.findViewById(R.id.date);
 			AvatarView avatar = (AvatarView) view.findViewById(R.id.avatar);
 
+			
 			Comment comment = comments.get(position);
-
+			
 			textComment.setText(comment.getText());
 			textAuthorName.setText(comment.getAuthor().getUser_name());
 			avatar.load(comment.getAuthor());
@@ -285,8 +308,8 @@ public class GoodsContentActivity extends Activity implements OnClickListener {
 	}
 
 	protected void reloadData(Page<Comment> data) {
-		page = data.getNumber();
-		comments = data.getContent();
+		GoodsContentActivity.this.page = data.getNumber();
+		GoodsContentActivity.this.comments = data.getContent();
 		listAdapter.notifyDataSetInvalidated();
 	}
 

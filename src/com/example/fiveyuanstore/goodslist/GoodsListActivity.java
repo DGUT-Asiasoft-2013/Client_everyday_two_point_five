@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.ZoneActivity;
+
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;
@@ -62,6 +63,7 @@ public class GoodsListActivity extends Activity {
 		
 		goodListName=(TextView)findViewById(R.id.goodListName);
 		goodListText=(TextView)findViewById(R.id.goodListText);
+		
 		goodsListImg=(ProImgView)findViewById(R.id.goodsListImg);
 		list.setAdapter(listAdapter);
 

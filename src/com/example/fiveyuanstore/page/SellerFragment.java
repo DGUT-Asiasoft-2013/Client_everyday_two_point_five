@@ -17,12 +17,14 @@ import com.example.fiveyuanstore.goods.GoodsInfoActivity;
 import com.example.fiveyuanstore.goodslist.AddGoodsListActivity;
 import com.example.fiveyuanstore.goodslist.GoodsListActivity;
 import com.example.fiveyuanstore.order.OrderInfoActivity;
+import com.example.fiveyuanstore.page.fragment.SellerAddItemFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -48,7 +50,6 @@ public class SellerFragment extends Fragment {
 
 	ListView listview;
 	TextView txtLoadmore;
-	Button addGoods;
 	int set_page = 1;
 	// 1
 	List<Goods> data1;
@@ -59,6 +60,12 @@ public class SellerFragment extends Fragment {
 	// 3
 	List<GoodsListNoItem> order3;
 	int page3 = 0;
+	
+	TextView textPage1;
+	TextView textPage2;
+	TextView textPage3;
+	
+	SellerAddItemFragment frag=new SellerAddItemFragment();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,29 +76,13 @@ public class SellerFragment extends Fragment {
 			loadMore = inflater.inflate(R.layout.widget_load_root_more_btn, null);
 
 			txtLoadmore = (TextView) loadMore.findViewById(R.id.more_text);
-			addGoods = (Button) view.findViewById(R.id.addProduct);
+			textPage1= (TextView) view.findViewById(R.id.seller_page_1);
+			textPage2= (TextView) view.findViewById(R.id.seller_page_2);
+			textPage3= (TextView) view.findViewById(R.id.seller_page_3);
 
 			listview = (ListView) view.findViewById(R.id.list);
 			listview.addFooterView(loadMore);
 			listview.setAdapter(adapter_goodsInfo);
-
-			view.findViewById(R.id.add_goods_list).setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					Intent itnt = new Intent(getActivity(), AddGoodsListActivity.class);
-					startActivity(itnt);
-				}
-			});
-
-			addGoods.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					Intent itt = new Intent(getActivity(), AddProductActivity.class);
-					startActivity(itt);
-				}
-			});
 
 			listview.setOnItemClickListener(new OnItemClickListener() {
 
@@ -135,7 +126,7 @@ public class SellerFragment extends Fragment {
 				}
 			});
 
-			view.findViewById(R.id.seller_page_1).setOnClickListener(new OnClickListener() {
+			textPage1.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
@@ -145,10 +136,10 @@ public class SellerFragment extends Fragment {
 					listview.removeAllViewsInLayout();
 					adapter_goodsInfo.notifyDataSetInvalidated();
 					listview.setAdapter(adapter_goodsInfo);
-
+					changeText();
 				}
 			});
-			view.findViewById(R.id.seller_page_2).setOnClickListener(new OnClickListener() {
+			textPage2.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
@@ -158,10 +149,11 @@ public class SellerFragment extends Fragment {
 					listview.removeAllViewsInLayout();
 					adapter_orderHandler.notifyDataSetInvalidated();
 					listview.setAdapter(adapter_orderHandler);
+					changeText();
 
 				}
 			});
-			view.findViewById(R.id.seller_page_3).setOnClickListener(new OnClickListener() {
+			textPage3.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
@@ -171,6 +163,20 @@ public class SellerFragment extends Fragment {
 					listview.removeAllViewsInLayout();
 					listAdapter_goodsList.notifyDataSetInvalidated();
 					listview.setAdapter(listAdapter_goodsList);
+					changeText();
+				}
+			});
+			view.findViewById(R.id.btn_add).setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					getFragmentManager().beginTransaction()
+							.setCustomAnimations(R.animator.slide_in_right,
+							             R.animator.slide_out_left,
+								         R.animator.slide_in_left,
+						                 R.animator.slide_out_right)
+							.replace(R.id.container,frag, "TWO").addToBackStack(null).commit();
+					
 				}
 			});
 
@@ -186,7 +192,40 @@ public class SellerFragment extends Fragment {
 
 	}
 	
+	void changeText(){
+		switch (set_page) {
+		case 1:
+			textPage1.setTextColor(Color.parseColor("#ff5337"));
+			textPage1.setBackground(getResources().getDrawable(R.drawable.filter));
+			textPage2.setTextColor(Color.parseColor("#000000"));
+			textPage2.setBackground(null);
+			textPage3.setTextColor(Color.parseColor("#000000"));
+			textPage3.setBackground(null);
+			break;
+		case 2:
+			textPage2.setTextColor(Color.parseColor("#ff5337"));
+			textPage2.setBackground(getResources().getDrawable(R.drawable.filter));
+			textPage1.setTextColor(Color.parseColor("#000000"));
+			textPage1.setBackground(null);
+			textPage3.setTextColor(Color.parseColor("#000000"));
+			textPage3.setBackground(null);
+			break;
+		case 3:
+			textPage3.setTextColor(Color.parseColor("#ff5337"));
+			textPage3.setBackground(getResources().getDrawable(R.drawable.filter));
+			textPage2.setTextColor(Color.parseColor("#000000"));
+			textPage2.setBackground(null);
+			textPage1.setTextColor(Color.parseColor("#000000"));
+			textPage1.setBackground(null);
+			break;
+
+		default:
+			break;
+		}
+	}
+	
 	void reload(){
+		changeText();
 		switch (set_page) {
 		case 1:
 			reload1();

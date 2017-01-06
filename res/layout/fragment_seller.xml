@@ -2,19 +2,42 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="#fff" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="10dp"
-            android:text="商家页面" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="53dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="卖家页面"
+                android:textSize="20dp" />
+
+            <RelativeLayout
+                android:id="@+id/btn_add"
+                android:layout_width="53dp"
+                android:layout_height="match_parent" 
+                android:layout_alignParentRight="true"
+                >
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/ic_add" />
+                >
+            </RelativeLayout>
+        </RelativeLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -23,73 +46,60 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:orientation="horizontal"
-            android:weightSum="4" >
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" >
+            android:layout_height="38dp"
+            android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/seller_page_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="7dp"
-                android:background="#eee"
-                android:text="我的商品" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/filter"
+                android:gravity="center"
+                android:lines="1"
+                android:padding="0dip"
+                android:text="我的商品"
+                android:textColor="#ff5337"
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/seller_page_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="7dp"
-                android:background="#eee"
-                android:text="订单处理" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:lines="1"
+                android:padding="0dip"
+                android:text="订单处理"
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/seller_page_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="7dp"
-                android:background="#eee"
-                android:text="我的清单" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:lines="1"
+                android:padding="0dip"
+                android:text="我的清单"
+                android:textSize="15dp" />
         </LinearLayout>
+        
+        <FrameLayout 
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ddd"/>
 
         <ListView
             android:id="@+id/list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/widget_product_item" >
+            android:layout_height="wrap_content" >
         </ListView>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="5dp"
-        android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/add_goods_list"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:text="发布清单"
-            android:textSize="10dp" />
-
-        <Button
-            android:id="@+id/addProduct"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:text="发布商品"
-            android:textSize="10dp" />
-    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

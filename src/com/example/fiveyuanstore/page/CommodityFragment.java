@@ -53,7 +53,7 @@ public class CommodityFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		if (view == null && headerView == null && btnLoadMore == null) {
+		if (view == null && headerView == null) {
 			view = inflater.inflate(R.layout.fragment_page_commodity, null);
 			headerView = inflater.inflate(R.layout.comm_header_view, null);
 
@@ -144,6 +144,8 @@ public class CommodityFragment extends Fragment {
 			listView.addHeaderView(headerView);
 			listView.setAdapter(goodsListAdapter);
 
+		}else{
+			return view;
 		}
 
 		return view;
