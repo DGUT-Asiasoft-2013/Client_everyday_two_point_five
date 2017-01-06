@@ -32,41 +32,7 @@
     
     </RelativeLayout>
     
-       <Button
-                android:id="@+id/comment_like"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/like"
-                android:text="" />
-            
-            <TextView
-                android:id="@+id/comment_count_num"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                   android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="5dp"
-                 android:layout_below="@id/like"
-                 android:text="0"
-                 ></TextView>
-            
-              <Button
-                android:id="@+id/comment_down"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                  android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                 android:layout_marginTop="35dp"
-                android:layout_below="@id/count_num"
-                android:background="@drawable/down"
-                android:text=" " />
-              
-    
+     
     <FrameLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

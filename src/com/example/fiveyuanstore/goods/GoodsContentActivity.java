@@ -94,7 +94,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		down = (Button) findViewById(R.id.down);
 		count_num = (TextView) findViewById(R.id.count_num);
 		
-		listView.setAdapter(listAdapter);
+	
 		shareGuiBtn = (Button)findViewById(R.id.btnShareAllGui);
 		goods = (Goods) getIntent().getSerializableExtra("pos");
 
@@ -116,6 +116,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 				onItemClicked(position);
 			}
 		});
+		listView.setAdapter(listAdapter);
 		initData();
 		reloadLikes();
 	}
@@ -136,6 +137,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		Comment comment = comments.get(position);
 		Intent itnt = new Intent(this, CommentInfoActivity.class);
 		itnt.putExtra("data", (Serializable) comment);
+		itnt.putExtra("id", (Serializable) comment.getId());
 		startActivity(itnt);
 	}
 	
@@ -188,7 +190,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
                     && Environment.getExternalStorageDirectory().exists()) {  
                 TEST_IMAGE = Server.serverAddress + goods.getGoods_img();  
                 //Toast.makeText(GoodsContentActivity.this, TEST_IMAGE, Toast.LENGTH_LONG).show();
-                Log.d("img", Server.serverAddress + goods.getGoods_img());
+                //Log.d("img", Server.serverAddress + goods.getGoods_img());
             }  
             else {  
                 TEST_IMAGE = Server.serverAddress + goods.getGoods_img();   
@@ -220,7 +222,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 			View view = null;
 			if (convertView == null) {
 				LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-				view = inflater.inflate(R.layout.widget_comment, null);
+				view = inflater.inflate(R.layout.comment_item, null);
 			} else {
 				view = convertView;
 			}

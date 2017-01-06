@@ -5,11 +5,15 @@ import java.io.IOException;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.Comment;
+import com.example.fiveyuanstore.entity.Page;
+import com.example.fiveyuanstore.fragment.widgets.AvatarView;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,13 +27,14 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class CommentInfoActivity extends Activity implements OnClickListener{
-	private Button like;
-	private Button down;
-	private TextView count_num;
+	public Button like;
+	public Button down;
+	public TextView count_num;
 
-	private boolean isDowned = false, isLiked = false;
-	private int downNum = 0, likeNum = 0;
-	private Comment comment;
+	public boolean isDowned = false, isLiked = false;
+	public int downNum = 0, likeNum = 0;
+	public Comment comment;
+	public Integer com_id;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -37,23 +42,51 @@ public class CommentInfoActivity extends Activity implements OnClickListener{
 		
 		setContentView(R.layout.widget_comment);
 		comment = (Comment) getIntent().getSerializableExtra("data");
-		like = (Button) findViewById(R.id.like);
-		down = (Button) findViewById(R.id.down);
-		count_num = (TextView) findViewById(R.id.count_num);
+		com_id = (Integer) getIntent().getSerializableExtra("id");
+		  Toast.makeText(this, "id is: "+com_id, Toast.LENGTH_LONG).show();
+		  initData();
+	}
+
+	public void initData() {
+		like = (Button) findViewById(R.id.comment_like);
+		down = (Button) findViewById(R.id.comment_down);
+		count_num = (TextView) findViewById(R.id.comment_count_num);
 		
-		like.setOnClickListener(this);
-		  down.setOnClickListener(this);
+		like.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Likes();
+				Toast.makeText(CommentInfoActivity.this, "点赞成功", Toast.LENGTH_LONG).show();
+			}
+		});
+		down.setOnClickListener(this);
+		
+		TextView textComment = (TextView) findViewById(R.id.list_comment_text);
+		TextView textAuthorName = (TextView) findViewById(R.id.username);
+		TextView textDate = (TextView) findViewById(R.id.date);
+		AvatarView avatar = (AvatarView) findViewById(R.id.avatar);
+
+		
+	
+		textComment.setText(comment.getText());
+		textAuthorName.setText(comment.getAuthor().getUser_name());
+		avatar.load(comment.getAuthor());
+		Log.d("com_id", ""+com_id);
+		String dateStr = DateFormat.format("yyyy-MM-dd hh:mm", comment.getCreateDate()).toString();
+		textDate.setText(dateStr);		
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		switch(v.getId()){
 			case R.id.like:
 				Likes();
+				Toast.makeText(CommentInfoActivity.this, "点赞成功", Toast.LENGTH_LONG).show();
 				break;
 			case R.id.down:
 				down();
+				Toast.makeText(CommentInfoActivity.this, "踩贴成功", Toast.LENGTH_LONG).show();
 				break;
 		    default:
 		    	break;
@@ -74,13 +107,16 @@ public class CommentInfoActivity extends Activity implements OnClickListener{
 		checkDowned();
 		onCheckLikedResult(isLiked);
 		onCheckDownedResult(isDowned);
+		
+		
 	}
 	
+
 	//点赞
 	void Likes() {
 		MultipartBody body = new MultipartBody.Builder().addFormDataPart("likes", String.valueOf(!isLiked)).build();
-
-		Request request = Server.requestBuilderWithPath("comment/" + comment.getId() + "/likes").post(body).build();
+		Log.d("com_id", ""+com_id);
+		Request request = Server.requestBuilderWithPath("comment/" + com_id + "/likes").post(body).build();
 
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
@@ -88,6 +124,7 @@ public class CommentInfoActivity extends Activity implements OnClickListener{
 			public void onResponse(Call arg0, final Response arg1) throws IOException {
 
 				try {
+					/*<html>\n<head>\n<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>\n<title>Error 400 Bad Request</title>\n</head>\n<body><h2>HTTP ERROR 400</h2>\n<p>Problem accessing /storecenter/api/comment/null/likes. Reason:\n<pre>    Bad Request</pre></p><hr /><i><small>Powered by Jetty://</small></i><br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n\n</body>\n</html>\n*/
 					String responseString = arg1.body().string();
 					final Integer count = new ObjectMapper().readValue(responseString, new TypeReference<Integer>(){});
 					likeNum = count;
@@ -123,7 +160,7 @@ public class CommentInfoActivity extends Activity implements OnClickListener{
 		*/
 			MultipartBody body = new MultipartBody.Builder().addFormDataPart("downs", String.valueOf(!isDowned)).build();
 
-			Request request = Server.requestBuilderWithPath("comment/" + comment.getId() + "/downs").post(body).build();
+			Request request = Server.requestBuilderWithPath("comment/" + com_id + "/downs").post(body).build();
 
 			Server.getClient().newCall(request).enqueue(new Callback() {
 
@@ -173,7 +210,7 @@ public class CommentInfoActivity extends Activity implements OnClickListener{
 		
 		 
 	    void checkLiked() {
-			Request request = Server.requestBuilderWithPath("comment/" + comment.getId() + "/isliked").get().build();
+			Request request = Server.requestBuilderWithPath("comment/" + com_id + "/isliked").get().build();
 			Server.getClient().newCall(request).enqueue(new Callback() {
 				@Override
 				public void onResponse(Call arg0, Response arg1) throws IOException {
@@ -214,7 +251,7 @@ public class CommentInfoActivity extends Activity implements OnClickListener{
 		}
 
 	    void checkDowned() {
-			Request request = Server.requestBuilderWithPath("comment/" + comment.getId() + "/isDowned").get().build();
+			Request request = Server.requestBuilderWithPath("comment/" + com_id + "/isDowned").get().build();
 			Server.getClient().newCall(request).enqueue(new Callback() {
 				@Override
 				public void onResponse(Call arg0, Response arg1) throws IOException {
@@ -265,7 +302,7 @@ public class CommentInfoActivity extends Activity implements OnClickListener{
 		}
 		
 		void reloadLikes() {
-			Request request = Server.requestBuilderWithPath("comment/" + comment.getId() + "/likes").get().build();
+			Request request = Server.requestBuilderWithPath("comment/" + com_id + "/likes").get().build();
 			Server.getClient().newCall(request).enqueue(new Callback() {
 
 				@Override
@@ -302,7 +339,7 @@ public class CommentInfoActivity extends Activity implements OnClickListener{
 
 		
 		void reloadDowns() {
-			Request request = Server.requestBuilderWithPath("comment/" + comment.getId() + "/downs").get().build();
+			Request request = Server.requestBuilderWithPath("comment/" + com_id + "/downs").get().build();
 			Server.getClient().newCall(request).enqueue(new Callback() {
 
 				@Override
