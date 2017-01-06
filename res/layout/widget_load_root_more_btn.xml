@@ -8,7 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:text="显示更多"
-        android:background="@drawable/title_bg"
+        android:background="#fff"
         android:gravity="center" />
+    <FrameLayout 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ddd"
+        android:layout_gravity="bottom"/>
 
 </FrameLayout>

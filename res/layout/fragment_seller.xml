@@ -10,12 +10,34 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="53dp"
-            android:gravity="center"
-            android:text="卖家页面"
-            android:textSize="20dp" />
+            android:layout_height="53dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="卖家页面"
+                android:textSize="20dp" />
+
+            <RelativeLayout
+                android:id="@+id/btn_add"
+                android:layout_width="53dp"
+                android:layout_height="match_parent" 
+                android:layout_alignParentRight="true"
+                >
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/ic_add" />
+                >
+            </RelativeLayout>
+        </RelativeLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -62,6 +84,11 @@
                 android:text="我的清单"
                 android:textSize="15dp" />
         </LinearLayout>
+        
+        <FrameLayout 
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ddd"/>
 
         <ListView
             android:id="@+id/list"
@@ -70,26 +97,9 @@
         </ListView>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="5dp"
-        android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/add_goods_list"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:text="发布清单"
-            android:textSize="10dp" />
-
-        <Button
-            android:id="@+id/addProduct"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:text="发布商品"
-            android:textSize="10dp" />
-    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>
