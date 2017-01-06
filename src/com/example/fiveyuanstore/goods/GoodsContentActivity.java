@@ -142,6 +142,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener {
 		  btn_buy.setOnClickListener(this);
 		  like.setOnClickListener(this);
 		  down.setOnClickListener(this);
+		  call.setOnClickListener(this);
 	}
 
 	// 点击事件

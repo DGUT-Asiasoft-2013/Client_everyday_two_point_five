@@ -94,39 +94,42 @@ public class ZoneActivity extends Activity{
 				
 			}
 		});
-		findViewById(R.id.btn_goods_list).setOnClickListener(new OnClickListener() {
+
+		findViewById(R.id.btn_goods).setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				//ta的清单
+				//ta的商品
 				set_page = 1;
 				reload1();
 				page1 = 0;
 				listView.removeAllViewsInLayout();
 				adapter_goodsInfo.notifyDataSetInvalidated();
 				listView.setAdapter(adapter_goodsInfo);
-				textPage2.setTextColor(Color.parseColor("#ff5337"));
-				textPage2.setBackground(getResources().getDrawable(R.drawable.filter));
-				textPage1.setTextColor(Color.parseColor("#000000"));
-				textPage1.setBackground(null);
+				
+				textPage1.setTextColor(Color.parseColor("#ff5337"));
+				textPage1.setBackground(getResources().getDrawable(R.drawable.filter));
+				textPage2.setTextColor(Color.parseColor("#000000"));
+				textPage2.setBackground(null);
 				
 			}
 		});
-		findViewById(R.id.btn_goods).setOnClickListener(new OnClickListener() {
+		findViewById(R.id.btn_goods_list).setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				//ta的商品
+				//ta的清单
 				set_page = 3;
 				reload3();
 				page3 = 0;
 				listView.removeAllViewsInLayout();
 				listAdapter_goodsList.notifyDataSetInvalidated();
 				listView.setAdapter(listAdapter_goodsList);
-				textPage1.setTextColor(Color.parseColor("#ff5337"));
-				textPage1.setBackground(getResources().getDrawable(R.drawable.filter));
-				textPage2.setTextColor(Color.parseColor("#000000"));
-				textPage2.setBackground(null);
+				
+				textPage2.setTextColor(Color.parseColor("#ff5337"));
+				textPage2.setBackground(getResources().getDrawable(R.drawable.filter));
+				textPage1.setTextColor(Color.parseColor("#000000"));
+				textPage1.setBackground(null);
 				
 			}
 		});

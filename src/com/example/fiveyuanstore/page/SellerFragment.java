@@ -537,21 +537,21 @@ public class SellerFragment extends Fragment {
 				// TODO Auto-generated catch block orders.getAmount()
 				e.printStackTrace();
 			}
-			title.setText("商品名称: " + orders.getGoods().getTitle());
+			title.setText(orders.getGoods().getTitle());
 			switch (orders.getStatus()) {
 			case 0:
-				status.setText("订单状态： 确认收货");
+				status.setText("已确认收货");
 				break;
 			case 1:
-				status.setText("订单状态： 已付款");
+				status.setText("已付款，等待操作");
 				break;
 
 			case 2:
-				status.setText("订单状态： 已发货");
+				status.setText("已发货");
 				break;
 
 			case 3:
-				status.setText("订单状态： 已取消");
+				status.setText("已取消");
 				break;
 			default:
 				status.setText("订单状态： 未知状态");
