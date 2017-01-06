@@ -2,22 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_height="47dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp" >
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/btn_back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
             android:src="@drawable/ic_back" />
+
+        <FrameLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:background="#ddd" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="back" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="13dp"
+            android:text="清单详情"
+            android:textSize="15dp" />
     </LinearLayout>
 
     <FrameLayout
@@ -27,35 +42,94 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="157dp" >
 
-        <com.example.fiveyuanstore.customViews.ProImgView
-            android:id="@+id/goodsListImg"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="7dp" />
+            android:layout_height="130dp" >
 
-        <TextView
-            android:id="@+id/goodListName"
+            <com.example.fiveyuanstore.customViews.ProImgView
+                android:id="@+id/goodsListImg"
+                android:layout_width="match_parent"
+                android:layout_height="130dp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:background="#55000000" />
+
+            <TextView
+                android:id="@+id/goodListName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="24dp"
+                android:layout_marginLeft="10dp"
+                android:text="good_list_name"
+                android:textColor="#fff"
+                android:textSize="23dp" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/seller"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="#88ffffff"
-            android:gravity="right"
-            android:text="good_list_name" />
-    </FrameLayout>
+            android:layout_gravity="bottom" >
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#ddd" />
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="16dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/bg_avatar_no_alpha" />
+
+            <com.example.fiveyuanstore.fragment.widgets.AvatarView
+                android:id="@+id/avatar"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="18dp" />
+
+            <TextView
+                android:id="@+id/seller_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="64dp"
+                android:text="Seller Name"
+                android:textColor="#ff593e" />
+        </FrameLayout>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/goodListText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="goodListText" />
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="5dp"
+        android:lineSpacingExtra="9dp"
+        android:maxLines="3"
+        android:text=""
+        android:textSize="15dp" />
+
+    <FrameLayout
+        android:layout_marginTop="7dp"
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:background="#eee" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:paddingLeft="5dp"
+        android:text="相关宝贝"
+        android:textSize="15dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -65,6 +139,7 @@
     <ListView
         android:id="@+id/goodsItemList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+         />
 
 </LinearLayout>

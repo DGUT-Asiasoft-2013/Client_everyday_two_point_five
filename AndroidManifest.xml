@@ -197,6 +197,10 @@
         </activity>
          <activity android:name="com.example.fiveyuanstore.goods.CommentInfoActivity"
                android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+                <activity
+            android:name="com.example.fiveyuanstore.ZoneActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
     </application>
 
     <!--

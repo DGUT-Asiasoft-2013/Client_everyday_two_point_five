@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import com.example.fiveyuanstore.R;
+import com.example.fiveyuanstore.ZoneActivity;
+
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.GoodsListNoItem;
 import com.example.fiveyuanstore.entity.GoodsListWithItem;
+import com.example.fiveyuanstore.entity.User;
+import com.example.fiveyuanstore.fragment.widgets.AvatarView;
 import com.example.fiveyuanstore.goods.GoodsContentActivity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +24,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -29,6 +34,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -39,8 +45,10 @@ public class GoodsListActivity extends Activity {
 	TextView goodListName;
 	TextView goodListText;
 	int id;
-	
+	TextView sellerName;
+	AvatarView avatar;
 	GoodsListWithItem order;
+	User user;
 	
 	
 	@Override
@@ -49,8 +57,13 @@ public class GoodsListActivity extends Activity {
 		id=(int) getIntent().getSerializableExtra("id");
 		setContentView(R.layout.activity_goods_list);
 		list = (ListView) findViewById(R.id.goodsItemList);
+		
+		sellerName=(TextView)findViewById(R.id.seller_name);
+		avatar=(AvatarView)findViewById(R.id.avatar);
+		
 		goodListName=(TextView)findViewById(R.id.goodListName);
 		goodListText=(TextView)findViewById(R.id.goodListText);
+		
 		goodsListImg=(ProImgView)findViewById(R.id.goodsListImg);
 		list.setAdapter(listAdapter);
 
@@ -59,6 +72,24 @@ public class GoodsListActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				onItemClicked(position);
+			}
+		});
+		findViewById(R.id.seller).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent itnt = new Intent(GoodsListActivity.this, ZoneActivity.class);
+				itnt.putExtra("id", user.getId());
+				startActivity(itnt);
+			}
+		});
+		
+		findViewById(R.id.btn_back).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+				
 			}
 		});
 	}
@@ -100,6 +131,7 @@ public class GoodsListActivity extends Activity {
 							goodListText.setText(order.getGoods_list_text());
 							goodsListImg.load(order);
 							listAdapter.notifyDataSetChanged();
+							getMe();
 						}
 					});
 				
@@ -120,6 +152,56 @@ public class GoodsListActivity extends Activity {
 			}
 		});
 	}
+	
+	void getMe(){
+		OkHttpClient client = Server.getClient();
+		Request request = Server.requestBuilderWithPath("/user/"+order.getSeller_id()).get().build();
+
+		client.newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(final Call arg0, Response res) throws IOException {
+				try {
+					final User user = new ObjectMapper().readValue(res.body().string(),
+							new TypeReference<User>() {
+							});
+
+						runOnUiThread(new Runnable() {
+
+							public void run() {
+								GoodsListActivity.this.user=user;
+								avatar.load(user);
+								sellerName.setText(user.getUser_name());
+								
+							}
+						});
+					
+				} catch (final Exception e) {
+					runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							Toast.makeText(getApplicationContext(), e.getMessage(),
+									Toast.LENGTH_SHORT).show();
+						}
+					});
+				}
+			}
+
+			@Override
+			public void onFailure(final Call arg0, final IOException arg1) {
+				runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						Toast.makeText(getApplicationContext(), arg1.getMessage(),
+								Toast.LENGTH_SHORT).show();
+					}
+				});
+			}
+		});
+	}
+	
 	BaseAdapter listAdapter = new BaseAdapter() {
 		
 		@Override
