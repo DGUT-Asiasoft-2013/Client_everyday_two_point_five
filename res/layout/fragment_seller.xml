@@ -84,6 +84,11 @@
                 android:text="我的清单"
                 android:textSize="15dp" />
         </LinearLayout>
+        
+        <FrameLayout 
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ddd"/>
 
         <ListView
             android:id="@+id/list"
