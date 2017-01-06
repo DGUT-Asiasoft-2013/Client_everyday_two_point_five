@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="114dp" 
-    android:background="#fff">
+    android:layout_height="114dp"
+    android:background="#fff" >
 
     <TextView
         android:id="@+id/text"
@@ -13,8 +13,8 @@
 
     <com.example.fiveyuanstore.customViews.ProImgView
         android:id="@+id/goods_img"
-        android:layout_width="113dp"
-        android:layout_height="113dp"
+        android:layout_width="111dp"
+        android:layout_height="111dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="107dp"
         android:layout_toRightOf="@id/goods_img"
+        android:background="#fff"
         android:paddingLeft="5dp"
         android:paddingRight="10dp" >
 
@@ -30,7 +31,7 @@
             android:id="@+id/on_sell"
             android:layout_width="45dp"
             android:layout_height="17dp"
-            android:layout_marginTop="3.9dp"
+            android:layout_marginTop="4dp"
             android:src="@drawable/ic_on_sell" />
 
         <TextView
@@ -64,14 +65,14 @@
             android:text="Create Date"
             android:textColor="#aaa"
             android:textSize="12dp" />
-        
-        <ImageView 
+
+        <ImageView
             android:layout_width="15dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
             android:layout_marginBottom="4dp"
-            android:src="@drawable/ic_in"/>
+            android:src="@drawable/ic_in" />
     </RelativeLayout>
 
     <FrameLayout
@@ -82,8 +83,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="7dp"
         android:background="#ddd" />
-    
-        <FrameLayout
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:layout_below="@id/fra"

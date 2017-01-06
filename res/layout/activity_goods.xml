@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="#fff">
 
     <RelativeLayout
         android:id="@+id/navbar"
@@ -137,7 +138,7 @@
         android:id="@+id/goods_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#eee"
+        android:background="#fff"
         android:divider="#fff"
         android:dividerHeight="0dip" >
     </ListView>
