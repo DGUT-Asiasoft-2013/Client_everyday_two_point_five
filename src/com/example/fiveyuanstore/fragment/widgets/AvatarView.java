@@ -123,9 +123,9 @@ public class AvatarView extends View {				//头像处理
 			float scaleX = srcWidth / dstWidth;
 			float scaleY = srcHeight / dstHeight;
 
-			canvas.scale(1/scaleX, 1/scaleY);
+			canvas.scale(Math.max(1/scaleX,1/scaleY), Math.max(1/scaleX,1/scaleY));
 
-			canvas.drawCircle(Math.min(srcWidth, srcHeight)/2, Math.min(srcWidth, srcHeight)/2, Math.min(srcWidth, srcHeight)/2, paint);
+			canvas.drawCircle(Math.min(srcWidth, srcHeight) /2, Math.min(srcWidth, srcHeight)/2, Math.min(srcWidth, srcHeight)/2, paint);
 			
 			canvas.restore();
 		}
