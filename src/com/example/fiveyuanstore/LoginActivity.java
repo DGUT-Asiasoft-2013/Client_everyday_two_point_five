@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.example.fiveyuanstore.api.MD5;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.User;
-import com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment;
+import com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment1;
 import com.example.fiveyuanstore.share.AuthActivity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,7 +18,6 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,8 +31,8 @@ import okhttp3.Response;
 
 public class LoginActivity extends Activity implements OnClickListener {
 
-	SimpleTextInputCellFragment fragAccount;
-	SimpleTextInputCellFragment fragPassword;
+	SimpleTextInputCellFragment1 fragAccount;
+	SimpleTextInputCellFragment1 fragPassword;
 	// CheckBox checkBox1;
 	private static final String FILE_NAME = "saveUserNamePwd";
 	String usernameContent;
@@ -52,10 +51,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
-		// checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
-		// checkBox1.setChecked(true);
-		// checkBox1.setVisibility(View.GONE);
-
 		TextView auth = (TextView) findViewById(R.id.btnLogin);
 		btn_register = (TextView) findViewById(R.id.btn_register);
 		btn_login = (ImageView) findViewById(R.id.btn_login);
@@ -73,8 +68,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 			}
 		});
 
-		fragAccount = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_account);
-		fragPassword = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_password);
+		fragAccount = (SimpleTextInputCellFragment1) getFragmentManager().findFragmentById(R.id.input_account);
+		fragPassword = (SimpleTextInputCellFragment1) getFragmentManager().findFragmentById(R.id.input_password);
 
 		sharedPreferences = getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
 		// 从文件中获取保存的数据
@@ -114,10 +109,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 	protected void onResume() {
 
 		super.onResume();
-		fragAccount.setLabelText(" ");
 		fragAccount.setHintText("User Account");
 
-		fragPassword.setLabelText(" ");
 		fragPassword.setHintText("......");
 		fragPassword.setIsPassword(true);
 	}

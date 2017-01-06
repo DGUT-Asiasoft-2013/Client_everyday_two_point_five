@@ -82,7 +82,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void run() {
-				if (auto) {
+				if (auto&&uPassWord!="") {
 					login();
 				} else {
 					auto_true();
