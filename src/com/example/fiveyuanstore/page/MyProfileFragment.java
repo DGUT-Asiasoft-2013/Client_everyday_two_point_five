@@ -142,6 +142,7 @@ public class MyProfileFragment extends Fragment {
 					itnt.putExtra("email", userEmail);
 					itnt.putExtra("user", myuser);
 					startActivity(itnt);
+					getActivity().overridePendingTransition(R.anim.in_from_bottom,R.anim.out_to_top); 
 				}
 			});
 

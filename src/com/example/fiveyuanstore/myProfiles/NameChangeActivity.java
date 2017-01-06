@@ -33,7 +33,8 @@ public class NameChangeActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				finish();				
+				NameChangeActivity.this.finish();
+				overridePendingTransition(R.anim.in_from_left,R.anim.out_to_right); 
 			}
 		});
 		
@@ -42,7 +43,8 @@ public class NameChangeActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				save();
-				finish();	
+				NameChangeActivity.this.finish();
+				overridePendingTransition(R.anim.in_from_left,R.anim.out_to_right); 				
 			}
 		});
 		

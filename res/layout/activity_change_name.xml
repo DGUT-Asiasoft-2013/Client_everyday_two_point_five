@@ -2,50 +2,67 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
     android:orientation="vertical" >
-    
-    <RelativeLayout 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
-        
-        <ImageView 
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="8dp" >
+
+        <ImageView
             android:id="@+id/back"
-            android:layout_height="30dp"
-            android:layout_width="30dp"         
-            android:src="@drawable/ic_back"/>
-        
-        <TextView 
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
             android:id="@+id/text"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/light_blue"
-            android:textSize="15sp"
-            android:text="更改昵称"/>
-        
-        <TextView 
+            android:text="更改昵称"
+            android:textColor="#ff593e"
+            android:textSize="22sp" />
+
+        <TextView
             android:id="@+id/save"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"          
+            android:textSize="18sp"
+            android:text="保存"
             android:textColor="@android:color/darker_gray"
-            android:text="保存"/>
-        
+             />
     </RelativeLayout>
-    
-    <EditText 
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginTop="8dp"
+        android:background="#ddd" >
+    </FrameLayout>
+
+    <EditText
         android:id="@+id/name"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:background="@drawable/bg_bar"/>
-    
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_bar" />
+
     <TextView
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="起个好名字，让小伙伴们记住你"
         android:textColor="@android:color/darker_gray"
-        android:text="起个好名字，让小伙伴们记住你"/>
+        android:textSize="18sp" />
 
 </LinearLayout>

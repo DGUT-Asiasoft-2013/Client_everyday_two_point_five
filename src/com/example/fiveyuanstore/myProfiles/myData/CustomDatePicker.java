@@ -8,6 +8,7 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -85,7 +86,7 @@ public class CustomDatePicker {
     private void initDialog() {
         if (datePickerDialog == null) {
             datePickerDialog = new Dialog(context, R.style.time_dialog);
-            datePickerDialog.setCancelable(false);
+            datePickerDialog.setCancelable(true);
             datePickerDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             datePickerDialog.setContentView(R.layout.custom_date_picker);
             Window window = datePickerDialog.getWindow();
@@ -109,7 +110,7 @@ public class CustomDatePicker {
         tv_select = (TextView) datePickerDialog.findViewById(R.id.tv_select);
         hour_text = (TextView) datePickerDialog.findViewById(R.id.hour_text);
         minute_text = (TextView) datePickerDialog.findViewById(R.id.minute_text);
-
+        
         tv_cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -34,7 +34,8 @@ public class EmailChangeActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				finish();				
+				EmailChangeActivity.this.finish();
+				overridePendingTransition(R.anim.in_from_left,R.anim.out_to_right); 				
 			}
 		});
 		
@@ -43,7 +44,8 @@ public class EmailChangeActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				save();
-				finish();	
+				EmailChangeActivity.this.finish();
+				overridePendingTransition(R.anim.in_from_left,R.anim.out_to_right); 
 			}
 		});
 		
