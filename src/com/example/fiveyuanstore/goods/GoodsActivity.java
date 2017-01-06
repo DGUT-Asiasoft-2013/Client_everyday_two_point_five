@@ -84,7 +84,14 @@ public class GoodsActivity extends Activity{
 		CommoditySortPrice=(TextView)findViewById(R.id.commodity_sort_price);
 		CommoditySortCustom=(TextView)findViewById(R.id.commodity_sort_custom);
 		
-		
+		findViewById(R.id.btn_goods_back).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+				
+			}
+		});
 		
 		search.setOnClickListener(new OnClickListener() {
 

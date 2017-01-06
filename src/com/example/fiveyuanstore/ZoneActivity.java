@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -63,6 +64,8 @@ public class ZoneActivity extends Activity{
 	// 3
 	List<GoodsListNoItem> order3;
 	int page3 = 0;
+	TextView textPage1;
+	TextView textPage2;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -78,6 +81,9 @@ public class ZoneActivity extends Activity{
 		txtLoadmore = (TextView) loadMore.findViewById(R.id.more_text);
 		listView.addFooterView(loadMore);
 		listView.setAdapter(adapter_goodsInfo);
+		textPage1= (TextView) findViewById(R.id.btn_goods);
+		textPage2= (TextView) findViewById(R.id.btn_goods_list);
+
 		
 
 		findViewById(R.id.btn_zone_back).setOnClickListener(new OnClickListener() {
@@ -88,11 +94,12 @@ public class ZoneActivity extends Activity{
 				
 			}
 		});
-		findViewById(R.id.btn_goods_list).setOnClickListener(new OnClickListener() {
+
+		findViewById(R.id.btn_goods).setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				//ta的清单
+				//ta的商品
 				set_page = 1;
 				reload1();
 				page1 = 0;
@@ -100,19 +107,29 @@ public class ZoneActivity extends Activity{
 				adapter_goodsInfo.notifyDataSetInvalidated();
 				listView.setAdapter(adapter_goodsInfo);
 				
+				textPage1.setTextColor(Color.parseColor("#ff5337"));
+				textPage1.setBackground(getResources().getDrawable(R.drawable.filter));
+				textPage2.setTextColor(Color.parseColor("#000000"));
+				textPage2.setBackground(null);
+				
 			}
 		});
-		findViewById(R.id.btn_goods).setOnClickListener(new OnClickListener() {
+		findViewById(R.id.btn_goods_list).setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				//ta的商品
+				//ta的清单
 				set_page = 3;
 				reload3();
 				page3 = 0;
 				listView.removeAllViewsInLayout();
 				listAdapter_goodsList.notifyDataSetInvalidated();
 				listView.setAdapter(listAdapter_goodsList);
+				
+				textPage2.setTextColor(Color.parseColor("#ff5337"));
+				textPage2.setBackground(getResources().getDrawable(R.drawable.filter));
+				textPage1.setTextColor(Color.parseColor("#000000"));
+				textPage1.setBackground(null);
 				
 			}
 		});
