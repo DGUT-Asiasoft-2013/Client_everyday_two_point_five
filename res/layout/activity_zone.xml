@@ -69,23 +69,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="26dp"
+            android:layout_marginBottom="33dp"
             android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:text="MY PROFILE"
                 android:textColor="#fff" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/user_sex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="sex"
-                android:textColor="#fff" />
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="2dp"
+				android:src="@drawable/ic_male"/>
         </LinearLayout>
 
         <TextView
@@ -93,7 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="7dp"
+            android:layout_marginBottom="15dp"
             android:text="whats up"
             android:textColor="#fff" />
     </FrameLayout>

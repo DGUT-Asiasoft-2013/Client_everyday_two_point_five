@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +50,7 @@ public class ZoneActivity extends Activity{
 	int id;
 	AvatarView avatar;
 	TextView name;
-	TextView sex;
+	ImageView sex;
 	TextView whatsUp;
 	ListView listView;
 	TextView txtLoadmore;
@@ -74,7 +75,7 @@ public class ZoneActivity extends Activity{
 		id=(int) getIntent().getSerializableExtra("id");
 		avatar=(AvatarView)findViewById(R.id.avatar);
 		name=(TextView)findViewById(R.id.user_name);
-		sex=(TextView)findViewById(R.id.user_sex);
+		sex=(ImageView)findViewById(R.id.user_sex);
 		whatsUp=(TextView)findViewById(R.id.user_whats_up);
 		listView = (ListView)findViewById(R.id.zone_list);
 		loadMore =LayoutInflater.from(this).inflate(R.layout.widget_load_root_more_btn, null);
@@ -266,8 +267,10 @@ public class ZoneActivity extends Activity{
 					runOnUiThread(new Runnable() {
 						public void run() {
 							ZoneActivity.this.myInfor = infor;
-							sex.setText(infor.getSex());
-
+							if(infor.getSex().equals("女"))
+								sex.setImageDrawable(getResources().getDrawable(R.drawable.ic_female));
+							else
+								sex.setImageDrawable(getResources().getDrawable(R.drawable.ic_male));
 							if(infor.getWhats_up()==""||infor.getWhats_up()==null)
 								whatsUp.setText("这个用户真懒，ta还没写签名~！");
 							else
