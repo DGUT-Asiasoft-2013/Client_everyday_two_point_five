@@ -97,8 +97,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 	}
 
 	public static void onNotSaveContent() {
-		//super.onStop();
-		Editor editor = sharedPreferences.edit();
+		//super.onStop();		
+		Editor editor = MainActivity.sharedPreferences.edit();
 		// 添加要保存的数据
 		editor.putString("password", "");
 		// 确认保存
