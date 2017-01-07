@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 
-public class FragmentGoodClassify extends Fragment {
+public class GoodClassifyFragment extends Fragment {
 
 	View view;
 	String sort;
