@@ -17,7 +17,7 @@ public class GoodFilterFragment extends Fragment {
 	EditText text1;
 	EditText text2;
 	float flo1 = 0;
-	float flo2 = 0;
+	float flo2 =Float.MAX_VALUE;
 	Boolean isConfirm;
 
 	@Override
@@ -102,9 +102,10 @@ public class GoodFilterFragment extends Fragment {
 
 				if (OnFilterConfirmClickedListener != null) {
 					isConfirm = false;
-					flo1 = flo2 = 0;
-					text1.setText(String.valueOf(flo1));
-					text2.setText(String.valueOf(flo2));
+					flo1 =0;
+					flo2=Float.MAX_VALUE;
+					text1.setText("");
+					text2.setText("");
 					OnFilterConfirmClickedListener.onFilterConfirmClicked();
 					getActivity().onBackPressed();
 				}
