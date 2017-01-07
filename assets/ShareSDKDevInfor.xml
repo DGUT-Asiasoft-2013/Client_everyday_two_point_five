@@ -24,12 +24,14 @@
         Id="1"
         RedirectUrl="http://appgo.cn" />
 
-    <TencentWeibo
-        SortId="2"
-        AppKey="801307650"
-        AppSecret="ae36f4ee3946e1cbb98d6965b0b2ff5c"
-        RedirectUri="http://sharesdk.cn"
-        Id="2" />
+	<Wechat
+	    SortId="2"
+	    AppId="wx7d11730d53fbdc16"
+	     Enable="true"
+	      Id="2"
+	     AppSecret="1abece9e7c78d2f085624125ea81c2f8"
+	   RedirectUrl="http://open.weixin.qq.com"
+	    />
 
     <QZone
         SortId="3"
@@ -45,4 +47,20 @@
         Id="4"
         SecretKey="f29df781abdd4f49beca5a2194676ca4" />  
        
+        <TencentWeibo
+        SortId="5"
+        AppKey="801307650"
+        AppSecret="ae36f4ee3946e1cbb98d6965b0b2ff5c"
+        RedirectUri="http://sharesdk.cn"
+        Id="5" />
+        
+        <WechatMoments
+            ortId="6"
+            Id = "6"
+               Enable="true"
+          AppId="wx7d11730d53fbdc16"
+	     RedirectUrl="http://open.weixin.qq.com"
+	  AppSecret="1abece9e7c78d2f085624125ea81c2f8"
+	  />
+        
 </DevInfor>

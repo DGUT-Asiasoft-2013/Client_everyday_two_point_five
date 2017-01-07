@@ -18,6 +18,7 @@ import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.fragment.widgets.AvatarView;
 import com.example.fiveyuanstore.myProfiles.InboxChetActivity;
+import com.example.fiveyuanstore.share.SendToWXActivity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -63,7 +64,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 	private Goods goods;
 	List<Comment> comments;
 	int page=0;
-	private Button shareGuiBtn, btn_buy;
+	private Button shareGuiBtn, btn_buy, send_wx;
 	private Button call;
 	private boolean isLiked;
 	//定义图片存放的地址  
@@ -93,7 +94,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		like = (Button) findViewById(R.id.like);
 		down = (Button) findViewById(R.id.down);
 		count_num = (TextView) findViewById(R.id.count_num);
-		
+		send_wx = (Button) findViewById(R.id.send_wx);
 	
 		shareGuiBtn = (Button)findViewById(R.id.btnShareAllGui);
 		goods = (Goods) getIntent().getSerializableExtra("pos");
@@ -146,6 +147,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		  btn_buy.setOnClickListener(this);
 		  like.setOnClickListener(this);
 		  down.setOnClickListener(this);
+		  send_wx.setOnClickListener(this);
 	}
 
 	  //点击事件
@@ -158,7 +160,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 				startActivity(itnt);
 				break;
 				
-			case R.id.btnShareAllGui:  
+			case R.id.btnShareAllGui:  //分享事件
 		            showGrid(false);  
 		            break; 
 			case R.id.call:
@@ -167,10 +169,24 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 				
 			case R.id.like:
 				Likes();
+				if (isLiked){
+					Toast.makeText(GoodsContentActivity.this, "取消赞成功", Toast.LENGTH_LONG).show();
+				}else{
+					Toast.makeText(GoodsContentActivity.this, "点赞成功", Toast.LENGTH_LONG).show();
+				}
 				break;
 			case R.id.down:
 				down();
+				if( !isDowned){
+					Toast.makeText(GoodsContentActivity.this, "踩贴成功", Toast.LENGTH_LONG).show();
+				}else{
+					Toast.makeText(GoodsContentActivity.this, "取消踩贴成功", Toast.LENGTH_LONG).show();
+				}
 				break;
+			case R.id.send_wx:
+				Intent itt = new Intent(this, SendToWXActivity.class);
+				itt.putExtra("goods", goods);
+				startActivity(itt);
 		    default:
 		    	break;
 			}
@@ -464,7 +480,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
     }  
     
     void checkLiked() {
-		Request request = Server.requestBuilderWithPath("goods/" + goods.getId() + "/isliked").get().build();
+		Request request = Server.requestBuilderWithPath("goods/" + goods.getId() + "/isLiked").get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
@@ -538,7 +554,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						onCheckLikedResult(false);
+						onCheckDownedResult(false);
 					}
 				});
 			}
@@ -566,7 +582,6 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 					final Integer count = new ObjectMapper().readValue(responseString, Integer.class);
 					
 					runOnUiThread(new Runnable() {
-					
 						
 						@Override
 						public void run() {
@@ -602,6 +617,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 					String responseString = arg1.body().string();
 					Integer count = new ObjectMapper().readValue(responseString, Integer.class);
 					downNum = count;
+					onReloadLikesResult(likeNum, count);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -626,7 +642,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		if (count >= 0) {
 			count_num.setText(""+ count );
 		} else {
-			count_num.setText("-"+count);
+			count_num.setText("-"+Math.abs(count));
 		}
 	}
     
@@ -651,7 +667,12 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
+							getLikeNum();
+							reload();
 							onReloadLikesResult(likeNum,downNum);
+							isDowned = true;
+							isLiked = false;
+							
 						}
 					});
 				} catch (Exception e) {
@@ -690,10 +711,16 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 						String responseString = arg1.body().string();
 						final Integer count = new ObjectMapper().readValue(responseString, new TypeReference<Integer>(){});
 						likeNum = count;
+					
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
+								getDownNum();
+								reload();
 								onReloadLikesResult(likeNum,downNum);
+								isLiked = true;
+								isDowned = false;
+							
 							}
 						});
 					} catch (Exception e) {
@@ -714,6 +741,85 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 			});
 		}
 		
+		void getLikeNum(){
+			Request request = Server.requestBuilderWithPath("goods/" + goods.getId() + "/getLikeNum").build();
+			Server.getClient().newCall(request).enqueue(new Callback() {
+				
+				@Override
+				public void onResponse(Call arg0, final Response arg1) throws IOException {
+					// TODO Auto-generated method stub
+					runOnUiThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							String responseString;
+							try {
+								responseString = arg1.body().string();
+								final Integer count = new ObjectMapper().readValue(responseString, new TypeReference<Integer>(){});
+								likeNum = count;
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+						}
+					});
+					
+				}
+				
+				@Override
+				public void onFailure(Call arg0, IOException arg1) {
+					// TODO Auto-generated method stub
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							Toast.makeText(GoodsContentActivity.this, "操作失败", Toast.LENGTH_LONG).show();
+						}
+					});
+				}
+			});
+		}
 		
+
+		void getDownNum(){
+			Request request = Server.requestBuilderWithPath("goods/" + goods.getId() + "/getDownNum").build();
+			Server.getClient().newCall(request).enqueue(new Callback() {
+				
+				@Override
+				public void onResponse(Call arg0, final Response arg1) throws IOException {
+					// TODO Auto-generated method stub
+					runOnUiThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							String responseString;
+							try {
+								responseString = arg1.body().string();
+								final Integer count = new ObjectMapper().readValue(responseString, new TypeReference<Integer>(){});
+								downNum = count;
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+						}
+					});
+					
+				}
+				
+				@Override
+				public void onFailure(Call arg0, IOException arg1) {
+					// TODO Auto-generated method stub
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							Toast.makeText(GoodsContentActivity.this, "操作失败", Toast.LENGTH_LONG).show();
+						}
+					});
+				}
+			});
+		}
 	
 }

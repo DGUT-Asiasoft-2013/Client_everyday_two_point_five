@@ -8,10 +8,6 @@ import java.util.List;
 
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.StoreActivity;
-import com.example.fiveyuanstore.R.drawable;
-import com.example.fiveyuanstore.R.id;
-import com.example.fiveyuanstore.R.layout;
-import com.example.fiveyuanstore.R.string;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Comment;
@@ -20,7 +16,6 @@ import com.example.fiveyuanstore.entity.Page;
 import com.example.fiveyuanstore.fragment.widgets.AvatarView;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 import android.app.Activity;
 import android.content.Intent;
@@ -46,7 +41,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.Response;
-
 public class GoodsInfoActivity extends Activity implements OnClickListener{
 	Goods goods;
 	ListView listView;
