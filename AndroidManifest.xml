@@ -202,6 +202,9 @@
             android:name="com.example.fiveyuanstore.ZoneActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
+        <activity android:name="com.example.fiveyuanstore.inputcells.PictureActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
     </application>
 
     <!--

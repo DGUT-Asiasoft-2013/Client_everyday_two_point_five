@@ -101,7 +101,6 @@ public class SellerFragment extends Fragment {
 					default:
 						break;
 					}
-
 				}
 			});
 			// 加载更多

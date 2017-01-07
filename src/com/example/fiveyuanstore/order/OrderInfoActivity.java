@@ -54,11 +54,11 @@ public class OrderInfoActivity extends Activity {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		goods_num.setText("订单数量: "+ order.getAmount());
-		buyerName.setText("购买用户： "+order.getName());
-		phone.setText("电话： "+order.getPhone());
-		adress.setText("地址： "+order.getAddress());
-		title.setText("商品名称"+order.getGoods().getTitle());
+		goods_num.setText("订单数量："+ order.getAmount());
+		buyerName.setText("购买用户："+order.getName());
+		phone.setText("电话："+order.getPhone());
+		adress.setText("地址："+order.getAddress());
+		title.setText("商品名称："+order.getGoods().getTitle());
 		switch(order.getStatus()){
 		case 0:
 			status.setText("订单状态： 确认收货");

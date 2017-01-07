@@ -1,29 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:padding="8dp" >
 
+    <com.example.fiveyuanstore.customViews.ProImgView
+        android:id="@+id/proImg"
+        android:layout_width="90dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center" />
 
-    <RelativeLayout
-         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:background="#fff">
+    <TextView
+        android:id="@+id/orderid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="96dp"
+        android:minHeight="25dp"
+        android:minWidth="100dp"
+        android:text="订单编号"
+        android:textColor="#3E3E3C"
+        android:textSize="15sp" />
 
-        <com.example.fiveyuanstore.customViews.ProImgView
-            android:id="@+id/proImg"
-            android:layout_width="56dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center" />
-
-        <TextView
-            android:id="@+id/orderid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="62dp"
-            android:minHeight="25dp"
-            android:minWidth="100dp"
-            android:text="订单编号"
-            android:textColor="#3E3E3C"
-            android:textSize="12dp" />
-
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/orderid"
+        android:layout_below="@+id/orderid"
+        android:minHeight="25dp"
+        android:minWidth="100dp"
+        android:text="商品名称："
+        android:textColor="#3E3E3C"
+        android:textSize="15sp" />
+    
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
@@ -44,9 +54,26 @@
         android:minHeight="25dp"
         android:minWidth="30dp"
         android:text="数量"
-        android:textColor="#3E3E3C"
-        android:textSize="12dp" />
+        android:textColor="#3E3E3C"/>
 
+    <FrameLayout 
+        android:id="@+id/F"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ddd"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/status">      
+    </FrameLayout>
+    
+        <FrameLayout 
+        android:layout_width="1dp"
+        android:layout_height="55dp"
+        android:background="#ddd"
+        android:layout_below="@id/F"
+        android:layout_centerInParent="true"
+        >      
+    </FrameLayout>
+    
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
@@ -57,17 +84,7 @@
         android:textColor="#00000000"
         android:textSize="12dp" />
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/orderid"
-        android:layout_below="@+id/orderid"
-        android:minHeight="25dp"
-        android:minWidth="100dp"
-        android:text="商品名称"
-        android:textColor="#3E3E3C"
-        android:textSize="12dp" />
+    
 
     <Button
         android:id="@+id/cancleOrder"
@@ -75,11 +92,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/status"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginRight="65dp"
         android:background="#fff"
         android:text="取消订单"
         android:textColor="#3E3E3C"
-        android:textSize="12dp" />
+        android:textSize="15sp" />
 
     <Button
         android:id="@+id/sureSendGoods"
@@ -87,34 +105,34 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/cancleOrder"
         android:layout_alignBottom="@+id/cancleOrder"
-        
+        android:layout_marginLeft="65dp"
         android:background="#fff"
         android:text="确认发货"
         android:textColor="#3E3E3C"
-        android:textSize="12dp" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="115dp"
         android:gravity="left"
-         android:layout_marginTop="115dp"
         android:text="phone" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
         android:layout_marginTop="95dp"
+        android:gravity="left"
         android:text="name" />
 
     <TextView
         android:id="@+id/adress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
         android:layout_marginTop="135dp"
+        android:gravity="left"
         android:text="adress" />
 
     <TextView
@@ -124,7 +142,6 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/phone"
         android:text="status"
-        android:textColor="#f82800"
-        android:textSize="12dp" />
+        android:textColor="#f82800" />
 
-    </RelativeLayout>
+</RelativeLayout>
