@@ -7,9 +7,10 @@
     android:orientation="vertical" >
 
     <TextView
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
         android:gravity="center_horizontal"
         android:padding="16dp"
         android:text="两块五商店"
@@ -17,11 +18,50 @@
         android:textSize="24sp"
         android:textStyle="bold|italic" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="3"
+        android:src="@drawable/login_box" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_weight="2"
         android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:src="@drawable/account" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3" >
+
+                <fragment
+                    android:id="@+id/input_account"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment1"
+                    tools:layout="@layout/fragment_inputcell_simpletext1" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -31,112 +71,112 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:src="@drawable/account" />
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:src="@drawable/password" />
 
-            <fragment
-                android:id="@+id/input_account"
-                android:layout_width="220dp"
+            <FrameLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
-                tools:layout="@layout/fragment_inputcell_simpletext" />
+                android:layout_weight="3" >
+                
+            <fragment
+                android:id="@+id/input_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"               
+                class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment1"
+                tools:layout="@layout/fragment_inputcell_simpletext1" />
+
+            </FrameLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="3"
         android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" >
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical" >
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="30dp"
-                android:padding="0dp"
-                android:src="@drawable/password" />
-
-            <fragment
-                android:id="@+id/input_password"
-                android:layout_width="220dp"
+                android:id="@+id/btn_login"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
-                tools:layout="@layout/fragment_inputcell_simpletext" />
+                android:src="@drawable/sign_bg" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="两块五商店666"
+                android:textColor="#0fff"
+                android:textSize="24sp" />
         </LinearLayout>
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/btn_login"
-        android:layout_width="150dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="10dp"
-        android:src="@drawable/sign_bg" />
 
     <TextView
         android:id="@+id/btn_forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:textSize="15sp"
         android:padding="2dp"
         android:text="Forgot password?"
         android:textColor="@android:color/darker_gray" />
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:layout_gravity="center_horizontal">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="#5ddd" >
+    </FrameLayout>
 
-   <!--    <CheckBox
-            android:id="@+id/checkBox1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"/>
-       
-       <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/checkBox1"
-            android:layout_centerVertical="true"
-            android:text="Remember me"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="16dp" />       
-       -->
-
-
-    </RelativeLayout>
-	<LinearLayout 
-	    android:layout_width="wrap_content"
-	    android:layout_height="48dp"
-	    android:weightSum="2"
-	     android:layout_gravity="center"
-	    android:layout_marginTop="15dp"
-	     android:orientation="horizontal"
-	    >
-    <TextView
-        android:id="@+id/btn_register"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:textSize="16dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
         android:layout_weight="1"
-        android:text="Register"
-        android:textColor="@android:color/darker_gray" />
+        android:orientation="horizontal"
+        android:weightSum="3" >
 
-	 <TextView
-	     android:id="@+id/btnLogin"
-	     android:layout_width="wrap_content"
-	     android:layout_height="wrap_content"
-	     android:layout_centerHorizontal="true"
-	     android:layout_marginLeft="45dp"
-	     android:layout_weight="1"
-	     android:text="授权登录"
-	     android:textColor="@android:color/darker_gray"
-	     android:textSize="16dp" />
+        <TextView
+            android:id="@+id/btn_register"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:layout_weight="1"
+            android:text="Register"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="15sp" />
 
+        <TextView 
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/btnLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            
+            android:layout_weight="1"
+            android:text="授权登录"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="15sp" />
     </LinearLayout>
+
 </LinearLayout>

@@ -12,6 +12,7 @@ import com.example.fiveyuanstore.fragment.list.PageCommodityClassifyFragment;
 import com.example.fiveyuanstore.fragment.list.PageCommodityClassifyFragment.OnNewClickedListener;
 import com.example.fiveyuanstore.goods.GoodsActivity;
 import com.example.fiveyuanstore.goodslist.GoodsListActivity;
+import com.example.fiveyuanstore.inputcells.PictureActivity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -135,7 +136,7 @@ public class CommodityFragment extends Fragment {
 				
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
+					
 					
 				}
 			});

@@ -2,6 +2,10 @@ package com.example.fiveyuanstore.goods;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import com.example.fiveyuanstore.R;
@@ -11,6 +15,8 @@ import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Goods;
 import com.example.fiveyuanstore.entity.Page;
+import com.example.fiveyuanstore.goods.GoodClassifyFragment.OnConfirmClickedListener;
+import com.example.fiveyuanstore.goods.GoodFilterFragment.OnFilterConfirmClickedListener;
 import com.example.fiveyuanstore.page.CommodityFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,6 +27,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.ContactsContract.Contacts.Data;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,6 +63,10 @@ public class GoodsActivity extends Activity{
 	ImageView search;
 	TextView CommoditySortTime,CommoditySortPrice,CommoditySortCustom;
 	Boolean isGetSearch;
+	GoodClassifyFragment frag=new GoodClassifyFragment();
+	GoodFilterFragment fragFilter=new GoodFilterFragment();
+	Boolean isTimeSort=false;
+	Boolean isPriceSort=false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,13 +92,22 @@ public class GoodsActivity extends Activity{
 		CommoditySortTime=(TextView)findViewById(R.id.commodity_sort_time);
 		CommoditySortPrice=(TextView)findViewById(R.id.commodity_sort_price);
 		CommoditySortCustom=(TextView)findViewById(R.id.commodity_sort_custom);
-
+		
+		findViewById(R.id.btn_goods_back).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+				
+			}
+		});
+		
 		search.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				search();
-
+				CommoditySortCustom.setTextColor(Color.parseColor("#000000"));
 			}
 		});
 		btnLoadMore.setOnClickListener(new View.OnClickListener() {
@@ -109,11 +129,15 @@ public class GoodsActivity extends Activity{
 
 			@Override
 			public void onClick(View v) {
-				CommoditySortTime.setText("时间排序▼");
+				if(isTimeSort)
+					CommoditySortTime.setText("时间排序▼");
+				else
+					CommoditySortTime.setText("时间排序▲");
 				CommoditySortTime.setTextColor(Color.parseColor("#ff5337"));
 				CommoditySortPrice.setText("价格排序");
 				CommoditySortPrice.setTextColor(Color.parseColor("#000000"));
-				CommoditySortCustom.setTextColor(Color.parseColor("#000000"));
+				isPriceSort=false;
+				SortTime();
 
 			}
 		});
@@ -123,26 +147,164 @@ public class GoodsActivity extends Activity{
 			public void onClick(View v) {
 				CommoditySortTime.setText("时间排序");
 				CommoditySortTime.setTextColor(Color.parseColor("#000000"));
-				CommoditySortPrice.setText("价格排序▼");
+				if(isPriceSort)
+					CommoditySortPrice.setText("价格排序▼");
+				else
+					CommoditySortPrice.setText("价格排序▲");
 				CommoditySortPrice.setTextColor(Color.parseColor("#ff5337"));
-				CommoditySortCustom.setTextColor(Color.parseColor("#000000"));
-
+				isTimeSort=false;
+				SortPrice();
 			}
 		});
 		CommoditySortCustom.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				CommoditySortTime.setText("时间排序");
-				CommoditySortTime.setTextColor(Color.parseColor("#000000"));
-				CommoditySortPrice.setText("价格排序");
-				CommoditySortPrice.setTextColor(Color.parseColor("#000000"));
-				CommoditySortCustom.setTextColor(Color.parseColor("#ff5337"));
+				
 
+				getFragmentManager().beginTransaction()
+				.setCustomAnimations(R.animator.slide_in_right,
+				             R.animator.slide_out_left,
+					         R.animator.slide_in_left,
+			                 R.animator.slide_out_right)
+				.replace(R.id.container_in_goods,fragFilter).addToBackStack(null).commit();
+		
 			}
 		});
 		goods_list.setAdapter(listAdapter);
 		goods_list.addFooterView(btnLoadMore);
+		
+		findViewById(R.id.btn_classify).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				getFragmentManager().beginTransaction()
+						.setCustomAnimations(R.animator.slide_in_right,
+						             R.animator.slide_out_left,
+							         R.animator.slide_in_left,
+					                 R.animator.slide_out_right)
+						.replace(R.id.container_in_goods,frag).addToBackStack(null).commit();
+				
+			}
+		});
+		frag.setOnConfirmClickedListener(new OnConfirmClickedListener() {
+			
+			@Override
+			public void onConfirmClicked() {
+				String str=frag.getText();
+				if(str.equals("")){
+					isGetSearch=true;
+					searchText="";
+					search();
+				}
+					
+				else
+					sortList(frag.getText());
+				CommoditySortCustom.setTextColor(Color.parseColor("#000000"));
+			}
+		});
+
+		fragFilter.setOnFilterConfirmClickedListener(new OnFilterConfirmClickedListener() {
+			
+			@Override
+			public void onFilterConfirmClicked() {
+				if(fragFilter.isConfirm()){
+					CommoditySortCustom.setTextColor(Color.parseColor("#ff5337"));
+					for (int i = 0; i < data.size(); i++) {
+						float price = data.get(i).getPrice();
+						float min = fragFilter.getText1();
+						float max = fragFilter.getText2();
+						if (price < min || price > max) {
+							data.remove(i);
+							i--;
+						}
+					}
+				}else{
+					CommoditySortCustom.setTextColor(Color.parseColor("#000000"));
+					isGetSearch=true;
+					searchText="";
+					search();
+				}
+					
+				listAdapter.notifyDataSetInvalidated();
+			}
+		});
+		
+	}
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	void SortTime(){
+		if(isTimeSort)
+		{
+			Collections.sort(data, new Comparator() {
+	            public int compare(Object a, Object b) {
+	            	float one = ((Goods) a).getPrice();
+	            	float two = ((Goods) b).getPrice();
+	            	if(one - two<0)
+	            		return 1;
+	            	else if(one-two==0)
+	            		return 0;
+	            	else
+	            		return -1;
+	            }
+	        });
+			isTimeSort=false;
+		}else{
+	       Collections.sort(data, new Comparator() {
+	            public int compare(Object a, Object b) {
+	            	Date one = ((Goods) a).getCreateDate();
+	            	Date two = ((Goods) b).getCreateDate();
+	            	if(one.getTime() > two.getTime())
+	            		return 1;
+	            	else if(one.getTime()==two.getTime())
+	            		return 0;
+	            	else
+	            		return -1;
+	            }
+	        });
+	       isTimeSort=true;
+		}
+	       listAdapter.notifyDataSetInvalidated();
+
+	}
+	
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	void SortPrice(){
+		if(isPriceSort)
+		{
+			Collections.sort(data, new Comparator() {
+	            public int compare(Object a, Object b) {
+	            	float one = ((Goods) a).getPrice();
+	            	float two = ((Goods) b).getPrice();
+	            	if(one - two<0)
+	            		return 1;
+	            	else if(one-two==0)
+	            		return 0;
+	            	else
+	            		return -1;
+	            }
+	        });
+			isPriceSort=false;
+		}else{
+			Collections.sort(data, new Comparator() {
+	            public int compare(Object a, Object b) {
+	            	float one = ((Goods) a).getPrice();
+	            	float two = ((Goods) b).getPrice();
+	            	if(one - two>0)
+	            		return 1;
+	            	else if(one-two==0)
+	            		return 0;
+	            	else
+	            		return -1;
+	            }
+	        });
+			isPriceSort=true;
+		}
+	       
+	       listAdapter.notifyDataSetInvalidated();
 	}
 	
 	BaseAdapter listAdapter = new BaseAdapter() {

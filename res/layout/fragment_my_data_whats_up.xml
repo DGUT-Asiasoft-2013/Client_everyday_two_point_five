@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#22000000" >
+    android:background="#00000000"
+    android:padding="8dp" >
 
     <FrameLayout
         android:id="@+id/layout_out"
@@ -17,10 +18,30 @@
         android:background="#fff"
         android:orientation="vertical" >
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="请输入你的个性签名" />
+            android:orientation="horizontal"
+            android:padding="3dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="个性签名"
+                android:textColor="#ff593e"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="确定"
+                android:textColor="#ff593e"
+                android:textSize="18sp" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/edit_whats_up"
@@ -30,12 +51,6 @@
 
             <requestFocus />
         </EditText>
-
-        <Button
-            android:id="@+id/confirm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="确定" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -142,6 +142,7 @@ public class MyProfileFragment extends Fragment {
 					itnt.putExtra("email", userEmail);
 					itnt.putExtra("user", myuser);
 					startActivity(itnt);
+					getActivity().overridePendingTransition(R.anim.in_from_bottom,R.anim.out_to_top); 
 				}
 			});
 
@@ -182,8 +183,7 @@ public class MyProfileFragment extends Fragment {
 		normalDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-
-				MainActivity.auto_false();
+			
 				LoginActivity.onNotSaveContent();
 				Intent itnt=new Intent(getActivity(),LoginActivity.class);
 				startActivity(itnt);

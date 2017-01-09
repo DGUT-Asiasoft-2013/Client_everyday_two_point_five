@@ -20,7 +20,7 @@
                 android:layout_width="108dp"
                 android:layout_height="88dp" />
 
-            <FrameLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="115dp" >
@@ -28,7 +28,7 @@
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
-                    android:layout_height="18dp"
+                    android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/img"
                     android:text="Title"
                     android:textColor="@android:color/black"
@@ -38,28 +38,28 @@
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_below="@id/title"
                     android:text="name"
                     android:textColor="@android:color/darker_gray" />
 
                 <TextView
                     android:id="@+id/date"
                     android:layout_width="wrap_content"
-                    android:layout_height="14dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/username"
                     android:text="Create Date"
                     android:textColor="#aaa"
                     android:textSize="12sp" />
-            </FrameLayout>
+            </RelativeLayout>
+            
         </RelativeLayout>
 
         <TextView
             android:id="@+id/money"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/username"
-            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"                       
             android:layout_gravity="right"
+            android:layout_marginRight="8dp"
             android:text="money"
             android:textColor="#FF5000" />
 
@@ -81,6 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" 
+            android:layout_marginTop="18dp"
             android:weightSum="5">
 
             <Button

@@ -67,7 +67,7 @@ public class ChangeActivity extends Activity {
 	  	 
 	   	 MultipartBody.Builder builder = new MultipartBody.Builder()
 	   		        .setType(MultipartBody.FORM)
-	   		     .addFormDataPart("title",title)
+  	   		     .addFormDataPart("title",title)
 	   		        .addFormDataPart("text",text)
 	   		        .addFormDataPart("price",price)
 	   		        .addFormDataPart("goods_count",goods_count);
@@ -141,20 +141,19 @@ public class ChangeActivity extends Activity {
 		
 		
 		frag1.setLabelText("名称");
-		frag1.setHintText("名称");
+		frag1.setText(goods.getTitle());
 		frag1.setIsPsw(false);
-
 		
 		frag2.setLabelText("价格");
-		frag2.setHintText("价格");
+		frag2.setText(String.valueOf(goods.getPrice()));
 		frag2.setIsPsw(false);
 		
 		frag3.setLabelText(" 库存 ");
-		frag3.setHintText(" 库存 ");
+		frag3.setText(String.valueOf(goods.getGoods_count()));
 		frag3.setIsPsw(false);
 		
 		frag4.setLabelText("描述");
-		frag4.setHintText("描述");
+		frag4.setText(goods.getText());
 		frag4.setIsPsw(false);
 		
 		

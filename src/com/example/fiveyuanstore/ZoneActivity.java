@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -34,6 +35,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,7 +50,7 @@ public class ZoneActivity extends Activity{
 	int id;
 	AvatarView avatar;
 	TextView name;
-	TextView sex;
+	ImageView sex;
 	TextView whatsUp;
 	ListView listView;
 	TextView txtLoadmore;
@@ -63,6 +65,8 @@ public class ZoneActivity extends Activity{
 	// 3
 	List<GoodsListNoItem> order3;
 	int page3 = 0;
+	TextView textPage1;
+	TextView textPage2;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -71,13 +75,16 @@ public class ZoneActivity extends Activity{
 		id=(int) getIntent().getSerializableExtra("id");
 		avatar=(AvatarView)findViewById(R.id.avatar);
 		name=(TextView)findViewById(R.id.user_name);
-		sex=(TextView)findViewById(R.id.user_sex);
+		sex=(ImageView)findViewById(R.id.user_sex);
 		whatsUp=(TextView)findViewById(R.id.user_whats_up);
 		listView = (ListView)findViewById(R.id.zone_list);
 		loadMore =LayoutInflater.from(this).inflate(R.layout.widget_load_root_more_btn, null);
 		txtLoadmore = (TextView) loadMore.findViewById(R.id.more_text);
 		listView.addFooterView(loadMore);
 		listView.setAdapter(adapter_goodsInfo);
+		textPage1= (TextView) findViewById(R.id.btn_goods);
+		textPage2= (TextView) findViewById(R.id.btn_goods_list);
+
 		
 
 		findViewById(R.id.btn_zone_back).setOnClickListener(new OnClickListener() {
@@ -88,11 +95,12 @@ public class ZoneActivity extends Activity{
 				
 			}
 		});
-		findViewById(R.id.btn_goods_list).setOnClickListener(new OnClickListener() {
+
+		findViewById(R.id.btn_goods).setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				//ta的清单
+				//ta的商品
 				set_page = 1;
 				reload1();
 				page1 = 0;
@@ -100,19 +108,29 @@ public class ZoneActivity extends Activity{
 				adapter_goodsInfo.notifyDataSetInvalidated();
 				listView.setAdapter(adapter_goodsInfo);
 				
+				textPage1.setTextColor(Color.parseColor("#ff5337"));
+				textPage1.setBackground(getResources().getDrawable(R.drawable.filter));
+				textPage2.setTextColor(Color.parseColor("#000000"));
+				textPage2.setBackground(null);
+				
 			}
 		});
-		findViewById(R.id.btn_goods).setOnClickListener(new OnClickListener() {
+		findViewById(R.id.btn_goods_list).setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				//ta的商品
+				//ta的清单
 				set_page = 3;
 				reload3();
 				page3 = 0;
 				listView.removeAllViewsInLayout();
 				listAdapter_goodsList.notifyDataSetInvalidated();
 				listView.setAdapter(listAdapter_goodsList);
+				
+				textPage2.setTextColor(Color.parseColor("#ff5337"));
+				textPage2.setBackground(getResources().getDrawable(R.drawable.filter));
+				textPage1.setTextColor(Color.parseColor("#000000"));
+				textPage1.setBackground(null);
 				
 			}
 		});
@@ -249,8 +267,10 @@ public class ZoneActivity extends Activity{
 					runOnUiThread(new Runnable() {
 						public void run() {
 							ZoneActivity.this.myInfor = infor;
-							sex.setText(infor.getSex());
-
+							if(infor.getSex().equals("女"))
+								sex.setImageDrawable(getResources().getDrawable(R.drawable.ic_female));
+							else
+								sex.setImageDrawable(getResources().getDrawable(R.drawable.ic_male));
 							if(infor.getWhats_up()==""||infor.getWhats_up()==null)
 								whatsUp.setText("这个用户真懒，ta还没写签名~！");
 							else

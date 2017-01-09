@@ -46,10 +46,5 @@
 			<type>1</type>
 			<locationURI>PARENT-4-PROJECT_LOC/Administrator/Desktop/sign_bg.png</locationURI>
 		</link>
-		<link>
-			<name>res/drawable/sign_in_bg.jpg</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/Administrator/Desktop/sign_in_bg.jpg</locationURI>
-		</link>
 	</linkedResources>
 </projectDescription>

@@ -27,10 +27,9 @@ import okhttp3.Response;
 
 public class MainActivity extends Activity {
 
-	SharedPreferences sharedPreferences;
+	public static SharedPreferences sharedPreferences;
 	String uName = null;
 	String uPassWord = null;
-	public Boolean auto;
 	static SharedPreferences shared;
 
 	@Override
@@ -69,20 +68,12 @@ public class MainActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 
-		sharedPreferences = getSharedPreferences("auto", Context.MODE_PRIVATE);
-
-		if (sharedPreferences.getString("auto", "").equals("true")) {
-			auto = true;
-		} else {
-			auto = false;
-		}
-
 		Handler handler = new Handler();
 		handler.postDelayed(new Runnable() {
 
 			@Override
 			public void run() {
-				if (auto) {
+				if (uPassWord!="") {
 					login();
 				} else {
 					auto_true();
