@@ -21,20 +21,27 @@
                 class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
                 tools:layout="@layout/fragment_inputcell_simpletext" />
 
-            <TextView
-                android:id="@+id/phonetxt"
-                android:text="联系电话"
-                 android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                ></TextView>
-                
-            <EditText 
-                android:id="@+id/phone"
-                android:singleLine="true"
-				android:numeric="integer"
-				 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
- 
+                android:orientation="vertical"
+                android:padding="8dp" >
+
+                <TextView
+                    android:id="@+id/phonetxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="联系电话" />
+
+                <EditText
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_bar"
+                    android:numeric="integer"
+                    android:singleLine="true" />
+            </LinearLayout>
 
             <fragment
                 android:id="@+id/address"
@@ -42,27 +49,33 @@
                 android:layout_height="wrap_content"
                 class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
                 tools:layout="@layout/fragment_inputcell_simpletext" />
-            
-            
-            <TextView
-                android:id="@+id/counttxt"
-                android:text="數量"
-                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                ></TextView>
-                
-            <EditText 
-                android:id="@+id/count"
-                android:singleLine="true"
-				android:numeric="integer"
-				 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
 
-            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp" >
+
+                <TextView
+                    android:id="@+id/counttxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="數量" />
+
+                <EditText
+                    android:id="@+id/count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_bar"
+                    android:numeric="integer"
+                    android:singleLine="true" />
+            </LinearLayout>
+
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" 
-                android:padding="8dp">
+                android:layout_height="wrap_content"
+                android:padding="8dp" >
 
                 <TextView
                     android:id="@+id/pay_money"
@@ -77,16 +90,15 @@
                     android:gravity="bottom"
                     android:text="money" >
                 </TextView>
-                
             </FrameLayout>
 
             <Button
                 android:id="@+id/btn_submit"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                 android:background="#FF5000"
-                android:textColor="@android:color/white"
-                android:text="SUBMIT" />
+                android:background="#FF5000"
+                android:text="SUBMIT"
+                android:textColor="@android:color/white" />
         </LinearLayout>
     </ScrollView>
 
