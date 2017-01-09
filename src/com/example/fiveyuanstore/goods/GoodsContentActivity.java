@@ -148,6 +148,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		  like.setOnClickListener(this);
 		  down.setOnClickListener(this);
 		  send_wx.setOnClickListener(this);
+		  call.setOnClickListener(this);
 	}
 
 	  //点击事件

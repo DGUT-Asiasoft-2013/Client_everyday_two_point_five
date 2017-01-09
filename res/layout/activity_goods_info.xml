@@ -20,7 +20,7 @@
                 android:layout_width="108dp"
                 android:layout_height="88dp" />
 
-            <FrameLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="115dp" >
@@ -38,7 +38,7 @@
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_below="@id/title"
                     android:text="name"
                     android:textColor="@android:color/darker_gray" />
 
@@ -46,11 +46,12 @@
                     android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
+                    android:layout_below="@id/username"
                     android:text="Create Date"
                     android:textColor="#aaa"
                     android:textSize="12sp" />
-            </FrameLayout>
+            </RelativeLayout>
+            
         </RelativeLayout>
 
         <TextView
@@ -80,6 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" 
+            android:layout_marginTop="18dp"
             android:weightSum="5">
 
             <Button
