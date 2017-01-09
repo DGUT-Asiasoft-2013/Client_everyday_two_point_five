@@ -118,7 +118,7 @@ public class CommentInfoActivity extends Activity {
 	//点赞
 	void Likes() {
 		MultipartBody body = new MultipartBody.Builder().addFormDataPart("likes", String.valueOf(!isLiked)).build();
-		Log.d("com_id", ""+com_id);
+		//Log.d("com_id", ""+com_id);
 		Request request = Server.requestBuilderWithPath("comment/" + com_id + "/likes").post(body).build();
 
 		Server.getClient().newCall(request).enqueue(new Callback() {
@@ -134,8 +134,9 @@ public class CommentInfoActivity extends Activity {
 						@Override
 						public void run() {
 							getDownNum();
-							onReloadLikesResult(count,downNum);
 							reload();
+							onReloadLikesResult(count,downNum);
+						
 							isLiked = true;
 							isDowned = false;
 						}
