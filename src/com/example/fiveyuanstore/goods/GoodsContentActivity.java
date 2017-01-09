@@ -288,12 +288,14 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		AbstractWeibo.initSDK(this);	
 		initImagePath();  
 		
-		checkLiked();
+		
 		reloadLikes();
 		reloadDowns();
+		checkLiked();
 		checkDowned();
 		onCheckLikedResult(isLiked);
 		onCheckDownedResult(isDowned);
+		
 		Request request = Server.requestBuilderWithPath("/goods/" + goods.getId() + "/comments").get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
@@ -301,9 +303,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 			public void onResponse(Call arg0, Response arg1) throws IOException {
 				try {
 					final Page<Comment> data = new ObjectMapper().readValue(arg1.body().string(),
-							new TypeReference<Page<Comment>>() {
-
-							});
+													new TypeReference<Page<Comment>>() {});
 					runOnUiThread(new Runnable() {
 						public void run() {
 							GoodsContentActivity.this.reloadData(data);
@@ -645,6 +645,8 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		} else {
 			count_num.setText("-"+Math.abs(count));
 		}
+		onCheckLikedResult(isLiked);
+		onCheckDownedResult(isDowned);
 	}
     
 	//踩  
@@ -669,10 +671,10 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 						@Override
 						public void run() {
 							getLikeNum();
-							reload();
 							onReloadLikesResult(likeNum,downNum);
 							isDowned = true;
 							isLiked = false;
+							reload();
 							
 						}
 					});
@@ -717,10 +719,11 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 							@Override
 							public void run() {
 								getDownNum();
-								reload();
+						
 								onReloadLikesResult(likeNum,downNum);
 								isLiked = true;
 								isDowned = false;
+								reload();
 							
 							}
 						});

@@ -67,6 +67,7 @@ public class GoodsActivity extends Activity{
 	GoodFilterFragment fragFilter=new GoodFilterFragment();
 	Boolean isTimeSort=false;
 	Boolean isPriceSort=false;
+	String loadType;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,13 +75,18 @@ public class GoodsActivity extends Activity{
 		type=(String) getIntent().getSerializableExtra("type");
 		isGetSearch=false;
 		if(type.equals("sort")){
+			isGetSearch=false;
+			loadType="sort";
 			sort=(String) getIntent().getSerializableExtra("sort");
 			sortList(sort);
+			
 		}else if(type.equals("searchText")){
-			searchText=(String) getIntent().getSerializableExtra("searchText");
 			isGetSearch=true;
+			loadType="searchText";
+			searchText=(String) getIntent().getSerializableExtra("searchText");
 			search();
 		}else{
+			loadType="reload";
 			reload();
 		}
 		setContentView(R.layout.activity_goods);
@@ -106,6 +112,7 @@ public class GoodsActivity extends Activity{
 
 			@Override
 			public void onClick(View v) {
+				loadType="searchText";
 				search();
 				CommoditySortCustom.setTextColor(Color.parseColor("#000000"));
 			}
@@ -195,11 +202,15 @@ public class GoodsActivity extends Activity{
 				if(str.equals("")){
 					isGetSearch=true;
 					searchText="";
+					loadType="searchText";
 					search();
 				}
 					
-				else
+				else{
+					isGetSearch=false;
+					loadType="sort";
 					sortList(frag.getText());
+				}
 				CommoditySortCustom.setTextColor(Color.parseColor("#000000"));
 			}
 		});
@@ -209,6 +220,7 @@ public class GoodsActivity extends Activity{
 			@Override
 			public void onFilterConfirmClicked() {
 				if(fragFilter.isConfirm()){
+					
 					CommoditySortCustom.setTextColor(Color.parseColor("#ff5337"));
 					for (int i = 0; i < data.size(); i++) {
 						float price = data.get(i).getPrice();
@@ -406,6 +418,7 @@ public class GoodsActivity extends Activity{
 	}
 	void reload() {
 		Request request = Server.requestBuilderWithPath("feeds").get().build();
+		
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
 			@Override
@@ -508,8 +521,27 @@ public class GoodsActivity extends Activity{
 	void loadmore() {
 		btnLoadMore.setEnabled(false);
 		textLoadMore.setText("载入中。。。");
+		Request request;
+		if(loadType.equals("sort")){
+			 request = Server.requestBuilderWithPath("goods/sort/"+sort+"/"+ (page + 1)).get().build();
+		}
+		else if(loadType.equals("searchText")){
+			String sText;
+			if(isGetSearch){
+				sText=searchText;
+				isGetSearch=false;
+			}else
+				sText=search_text.getText().toString();
 
-		Request request = Server.requestBuilderWithPath("feeds/" + (page + 1)).get().build();
+			MultipartBody.Builder body=new 
+					MultipartBody.Builder()
+					.setType(MultipartBody.FORM)
+					.addFormDataPart("text", sText);
+			RequestBody requestBody=body.build();
+			 request=Server.requestBuilderWithPath("/search/"+ (page + 1)).post(requestBody).build();
+		}else
+			 request = Server.requestBuilderWithPath("feeds/" + (page + 1)).get().build();
+		
 		Server.getClient().newCall(request).enqueue(new Callback() {
 
 			@Override
