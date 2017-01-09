@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.example.fiveyuanstore.R;
+import com.example.fiveyuanstore.ZoneActivity;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.Comment;
@@ -64,7 +65,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 	private Goods goods;
 	List<Comment> comments;
 	int page=0;
-	private Button shareGuiBtn, btn_buy, send_wx;
+	private Button  btn_buy;
 	private Button call;
 	private boolean isLiked;
 	//定义图片存放的地址  
@@ -74,6 +75,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
     TextView count_num;
 	private boolean isDowned = false;
 	private int downNum = 0, likeNum = 0;
+	ListView listView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -88,24 +90,24 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		TextView title = (TextView) findViewById(R.id.title);// 商品名
 		TextView date = (TextView) findViewById(R.id.date);
 		TextView content = (TextView) findViewById(R.id.text);
+		TextView count= (TextView) findViewById(R.id.count);
 		img = (ProImgView) findViewById(R.id.img);// 商品图片
 		TextView money = (TextView) findViewById(R.id.money);
-		ListView listView = (ListView) findViewById(R.id.goods_comment);
+		 listView = (ListView) findViewById(R.id.goods_comment);
 		like = (Button) findViewById(R.id.like);
 		down = (Button) findViewById(R.id.down);
 		count_num = (TextView) findViewById(R.id.count_num);
-		send_wx = (Button) findViewById(R.id.send_wx);
 	
-		shareGuiBtn = (Button)findViewById(R.id.btnShareAllGui);
-		goods = (Goods) getIntent().getSerializableExtra("pos");
 
-		title.setText(goods.getTitle() + "(库存：" + goods.getGoods_count() + ")");
+		goods = (Goods) getIntent().getSerializableExtra("pos");
+		 count.setText("剩余："+goods.getGoods_count()); 
+		title.setText("            "+goods.getTitle());
 		name.setText("卖家：" + goods.getSale_name());
 		String dateStr = DateFormat.format("yyyy-MM-dd hh:mm", goods.getCreateDate()).toString();
 		date.setText(dateStr);
 		img.load(goods);
 		money.setText("$" + Float.toString(goods.getPrice()));
-		content.setText("商品简介：" + goods.getText());
+		content.setText("商品简介：\n         " + goods.getText());
 
 		btn_buy = (Button) findViewById(R.id.btn_buy);
 		call = (Button) findViewById(R.id.call);
@@ -118,10 +120,22 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 			}
 		});
 		listView.setAdapter(listAdapter);
+		
 		initData();
 		reloadLikes();
 	}
-	
+	 private void setListViewHeight(ListView listView, BaseAdapter adapter,
+			 int count) {
+			 int totalHeight = 0;
+			 for (int i = 0; i < count; i++) {
+			 View listItem = adapter.getView(i, null, listView);
+			 listItem.measure(0, 0);
+			 totalHeight += listItem.getMeasuredHeight();
+			 }
+			 ViewGroup.LayoutParams params = listView.getLayoutParams();
+			 params.height = totalHeight + (listView.getDividerHeight() * count);
+			 listView.setLayoutParams(params);
+			 }
 	
 	
 	@Override
@@ -129,7 +143,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onResume();
 		reload();
-
+		
 	}
 
 	// 订单处理
@@ -143,27 +157,38 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 	}
 	
 	  private void initData() {
-		  shareGuiBtn.setOnClickListener(this);
+		  findViewById(R.id.btnShareAllGui).setOnClickListener(this);
 		  btn_buy.setOnClickListener(this);
 		  like.setOnClickListener(this);
 		  down.setOnClickListener(this);
-		  send_wx.setOnClickListener(this);
+		  findViewById(R.id.send_wx).setOnClickListener(this);
 		  call.setOnClickListener(this);
+		  findViewById(R.id.zone).setOnClickListener(this);
+		  findViewById(R.id.btn_goods_content_back).setOnClickListener(this);
 	}
 
 	  //点击事件
 		@Override
 		public void onClick(View v) {
+			Intent itnt;
 			switch(v.getId()){
+			case R.id.btn_goods_content_back:
+				 finish();
+				break;
+			case R.id.zone:
+				 itnt = new Intent(GoodsContentActivity.this, ZoneActivity.class);
+				itnt.putExtra("id", goods.getUser().getId());
+				startActivity(itnt);
+				break;
 			case R.id.btn_buy:
-				Intent itnt = new Intent(GoodsContentActivity.this, BuyActivity.class);
+				 itnt = new Intent(GoodsContentActivity.this, BuyActivity.class);
 				itnt.putExtra("goods", goods);
 				startActivity(itnt);
 				break;
 				
 			case R.id.btnShareAllGui:  //分享事件
-		            showGrid(false);  
-		            break; 
+		        showGrid(false);  
+		        break; 
 			case R.id.call:
 				toCall();
 				break;
@@ -307,6 +332,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 					runOnUiThread(new Runnable() {
 						public void run() {
 							GoodsContentActivity.this.reloadData(data);
+							setListViewHeight(listView,listAdapter,listAdapter.getCount());
 						}
 					});
 
