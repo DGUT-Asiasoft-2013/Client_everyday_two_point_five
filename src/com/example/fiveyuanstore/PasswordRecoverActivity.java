@@ -68,7 +68,7 @@ public class PasswordRecoverActivity extends Activity {
 
 		OkHttpClient client=Server.getClient();
 		MultipartBody body=new MultipartBody.Builder()
-				.addFormDataPart("email", step1.getText())
+				.addFormDataPart("email", step1.getEmail())
 				.addFormDataPart("passwordHash", MD5.getMD5(step2.getText()))
 				.build();
 				
