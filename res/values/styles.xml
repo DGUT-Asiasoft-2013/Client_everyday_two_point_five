@@ -206,6 +206,7 @@
     </style>
 
     <style name="MMLineActionButton" parent="@style/MMLineButton">
+        <item name="android:background">@drawable/btn_style_one</item>
         <item name="android:textColor">@color/mm_style_one_btn_text</item>
         <item name="android:shadowColor">#000000</item>
         <item name="android:shadowDy">1.2</item>
