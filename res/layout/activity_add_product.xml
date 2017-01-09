@@ -5,9 +5,44 @@
     android:layout_height="wrap_content"
     android:windowSoftInputMode="stateVisible"
      >
+             <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp" >
+
+            <ImageView
+                android:id="@+id/btn_add_product_back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_back" />
+
+            <FrameLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:background="#ddd" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="17dp"
+                android:text="添加清单"
+                android:textSize="15dp" />
+        </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ddd" 
+            android:layout_marginTop="55dp"/>
     <ScrollView 
            android:layout_width="match_parent"
     		android:layout_height="wrap_content"
+    		android:layout_marginTop="55dp"
     		>
     	<LinearLayout 
     	    android:layout_width="match_parent"

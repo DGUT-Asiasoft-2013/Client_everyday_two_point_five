@@ -17,6 +17,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -85,6 +86,15 @@ public class AddProductActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				publishGoods();
+			}
+		});
+		
+		findViewById(R.id.btn_add_product_back).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+				
 			}
 		});
 	}
