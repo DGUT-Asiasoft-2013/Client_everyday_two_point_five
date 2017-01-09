@@ -121,6 +121,8 @@ public class MainActivity extends Activity {
 			public void onFailure(Call arg0, final IOException e) {
 				runOnUiThread(new Runnable() {
 					public void run() {
+						onfailure(e);
+						startLoginActivity();
 					}
 				});
 			}
@@ -131,5 +133,9 @@ public class MainActivity extends Activity {
 		Intent itnt = new Intent(this, StoreActivity.class);
 		startActivity(itnt);
 		finish();
+	}
+	void onfailure(IOException e){
+		Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
 	}
 }
