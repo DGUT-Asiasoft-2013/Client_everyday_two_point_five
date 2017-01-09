@@ -10,32 +10,27 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/R1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-             >
+            android:layout_height="wrap_content" >
 
             <com.example.fiveyuanstore.customViews.ProImgView
                 android:id="@+id/img"
                 android:layout_width="108dp"
-                android:layout_height="98dp"
-                android:layout_weight="2" />
+                android:layout_height="88dp" />
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:padding="2dp"
-                android:orientation="vertical" >
+                android:layout_marginLeft="115dp" >
 
                 <TextView
                     android:id="@+id/title"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:layout_toRightOf="@+id/img"
                     android:text="Title"
-                    
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -43,53 +38,54 @@
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
                     android:text="name"
                     android:textColor="@android:color/darker_gray" />
 
                 <TextView
                     android:id="@+id/date"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="14dp"
+                    android:layout_marginTop="32dp"
                     android:text="Create Date"
                     android:textColor="#aaa"
                     android:textSize="12sp" />
-            </LinearLayout>
+            </FrameLayout>
 
-            <LinearLayout
-                android:layout_width="30dp"
+            <Button
+                android:id="@+id/like"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/like"
+                android:text=" " />
+
+            <TextView
+                android:id="@+id/count_num"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical" 
-                android:layout_weight="2">
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_below="@id/like"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="20dp"
+                android:text=" " >
+            </TextView>
 
-                <Button
-                    android:id="@+id/like"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/like"
-                    android:text=" " />
-
-                <TextView
-                    android:id="@+id/count_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/like"
-                    android:layout_gravity="center_horizontal"
-                    android:text=" " >
-                </TextView>
-
-                <Button
-                    android:id="@+id/down"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/down"
-                    android:text=" " />
-            </LinearLayout>
-        </LinearLayout>
+            <Button
+                android:id="@+id/down"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_below="@id/count_num"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/down"
+                android:text=" " />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/money"
@@ -97,9 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/username"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="8dp"
             android:layout_gravity="right"
-            android:textSize="20sp"
             android:text="money" />
 
         <FrameLayout
@@ -120,7 +114,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="5" >
+            android:weightSum="6" >
 
             <Button
                 android:id="@+id/call"
@@ -157,6 +151,20 @@
                     android:layout_marginLeft="15dp"
                     android:background="@drawable/share"
                     android:textColor="@android:color/white" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/send_wx"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginLeft="2dp"
+                    android:background="@drawable/share" />
             </FrameLayout>
         </LinearLayout>
 
