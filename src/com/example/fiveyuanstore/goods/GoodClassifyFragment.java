@@ -34,6 +34,8 @@ public class GoodClassifyFragment extends Fragment {
 
 				}
 			});
+			
+			
 			view.findViewById(R.id.all).setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -46,11 +48,12 @@ public class GoodClassifyFragment extends Fragment {
 					}
 				}
 			});
-			view.findViewById(R.id.all).setOnClickListener(new OnClickListener() {
+			
+			view.findViewById(R.id.clothing).setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					sort="";
+					sort="clothing";
 					if (OnConfirmClickedListener != null) {
 						
 						OnConfirmClickedListener.onConfirmClicked();
@@ -70,6 +73,34 @@ public class GoodClassifyFragment extends Fragment {
 					}
 				}
 			});
+			
+			view.findViewById(R.id.sport).setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					sort="sport";
+					if (OnConfirmClickedListener != null) {
+						
+						OnConfirmClickedListener.onConfirmClicked();
+						getActivity().onBackPressed();
+					}
+				}
+			});
+			
+			view.findViewById(R.id.drink).setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					sort="drink";
+					if (OnConfirmClickedListener != null) {
+						
+						OnConfirmClickedListener.onConfirmClicked();
+						getActivity().onBackPressed();
+					}
+				}
+			});
+			
+			
 			view.findViewById(R.id.snack).setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -82,18 +113,7 @@ public class GoodClassifyFragment extends Fragment {
 					}
 				}
 			});
-			view.findViewById(R.id.clothing).setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					sort="clothing";
-					if (OnConfirmClickedListener != null) {
-						
-						OnConfirmClickedListener.onConfirmClicked();
-						getActivity().onBackPressed();
-					}
-				}
-			});
 			view.findViewById(R.id.others).setOnClickListener(new OnClickListener() {
 
 				@Override

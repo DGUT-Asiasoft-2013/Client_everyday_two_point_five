@@ -124,6 +124,12 @@ public class AddProductActivity extends Activity {
 		case "水果":
 			sort= "fruit";
 			break;
+		case "体育用品":
+			sort= "sport";
+			break;
+		case "饮料":
+			sort= "drink";
+			break;
 		case "零食":
 			sort = "snack";
 			break;
@@ -135,7 +141,7 @@ public class AddProductActivity extends Activity {
 		
 		}}
 		else{
-			sort = "all";
+			sort = "";
 		}
 		
 	  	 
