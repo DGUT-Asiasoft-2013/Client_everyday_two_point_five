@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import okhttp3.Call;
@@ -30,6 +31,7 @@ public class TransactionActivity extends Activity {
 
 	List<Record> records;
 	int page=0;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class TransactionActivity extends Activity {
 		setContentView(R.layout.activity_transaction);
 
 		ListView listView = (ListView) findViewById(R.id.transaction_list);
+
 		listView.setAdapter(listAdapter);
 		
 		findViewById(R.id.btn_transaction_back).setOnClickListener(new OnClickListener() {
@@ -66,10 +69,17 @@ public class TransactionActivity extends Activity {
 			TextView money = (TextView) view.findViewById(R.id.money);
 			TextView state = (TextView) view.findViewById(R.id.state);
 			TextView date = (TextView) view.findViewById(R.id.date);
-
+			ImageView imgTransaction=(ImageView) view.findViewById(R.id.img_transaction);
 			Record record = records.get(position);
-
-			money.setText(record.getMoney().toString());
+			if(record.getState().equals("充值")){
+				imgTransaction.setImageResource(R.drawable.ic_money_put);
+				money.setText("+$"+record.getMoney().toString());
+			}
+			else{
+				imgTransaction.setImageResource(R.drawable.ic_money_take);
+				money.setText("-$"+record.getMoney().toString());
+			}
+			
 			state.setText(record.getState());
 			String dateStr = DateFormat.format("yyyy-MM-dd hh:mm", record.getCreateDate()).toString();
 			date.setText(dateStr);

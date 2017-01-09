@@ -2,41 +2,61 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="#fff">
 
 <RelativeLayout 
        android:layout_height="wrap_content"
-       android:layout_width="wrap_content">
+       android:layout_width="wrap_content"
+       >
 
     <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher" />
+        android:id="@+id/img_transaction"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="7dp"
+        android:src="@drawable/ic_money_put" />
 
    
     <TextView
         android:id="@+id/money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/imageView1"
+        android:layout_toRightOf="@id/img_transaction"
+        android:layout_alignTop="@id/img_transaction"
         android:text="money" />
+    
+    <TextView
+        android:id="@+id/state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/img_transaction"
+        android:layout_alignBottom="@id/img_transaction"
+        android:text="state" />
 
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="date" />
+        android:layout_margin="4dp"
+        android:paddingRight="6dp"
+        android:text="date" 
+        android:textColor="#999"/>
 
-    <TextView
-        android:id="@+id/state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/imageView1"
-        android:layout_below="@+id/money"
-        android:text="state" />
+    
 
     </RelativeLayout>
+    <FrameLayout 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="7dp"
+        android:background="#ddd"/>
+        <FrameLayout 
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#eee"/>
 
 </LinearLayout>
