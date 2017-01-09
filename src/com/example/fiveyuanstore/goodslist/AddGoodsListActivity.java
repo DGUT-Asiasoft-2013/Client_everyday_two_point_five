@@ -97,7 +97,7 @@ public class AddGoodsListActivity extends Activity {
 		int_items = new int[data.size()];
 		checkedItems = new boolean[data.size()];
 		for (int i = 0; i < data.size(); i++) {
-			items[i] ="商品:"+data.get(i).getTitle();
+			items[i] ="商品: "+data.get(i).getTitle();
 			int_items[i] = data.get(i).getId();
 			checkedItems[i] = false;
 		}
