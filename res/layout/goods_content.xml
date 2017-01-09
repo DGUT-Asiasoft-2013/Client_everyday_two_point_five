@@ -14,14 +14,13 @@
             android:id="@+id/R1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-             >
+            android:orientation="horizontal" >
 
             <com.example.fiveyuanstore.customViews.ProImgView
                 android:id="@+id/img"
                 android:layout_width="108dp"
                 android:layout_height="98dp"
-                android:layout_weight="2" />
+                 android:layout_weight="2" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -35,7 +34,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Title"
-                    
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -48,8 +46,8 @@
 
                 <TextView
                     android:id="@+id/date"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
                     android:text="Create Date"
                     android:textColor="#aaa"
                     android:textSize="12sp" />
@@ -61,35 +59,35 @@
                 android:layout_marginTop="5dp"
                 android:orientation="vertical" 
                 android:layout_weight="2">
+                
+            <Button
+                android:id="@+id/like"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/like"
+                android:text=" " />
 
-                <Button
-                    android:id="@+id/like"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/like"
-                    android:text=" " />
+            <TextView
+                android:id="@+id/count_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/like"
+                android:layout_gravity="center_horizontal"
+                android:text=" " >
+            </TextView>
 
-                <TextView
-                    android:id="@+id/count_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/like"
-                    android:layout_gravity="center_horizontal"
-                    android:text=" " >
-                </TextView>
-
-                <Button
-                    android:id="@+id/down"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/down"
-                    android:text=" " />
-            </LinearLayout>
+            <Button
+                android:id="@+id/down"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/down"
+                android:text=" " />
         </LinearLayout>
+</LinearLayout>
 
         <TextView
             android:id="@+id/money"
@@ -97,8 +95,8 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/username"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="8dp"
             android:layout_gravity="right"
+            android:layout_marginRight="8dp"
             android:textSize="20sp"
             android:text="money" />
 
@@ -120,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="5" >
+            android:weightSum="6" >
 
             <Button
                 android:id="@+id/call"
@@ -157,6 +155,20 @@
                     android:layout_marginLeft="15dp"
                     android:background="@drawable/share"
                     android:textColor="@android:color/white" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/send_wx"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginLeft="2dp"
+                    android:background="@drawable/share" />
             </FrameLayout>
         </LinearLayout>
 

@@ -23,13 +23,13 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/img"
                 android:layout_marginLeft="115dp" >
 
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/img"
+                    android:layout_height="wrap_content"            
                     android:text="Title"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
@@ -51,6 +51,7 @@
                     android:textColor="#aaa"
                     android:textSize="12sp" />
             </RelativeLayout>
+            
         </RelativeLayout>
 
         <TextView
@@ -80,6 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" 
+            android:layout_marginTop="18dp"
             android:weightSum="5">
 
             <Button

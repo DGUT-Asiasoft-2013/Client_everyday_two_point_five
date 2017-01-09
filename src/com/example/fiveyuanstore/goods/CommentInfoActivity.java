@@ -57,7 +57,11 @@ public class CommentInfoActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Likes();
-				Toast.makeText(CommentInfoActivity.this, "点赞成功", Toast.LENGTH_LONG).show();
+				if (!isLiked){
+					Toast.makeText(CommentInfoActivity.this, "点赞成功", Toast.LENGTH_LONG).show();
+				}else{
+					Toast.makeText(CommentInfoActivity.this, "取消赞成功", Toast.LENGTH_LONG).show();
+				}
 			}
 		});
 		down.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +70,12 @@ public class CommentInfoActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				down();
-				Toast.makeText(CommentInfoActivity.this, "踩贴成功", Toast.LENGTH_LONG).show();
+				if( !isDowned){
+					Toast.makeText(CommentInfoActivity.this, "踩贴成功", Toast.LENGTH_LONG).show();
+				}else{
+					Toast.makeText(CommentInfoActivity.this, "取消踩贴成功", Toast.LENGTH_LONG).show();
+				}
+				
 			}
 		});
 		
@@ -109,7 +118,7 @@ public class CommentInfoActivity extends Activity {
 	//点赞
 	void Likes() {
 		MultipartBody body = new MultipartBody.Builder().addFormDataPart("likes", String.valueOf(!isLiked)).build();
-		Log.d("com_id", ""+com_id);
+		//Log.d("com_id", ""+com_id);
 		Request request = Server.requestBuilderWithPath("comment/" + com_id + "/likes").post(body).build();
 
 		Server.getClient().newCall(request).enqueue(new Callback() {
@@ -125,8 +134,10 @@ public class CommentInfoActivity extends Activity {
 						@Override
 						public void run() {
 							getDownNum();
-							onReloadLikesResult(count,downNum);
 							reload();
+							onReloadLikesResult(count,downNum);
+						
+							isLiked = true;
 							isDowned = false;
 						}
 					});
@@ -178,7 +189,12 @@ public class CommentInfoActivity extends Activity {
 			@Override
 			public void onFailure(Call arg0, IOException arg1) {
 				// TODO Auto-generated method stub
-				
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						Toast.makeText(CommentInfoActivity.this, "操作失败", Toast.LENGTH_LONG).show();
+					}
+				});
 			}
 		});
 	}
@@ -214,7 +230,12 @@ public class CommentInfoActivity extends Activity {
 			@Override
 			public void onFailure(Call arg0, IOException arg1) {
 				// TODO Auto-generated method stub
-				
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						Toast.makeText(CommentInfoActivity.this, "操作失败", Toast.LENGTH_LONG).show();
+					}
+				});
 			}
 		});
 	}
@@ -243,8 +264,10 @@ public class CommentInfoActivity extends Activity {
 							@Override
 							public void run() {
 								getLikeNum();
-								onReloadLikesResult(likeNum,count);
 								reload();
+								onReloadLikesResult(likeNum,count);
+							
+								isDowned = true;
 								isLiked = false;
 							}
 						});
@@ -279,7 +302,7 @@ public class CommentInfoActivity extends Activity {
 		
 		 
 	    void checkLiked() {
-			Request request = Server.requestBuilderWithPath("comment/" + com_id + "/isliked").get().build();
+			Request request = Server.requestBuilderWithPath("comment/" + com_id + "/isLiked").get().build();
 			Server.getClient().newCall(request).enqueue(new Callback() {
 				@Override
 				public void onResponse(Call arg0, Response arg1) throws IOException {
@@ -353,7 +376,7 @@ public class CommentInfoActivity extends Activity {
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							onCheckLikedResult(false);
+							onCheckDownedResult(false);
 						}
 					});
 				}
