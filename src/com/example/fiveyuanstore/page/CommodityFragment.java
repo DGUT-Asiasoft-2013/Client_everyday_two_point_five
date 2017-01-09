@@ -289,11 +289,11 @@ public class CommodityFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		all.setLabelImage(R.drawable.ic_others);
+		all.setLabelImage(R.drawable.ic_all);
 		clothing.setLabelImage(R.drawable.ic_clothes);
 		fruit.setLabelImage(R.drawable.ic_frult);
-		sport.setLabelImage(R.drawable.ic_others);
-		drink.setLabelImage(R.drawable.ic_others);
+		sport.setLabelImage(R.drawable.ic_sport);
+		drink.setLabelImage(R.drawable.ic_drink);
 		snack.setLabelImage(R.drawable.ic_snacks);
 		others.setLabelImage(R.drawable.ic_others);
 		
