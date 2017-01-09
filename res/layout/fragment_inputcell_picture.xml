@@ -11,9 +11,8 @@
         android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="选择图片"
-        android:textColor="@android:color/black"
-        android:textSize="12sp" />
+        android:text="选择头像"
+        android:textColor="@android:color/black"/>
 
     <FrameLayout
         android:layout_width="match_parent"
