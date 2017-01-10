@@ -198,6 +198,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#ddd" />
+            <RelativeLayout 
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="#fff">
+                
+                
+                <TextView 
+                    android:id="@+id/call_buyer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="联系买家"
+                    android:padding="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"/>
+              
+              <FrameLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#ddd" 
+                android:layout_toLeftOf="@id/call_buyer"
+                android:layout_margin="4dp"/>
+                
+                
+            </RelativeLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ddd" />
 
             <FrameLayout
                 android:layout_width="match_parent"

@@ -11,11 +11,15 @@ import com.example.fiveyuanstore.customViews.ProImgView;
 import com.example.fiveyuanstore.entity.MyOrder;
 import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.fragment.widgets.AvatarView;
+import com.example.fiveyuanstore.goods.GoodsContentActivity;
+import com.example.fiveyuanstore.myProfiles.InboxChetActivity;
 import com.example.fiveyuanstore.page.MyProfileFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -63,11 +67,47 @@ public class OrderInfoActivity extends Activity {
 		proImg.load(order.getGoods());
 		orderId.setText("订单编号： " + order.getOrder_num());
 		name.setText(" " + order.getGoods().getText());
+		
+		avatar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(OrderInfoActivity.this, ZoneActivity.class);
+				intent.putExtra("id", order.getBuyer_id());
+				startActivity(intent);
+				
+			}
+		});
 		findViewById(R.id.btn_order_info_back).setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				finish();
+				
+			}
+		});
+		
+		findViewById(R.id.call_buyer).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(order.getBuyer_id()!=order.getSale_id()){
+					Intent itnts = new Intent(OrderInfoActivity.this, InboxChetActivity.class);
+					itnts.putExtra("name", buyerUser.getUser_name());
+					startActivity(itnts);
+				}else{
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							new AlertDialog.Builder(OrderInfoActivity.this)
+							.setNegativeButton("OK", null)
+							.setTitle("哎呀")
+							.setMessage("不能给自己发私信哦")
+							.show();
+						}
+					});
+				}
+				
 				
 			}
 		});
