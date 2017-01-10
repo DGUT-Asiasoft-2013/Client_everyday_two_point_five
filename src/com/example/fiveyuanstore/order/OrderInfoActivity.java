@@ -32,8 +32,8 @@ public class OrderInfoActivity extends Activity {
 
 		setContentView(R.layout.activity_order_info);
 		order = (MyOrder) getIntent().getSerializableExtra("orders");
-		final Button sureSendGoods = (Button) findViewById(R.id.sureSendGoods);
-		final Button cancleOrder = (Button) findViewById(R.id.cancleOrder);
+		TextView sureSendGoods = (TextView) findViewById(R.id.sureSendGoods);
+		TextView cancleOrder = (TextView) findViewById(R.id.cancleOrder);
 		ProImgView proImg = (ProImgView) findViewById(R.id.proImg);
 		TextView orderId = (TextView) findViewById(R.id.orderid);
 		TextView goods_num = (TextView) findViewById(R.id.orderNum);
@@ -87,7 +87,7 @@ public class OrderInfoActivity extends Activity {
 			public void onClick(View v) {
 				// 确认发货
 				SendGoods();
-				sureSendGoods.setEnabled(false);
+//				sureSendGoods.setEnabled(false);
 			}
 		});
 
@@ -97,8 +97,8 @@ public class OrderInfoActivity extends Activity {
 			public void onClick(View v) {
 				// 取消订单
 				cancleOrder();
-				cancleOrder.setEnabled(false);
-				sureSendGoods.setEnabled(false);
+//				cancleOrder.setEnabled(false);
+//				sureSendGoods.setEnabled(false);
 			}
 		});
 	}
