@@ -14,6 +14,16 @@ public class User implements Serializable  {
 	String avatar;
 	int id;
 	float money;
+	String password;
+	
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public float getMoney() {
 		return money;

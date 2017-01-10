@@ -19,8 +19,8 @@
     
     <SinaWeibo
         SortId="1"
-        AppKey="3201194191"
-        AppSecret="0334252914651e8f76bad63337b3b78f"
+        AppKey="984497139"
+        AppSecret="2a25e0ae50ff95eddbe32d5bd43e9e65"
         Id="1"
         RedirectUrl="http://appgo.cn" />
 
@@ -47,7 +47,8 @@
         Id="4"
         SecretKey="f29df781abdd4f49beca5a2194676ca4" />  
        
-        <TencentWeibo
+    
+    <TencentWeibo
         SortId="5"
         AppKey="801307650"
         AppSecret="ae36f4ee3946e1cbb98d6965b0b2ff5c"

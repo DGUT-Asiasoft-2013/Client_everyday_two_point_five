@@ -82,7 +82,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 		setContentView(R.layout.goods_content);
 		//分享设置
 		AbstractWeibo.initSDK(this);	
-		initImagePath();     
+		initImage();     
 		
 		TextView name = (TextView) findViewById(R.id.username);// 卖家名字/
 		TextView title = (TextView) findViewById(R.id.title);// 商品名
@@ -200,34 +200,37 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 	/** 
      * 初始化分享的图片 
      */  
-    private void initImagePath() {  
-        try {//判断SD卡中是否存在此文件夹  
-        	
-          if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())  
-                    && Environment.getExternalStorageDirectory().exists()) {  
-                TEST_IMAGE = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ironman.jpg";
-                //Toast.makeText(GoodsContentActivity.this, TEST_IMAGE, Toast.LENGTH_LONG).show();
-                //Log.d("img", Server.serverAddress + goods.getGoods_img());
-            }  
-            else {  
-            	TEST_IMAGE = getApplication().getFilesDir().getAbsolutePath() + "/ironman.jpg";   
-            }  
-            File file = new File(TEST_IMAGE);  
-            //判断图片是否存此文件夹中  
-            if (!file.exists()) {  
-                file.createNewFile();  
-                Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.pic);  
-                FileOutputStream fos = new FileOutputStream(file);  
-                pic.compress(CompressFormat.JPEG, 100, fos);  
-                fos.flush();  
-                fos.close();  
-            }  
-        } catch(Throwable t) {  
-            t.printStackTrace();  
-            TEST_IMAGE = null;  
-        }  
-    }  
-
+		 private void initImage() {  
+		        try {// 判断SD卡中是否存在此文件夹  
+		            if (Environment.MEDIA_MOUNTED.equals(Environment  
+		                    .getExternalStorageState())  
+		                    && Environment.getExternalStorageDirectory().exists()) {  
+		                File baseFile = new File(  
+		                        Environment.getExternalStorageDirectory(), "share");  
+		                if (!baseFile.exists()) {  
+		                    baseFile.mkdir();  
+		                }  
+		                TEST_IMAGE = baseFile.getAbsolutePath() + "/pic.png";  
+		            } else {  
+		                TEST_IMAGE = getApplication().getFilesDir().getAbsolutePath()  
+		                        + "/picture.png";  
+		            }  
+		            File file = new File(TEST_IMAGE);  
+		            // 判断图片是否存此文件夹中  
+		            if (!file.exists()) {  
+		                file.createNewFile();  
+		                Bitmap pic = BitmapFactory.decodeResource(getResources(),  
+		                        R.drawable.pic);  
+		                FileOutputStream fos = new FileOutputStream(file);  
+		                pic.compress(CompressFormat.JPEG, 100, fos);  
+		                fos.flush();  
+		                fos.close();  
+		            }  
+		        } catch (Throwable t) {  
+		            t.printStackTrace();  
+		            TEST_IMAGE = null;  
+		        }  
+		    }  
 
 	//评论列表
     
@@ -286,7 +289,7 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 	void reload() {
 		//分享设置
 		AbstractWeibo.initSDK(this);	
-		initImagePath();  
+		initImage();  
 		
 		
 		reloadLikes();

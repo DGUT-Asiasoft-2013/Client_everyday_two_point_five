@@ -2,10 +2,6 @@ package com.example.fiveyuanstore.share;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Random;
-
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,16 +26,16 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import com.example.fiveyuanstore.LoginActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.StoreActivity;
-import com.example.fiveyuanstore.R.id;
-import com.example.fiveyuanstore.R.layout;
-import com.example.fiveyuanstore.R.string;
+import com.example.fiveyuanstore.api.MD5;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.goods.GoodsInfoActivity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tencent.mm.sdk.platformtools.Log;
 
 /**
  * @author yangyu
@@ -49,12 +45,16 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 	//����CheckedTextView����
 	private CheckedTextView	 sinaCt,qzoneCt,tengxunCt,renrenCt;
 	
+	private AbstractWeibo weibo;
 	//����Handler����
 	private Handler handler;
 
 	//�������������
 	private TitleLayout llTitle;
-
+	//是否登录成功
+	private boolean isLoginSucceed =false;
+	//参数 用户账户
+	String account, psw, name;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -113,17 +113,18 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 				ctv.setChecked(true);
 				// �õ���Ȩ�û����û�����
 				String userName = weibos[i].getDb().get("nickname"); 
-				String  randomNum = String.valueOf(new Random().nextInt(1000));
 				if (userName == null || userName.length() <= 0 || "null".equals(userName)) {
 					// ���ƽ̨�Ѿ���Ȩȴû���õ��ʺ����ƣ����Զ���ȡ�û����ϣ��Ի�ȡ����
 					userName = getWeiboName(weibos[i]);
 					//���ƽ̨�¼�����
 					weibos[i].setWeiboActionListener(this);
-					//��ʾ�û����ϣ�null��ʾ��ʾ�Լ�������
+					//显示用户信息
 					weibos[i].showUser(null);
 				}
 				ctv.setText(userName);
-				accessLogin(userName, randomNum);
+				name = userName;
+			
+				
 			}
 		}
 	}
@@ -200,7 +201,7 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 	}
 	
 	/**
-	 * ��Ȩ��ȡ����Ȩ�İ�ť��������¼�
+	 * CHECK btn click
 	 */
 	@Override
 	public void onClick(View v) {				
@@ -266,7 +267,8 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 		msg.arg1 = 1;
 		msg.arg2 = action;
 		msg.obj = weibo;
-		handler.sendMessage(msg);		
+		handler.sendMessage(msg);	
+		account = ""+ weibo.getPlatformId();
 	}
 
 	/**
@@ -309,19 +311,23 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
      */  
 	@Override
 	public boolean handleMessage(Message msg) {
-		AbstractWeibo weibo = (AbstractWeibo) msg.obj;
+		 weibo = (AbstractWeibo) msg.obj;
 		String text = GoodsInfoActivity.actionToString(msg.arg2);
 
 		switch (msg.arg1) {
 			case 1: { // success
 				text = weibo.getName() + " completed at " + text;
 				Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-				
-				
-				
-				
-				Intent itt = new Intent(AuthActivity.this, StoreActivity.class);
-				startActivity(itt);
+				accessLogin();
+				if(isLoginSucceed){
+					Intent itt = new Intent(AuthActivity.this, StoreActivity.class);
+					startActivity(itt);
+				}else{
+					Toast.makeText(AuthActivity.this, "授权失败， 请使用账户登录	!", Toast.LENGTH_SHORT).show();
+					Intent itt = new Intent(AuthActivity.this, LoginActivity.class);
+					startActivity(itt);
+				}
+			
 			}
 			break;
 			case 2: { // failed
@@ -344,25 +350,85 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 					|| "null".equals(userName)) {
 				userName = getWeiboName(weibo);
 			}
+			 name = userName;
+			Log.d("account........................", account);
 			ctv.setText(userName);
 		}
 		return false;
 	}
 
-	private void accessLogin(String name, String id) {
+	private void accessLogin() {
 		//授权登陆
+		 psw = account;
+		Log.d("access account........................", account);
+		register(account, psw);
+		
+/*		Request request = Server.requestBuilderWithPath("/getUser/"+account).get().build();
+		
+		Server.getClient().newCall(request).enqueue(new okhttp3.Callback() {
+			
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				// TODO Auto-generated method stub
+				try {
+					final User msg = new ObjectMapper().readValue(arg1.body().string(), new TypeReference<User>(){});
+					runOnUiThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							if(msg != null){
+								if(account != null && psw != null ){
+									goLogin(account, psw);
+								}else{
+									 String psw = account;
+									goLogin(account, psw);
+								}
+							
+							}else{//not register
+								if(account != null && psw != null ){
+								register(name, account, psw);
+								}else{
+									 String psw = account;
+									register(name, account, psw);
+								}
+							}
+						}
 
+					});
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			
+			@Override
+			public void onFailure(Call arg0, final IOException arg1) {
+				runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						Toast.makeText(AuthActivity.this, "error: "+arg1.getMessage(), Toast.LENGTH_LONG).show();
+					}
+				});
+			}
+		});*/
+	}
+	
+	
+	
+	void register( final String account, final String psw){
 		MultipartBody.Builder builder = new MultipartBody.Builder()
 				.setType(MultipartBody.FORM)
-				.addFormDataPart("user_name",name)
-				.addFormDataPart("user_id",id);
+				.addFormDataPart("name",name)
+				.addFormDataPart("account",account)
+				.addFormDataPart("passwordHash", psw);
 
 		RequestBody requestBody = builder.build();
 
 		OkHttpClient client = Server.getClient();
 
-
-		Request request =Server.requestBuilderWithPath("access_login")
+		Request request =Server.requestBuilderWithPath("/access_register")
 				.post(requestBody)
 				.build();
 		
@@ -371,14 +437,15 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
 				
-				 final User str = new ObjectMapper().readValue(arg1.body().string(), new TypeReference<User>(){});
+				 final User user = new ObjectMapper().readValue(arg1.body().string(), new TypeReference<User>(){});
 				
 			runOnUiThread(new Runnable() {
 				
 				@Override
 				public void run() {
-					if (str != null)
+					if (user != null)
 					Toast.makeText(AuthActivity.this, "授权成功", Toast.LENGTH_LONG).show();
+					goLogin(account, psw);
 				}
 			});
 			}
@@ -397,5 +464,54 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 	}
 
 
+	private void goLogin(String account, String psw) {
+		// TODO Auto-generated method stub
+		psw = MD5.getMD5(psw);
+		MultipartBody.Builder builder = new MultipartBody.Builder()
+				.setType(MultipartBody.FORM)
+				.addFormDataPart("account",account)
+				.addFormDataPart("passwordHash", psw);
+
+		RequestBody requestBody = builder.build();
+
+		OkHttpClient client = Server.getClient();
+		Request request =Server.requestBuilderWithPath("access_login")
+				.method("post", requestBody)
+				.post(requestBody)
+				.build();
+		
+		client.newCall(request).enqueue(new okhttp3.Callback() {
+			
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				
+				 final User user = new ObjectMapper().readValue(arg1.body().string(), new TypeReference<User>(){});
+				
+			runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					if (user != null){
+						isLoginSucceed = true;
+					Toast.makeText(AuthActivity.this, "授权成功", Toast.LENGTH_LONG).show();
+					}else{
+						Toast.makeText(AuthActivity.this, "授权失败", Toast.LENGTH_LONG).show();
+					}
+				}
+			});
+			}
+			
+			@Override
+			public void onFailure(Call arg0, IOException arg1) {
+				runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						Toast.makeText(AuthActivity.this, "授权失败", Toast.LENGTH_LONG).show();
+					}
+				});
+			}
+		});
+	}
 	
 }
