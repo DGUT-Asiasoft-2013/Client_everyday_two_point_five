@@ -16,13 +16,19 @@
 			  
     <ShareSDK 
         AppKey = "api20"/> <!-- AppKey="104972cdd48" "23a9371d3a8"-->
-    
-    <SinaWeibo
+        
+       <SinaWeibo
+        SortId="1"
+        AppKey="3201194191"
+        AppSecret="0334252914651e8f76bad63337b3b78f"
+        Id="1"
+        RedirectUrl="http://appgo.cn" />
+ <!--    <SinaWeibo
         SortId="1"
         AppKey="984497139"
         AppSecret="2a25e0ae50ff95eddbe32d5bd43e9e65"
         Id="1"
-        RedirectUrl="http://appgo.cn" />
+        RedirectUrl="http://appgo.cn" /> -->
 
 	<Wechat
 	    SortId="2"
@@ -40,12 +46,12 @@
         Id="3"
         RedirectUrl="http://www.shareSDK.cn" />
        
-    <Renren
+ <!--    <Renren
         SortId="4"
         AppId="226427"
         ApiKey="fc5b8aed373c4c27a05b712acba0f8c3"
         Id="4"
-        SecretKey="f29df781abdd4f49beca5a2194676ca4" />  
+        SecretKey="f29df781abdd4f49beca5a2194676ca4" />   -->
        
     
     <TencentWeibo
@@ -56,9 +62,9 @@
         Id="5" />
         
         <WechatMoments
-            ortId="6"
-            Id = "6"
-               Enable="true"
+            ortId="4"
+            Id = "4"
+            Enable="true"
           AppId="wx7d11730d53fbdc16"
 	     RedirectUrl="http://open.weixin.qq.com"
 	  AppSecret="1abece9e7c78d2f085624125ea81c2f8"
