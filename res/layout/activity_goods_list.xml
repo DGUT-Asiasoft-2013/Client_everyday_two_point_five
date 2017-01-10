@@ -33,6 +33,28 @@
             android:layout_marginLeft="13dp"
             android:text="清单详情"
             android:textSize="15dp" />
+
+        <RelativeLayout
+            android:id="@+id/layout_changes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/btn_goods_list_changes"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:text="修改"
+                android:textColor="#ff5337" />
+
+            <FrameLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/btn_goods_list_changes"
+                android:background="#ddd" />
+        </RelativeLayout>
     </LinearLayout>
 
     <FrameLayout
@@ -118,9 +140,9 @@
         android:textSize="15dp" />
 
     <FrameLayout
-        android:layout_marginTop="7dp"
         android:layout_width="match_parent"
         android:layout_height="7dp"
+        android:layout_marginTop="7dp"
         android:background="#eee" />
 
     <TextView
@@ -139,7 +161,6 @@
     <ListView
         android:id="@+id/goodsItemList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-         />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

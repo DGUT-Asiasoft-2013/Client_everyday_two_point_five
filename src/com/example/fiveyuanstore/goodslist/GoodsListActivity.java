@@ -14,6 +14,7 @@ import com.example.fiveyuanstore.entity.GoodsListWithItem;
 import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.fragment.widgets.AvatarView;
 import com.example.fiveyuanstore.goods.GoodsContentActivity;
+import com.example.fiveyuanstore.page.MyProfileFragment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -29,6 +30,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -49,6 +51,10 @@ public class GoodsListActivity extends Activity {
 	AvatarView avatar;
 	GoodsListWithItem order;
 	User user;
+	User me;
+	RelativeLayout layoutChanges;
+	
+	TextView changes;
 	
 	
 	@Override
@@ -65,8 +71,11 @@ public class GoodsListActivity extends Activity {
 		goodListText=(TextView)findViewById(R.id.goodListText);
 		
 		goodsListImg=(ProImgView)findViewById(R.id.goodsListImg);
+		layoutChanges=(RelativeLayout)findViewById(R.id.layout_changes);
+		changes=(TextView)findViewById(R.id.btn_goods_list_changes);
 		list.setAdapter(listAdapter);
-
+		layoutChanges.setVisibility(View.INVISIBLE);  
+		
 		list.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -126,12 +135,13 @@ public class GoodsListActivity extends Activity {
 						@Override
 						public void run() {
 							GoodsListActivity.this.order = data;
+							
 							Log.d("11111", data.getGoods_list_name());
 							goodListName.setText(order.getGoods_list_name());
 							goodListText.setText(order.getGoods_list_text());
 							goodsListImg.load(order);
 							listAdapter.notifyDataSetChanged();
-							getMe();
+							getSeller();
 						}
 					});
 				
@@ -153,7 +163,7 @@ public class GoodsListActivity extends Activity {
 		});
 	}
 	
-	void getMe(){
+	void getSeller(){
 		OkHttpClient client = Server.getClient();
 		Request request = Server.requestBuilderWithPath("/user/"+order.getSeller_id()).get().build();
 
@@ -172,7 +182,8 @@ public class GoodsListActivity extends Activity {
 								GoodsListActivity.this.user=user;
 								avatar.load(user);
 								sellerName.setText(user.getUser_name());
-								
+								getMe();
+									
 							}
 						});
 					
@@ -198,6 +209,50 @@ public class GoodsListActivity extends Activity {
 								Toast.LENGTH_SHORT).show();
 					}
 				});
+			}
+		});
+	}
+	
+	void getMe(){
+		OkHttpClient client = Server.getClient();
+		Request request = Server.requestBuilderWithPath("me").get().build();
+
+		client.newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(final Call arg0, Response arg1) throws IOException {
+				try {
+					final User user = new ObjectMapper().readValue(arg1.body().bytes(), User.class);
+
+						runOnUiThread(new Runnable() {
+
+							public void run() {
+								GoodsListActivity.this.me=user;
+								if(GoodsListActivity.this.me.getId()==GoodsListActivity.this.user.getId()){
+									layoutChanges.setVisibility(View.VISIBLE);
+									changes.setOnClickListener(new OnClickListener() {
+										
+										@Override
+										public void onClick(View v) {
+											order.setId(id);
+											Intent itnt = new Intent(GoodsListActivity.this, ChangesGoodsListActivity.class);
+											itnt.putExtra("goodsList", (Serializable)order);
+											startActivity(itnt);
+											
+										}
+									});
+								}
+									
+							}
+						});
+					
+				} catch (final Exception e) {
+				}
+			}
+
+			@Override
+			public void onFailure(final Call arg0, final IOException arg1) {
+
 			}
 		});
 	}
