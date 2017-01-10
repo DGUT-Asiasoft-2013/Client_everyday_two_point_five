@@ -1,6 +1,11 @@
 package com.example.fiveyuanstore.fragment.widgets;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.api.Server;
@@ -40,8 +45,9 @@ public class AvatarView extends View {				//头像处理
 		super(context, attrs, defStyleAttr);
 	}
 	
-	Paint paint;
-	float srcWidth, srcHeight;
+	static Paint paint;
+	static float srcWidth;
+	static float srcHeight;
 	Handler mainThreadHandler = new Handler();
 	
 	public void setBitmap(Bitmap bmp){					//确认头像内容
@@ -68,6 +74,7 @@ public class AvatarView extends View {				//头像处理
 	public void load(User user){				
 		load(Server.serverAddress + user.getAvatar());
 	}
+	
 	
 	public void load(String url){
 						

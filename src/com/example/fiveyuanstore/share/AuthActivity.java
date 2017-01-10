@@ -54,7 +54,7 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 	//是否登录成功
 	private boolean isLoginSucceed =false;
 	//参数 用户账户
-	String account, psw, name;
+	String account, psw, name,avatar;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -219,7 +219,9 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 			ctv.setChecked(false);
 			ctv.setText(R.string.not_yet_authorized);
 			return;
-		}
+		}/*else{
+			goLogin(account, psw);
+		}*/
 		
 		weibo.setWeiboActionListener(this);
 		weibo.showUser(null);		
@@ -269,6 +271,22 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 		msg.obj = weibo;
 		handler.sendMessage(msg);	
 		account = ""+ weibo.getPlatformId();
+		name = weibo.getDb().get("nickname");
+		psw = account;
+		psw = MD5.getMD5(psw);
+		avatar = res.get("figureurl_qq_2").toString();
+		//Log.d("avatar", avatar);
+		//System.out.println("avatar: "+avatar);
+		accessLogin();
+		if(isLoginSucceed){
+			Intent itt = new Intent(AuthActivity.this, StoreActivity.class);
+			startActivity(itt);
+		}else{
+			Toast.makeText(AuthActivity.this, "授权失败， 请使用账户登录	!", Toast.LENGTH_SHORT).show();
+			Intent itt = new Intent(AuthActivity.this, LoginActivity.class);
+			startActivity(itt);
+		}
+		
 	}
 
 	/**
@@ -318,16 +336,7 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 			case 1: { // success
 				text = weibo.getName() + " completed at " + text;
 				Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-				accessLogin();
-				if(isLoginSucceed){
-					Intent itt = new Intent(AuthActivity.this, StoreActivity.class);
-					startActivity(itt);
-				}else{
-					Toast.makeText(AuthActivity.this, "授权失败， 请使用账户登录	!", Toast.LENGTH_SHORT).show();
-					Intent itt = new Intent(AuthActivity.this, LoginActivity.class);
-					startActivity(itt);
-				}
-			
+				
 			}
 			break;
 			case 2: { // failed
@@ -351,7 +360,6 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 				userName = getWeiboName(weibo);
 			}
 			 name = userName;
-			Log.d("account........................", account);
 			ctv.setText(userName);
 		}
 		return false;
@@ -359,11 +367,15 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 
 	private void accessLogin() {
 		//授权登陆
-		 psw = account;
-		Log.d("access account........................", account);
-		register(account, psw);
+		if (account.length()>0 && psw.length()>0 && avatar.length()>0){
+			/*if (psw.length() <10){
+				psw = MD5.getMD5(psw);
+			}else{*/
+				register(account, psw,avatar);
+			
 		
-/*		Request request = Server.requestBuilderWithPath("/getUser/"+account).get().build();
+		}
+		Request request = Server.requestBuilderWithPath("/getUser/"+account).get().build();
 		
 		Server.getClient().newCall(request).enqueue(new okhttp3.Callback() {
 			
@@ -380,7 +392,8 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 								if(account != null && psw != null ){
 									goLogin(account, psw);
 								}else{
-									 String psw = account;
+									 String psw = MD5.getMD5(account);
+									 
 									goLogin(account, psw);
 								}
 							
@@ -396,7 +409,6 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 
 					});
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -412,17 +424,18 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 					}
 				});
 			}
-		});*/
+		});
 	}
 	
 	
 	
-	void register( final String account, final String psw){
+	void register( final String account, final String psw, final String avatar){
 		MultipartBody.Builder builder = new MultipartBody.Builder()
-				.setType(MultipartBody.FORM)
 				.addFormDataPart("name",name)
 				.addFormDataPart("account",account)
-				.addFormDataPart("passwordHash", psw);
+				.addFormDataPart("passwordHash", psw)
+				.addFormDataPart("avatar", avatar)
+				;
 
 		RequestBody requestBody = builder.build();
 
@@ -466,17 +479,15 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 
 	private void goLogin(String account, String psw) {
 		// TODO Auto-generated method stub
-		psw = MD5.getMD5(psw);
+		
 		MultipartBody.Builder builder = new MultipartBody.Builder()
-				.setType(MultipartBody.FORM)
 				.addFormDataPart("account",account)
 				.addFormDataPart("passwordHash", psw);
 
 		RequestBody requestBody = builder.build();
 
 		OkHttpClient client = Server.getClient();
-		Request request =Server.requestBuilderWithPath("access_login")
-				.method("post", requestBody)
+		Request request =Server.requestBuilderWithPath("/login")
 				.post(requestBody)
 				.build();
 		
@@ -491,12 +502,12 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 				
 				@Override
 				public void run() {
-					if (user != null){
 						isLoginSucceed = true;
-					Toast.makeText(AuthActivity.this, "授权成功", Toast.LENGTH_LONG).show();
-					}else{
-						Toast.makeText(AuthActivity.this, "授权失败", Toast.LENGTH_LONG).show();
-					}
+						Intent itnt = new Intent(AuthActivity.this, StoreActivity.class);
+						startActivity(itnt);
+						finish();
+					Toast.makeText(AuthActivity.this, "授权成功,welcome, "+user.getUser_name(), Toast.LENGTH_LONG).show();
+					
 				}
 			});
 			}
