@@ -17,9 +17,17 @@ public class MyOrder extends DateRecord implements Serializable{
 	User user;
 	Integer sale_id;//用户， 卖方id
 	String name, phone, address;
-
+	int buyer_id;
 	float price;
 	
+
+	public int getBuyer_id() {
+		return buyer_id;
+	}
+
+	public void setBuyer_id(int buyer_id) {
+		this.buyer_id = buyer_id;
+	}
 
 	public float getPrice() {
 		return price;

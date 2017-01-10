@@ -367,14 +367,7 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 
 	private void accessLogin() {
 		//授权登陆
-		if (account.length()>0 && psw.length()>0 && avatar.length()>0){
-			/*if (psw.length() <10){
-				psw = MD5.getMD5(psw);
-			}else{*/
-				register(account, psw,avatar);
-			
-		
-		}
+	
 		Request request = Server.requestBuilderWithPath("/getUser/"+account).get().build();
 		
 		Server.getClient().newCall(request).enqueue(new okhttp3.Callback() {
@@ -388,7 +381,7 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 						
 						@Override
 						public void run() {
-							if(msg != null){
+							if(msg.getAccount() != account){
 								if(account != null && psw != null ){
 									goLogin(account, psw);
 								}else{
@@ -398,12 +391,15 @@ public class AuthActivity  extends FragmentActivity  implements Callback, OnClic
 								}
 							
 							}else{//not register
-								if(account != null && psw != null ){
-								register(name, account, psw);
-								}else{
-									 String psw = account;
-									register(name, account, psw);
+								if (account.length()>0 && psw.length()>0 && avatar.length()>0){
+									/*if (psw.length() <10){
+										psw = MD5.getMD5(psw);
+									}else{*/
+										register(account, psw,avatar);
+									
+								
 								}
+								
 							}
 						}
 
