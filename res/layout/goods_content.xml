@@ -1,182 +1,325 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="8dp" >
+    android:layout_height="wrap_content" >
 
     <LinearLayout
+        android:id="@+id/linear"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
         <LinearLayout
-            android:id="@+id/R1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:id="@+id/btnShareAllGui"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="3dp" >
 
-            <com.example.fiveyuanstore.customViews.ProImgView
-                android:id="@+id/img"
-                android:layout_width="108dp"
-                android:layout_height="98dp"
-                 android:layout_weight="2" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_share" />
 
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:padding="2dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="3dp"
+                android:text="分享"
+                android:textColor="#9b9b9b"
+                android:textSize="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/send_wx"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="3dp" >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_share" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="3dp"
+                android:text="微信"
+                android:textColor="#9b9b9b"
+                android:textSize="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/zone"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="3dp" >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_seller" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="3dp"
+                android:text="商家主页"
+                android:textColor="#9b9b9b"
+                android:textSize="10dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/call"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:background="#FF9402"
+            android:gravity="center"
+            android:text="联系卖家"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btn_buy"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:background="#FF5000"
+            android:gravity="center"
+            android:text="购买"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+    
+    <FrameLayout 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ddd"
+        android:layout_above="@id/linear"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/linear" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
+                <com.example.fiveyuanstore.customViews.SquareRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="#ccc" >
+
+                    <com.example.fiveyuanstore.customViews.ProImgView
+                        android:id="@+id/img"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </com.example.fiveyuanstore.customViews.SquareRelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:id="@+id/likes_layout"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_weight="2"
+                        android:orientation="vertical" >
+
+                        <Button
+                            android:id="@+id/like"
+                            style="?android:attr/buttonStyleSmall"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/like"
+                            android:text=" " />
+
+                        <TextView
+                            android:id="@+id/count_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/like"
+                            android:layout_gravity="center_horizontal"
+                            android:text=" " >
+                        </TextView>
+
+                        <Button
+                            android:id="@+id/down"
+                            style="?android:attr/buttonStyleSmall"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/down"
+                            android:text=" " />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_toLeftOf="@id/likes_layout"
+                        android:orientation="vertical"
+                        android:padding="2dp" >
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" >
+
+                            <ImageView
+                                android:id="@+id/on_sell"
+                                android:layout_width="45dp"
+                                android:layout_height="17dp"
+                                android:layout_marginTop="3dp"
+                                android:src="@drawable/ic_on_sell" />
+
+                            <TextView
+                                android:id="@+id/title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:lineSpacingExtra="5dp"
+                                android:text="            商品标题"
+                                android:textSize="17dp" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:text="价格"
+                                android:textColor="#aaa" />
+
+                            <TextView
+                                android:id="@+id/money"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="7dp"
+                                android:text="money"
+                                android:textColor="#ff5337"
+                                android:textSize="23dp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="Create Date"
+                            android:textColor="#aaa"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginTop="4dp" >
+
                 <TextView
-                    android:id="@+id/title"
-                    android:layout_width="fill_parent"
+                    android:id="@+id/count"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Title"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold" />
+                    android:text="剩余："
+                    android:textColor="#aaa"
+                    android:textSize="12dp" />
 
                 <TextView
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="name"
-                    android:textColor="@android:color/darker_gray" />
-
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Create Date"
+                    android:layout_alignParentRight="true"
+                    android:text="卖家名："
                     android:textColor="#aaa"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical" 
-                android:layout_weight="2">
-                
-            <Button
-                android:id="@+id/like"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/like"
-                android:text=" " />
-
-            <TextView
-                android:id="@+id/count_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/like"
-                android:layout_gravity="center_horizontal"
-                android:text=" " >
-            </TextView>
-
-            <Button
-                android:id="@+id/down"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/down"
-                android:text=" " />
-        </LinearLayout>
-</LinearLayout>
-
-        <TextView
-            android:id="@+id/money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/username"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="right"
-            android:layout_marginRight="8dp"
-            android:textSize="20sp"
-            android:text="money" />
-
-        <FrameLayout
-            android:id="@+id/F1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+                    android:textSize="12dp" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
                 android:text="Content Text"
                 android:textColor="@android:color/black" />
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="6" >
-
-            <Button
-                android:id="@+id/call"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="2"
-                android:background="#FF9402"
-                android:padding="10dp"
-                android:text="联系卖家"
-                android:textColor="@android:color/white" />
-
-            <Button
-                android:id="@+id/btn_buy"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="2"
-                android:background="#FF5000"
-                android:padding="10dp"
-                android:text="购买"
-                android:textColor="@android:color/white" />
 
             <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1" >
-
-                <Button
-                    android:id="@+id/btnShareAllGui"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="@drawable/share"
-                    android:textColor="@android:color/white" />
-            </FrameLayout>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="#ddd" />
 
             <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1" >
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:background="#eee" />
 
-                <Button
-                    android:id="@+id/send_wx"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_marginLeft="2dp"
-                    android:background="@drawable/share" />
-            </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ddd" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="5dp"
+                android:text="评论"
+                android:textSize="15dp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ddd" />
+
+            <ListView
+                android:id="@+id/goods_comment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </ListView>
         </LinearLayout>
+    </ScrollView>
 
-        <ListView
-            android:id="@+id/goods_comment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-        </ListView>
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/btn_goods_content_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/ic_goods_back" />
 
-</FrameLayout>
+</RelativeLayout>

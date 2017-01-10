@@ -40,7 +40,7 @@ public class CommodityFragment extends Fragment {
 
 	View view;
 	ListView listView;
-	PageCommodityClassifyFragment snack, clothing, fruit, others;
+	PageCommodityClassifyFragment all,clothing,  fruit,sport,drink, snack,others;
 
 	EditText search_text;
 	List<GoodsListNoItem> data;
@@ -64,11 +64,37 @@ public class CommodityFragment extends Fragment {
 			image=(ImageView) headerView.findViewById(R.id.head_image);
 			
 			search = (ImageView) view.findViewById(R.id.btn_search);
-			fruit = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.fruit);
-			snack = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.snack);
+			
+			all = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.all);
 			clothing = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.clothing);
+			fruit = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.fruit);
+			sport = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.sport);
+			drink = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.drink);
+			snack = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.snack);
 			others = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.others);
 
+			all.setOnNewClickedListener(new OnNewClickedListener() {
+
+				@Override
+				public void onNewClicked() {
+					Intent intent = new Intent(getActivity(), GoodsActivity.class);
+					intent.putExtra("type", "searchText");
+					intent.putExtra("searchText", "");
+					startActivity(intent);
+				}
+			});
+			
+			clothing.setOnNewClickedListener(new OnNewClickedListener() {
+
+				@Override
+				public void onNewClicked() {
+					Intent intent = new Intent(getActivity(), GoodsActivity.class);
+					intent.putExtra("type", "sort");
+					intent.putExtra("sort", "clothing");
+					startActivity(intent);
+				}
+			});
+			
 			fruit.setOnNewClickedListener(new OnNewClickedListener() {
 
 				@Override
@@ -76,6 +102,26 @@ public class CommodityFragment extends Fragment {
 					Intent intent = new Intent(getActivity(), GoodsActivity.class);
 					intent.putExtra("type", "sort");
 					intent.putExtra("sort", "fruit");
+					startActivity(intent);
+				}
+			});
+			sport.setOnNewClickedListener(new OnNewClickedListener() {
+
+				@Override
+				public void onNewClicked() {
+					Intent intent = new Intent(getActivity(), GoodsActivity.class);
+					intent.putExtra("type", "sort");
+					intent.putExtra("sort", "sport");
+					startActivity(intent);
+				}
+			});
+			drink.setOnNewClickedListener(new OnNewClickedListener() {
+
+				@Override
+				public void onNewClicked() {
+					Intent intent = new Intent(getActivity(), GoodsActivity.class);
+					intent.putExtra("type", "sort");
+					intent.putExtra("sort", "drink");
 					startActivity(intent);
 				}
 			});
@@ -91,16 +137,7 @@ public class CommodityFragment extends Fragment {
 				}
 			});
 
-			clothing.setOnNewClickedListener(new OnNewClickedListener() {
 
-				@Override
-				public void onNewClicked() {
-					Intent intent = new Intent(getActivity(), GoodsActivity.class);
-					intent.putExtra("type", "sort");
-					intent.putExtra("sort", "clothing");
-					startActivity(intent);
-				}
-			});
 			others.setOnNewClickedListener(new OnNewClickedListener() {
 
 				@Override
@@ -252,10 +289,13 @@ public class CommodityFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		fruit.setLabelImage(R.drawable.ic_frult);
-		snack.setLabelImage(R.drawable.ic_snacks);
+		all.setLabelImage(R.drawable.ic_all);
 		clothing.setLabelImage(R.drawable.ic_clothes);
+		fruit.setLabelImage(R.drawable.ic_frult);
+		sport.setLabelImage(R.drawable.ic_sport);
+		drink.setLabelImage(R.drawable.ic_drink);
+		snack.setLabelImage(R.drawable.ic_snacks);
+		others.setLabelImage(R.drawable.ic_others);
 		
 		allgoodslist();
 

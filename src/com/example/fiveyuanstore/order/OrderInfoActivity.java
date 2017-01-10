@@ -24,18 +24,19 @@ import okhttp3.Response;
 
 public class OrderInfoActivity extends Activity {
 	MyOrder order;
-	int  position = 0;
+	int position = 0;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_order_info);
-		order =  (MyOrder) getIntent().getSerializableExtra("orders");
+		order = (MyOrder) getIntent().getSerializableExtra("orders");
 		final Button sureSendGoods = (Button) findViewById(R.id.sureSendGoods);
 		final Button cancleOrder = (Button) findViewById(R.id.cancleOrder);
 		ProImgView proImg = (ProImgView) findViewById(R.id.proImg);
 		TextView orderId = (TextView) findViewById(R.id.orderid);
-		TextView goods_num =(TextView) findViewById(R.id.orderNum);
+		TextView goods_num = (TextView) findViewById(R.id.orderNum);
 		TextView title = (TextView) findViewById(R.id.title);
 		TextView date = (TextView) findViewById(R.id.date);
 		TextView status = (TextView) findViewById(R.id.status);
@@ -44,22 +45,22 @@ public class OrderInfoActivity extends Activity {
 		TextView phone = (TextView) findViewById(R.id.phone);
 		TextView adress = (TextView) findViewById(R.id.adress);
 		proImg.load(order.getGoods());
-		orderId.setText("订单编号： "+order.getOrder_num());
-		name.setText(" "+order.getGoods().getText());
+		orderId.setText("订单编号： " + order.getOrder_num());
+		name.setText(" " + order.getGoods().getText());
 
 		try {
 			String dateStr = DateFormat.format("yyyy-MM-dd hh:mm", order.getGoods().getCreateDate()).toString();
-			date.setText(""+ dateStr);
+			date.setText("" + dateStr);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		goods_num.setText("订单数量："+ order.getAmount());
-		buyerName.setText("购买用户："+order.getName());
-		phone.setText("电话："+order.getPhone());
-		adress.setText("地址："+order.getAddress());
-		title.setText("商品名称："+order.getGoods().getTitle());
-		switch(order.getStatus()){
+		goods_num.setText("订单数量：" + order.getAmount());
+		buyerName.setText("购买用户：" + order.getName());
+		phone.setText("电话：" + order.getPhone());
+		adress.setText("地址：" + order.getAddress());
+		title.setText("商品名称：" + order.getGoods().getTitle());
+		switch (order.getStatus()) {
 		case 0:
 			status.setText("订单状态： 确认收货");
 			break;
@@ -71,7 +72,7 @@ public class OrderInfoActivity extends Activity {
 			status.setText("订单状态： 已发货");
 			break;
 
-		case 3: 
+		case 3:
 			status.setText("订单状态： 已取消");
 			break;
 		default:
@@ -79,7 +80,6 @@ public class OrderInfoActivity extends Activity {
 			break;
 
 		}
-
 
 		sureSendGoods.setOnClickListener(new View.OnClickListener() {
 
@@ -95,7 +95,7 @@ public class OrderInfoActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				//取消订单
+				// 取消订单
 				cancleOrder();
 				cancleOrder.setEnabled(false);
 				sureSendGoods.setEnabled(false);
@@ -103,14 +103,14 @@ public class OrderInfoActivity extends Activity {
 		});
 	}
 
-
 	protected void cancleOrder() {
+		
+		if (order.getStatus() != 0 && order.getStatus() != 3){
+			
 		String myOrderId = order.getOrder_num();
 		// 取消订单
-		RequestBody body = new MultipartBody.Builder()
-				.setType(MultipartBody.FORM)
-				.addFormDataPart("order_id",myOrderId)
-				.build();
+		RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+				.addFormDataPart("order_id", myOrderId).build();
 		Request request = Server.requestBuilderWithPath("/cancleOrder").post(body).build();
 
 		Server.getClient().newCall(request).enqueue(new Callback() {
@@ -134,7 +134,7 @@ public class OrderInfoActivity extends Activity {
 			}
 
 			@Override
-			public void onFailure(Call arg0,final IOException e) {
+			public void onFailure(Call arg0, final IOException e) {
 				runOnUiThread(new Runnable() {
 
 					@Override
@@ -144,60 +144,55 @@ public class OrderInfoActivity extends Activity {
 				});
 			}
 		});
+		}
 	}
-
-
 
 	protected void SendGoods() {
-		//不在取消状态
-		if(order.getStatus() != 3 && order.getStatus() != 2){
-	
-		//  确认发货
-		String myOrderId = order.getOrder_num();
-		RequestBody body = new MultipartBody.Builder()
-				.setType(MultipartBody.FORM)
-				.addFormDataPart("order_id",myOrderId)
-				.build();
-		Request request = Server.requestBuilderWithPath("/sendGoods").post(body).build();
+		// 不在取消状态
+		if (order.getStatus() != 3 && order.getStatus() != 2 && order.getStatus() != 0) {
 
-		Server.getClient().newCall(request).enqueue(new Callback() {
+			// 确认发货
+			String myOrderId = order.getOrder_num();
+			RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+					.addFormDataPart("order_id", myOrderId).build();
+			Request request = Server.requestBuilderWithPath("/sendGoods").post(body).build();
 
-			@Override
-			public void onResponse(Call arg0, Response res) throws IOException {
-				try {
+			Server.getClient().newCall(request).enqueue(new Callback() {
 
+				@Override
+				public void onResponse(Call arg0, Response res) throws IOException {
+					try {
+
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								Toast.makeText(getApplication(), "发货成功", Toast.LENGTH_LONG).show();
+
+							}
+						});
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				@Override
+				public void onFailure(Call arg0, final IOException e) {
 					runOnUiThread(new Runnable() {
+
 						@Override
 						public void run() {
-							// TODO Auto-generated method stub
-							Toast.makeText(getApplication(), "发货成功", Toast.LENGTH_LONG).show();
-
+							Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_LONG).show();
 						}
 					});
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
-			}
-
-			@Override
-			public void onFailure(Call arg0,final IOException e) {
-				runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_LONG).show();
-					}
-				});
-			}
-		});
-		}
-		else if(order.getStatus() ==2){
+			});
+		} else if (order.getStatus() == 2) {
 			Toast.makeText(getApplication(), "你已发货~不可重复发货哦~", Toast.LENGTH_LONG).show();
+		}else if(order.getStatus() ==0){
+			Toast.makeText(getApplication(), "订单已经完成啦~", Toast.LENGTH_LONG).show();
 		}
 	}
-
-
-
 
 }

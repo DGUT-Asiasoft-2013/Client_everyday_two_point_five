@@ -17,6 +17,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -87,6 +88,15 @@ public class AddProductActivity extends Activity {
 				publishGoods();
 			}
 		});
+		
+		findViewById(R.id.btn_add_product_back).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+				
+			}
+		});
 	}
 	
 	//使用数组形式操作
@@ -114,6 +124,12 @@ public class AddProductActivity extends Activity {
 		case "水果":
 			sort= "fruit";
 			break;
+		case "体育用品":
+			sort= "sport";
+			break;
+		case "饮料":
+			sort= "drink";
+			break;
 		case "零食":
 			sort = "snack";
 			break;
@@ -125,7 +141,7 @@ public class AddProductActivity extends Activity {
 		
 		}}
 		else{
-			sort = "all";
+			sort = "";
 		}
 		
 	  	 

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -15,67 +13,76 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:orientation="vertical" >
-            
-          <fragment 
-              android:id="@+id/intput_account"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
-              tools:layout="@layout/fragment_inputcell_simpletext"/>
-          <fragment 
-              android:id="@+id/input_name"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
-              tools:layout="@layout/fragment_inputcell_simpletext"/>
 
-          <TextView
-              android:id="@+id/text_email"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="email" />
-			
-          <EditText
-              android:id="@+id/intput_email"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:ems="10"
-              android:inputType="textEmailAddress" 
-              android:hint="example@xx.com">
-             
-          </EditText>
+            <fragment
+                android:id="@+id/intput_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+                tools:layout="@layout/fragment_inputcell_simpletext" />
 
-          <fragment 
-              android:id="@+id/input_password"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
-              tools:layput="@layout/fragment_inputcell_simpletext"/>
-            
-          <fragment 
-              android:id="@+id/input_password_repeat"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
-              tools:layout="@layout/fragment_inputcell_simpletext"/>
-          
-          <fragment
-              android:id="@+id/picture"
-              android:layout_width="match_parent"
-              android:layout_height="92dp"
-              class="com.example.fiveyuanstore.inputcells.PictureInputCellFragment"
-              tools:layout="@layout/fragment_inputcell_picture" />
-          
+            <fragment
+                android:id="@+id/input_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+                tools:layout="@layout/fragment_inputcell_simpletext" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:orientation="vertical"
+                android:padding="8dp" >
+
+                <TextView
+                    android:id="@+id/text_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="email" />
+
+                <EditText
+                    android:id="@+id/intput_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="example@xx.com"
+                    android:background="@drawable/bg_bar"
+                    android:inputType="textEmailAddress" >
+                </EditText>
+            </LinearLayout>
+
+            <fragment
+                android:id="@+id/input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+                tools:layput="@layout/fragment_inputcell_simpletext" />
+
+            <fragment
+                android:id="@+id/input_password_repeat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+                tools:layout="@layout/fragment_inputcell_simpletext" />
+
+            <fragment
+                android:id="@+id/picture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                class="com.example.fiveyuanstore.inputcells.PictureInputCellFragment"
+                tools:layout="@layout/fragment_inputcell_picture" />
+
             <Button
                 android:id="@+id/btn_submit"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="#394A5D"
+                android:text="提交"
                 android:textColor="@android:color/white"
-                android:textSize="25sp"
-                android:text="提交" />        
+                android:textSize="25sp" />
         </LinearLayout>
-       
     </ScrollView>
 
 </FrameLayout>

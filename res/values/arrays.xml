@@ -1,8 +1,11 @@
 <resources>
   <string-array name="sort">
-        <item>零食</item>
-        <item>水果</item>
+        
         <item>服饰</item>
+        <item>水果</item>
+        <item>体育用品</item>
+        <item>饮料</item>
+        <item>零食</item>
          <item>其他</item>
     </string-array>
     
