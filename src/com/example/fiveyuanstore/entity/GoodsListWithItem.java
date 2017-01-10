@@ -1,10 +1,11 @@
 package com.example.fiveyuanstore.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 
-public class GoodsListWithItem extends BaseEntity{
+public class GoodsListWithItem extends BaseEntity implements Serializable{
 
 	String goods_list_name;
 	String goods_list_text;

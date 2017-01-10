@@ -146,7 +146,7 @@
         </activity>
         <activity
             android:name="com.example.fiveyuanstore.goods.GoodsContentActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:name="com.example.fiveyuanstore.goods.BuyActivity"
@@ -220,6 +220,9 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity android:name="com.example.fiveyuanstore.inputcells.PictureActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+                <activity android:name="com.example.fiveyuanstore.goodslist.ChangesGoodsListActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
     </application>

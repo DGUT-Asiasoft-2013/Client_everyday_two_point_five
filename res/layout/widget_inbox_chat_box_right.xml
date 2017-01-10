@@ -30,10 +30,10 @@
             android:id="@+id/inbox_chat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
             android:layout_marginRight="7dp"
             android:layout_toLeftOf="@id/avatar"
             android:background="#ddd"
-            android:maxWidth="170dp"
             android:padding="5dp"
             android:text="请输入文字聊天"
             android:textSize="15sp" />

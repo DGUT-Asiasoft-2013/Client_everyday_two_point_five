@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/btn_goods_list_changes_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="确认修改" />
+
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btn_goods_list_changes_confirm"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp" >
+
+            <ImageView
+                android:id="@+id/btn_changes_goods_list_back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_back" />
+
+            <FrameLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:background="#ddd" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="17dp"
+                android:text="修改清单"
+                android:textSize="15dp" />
+            
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ddd" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fadingEdge="vertical"
+            android:scrollbars="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <fragment
+                    android:id="@+id/intput_goods_list_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+                    tools:layout="@layout/fragment_inputcell_simpletext" />
+
+                <fragment
+                    android:id="@+id/intput_goods_list_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    class="com.example.fiveyuanstore.inputcells.SimpleTextInputCellFragment"
+                    tools:layout="@layout/fragment_inputcell_simpletext" />
+
+                <fragment
+                    android:id="@+id/set_goods_list_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="92dp"
+                    class="com.example.fiveyuanstore.inputcells.PictureInputCellFragment"
+                    tools:layout="@layout/fragment_inputcell_picture" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="请选择你想要更换的商品" />
+
+                <Button
+                    android:id="@+id/btn_set_goods_list_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="选择" />
+
+                <TextView
+                    android:id="@+id/goods_list_item_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:lineSpacingExtra="5dp"
+                    android:text="请选择至少一件商品" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</RelativeLayout>
