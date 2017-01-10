@@ -5,13 +5,15 @@
     android:orientation="vertical" >
 
     <!-- 底部发送消息框 -->
+	
 
     <LinearLayout
         android:id="@+id/linear"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:padding="4dp" >
+        android:padding="4dp" 
+        android:background="#fff">
 
         <EditText
             android:id="@+id/inbox_send_text"
@@ -83,5 +85,10 @@
             android:dividerHeight="0dip" >
         </ListView>
     </LinearLayout>
-
+		<FrameLayout android:layout_width="match_parent"
+	    android:layout_height="1dp"
+	    android:background="#eee"
+	    android:layout_alignParentBottom="true"
+	    android:layout_marginBottom="50dp"
+	    />
 </RelativeLayout>

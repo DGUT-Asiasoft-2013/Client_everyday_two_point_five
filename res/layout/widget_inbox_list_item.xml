@@ -3,12 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="10dp" >
+    android:padding="10dp" 
+    android:background="#fff">
 
     <com.example.fiveyuanstore.fragment.widgets.AvatarView
         android:id="@+id/avatar"
         android:layout_width="60dp"
-        android:layout_height="60dp" />
+        android:layout_height="60dp" 
+        android:layout_marginRight="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
