@@ -89,22 +89,14 @@ public class InboxChetActivity extends Activity {
 
 
 		});
-//		renovate();
-//		last_id=inboxList.getLast_inbox().getId();
-//		
-//		new Handler().postDelayed(new Runnable() {
-//			@Override
-//			public void run() {
-//				
-//				renovate();
-//				if(last_id!=inboxList.getLast_inbox().getId()){
-//					last_id=inboxList.getLast_inbox().getId();
-//						reload(0);
-//						listAdapter.notifyDataSetInvalidated();
-//				}
-//			new Handler().postDelayed(this, 1000);
-//			}
-//			},1000);
+		findViewById(R.id.btn_inbox_chat_back).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+
+			}
+		});
 		
 
 	}

@@ -34,79 +34,84 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class InboxActivity extends Activity {
-	
+
 	String myName;
 	ListView listView;
 	List<InboxList> data;
 	int page = 0;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+
 		super.onCreate(savedInstanceState);
-		myName=(String) getIntent().getSerializableExtra("name");
+		myName = (String) getIntent().getSerializableExtra("name");
 		setContentView(R.layout.activity_inbox);
-		listView=(ListView)findViewById(R.id.inbox_list);
+		listView = (ListView) findViewById(R.id.inbox_list);
 		listView.setAdapter(listAdapter);
-		
+
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				onItemClicked(position);
-				
+
 			}
 
+		});
+		findViewById(R.id.btn_inbox_back).setOnClickListener(new OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				finish();
+
+			}
 		});
 	}
-	 
+
 	private void onItemClicked(int position) {
-		InboxList inboxList=data.get(position);
-		Intent itnt=new Intent(this,InboxChetActivity.class);
-		if(!myName.equals(inboxList.getRec_name()))
+		InboxList inboxList = data.get(position);
+		Intent itnt = new Intent(this, InboxChetActivity.class);
+		if (!myName.equals(inboxList.getRec_name()))
 			itnt.putExtra("name", inboxList.getRec_name());
-			
+
 		else
-			itnt.putExtra("name",inboxList.getSend_name());
-		
+			itnt.putExtra("name", inboxList.getSend_name());
+
 		startActivity(itnt);
 	}
-	
-	BaseAdapter listAdapter=new BaseAdapter() {
-		
+
+	BaseAdapter listAdapter = new BaseAdapter() {
+
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View view = null;
-			
+
 			if (convertView == null) {
 				LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 				view = inflater.inflate(R.layout.widget_inbox_list_item, null);
 			} else {
 				view = convertView;
 			}
-			
-			TextView inboxName=(TextView)view.findViewById(R.id.inbox_name);
-			TextView inboxLastTime=(TextView)view.findViewById(R.id.inbox_last_time);
-			TextView inboxLastMessage=(TextView)view.findViewById(R.id.inbox_last_message);
-			AvatarView avatar=(AvatarView)view.findViewById(R.id.avatar);
-			InboxList inboxList=data.get(position);
-			
-			if(!myName.equals(inboxList.getLast_inbox().getRec_user().getUser_name())){
+
+			TextView inboxName = (TextView) view.findViewById(R.id.inbox_name);
+			TextView inboxLastTime = (TextView) view.findViewById(R.id.inbox_last_time);
+			TextView inboxLastMessage = (TextView) view.findViewById(R.id.inbox_last_message);
+			AvatarView avatar = (AvatarView) view.findViewById(R.id.avatar);
+			InboxList inboxList = data.get(position);
+
+			if (!myName.equals(inboxList.getLast_inbox().getRec_user().getUser_name())) {
 				inboxName.setText(inboxList.getLast_inbox().getRec_user().getUser_name());
 				avatar.load(inboxList.getLast_inbox().getRec_user());
-			}else{
+			} else {
 				inboxName.setText(inboxList.getLast_inbox().getSend_user().getUser_name());
 				avatar.load(inboxList.getLast_inbox().getSend_user());
 			}
-			
 
-			
-			String time=DateFormat.format("yyyy年MM月dd日   hh:mm:ss",inboxList.getLast_inbox().getCreateDate()).toString();
+			String time = DateFormat.format("yyyy年MM月dd日   hh:mm:ss", inboxList.getLast_inbox().getCreateDate())
+					.toString();
 			inboxLastTime.setText(time);
 			inboxLastMessage.setText(inboxList.getLast_inbox().getInboxContent());
-			
-			
+
 			return view;
 		}
 
@@ -115,29 +120,27 @@ public class InboxActivity extends Activity {
 			// TODO Auto-generated method stub
 			return position;
 		}
-		
+
 		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
 			return data.get(position);
 		}
-		
+
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
 			return data == null ? 0 : data.size();
 		}
 	};
-	
-	
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		reload();
 	}
-	
-	
+
 	void reload() {
 		Request request = Server.requestBuilderWithPath("inbox").get().build();
 		Server.getClient().newCall(request).enqueue(new Callback() {
@@ -184,8 +187,5 @@ public class InboxActivity extends Activity {
 		});
 
 	}
-
-
-	
 
 }
