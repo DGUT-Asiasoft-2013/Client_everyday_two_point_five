@@ -25,6 +25,7 @@ import okhttp3.Response;
 public class OrderInfoActivity extends Activity {
 	MyOrder order;
 	int position = 0;
+	int state = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +87,10 @@ public class OrderInfoActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// 确认发货
-				SendGoods();
-//				sureSendGoods.setEnabled(false);
+				if (state != 0) {
+					SendGoods();
+					state = 1;
+				}
 			}
 		});
 
@@ -96,54 +99,55 @@ public class OrderInfoActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// 取消订单
-				cancleOrder();
-//				cancleOrder.setEnabled(false);
-//				sureSendGoods.setEnabled(false);
+				if (state < 2) {
+					cancleOrder();
+					state = 2;
+				}
 			}
 		});
 	}
 
 	protected void cancleOrder() {
-		
-		if (order.getStatus() != 0 && order.getStatus() != 3){
-			
-		String myOrderId = order.getOrder_num();
-		// 取消订单
-		RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-				.addFormDataPart("order_id", myOrderId).build();
-		Request request = Server.requestBuilderWithPath("/cancleOrder").post(body).build();
 
-		Server.getClient().newCall(request).enqueue(new Callback() {
+		if (order.getStatus() != 0 && order.getStatus() != 3) {
 
-			@Override
-			public void onResponse(Call arg0, Response res) throws IOException {
-				try {
+			String myOrderId = order.getOrder_num();
+			// 取消订单
+			RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+					.addFormDataPart("order_id", myOrderId).build();
+			Request request = Server.requestBuilderWithPath("/cancleOrder").post(body).build();
 
+			Server.getClient().newCall(request).enqueue(new Callback() {
+
+				@Override
+				public void onResponse(Call arg0, Response res) throws IOException {
+					try {
+
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								Toast.makeText(getApplication(), "取消成功", Toast.LENGTH_LONG).show();
+							}
+						});
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+
+					}
+				}
+
+				@Override
+				public void onFailure(Call arg0, final IOException e) {
 					runOnUiThread(new Runnable() {
+
 						@Override
 						public void run() {
-							// TODO Auto-generated method stub
-							Toast.makeText(getApplication(), "取消成功", Toast.LENGTH_LONG).show();
+							Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_LONG).show();
 						}
 					});
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-
 				}
-			}
-
-			@Override
-			public void onFailure(Call arg0, final IOException e) {
-				runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_LONG).show();
-					}
-				});
-			}
-		});
+			});
 		}
 	}
 
@@ -190,7 +194,7 @@ public class OrderInfoActivity extends Activity {
 			});
 		} else if (order.getStatus() == 2) {
 			Toast.makeText(getApplication(), "你已发货~不可重复发货哦~", Toast.LENGTH_LONG).show();
-		}else if(order.getStatus() ==0){
+		} else if (order.getStatus() == 0) {
 			Toast.makeText(getApplication(), "订单已经完成啦~", Toast.LENGTH_LONG).show();
 		}
 	}
