@@ -1,9 +1,5 @@
 package com.example.fiveyuanstore;
 
-
-
-import com.example.fiveyuanstore.fragment.MainTabbarFragment;
-import com.example.fiveyuanstore.fragment.MainTabbarFragment.OnTabSelectedListener;
 import com.example.fiveyuanstore.page.CommodityFragment;
 import com.example.fiveyuanstore.page.DealFragment;
 import com.example.fiveyuanstore.page.MyProfileFragment;
@@ -22,8 +18,6 @@ public class StoreActivity extends Activity {
 	DealFragment contentDealPage=new DealFragment();
 	SellerFragment contentSellerPage=new SellerFragment();
 	MyProfileFragment contentMyProfile=new MyProfileFragment();
-	
-
 	
 	ImageView tab_storeList;
 	ImageView tab_dealMessage;
