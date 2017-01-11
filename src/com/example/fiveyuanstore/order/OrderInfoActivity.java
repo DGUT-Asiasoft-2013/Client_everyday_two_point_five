@@ -39,7 +39,7 @@ public class OrderInfoActivity extends Activity {
 	MyOrder order;
 	User buyerUser;
 	int position = 0;
-	int state = 0;
+	int state = 0; //cancle fix'
 	TextView buyerNameInUser;
 	AvatarView avatar;
 	@Override
@@ -149,9 +149,9 @@ public class OrderInfoActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// 确认发货
-				if (state != 0) {
+				if (state != 1) {
 					SendGoods();
-					state = 1;
+					
 				}
 			}
 		});
@@ -264,8 +264,9 @@ public class OrderInfoActivity extends Activity {
 	}
 
 	protected void SendGoods() {
+		state = 1;
 		// 不在取消状态
-		if (order.getStatus() != 3 && order.getStatus() != 2 && order.getStatus() != 0) {
+		if (order.getStatus() == 1 ) {
 
 			// 确认发货
 			String myOrderId = order.getOrder_num();
@@ -308,6 +309,8 @@ public class OrderInfoActivity extends Activity {
 			Toast.makeText(getApplication(), "你已发货~不可重复发货哦~", Toast.LENGTH_LONG).show();
 		} else if (order.getStatus() == 0) {
 			Toast.makeText(getApplication(), "订单已经完成啦~", Toast.LENGTH_LONG).show();
+		} else if (order.getStatus() == 3) {
+			Toast.makeText(getApplication(), "订单已经取消啦~", Toast.LENGTH_LONG).show();
 		}
 	}
 

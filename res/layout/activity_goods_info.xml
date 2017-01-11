@@ -109,7 +109,7 @@
         </LinearLayout>
         
              <LinearLayout
-            android:id="@+id/down"
+            android:id="@+id/cai"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -121,7 +121,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/down" />
+                android:src="@drawable/cai" />
 
             <TextView
                 android:layout_width="wrap_content"

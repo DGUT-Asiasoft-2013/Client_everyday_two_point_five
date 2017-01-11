@@ -41,7 +41,8 @@ public class BuyActivity extends Activity {
 	Goods goods;
 	int num;
 	float myWallet;
-
+	String goods_id,name, phone, adress, amount,address;
+	int myAmount;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -61,7 +62,20 @@ public class BuyActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				submit();
+				 goods_id = goods.getGoods_id();
+				 name = fragInputCellName.getText().toString();
+				 phone = fragInputCellPhone.getText().toString();
+				 address = fragInputCellAddress.getText();
+				 amount = fragInputCount.getText().toString();
+				 myAmount = (Integer.parseInt(amount));
+				if (name.length()==0 || phone.length()==0 || amount.length()==0 || goods_id.length()==0 || address.length() == 0){
+					
+					Toast.makeText(BuyActivity.this, "请输入全部信息", Toast.LENGTH_SHORT).show();
+					
+				}else{
+					submit();
+				}
+				
 			}
 		});
 	}
@@ -98,19 +112,15 @@ public class BuyActivity extends Activity {
 						public void run() {
 							if (me != null) {
 								myWallet = me.getMoney();
-								String goods_id = goods.getGoods_id();
-								String name = fragInputCellName.getText();
-								String phone = fragInputCellPhone.getText().toString();
-								String address = fragInputCellAddress.getText();
-								String amount = fragInputCount.getText().toString();
-								int myAmount = (Integer.parseInt(amount));
+								
 
 								if (myWallet < price * myAmount || myAmount > goods_amount) {
 									// 钱包不够，或者输入的数量大于库存，则返回
-									Toast.makeText(getApplication(), "余额不足，或者输入的数量大于库存,余额：" + myWallet,
+									Toast.makeText(BuyActivity.this, "余额不足，或者输入的数量大于库存,余额：" + myWallet,
 											Toast.LENGTH_LONG).show();
 								} else {
-									showPayDialog(name, phone, address, amount, price, goods_id);
+										showPayDialog(name, phone, address, amount, price, goods_id);
+									
 								}
 							}
 						}
@@ -128,7 +138,7 @@ public class BuyActivity extends Activity {
 
 					@Override
 					public void run() {
-						Toast.makeText(getApplication(), "Error: " + arg1.getMessage(), Toast.LENGTH_LONG).show();
+						Toast.makeText(BuyActivity.this, "Error: " + arg1.getMessage(), Toast.LENGTH_LONG).show();
 					}
 				});
 			}
@@ -157,7 +167,7 @@ public class BuyActivity extends Activity {
 					@Override
 					public void run() {
 
-						Toast.makeText(getApplication(), "付款成功", Toast.LENGTH_LONG).show();
+						Toast.makeText(BuyActivity.this, "付款成功", Toast.LENGTH_LONG).show();
 					}
 				});
 			}
@@ -168,7 +178,7 @@ public class BuyActivity extends Activity {
 
 					@Override
 					public void run() {
-						Toast.makeText(getApplication(), "购买失败" + e.getMessage(), Toast.LENGTH_LONG).show();
+						Toast.makeText(BuyActivity.this, "购买失败" + e.getMessage(), Toast.LENGTH_LONG).show();
 					}
 				});
 			}
@@ -187,8 +197,10 @@ public class BuyActivity extends Activity {
 		Dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				buy(name, phone, address, amount, price, goods_id);
-				Toast.makeText(getApplication(), "付款成功", Toast.LENGTH_LONG).show();
+				
+					buy(name, phone, address, amount, price, goods_id);
+				
+				Toast.makeText(BuyActivity.this, "付款成功", Toast.LENGTH_LONG).show();
 				finish();
 			}
 		});

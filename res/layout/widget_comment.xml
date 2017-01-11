@@ -63,7 +63,7 @@
                 android:layout_alignParentTop="true"
                  android:layout_marginTop="35dp"
                 android:layout_below="@id/count_num"
-                android:background="@drawable/down"
+                android:background="@drawable/cai"
                 android:text=" " />
               
     

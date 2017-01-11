@@ -40,7 +40,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_bar"
                     android:numeric="integer"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                     />
             </LinearLayout>
 
             <fragment

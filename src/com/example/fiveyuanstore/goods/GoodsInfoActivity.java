@@ -88,7 +88,7 @@ public class GoodsInfoActivity extends Activity implements OnClickListener{
 
 
 		change = (LinearLayout) findViewById(R.id.change);
-		down = (LinearLayout) findViewById(R.id.down);
+		down = (LinearLayout) findViewById(R.id.cai);
 		freshComment = (LinearLayout) findViewById(R.id.freshComment);
 		listView.addFooterView(btnLoadMore);
 		listView.setAdapter(adapter);
