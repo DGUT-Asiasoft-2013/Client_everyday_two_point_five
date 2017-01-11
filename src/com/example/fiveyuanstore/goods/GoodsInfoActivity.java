@@ -151,7 +151,7 @@ public class GoodsInfoActivity extends Activity implements OnClickListener{
 		  case R.id.change:
 			  change();
 			  break;
-		  case R.id.down:
+		  case R.id.cai:
 			  down();
 			  break;
 		  case R.id.freshComment:
