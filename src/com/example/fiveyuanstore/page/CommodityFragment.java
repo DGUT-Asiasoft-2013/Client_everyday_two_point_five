@@ -72,7 +72,16 @@ public class CommodityFragment extends Fragment {
 			drink = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.drink);
 			snack = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.snack);
 			others = (PageCommodityClassifyFragment) getFragmentManager().findFragmentById(R.id.others);
-
+			image.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent itnt = new Intent(getActivity(), GoodsListActivity.class);
+					itnt.putExtra("id", "10");
+					startActivity(itnt);
+					
+				}
+			});
 			all.setOnNewClickedListener(new OnNewClickedListener() {
 
 				@Override
