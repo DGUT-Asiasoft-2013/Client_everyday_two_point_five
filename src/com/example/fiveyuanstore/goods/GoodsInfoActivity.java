@@ -31,7 +31,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,14 +44,14 @@ import okhttp3.Response;
 public class GoodsInfoActivity extends Activity implements OnClickListener{
 	Goods goods;
 	ListView listView;
-	Button change, down, freshComment;
+	LinearLayout change, down, freshComment;
 	TextView money,name,title,date,content;
 	List<Comment> comments;
 	ProImgView img;
 	View btnLoadMore;
 	protected Integer page = 0;
 	TextView textLoadMore;
-	Button shareGuiBtn;
+	LinearLayout shareGuiBtn;
 	//定义图片存放的地址  
     public static String TEST_IMAGE;  
 	@Override
@@ -66,7 +66,7 @@ public class GoodsInfoActivity extends Activity implements OnClickListener{
 		btnLoadMore = LayoutInflater.from(this).inflate(R.layout.widget_load_root_more_btn,null);
 		textLoadMore = (TextView) btnLoadMore.findViewById(R.id.more_text);
 
-		shareGuiBtn = (Button)findViewById(R.id.btnShareAllGui);
+		shareGuiBtn = (LinearLayout)findViewById(R.id.btnShareAllGui);
 		name=(TextView) findViewById(R.id.username);//卖家名字/
 		title=(TextView) findViewById(R.id.title);//商品名
 		date=(TextView) findViewById(R.id.date);
@@ -87,9 +87,9 @@ public class GoodsInfoActivity extends Activity implements OnClickListener{
 
 
 
-		change = (Button) findViewById(R.id.change);
-		down = (Button) findViewById(R.id.down);
-		freshComment = (Button) findViewById(R.id.freshComment);
+		change = (LinearLayout) findViewById(R.id.change);
+		down = (LinearLayout) findViewById(R.id.down);
+		freshComment = (LinearLayout) findViewById(R.id.freshComment);
 		listView.addFooterView(btnLoadMore);
 		listView.setAdapter(adapter);
 

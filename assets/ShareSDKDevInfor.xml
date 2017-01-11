@@ -46,12 +46,12 @@
         Id="3"
         RedirectUrl="http://www.shareSDK.cn" />
        
- <!--    <Renren
+    <Renren
         SortId="4"
         AppId="226427"
         ApiKey="fc5b8aed373c4c27a05b712acba0f8c3"
         Id="4"
-        SecretKey="f29df781abdd4f49beca5a2194676ca4" />   -->
+        SecretKey="f29df781abdd4f49beca5a2194676ca4" /> 
        
     
     <TencentWeibo

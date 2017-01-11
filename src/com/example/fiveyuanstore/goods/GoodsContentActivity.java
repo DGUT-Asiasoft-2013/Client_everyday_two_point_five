@@ -458,13 +458,13 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
         // text是分享文本，所有平台都需要这个字段  
         i.putExtra("text", this.getString(R.string.share_content)+goods.getTitle());  
         // imagePath是本地的图片路径，所有平台都支持这个字段，不提供，则表示不分享图片  
-        i.putExtra("imagePath", GoodsInfoActivity.TEST_IMAGE);  
+        i.putExtra("imagePath", GoodsContentActivity.TEST_IMAGE);  
         // url仅在微信（包括好友和朋友圈）中使用，否则可以不提供  
         i.putExtra("url", "http://sharesdk.cn");  
         // thumbPath是缩略图的本地路径，仅在微信（包括好友和朋友圈）中使用，否则可以不提供  
-        i.putExtra("thumbPath", GoodsInfoActivity.TEST_IMAGE);  
+        i.putExtra("thumbPath", GoodsContentActivity.TEST_IMAGE);  
         // appPath是待分享应用程序的本地路劲，仅在微信（包括好友和朋友圈）中使用，否则可以不提供  
-        i.putExtra("appPath", GoodsInfoActivity.TEST_IMAGE);  
+        i.putExtra("appPath", GoodsContentActivity.TEST_IMAGE);  
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用，否则可以不提供  
         i.putExtra("comment", this.getString(R.string.share));  
         // site是分享此内容的网站名称，仅在QQ空间使用，否则可以不提供  
