@@ -31,15 +31,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -225,34 +224,30 @@ public class GoodsContentActivity extends Activity implements OnClickListener{
 	/** 
      * 初始化分享的图片 
      */  
-    private void initImagePath() {  
-        try {//判断SD卡中是否存在此文件夹  
-        	
-          if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())  
-                    && Environment.getExternalStorageDirectory().exists()) {  
-                TEST_IMAGE = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ironman.jpg";
-                //Toast.makeText(GoodsContentActivity.this, TEST_IMAGE, Toast.LENGTH_LONG).show();
-                //Log.d("img", Server.serverAddress + goods.getGoods_img());
-            }  
-            else {  
-            	TEST_IMAGE = getApplication().getFilesDir().getAbsolutePath() + "/ironman.jpg";   
-            }  
-            File file = new File(TEST_IMAGE);  
-            //判断图片是否存此文件夹中  
-            if (!file.exists()) {  
-                file.createNewFile();  
-                Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.pic);  
-                FileOutputStream fos = new FileOutputStream(file);  
-                pic.compress(CompressFormat.JPEG, 100, fos);  
-                fos.flush();  
-                fos.close();  
-            }  
-        } catch(Throwable t) {  
-            t.printStackTrace();  
-            TEST_IMAGE = null;  
-        }  
-    }  
-
+		private void initImagePath() {
+			try {//�ж�SD ka
+				if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+						&& Environment.getExternalStorageDirectory().exists()) {
+					TEST_IMAGE = Environment.getExternalStorageDirectory().getAbsolutePath() + "/pic.png";
+				}
+				else {
+					TEST_IMAGE = getApplication().getFilesDir().getAbsolutePath() + "/pic.png";
+				}
+				File file = new File(TEST_IMAGE);
+				//�ж�ͼƬ�Ƿ����ļ�����
+				if (!file.exists()) {
+					file.createNewFile();
+					Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.pic);
+					FileOutputStream fos = new FileOutputStream(file);
+					pic.compress(CompressFormat.JPEG, 100, fos);
+					fos.flush();
+					fos.close();
+				}
+			} catch(Throwable t) {
+				t.printStackTrace();
+				TEST_IMAGE = null;
+			}
+		}
 
 	//评论列表
     

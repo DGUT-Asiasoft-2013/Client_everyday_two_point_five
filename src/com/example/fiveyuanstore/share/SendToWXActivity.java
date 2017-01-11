@@ -1,8 +1,21 @@
 package com.example.fiveyuanstore.share;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -11,6 +24,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -74,7 +88,7 @@ public class SendToWXActivity extends Activity {
 								
 				final EditText editor = new EditText(SendToWXActivity.this);
 				editor.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-				editor.setText(R.string.send_text_default+ goods.getTitle()+"  "+Server.serverAddress+"api/goodsById/"+goods.getId());
+				editor.setText(R.string.send_text_default+ goods.getTitle()+"  "+Server.serverAddress+"/page/goodsInfo");
 								
 				MMAlert.showAlert(SendToWXActivity.this, "分享商品", editor, getString(R.string.app_share), getString(R.string.app_cancel), new DialogInterface.OnClickListener() {
 
@@ -110,201 +124,7 @@ public class SendToWXActivity extends Activity {
 			}
 		});
 
-		findViewById(R.id.send_img).setOnClickListener(new View.OnClickListener() {
-			//发送图片
-			@Override
-			public void onClick(View v) {
-				MMAlert.showAlert(SendToWXActivity.this, getString(R.string.send_img), 
-						SendToWXActivity.this.getResources().getStringArray(R.array.send_img_item),
-						null, new MMAlert.OnAlertSelectId(){
-
-					@Override
-					public void onClick(int whichButton) {						
-						switch(whichButton){
-						case MMAlertSelect2: {
-							String path = SDCARD_ROOT + "/test.png";
-							File file = new File(path);
-							if (!file.exists()) {
-								String tip = SendToWXActivity.this.getString(R.string.send_img_file_not_exist);
-								Toast.makeText(SendToWXActivity.this, tip + " path = " + path, Toast.LENGTH_LONG).show();
-								break;
-							}
-							
-							WXImageObject imgObj = new WXImageObject();
-							imgObj.setImagePath(path);
-							
-							WXMediaMessage msg = new WXMediaMessage();
-							msg.mediaObject = imgObj;
-							
-							Bitmap bmp = BitmapFactory.decodeFile(path);
-							Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
-							bmp.recycle();
-							msg.thumbData = Util.bmpToByteArray(thumbBmp, true);
-							
-							SendMessageToWX.Req req = new SendMessageToWX.Req();
-							req.transaction = buildTransaction("img");
-							req.message = msg;
-							req.scene = isTimelineCb.isChecked() ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-							api.sendReq(req);
-							
-							finish();
-							break;
-						}
-						case MMAlertSelect3: {
-							String url = "http://weixin.qq.com/zh_CN/htmledition/images/weixin/weixin_logo0d1938.png";
-								
-							try{
-								WXImageObject imgObj = new WXImageObject();
-								imgObj.imageUrl = url;
-								
-								WXMediaMessage msg = new WXMediaMessage();
-								msg.mediaObject = imgObj;
-
-								Bitmap bmp = BitmapFactory.decodeStream(new URL(url).openStream());
-								Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
-								bmp.recycle();
-								msg.thumbData = Util.bmpToByteArray(thumbBmp, true);
-								
-								SendMessageToWX.Req req = new SendMessageToWX.Req();
-								req.transaction = buildTransaction("img");
-								req.message = msg;
-								req.scene = isTimelineCb.isChecked() ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-								api.sendReq(req);
-								
-								finish();
-							} catch(Exception e) {
-								e.printStackTrace();
-							}
-					
-							break;
-						}
-						default:
-							break;
-						}
-					}
-					
-				});
-			}
-		});
-
-		findViewById(R.id.send_music).setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				
-				MMAlert.showAlert(SendToWXActivity.this, getString(R.string.send_music),
-						SendToWXActivity.this.getResources().getStringArray(R.array.send_music_item),
-						null, new MMAlert.OnAlertSelectId(){
-
-					@Override
-					public void onClick(int whichButton) {						
-						switch(whichButton){
-						case MMAlertSelect1: {
-							WXMusicObject music = new WXMusicObject();
-							//music.musicUrl = "http://www.baidu.com";
-							music.musicUrl="http://staff2.ustc.edu.cn/~wdw/softdown/index.asp/0042515_05.ANDY.mp3";
-							//music.musicUrl="http://120.196.211.49/XlFNM14sois/AKVPrOJ9CBnIN556OrWEuGhZvlDF02p5zIXwrZqLUTti4o6MOJ4g7C6FPXmtlh6vPtgbKQ==/31353278.mp3";
-
-							WXMediaMessage msg = new WXMediaMessage();
-							msg.mediaObject = music;
-							msg.title = "Music Title Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long";
-							msg.description = "Music Album Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long";
-
-							Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.drawable.send_music_thumb);
-							msg.thumbData = Util.bmpToByteArray(thumb, true);
-
-							SendMessageToWX.Req req = new SendMessageToWX.Req();
-							req.transaction = buildTransaction("music");
-							req.message = msg;
-							req.scene = isTimelineCb.isChecked() ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-							api.sendReq(req);
-							
-							finish();
-							break;
-						}
-						case MMAlertSelect2: {
-							WXMusicObject music = new WXMusicObject();
-							music.musicLowBandUrl = "http://www.qq.com";
-
-							WXMediaMessage msg = new WXMediaMessage();
-							msg.mediaObject = music;
-							msg.title = "Music Title";
-							msg.description = "Music Album";
-
-							Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.drawable.send_music_thumb);
-							msg.thumbData = Util.bmpToByteArray(thumb, true);
-
-							SendMessageToWX.Req req = new SendMessageToWX.Req();
-							req.transaction = buildTransaction("music");
-							req.message = msg;
-							req.scene = isTimelineCb.isChecked() ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-							api.sendReq(req);
-							
-							finish();
-							break;
-						}
-						default:
-							break;
-						}
-					}
-				});
-			}
-		});
-		
-		findViewById(R.id.send_video).setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				MMAlert.showAlert(SendToWXActivity.this, getString(R.string.send_video), 
-						SendToWXActivity.this.getResources().getStringArray(R.array.send_video_item),
-						null, new MMAlert.OnAlertSelectId(){
-
-					@Override
-					public void onClick(int whichButton) {						
-						switch(whichButton){
-						case MMAlertSelect1: {
-							WXVideoObject video = new WXVideoObject();
-							video.videoUrl = "http://www.baidu.com";
-
-							WXMediaMessage msg = new WXMediaMessage(video);
-							msg.title = "Video Title Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long";
-							msg.description = "Video Description Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long";
-							Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.drawable.send_music_thumb);
-							msg.thumbData = Util.bmpToByteArray(thumb, true);
-							
-							SendMessageToWX.Req req = new SendMessageToWX.Req();
-							req.transaction = buildTransaction("video");
-							req.message = msg;
-							req.scene = isTimelineCb.isChecked() ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-							api.sendReq(req);
-							
-							finish();
-							break;
-						}
-						case MMAlertSelect2: {
-							WXVideoObject video = new WXVideoObject();
-							video.videoLowBandUrl = "http://www.qq.com";
-
-							WXMediaMessage msg = new WXMediaMessage(video);
-							msg.title = "Video Title";
-							msg.description = "Video Description";
-
-							SendMessageToWX.Req req = new SendMessageToWX.Req();
-							req.transaction = buildTransaction("video");
-							req.message = msg;
-							req.scene = isTimelineCb.isChecked() ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-							api.sendReq(req);
-							
-							finish();
-							break;
-						}
-						default:
-							break;
-						}
-					}
-				});
-			}
-		});
+/**/
 
 		findViewById(R.id.send_webpage).setOnClickListener(new View.OnClickListener() {
 
@@ -319,10 +139,10 @@ public class SendToWXActivity extends Activity {
 						switch(whichButton){
 						case MMAlertSelect1:
 							WXWebpageObject webpage = new WXWebpageObject();
-							webpage.webpageUrl = Server.serverAddress+"api/goodsById/"+goods.getId();
+							webpage.webpageUrl = Server.serverAddress+"page/goodsInfo";//url
 							WXMediaMessage msg = new WXMediaMessage(webpage);
-							msg.title = "每天两块五超值商品 "+goods.getTitle();
-							msg.description = "商品详情 "+goods.getText();
+							msg.title = "每天两块五超值商品 "+goods.getTitle();//标题
+							msg.description = "商品详情 "+goods.getText();//描述
 							Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.drawable.send_music_thumb);// goods.getGoods_img()
 							msg.thumbData = Util.bmpToByteArray(thumb, true);
 							
@@ -338,160 +158,48 @@ public class SendToWXActivity extends Activity {
 							break;
 						}
 					}
-				});
-			}
-		});
 
-		findViewById(R.id.send_appdata).setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				MMAlert.showAlert(SendToWXActivity.this, getString(R.string.send_appdata), 
-					SendToWXActivity.this.getResources().getStringArray(R.array.send_appdata_item),
-					null, new MMAlert.OnAlertSelectId(){
-
-					@Override
-					public void onClick(int whichButton) {
-						switch(whichButton){
-						case MMAlertSelect1:
-							final String dir = SDCARD_ROOT + "/tencent/";
-							File file = new File(dir);
-							if (!file.exists()) {
-								file.mkdirs();
-							}
-							CameraUtil.takePhoto(SendToWXActivity.this, dir, "send_appdata", 0x101);
-							break;
-						case MMAlertSelect2: {
-							final WXAppExtendObject appdata = new WXAppExtendObject();
-							final String path = SDCARD_ROOT + "/test.png";
-							appdata.fileData = Util.readFromFile(path, 0, -1);
-							appdata.extInfo = "this is ext info";
-
-							final WXMediaMessage msg = new WXMediaMessage();
-							msg.setThumbImage(Util.extractThumbNail(path, 150, 150, true));
-							msg.title = "this is title";
-							msg.description = "this is description sjgksgj sklgjl sjgsgskl gslgj sklgj sjglsjgs kl gjksss ssssssss sjskgs kgjsj jskgjs kjgk sgjsk Very Long Very Long Very Long Very Longgj skjgks kgsk lgskg jslgj";
-							msg.mediaObject = appdata;
-							
-							SendMessageToWX.Req req = new SendMessageToWX.Req();
-							req.transaction = buildTransaction("appdata");
-							req.message = msg;
-							req.scene = isTimelineCb.isChecked() ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-							api.sendReq(req);
-							
-							finish();
-							break;
-						}
-						case MMAlertSelect3: {
-							// send appdata with no attachment
-							final WXAppExtendObject appdata = new WXAppExtendObject();
-							appdata.extInfo = "this is ext info";
-							final WXMediaMessage msg = new WXMediaMessage();
-							msg.title = "this is title";
-							msg.description = "this is description";
-							msg.mediaObject = appdata;
-							
-							SendMessageToWX.Req req = new SendMessageToWX.Req();
-							req.transaction = buildTransaction("appdata");
-							req.message = msg;
-							req.scene = isTimelineCb.isChecked() ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-							api.sendReq(req);
-							
-							finish();
-							break;
-						}
-						default:
-							break;
-						}
-					}
-					
-				});
-			}
-		});
-		
-		findViewById(R.id.send_emoji).setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {				
-				MMAlert.showAlert(SendToWXActivity.this, getString(R.string.send_emoji),
-						SendToWXActivity.this.getResources().getStringArray(R.array.send_emoji_item),
-						null, new MMAlert.OnAlertSelectId(){
-
-					@Override
-					public void onClick(int whichButton) {						
-						final String EMOJI_FILE_PATH = SDCARD_ROOT + "/emoji.gif";
-						final String EMOJI_FILE_THUMB_PATH = SDCARD_ROOT + "/emojithumb.jpg";				
-						switch(whichButton){
-						case MMAlertSelect1: {
-							WXEmojiObject emoji = new WXEmojiObject();
-							emoji.emojiPath = EMOJI_FILE_PATH;
-							
-							WXMediaMessage msg = new WXMediaMessage(emoji);
-							msg.title = "Emoji Title";
-							msg.description = "Emoji Description";
-							msg.thumbData = Util.readFromFile(EMOJI_FILE_THUMB_PATH, 0, (int) new File(EMOJI_FILE_THUMB_PATH).length());
 				
-							
-							SendMessageToWX.Req req = new SendMessageToWX.Req();
-							req.transaction = buildTransaction("emoji");
-							req.message = msg;
-							req.scene = isTimelineCb.isChecked() ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-							api.sendReq(req);
-							
-							finish();
-							break;
-						}
-						
-						case MMAlertSelect2: {
-							WXEmojiObject emoji = new WXEmojiObject();
-							emoji.emojiData = Util.readFromFile(EMOJI_FILE_PATH, 0, (int) new File(EMOJI_FILE_PATH).length());
-							WXMediaMessage msg = new WXMediaMessage(emoji);
-							
-							msg.title = "Emoji Title";
-							msg.description = "Emoji Description";
-							msg.thumbData = Util.readFromFile(EMOJI_FILE_THUMB_PATH, 0, (int) new File(EMOJI_FILE_THUMB_PATH).length());
-							
-							SendMessageToWX.Req req = new SendMessageToWX.Req();
-							req.transaction = buildTransaction("emoji");
-							req.message = msg;
-							req.scene = isTimelineCb.isChecked() ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-							api.sendReq(req);
-							
-							finish();
-							break;
-						}
-						default:
-							break;
-						}
-					}
 				});
 			}
 		});
 
-		// get token
-		findViewById(R.id.get_token).setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// send oauth request
-				final SendAuth.Req req = new SendAuth.Req();
-				req.scope = "post_timeline";
-				req.state = "none";
-				api.sendReq(req);
-				finish();
-			}
-		});
-		
-		// unregister from weixin
-		findViewById(R.id.unregister).setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				api.unregisterApp();
-			}
-		});
 	}
-
+/*
+	public void ppost() {     
+        String uriAPI = Server.serverAddress+"page/goodsInfo";
+        建立HTTP Post连线    
+        HttpPost httpRequest =new HttpPost(uriAPI);     
+        //Post运作传送变数必须用NameValuePair[]阵列储存     
+        //传参数 服务端获取的方法为request.getParameter("name")     
+        List <NameValuePair>params=new ArrayList<NameValuePair>();     
+        params.add(new BasicNameValuePair("title",goods.getTitle()));  
+        params.add(new BasicNameValuePair("content",goods.getText()));     
+        try{     
+            //发出HTTP request  
+            httpRequest.setEntity(new UrlEncodedFormEntity(params,HTTP.UTF_8));//注意这里要写成utf-8,与jsp对应  
+            //取得HTTP response  
+            HttpResponse httpResponse=new DefaultHttpClient().execute(httpRequest);     
+            //若状态码为200 ok  
+            if(httpResponse.getStatusLine().getStatusCode()==200){     
+                //取出回应字串     
+                String strResult=EntityUtils.toString(httpResponse.getEntity());  
+                Log.e("strResult", strResult); 
+            }
+            else{     
+                Log.e("n", "b");  
+            }     
+        }catch(ClientProtocolException e){     
+  
+            e.printStackTrace();     
+        } catch (UnsupportedEncodingException e) {     
+  
+            e.printStackTrace();     
+        } catch (IOException e) {     
+            e.printStackTrace();     
+        }     
+    } */
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);

@@ -41,23 +41,6 @@
 	        android:layout_margin="10dp"
 	        android:text="@string/send_text"/>
 	    
-	    <Button
-	        android:id="@+id/send_img"
-	        style="@style/MMLineActionButton"
-	        android:layout_margin="10dp"
-	        android:text="@string/send_img"/>
-	    
-	    <Button
-	        android:id="@+id/send_music"
-	        style="@style/MMLineActionButton"
-	        android:layout_margin="10dp"
-	        android:text="@string/send_music"/>
-	    
-	    <Button
-	        android:id="@+id/send_video"
-	        style="@style/MMLineActionButton"
-	        android:layout_margin="10dp"
-	        android:text="@string/send_video"/>
 	    
 	    <Button
 	        android:id="@+id/send_webpage"
@@ -65,29 +48,7 @@
 	        android:layout_margin="10dp"
 	        android:text="@string/send_webpage"/>
 	    
-	    <Button
-	        android:id="@+id/send_appdata"
-	        style="@style/MMLineActionButton"
-	        android:layout_margin="10dp"
-	        android:text="@string/send_appdata"/>
-	    
-	    <Button
-	        android:id="@+id/send_emoji"
-	        style="@style/MMLineActionButton"
-	        android:layout_margin="10dp"
-	        android:text="@string/send_emoji"/>
-	        
-	    <Button
-	        android:id="@+id/get_token"
-	        style="@style/MMLineActionButton"
-	        android:layout_margin="10dp"
-	        android:text="@string/get_token_from_weixin"/>
-	    
-	    <Button
-	        android:id="@+id/unregister"
-	        style="@style/MMLineActionButton"
-	        android:layout_margin="10dp"
-	        android:text="@string/unregister_from_weixin"/>
+	   
 	    
 	</LinearLayout>
 </ScrollView>

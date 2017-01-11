@@ -1,11 +1,16 @@
 package com.example.fiveyuanstore.page;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import com.example.fiveyuanstore.LoginActivity;
 import com.example.fiveyuanstore.MainActivity;
 import com.example.fiveyuanstore.R;
 import com.example.fiveyuanstore.ZoneActivity;
+import com.example.fiveyuanstore.api.ImageService;
 import com.example.fiveyuanstore.api.Server;
 import com.example.fiveyuanstore.entity.User;
 import com.example.fiveyuanstore.fragment.list.TextListFragment;
@@ -28,13 +33,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Shader.TileMode;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,8 +65,8 @@ public class MyProfileFragment extends Fragment {
 	ProgressBar progress; // 显示载入图案
 	AvatarView avatar; // 显示用户头像
 	TextListFragment inbox, wallet, password_changes, order_handler, bill_list, my_data;// 私信、钱包、密码修改,
-																						// 訂單處理，
-																						// 帳單查詢
+	ImageView access_avatar;																					// 訂單處理，
+	// 帳單查詢
 	Float money;
 	TextListFragment access_info;
 
@@ -73,6 +84,7 @@ public class MyProfileFragment extends Fragment {
 			bill_list = (TextListFragment) getFragmentManager().findFragmentById(R.id.bill_list);
 			my_data = (TextListFragment) getFragmentManager().findFragmentById(R.id.my_data);
 
+			access_avatar = (ImageView) view.findViewById(R.id.access_avatar);
 			access_info = (TextListFragment) getFragmentManager().findFragmentById(R.id.access_info);
 			avatar.setOnClickListener(new OnClickListener() {
 				
@@ -233,17 +245,14 @@ public class MyProfileFragment extends Fragment {
 			public void onResponse(final Call arg0, Response arg1) throws IOException {
 				try {
 					final User user = new ObjectMapper().readValue(arg1.body().bytes(), User.class);
-					if (user == null) { // 如果user 为空， 则为授权登陆
-						toAccess();
-
-					} else {
+				
 						getActivity().runOnUiThread(new Runnable() {
 
 							public void run() {
 								MyProfileFragment.this.onResponse(arg0, user);
 							}
 						});
-					}
+					
 				} catch (final Exception e) {
 					getActivity().runOnUiThread(new Runnable() {
 						public void run() {
@@ -266,50 +275,24 @@ public class MyProfileFragment extends Fragment {
 		});
 	}
 
-	protected void toAccess() {
-		OkHttpClient client = Server.getClient();
-		Request request = Server.requestBuilderWithPath("access_me").get().build();
 
-		client.newCall(request).enqueue(new Callback() {
-
-			@Override
-			public void onResponse(Call arg0, Response arg1) throws IOException {
-				try {
-					final User user = new ObjectMapper().readValue(arg1.body().string(), new TypeReference<User>() {
-					});
-
-					getActivity().runOnUiThread(new Runnable() {
-
-						@Override
-						public void run() {
-							// 获得授权账户的名字，id
-							userName = user.getUser_name();
-							progress.setVisibility(View.GONE);
-							textView.setVisibility(View.VISIBLE);
-							textView.setTextColor(Color.WHITE);
-							textView.setText(user.getUser_name());
-						}
-					});
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-
-			@Override
-			public void onFailure(Call arg0, final IOException arg1) {
-				getActivity().runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						Toast.makeText(getActivity(), "出错：" + arg1.getMessage(), Toast.LENGTH_LONG).show();
-					}
-				});
-			}
-		});
-	}
-
-	protected void onResponse(Call arg0, User user) {
+	protected void onResponse(Call arg0, final User user) {
 		progress.setVisibility(View.GONE);
-		avatar.load(user);
+		if (user.getAvatar().indexOf("http")>=0){
+			getActivity().runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					showAvatar(user.getAvatar());
+				}
+			});
+			
+			
+		}else{
+			avatar.load(user);
+		}
+		
 		textView.setVisibility(View.VISIBLE);
 		textView.setTextColor(Color.WHITE);
 		textView.setText(user.getUser_name());
@@ -318,6 +301,17 @@ public class MyProfileFragment extends Fragment {
 		money = user.getMoney();
 		myuser = user;
 
+	}
+
+	private void showAvatar(String path) {
+		try{
+            byte[] data = ImageService.getImage(path);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+            access_avatar.setImageBitmap(bitmap);//显示图片
+        }catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "error ", Toast.LENGTH_LONG).show();
+} 
 	}
 
 	protected void onFailuer(Call arg0, Exception e) {
@@ -329,4 +323,6 @@ public class MyProfileFragment extends Fragment {
 
 	}
 
+
+	
 }
