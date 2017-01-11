@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -68,6 +69,15 @@ public class BillListActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				loadmore();
+			}
+		});
+		
+		findViewById(R.id.btn_bill_list_back).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+				
 			}
 		});
 		
@@ -246,8 +256,8 @@ public class BillListActivity extends Activity {
 			}
 			
 			
-			String dateStr = DateFormat.format("yy-MM-dd hh:mm", orders.getCreateDate()).toString();
-			date.setText("创建日期: "+dateStr);
+			String dateStr = DateFormat.format("yyyy-MM-dd hh:mm", orders.getCreateDate()).toString();
+			date.setText(dateStr);
 			price.setText("￥"+orders.getPrice());
 			return view;
 		}

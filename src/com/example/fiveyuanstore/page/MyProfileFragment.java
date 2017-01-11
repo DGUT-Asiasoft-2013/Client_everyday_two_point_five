@@ -64,7 +64,7 @@ public class MyProfileFragment extends Fragment {
 	TextView textView; // 显示用户名
 	ProgressBar progress; // 显示载入图案
 	AvatarView avatar; // 显示用户头像
-	TextListFragment inbox, wallet, password_changes, order_handler, bill_list, my_data;// 私信、钱包、密码修改,
+	TextListFragment inbox, wallet, password_changes, bill_list, my_data;// 私信、钱包、密码修改,
 	ImageView access_avatar;																					// 訂單處理，
 	// 帳單查詢
 	Float money;
@@ -80,7 +80,6 @@ public class MyProfileFragment extends Fragment {
 			inbox = (TextListFragment) getFragmentManager().findFragmentById(R.id.inbox);
 			wallet = (TextListFragment) getFragmentManager().findFragmentById(R.id.wallet);
 			password_changes = (TextListFragment) getFragmentManager().findFragmentById(R.id.password_changes);
-			order_handler = (TextListFragment) getFragmentManager().findFragmentById(R.id.order_handler);
 			bill_list = (TextListFragment) getFragmentManager().findFragmentById(R.id.bill_list);
 			my_data = (TextListFragment) getFragmentManager().findFragmentById(R.id.my_data);
 
@@ -125,15 +124,7 @@ public class MyProfileFragment extends Fragment {
 
 				}
 			});
-			order_handler.setOnNewClickedListener(new OnNewClickedListener() {
 
-				@Override
-				public void onNewClicked() {
-					Intent intent = new Intent(getActivity(), OrderHandlerActivity.class);
-					startActivity(intent);
-				}
-
-			});
 
 			bill_list.setOnNewClickedListener(new OnNewClickedListener() {
 
@@ -219,7 +210,6 @@ public class MyProfileFragment extends Fragment {
 		inbox.setLabelText("私信");
 		wallet.setLabelText("钱包");
 		password_changes.setLabelText("修改密码");
-		order_handler.setLabelText("订单处理");
 		bill_list.setLabelText("我的账单");
 		my_data.setLabelText("个人资料");
 		access_info.setLabelText("授权信息");
@@ -227,10 +217,9 @@ public class MyProfileFragment extends Fragment {
 		inbox.setLabelImage(R.drawable.ic_inbox);
 		wallet.setLabelImage(R.drawable.ic_wallet);
 		password_changes.setLabelImage(R.drawable.ic_password_changes);
-		order_handler.setLabelImage(R.drawable.ic_order_handler);
-		bill_list.setLabelImage(R.drawable.ic_order_handler);
+		bill_list.setLabelImage(R.drawable.ic_my_bill);
 		my_data.setLabelImage(R.drawable.ic_order_handler);
-
+		access_info.setLabelImage(R.drawable.ic_access_info);
 		textView.setVisibility(View.GONE); // 隐藏
 		progress.setVisibility(View.VISIBLE); // 显示
 

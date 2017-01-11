@@ -90,7 +90,7 @@
             tools:layout="@layout/fragment_text_list" />
 
         <fragment
-            android:id="@+id/password_changes"
+            android:id="@+id/my_data"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -98,7 +98,7 @@
             tools:layout="@layout/fragment_text_list" />
 
         <fragment
-            android:id="@+id/order_handler"
+            android:id="@+id/password_changes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -120,13 +120,7 @@
             class="com.example.fiveyuanstore.fragment.list.TextListFragment"
             tools:layout="@layout/fragment_text_list" />
         
-        <fragment
-            android:id="@+id/my_data"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            class="com.example.fiveyuanstore.fragment.list.TextListFragment"
-            tools:layout="@layout/fragment_text_list" />
+
         
           <fragment
             android:id="@+id/access_info"
@@ -137,6 +131,10 @@
             tools:layout="@layout/fragment_text_list" />
         
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
