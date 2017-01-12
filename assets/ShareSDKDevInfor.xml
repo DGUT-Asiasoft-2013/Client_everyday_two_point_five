@@ -62,8 +62,8 @@
         Id="5" />
         
         <WechatMoments
-            ortId="4"
-            Id = "4"
+            ortId="6"
+            Id = "6"
             Enable="true"
           AppId="wx7d11730d53fbdc16"
 	     RedirectUrl="http://open.weixin.qq.com"
